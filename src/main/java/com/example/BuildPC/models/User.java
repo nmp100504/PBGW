@@ -5,9 +5,6 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.List;
@@ -18,7 +15,7 @@ import java.util.Set;
 @AllArgsConstructor
 @Entity
 @Table(name = "User")
-public class User implements UserDetails {
+public class User  {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id")
@@ -40,8 +37,8 @@ public class User implements UserDetails {
     private String phone;
 
     @Column(name ="role")
-    @Enumerated(EnumType.STRING)
-    private Role role;
+    //@Enumerated(EnumType.STRING)
+    private String role;
 
     @OneToMany(mappedBy = "user")
     private Set<Post> posts;
@@ -52,7 +49,7 @@ public class User implements UserDetails {
     @OneToMany(mappedBy = "user")
     private Set<Order> orders;
 
-    public User(String email, String fistName, String lastName, String password, String phone, Role role) {
+    public User(String email, String fistName, String lastName, String password, String phone, String role) {
         this.email = email;
         this.fistName = fistName;
         this.lastName = lastName;
@@ -61,40 +58,40 @@ public class User implements UserDetails {
         this.role = role;
     }
 
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority(role.name()));
-    }
-
 //    @Override
-//    public String getPassword() {
+//    public Collection<? extends GrantedAuthority> getAuthorities() {
+//        return List.of(new SimpleGrantedAuthority(role.name()));
+//    }
+//
+////    @Override
+////    public String getPassword() {
+////        return "";
+////    }
+//
+//    @Override
+//    public String getUsername() {
 //        return "";
 //    }
-
-    @Override
-    public String getUsername() {
-        return "";
-    }
-
-    @Override
-    public boolean isAccountNonExpired() {
-        return false;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return false;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return false;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return false;
-    }
+//
+//    @Override
+//    public boolean isAccountNonExpired() {
+//        return false;
+//    }
+//
+//    @Override
+//    public boolean isAccountNonLocked() {
+//        return false;
+//    }
+//
+//    @Override
+//    public boolean isCredentialsNonExpired() {
+//        return false;
+//    }
+//
+//    @Override
+//    public boolean isEnabled() {
+//        return false;
+//    }
 
 
 
