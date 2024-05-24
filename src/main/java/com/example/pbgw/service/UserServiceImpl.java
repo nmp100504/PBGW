@@ -1,57 +1,44 @@
 package com.example.pbgw.service;
 
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.stream.Collectors;
 
-import com.example.pbgw.dto.UserRegistrationDto;
+import com.example.pbgw.dto.UserDto;
 import com.example.pbgw.entity.Role;
 import com.example.pbgw.entity.User;
+import com.example.pbgw.repository.RoleRepository;
 import com.example.pbgw.repository.UserRepository;
+import com.example.pbgw.utils.TbConstants;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-
+import java.util.Arrays;
 
 @Service
-public class UserServiceImpl implements UserService{
+public class UserServiceImpl implements UserService {
 
-    private UserRepository userRepository;
+	@Autowired
+	private UserRepository userRepository;
 
-    @Autowired
-    private BCryptPasswordEncoder passwordEncoder;
+	@Autowired
+	private RoleRepository roleRepository;
 
-    public UserServiceImpl(UserRepository userRepository) {
-        super();
-        this.userRepository = userRepository;
-    }
+	@Autowired
+	private PasswordEncoder passwordEncoder;
 
-    @Override
-    public User save(UserRegistrationDto registrationDto) {
-        User user = new User(registrationDto.getFirstName(),
-                registrationDto.getLastName(), registrationDto.getEmail(),
-                passwordEncoder.encode(registrationDto.getPassword()), Arrays.asList(new Role("ROLE_USER")));
+	@Override
+	public void saveUser(UserDto userDto) {
+		Role role = roleRepository.findByName(TbConstants.Roles.USER);
 
-        return userRepository.save(user);
-    }
+		if (role == null)
+			role = roleRepository.save(new Role(TbConstants.Roles.USER));
 
-    @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+		User user = new User(userDto.getName(), userDto.getEmail(), passwordEncoder.encode(userDto.getPassword()),
+				Arrays.asList(role));
+		userRepository.save(user);
+	}
 
-        User user = userRepository.findByEmail(username);
-        if(user == null) {
-            throw new UsernameNotFoundException("Invalid username or password.");
-        }
-        return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(), mapRolesToAuthorities(user.getRoles()));
-    }
-
-    private Collection<? extends GrantedAuthority> mapRolesToAuthorities(Collection<Role> roles){
-        return roles.stream().map(role -> new SimpleGrantedAuthority(role.getName())).collect(Collectors.toList());
-    }
-
+	@Override
+	public User findUserByEmail(String email) {
+		return userRepository.findByEmail(email);
+	}
 }
