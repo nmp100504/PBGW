@@ -104,18 +104,17 @@ public class UserController {
         return "redirect:/users";
     }
 
+@GetMapping("/delete/")
+public  String deleteProduct(@RequestParam int id){
+    try{
+        User user = repository.findById(id).get();
+        //delete product image
+        repository.delete(user);
 
-    @GetMapping("/delete")
-    public  String deleteProduct(@RequestParam int id){
-        try{
-            User user = repository.findById(id).get();
-            //delete product image
-            repository.delete(user);
-
-        }catch (Exception ex){
-            System.out.println("Exception: " + ex.getMessage());
-            return "redirect:/users";
-        }
+    }catch (Exception ex){
+        System.out.println("Exception: " + ex.getMessage());
         return "redirect:/users";
     }
+    return "redirect:/users";
+}
 }
