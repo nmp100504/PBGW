@@ -18,8 +18,4 @@ public class OrderService {
     public Order getOrderById(int id){
         return orderRepository.findById(id).get();
     }
-    public void removeOrderById(int id){
-        orderRepository.deleteById(id);
-    }
-
 }
