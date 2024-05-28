@@ -1,4 +1,4 @@
-package com.example.BuildPC.repositories;
+package com.example.BuildPC.repository;
 
 import com.example.BuildPC.models.Order;
 import org.springframework.data.jpa.repository.JpaRepository;
