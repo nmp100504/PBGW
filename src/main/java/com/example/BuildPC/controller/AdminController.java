@@ -3,20 +3,19 @@ package com.example.BuildPC.controller;
 
 import com.example.BuildPC.dtos.UserDto;
 import com.example.BuildPC.models.User;
-import com.example.BuildPC.repositories.UserRepository;
+import com.example.BuildPC.repository.UserRepository;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @Controller
-@RequestMapping("/users")
-public class UserController {
+@RequestMapping("/dashBoard")
+public class AdminController {
 
     @Autowired
     private UserRepository repository;
@@ -25,21 +24,30 @@ public class UserController {
     public String showUserList(Model model){
         List<User> user = repository.findAll();
         model.addAttribute("user", user);
-        return "users/index2";
+        return "dashBoard/index";
     }
+
+
+    @GetMapping("/tables")
+    public String showUserList1(Model model){
+        List<User> users = repository.findAll();
+        model.addAttribute("users", users);
+        return "dashBoard/tables";
+    }
+
 
     @GetMapping("/create")
     public String showCreatePage(Model model){
         UserDto userDto = new UserDto();
         model.addAttribute("userDto", userDto);
-        return "users/createUser";
+        return "dashBoard/createUser";
     }
 
     @PostMapping("/create")
-    public String createuUser(@Valid @ModelAttribute UserDto userDto, BindingResult result){
+    public String createUser(@Valid @ModelAttribute UserDto userDto, BindingResult result){
 
         if(result.hasErrors()){
-            return "users/createUser";
+            return "dashBoard/createUser";
         }
 
         User user = new User();
@@ -50,7 +58,7 @@ public class UserController {
         user.setPhone(userDto.getPhone());
         user.setRole(userDto.getRole());
         repository.save(user);
-        return "redirect:/users";
+        return "redirect:/dashBoard";
     }
 
     @GetMapping("/edit")
@@ -72,20 +80,20 @@ public class UserController {
 
         }catch (Exception ex){
             System.out.println("Exception: " + ex.getMessage());
-            return "redirect:/users";
+            return "redirect:/dashBoard";
         }
 
-        return "users/editUser";
+        return "dashBoard/editUser";
     }
 
     @PostMapping("/edit")
-    public String updateProdcut(Model model, @RequestParam int id, @Valid @ModelAttribute UserDto userDto,
+    public String updateUser(Model model, @RequestParam int id, @Valid @ModelAttribute UserDto userDto,
                                 BindingResult result){
         try {
             User user = repository.findById(id).get();
             model.addAttribute("user", user);
             if(result.hasErrors()){
-                return "users/editUser";
+                return "dashBoard/editUser";
             }
 
             user.setFistName(userDto.getFistName());
@@ -99,14 +107,14 @@ public class UserController {
 
         }catch (Exception ex){
             System.out.println("Exception: " + ex.getMessage());
-            return "redirect:/users";
+            return "redirect:/dashBoard";
         }
-        return "redirect:/users";
+        return "redirect:/dashBoard";
     }
 
 
     @GetMapping("/delete")
-    public  String deleteProduct(@RequestParam int id){
+    public  String deleteUser(@RequestParam int id){
         try{
             User user = repository.findById(id).get();
             //delete product image
@@ -114,8 +122,8 @@ public class UserController {
 
         }catch (Exception ex){
             System.out.println("Exception: " + ex.getMessage());
-            return "redirect:/users";
+            return "redirect:/dashBoard";
         }
-        return "redirect:/users";
+        return "redirect:/dashBoard";
     }
 }
