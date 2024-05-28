@@ -18,6 +18,6 @@ public class MainController {
     @GetMapping("/ManagerDashBoard")
     public String showAdminDashBoard(Model model) {
         model.addAttribute("OrderList", orderService.listAllOrder());
-        return "users/ManagerDashBoard";
+        return "Manager/managerDashBoard";
     }
 }
