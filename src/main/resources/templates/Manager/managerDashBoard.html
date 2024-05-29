@@ -230,11 +230,10 @@
                   <td th:text="${order.shipAddress}"></td>
                   <td th:text="${order.totalPrice}"></td>
                   <td style="white-space:nowrap">
-                    <button class="btn btn-primary open-modal-btn" data-toggle="modal" data-target="#orderModal" data-order-id="${order.id}">View Details</button>
+                    <button class="btn btn-primary open-modal-btn" data-toggle="modal" data-target="#orderModal" data-order-id="${order.id}" >View Details</button>
                     <a class="btn btn-danger" th:href="@{'/delete/' + ${order.id}}">Delete</a>
                   </td>
 
-                  <!-- Modal -->
                   <div class="modal fade" id="orderModal" tabindex="-1" aria-labelledby="orderModalLabel" aria-hidden="true">
                     <div class="modal-dialog">
                       <div class="modal-content">
@@ -248,7 +247,23 @@
                         <div class="modal-body">
                           <p><strong>Billing Details: </strong>[[${order.shipAddress}]]</p>
 
-                          <p><strong>Items Ordered:</strong> <span id="modalItemsOrdered"></span></p>
+                          <p><strong>Items Ordered:</strong></p>
+                          <table class="table">
+                            <thead>
+                            <tr>
+                              <th>Product</th>
+                              <th>Quantity</th>
+                              <th>Discount</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                              <tr th:each="order">
+                                <td th:text="${detail.product.name}"></td>
+                                <td th:text="${detail.quantity}"></td>
+                                <td th:text="${detail.discount}"></td>
+                              </tr>
+                            </tbody>
+                          </table>
                         </div>
                         <div class="modal-footer">
                           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -256,7 +271,7 @@
                       </div>
                     </div>
                   </div>
-                  <!--Modal end-->
+
                 </tr>
                 </tbody>
               </table>

@@ -14,13 +14,19 @@ import org.springframework.web.bind.annotation.PathVariable;
 import java.util.List;
 
 @Controller
+
 public class OrderController {
 
     @Autowired
     OrderService orderService;
     @Autowired
     OrderDetailService orderDetailService;
-    @GetMapping("/Orders")
+    @GetMapping("/ManagerDashBoard")
+    public String showManagerDashBoard(Model model) {
+        model.addAttribute("OrderList", orderService.listAllOrder());
+        return "Manager/managerDashBoard";
+    }
+
     public String showOrders(Model model) {
         List<OrderDTO> orderList = orderService.listAllOrder();
         model.addAttribute("orderList", orderList);
@@ -33,4 +39,12 @@ public class OrderController {
         orderService.deleteOrderById(id);
         return "redirect:/ManagerDashBoard";
     }
+
+    @GetMapping("/detail/{id}")
+    public String showOrderDetail(@PathVariable("id") int id, Model model) {
+        Order order = orderService.getOrderById(id);
+        model.addAttribute("OrderDetail", order);
+        return "Manager/managerDashBoard";
+    }
+
 }
