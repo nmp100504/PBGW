@@ -39,7 +39,7 @@ public class Order {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "order")
     private Set<OrderDetail> orderDetails;
 
     public Order(Date orderDate, String orderNote, String shipAddress, Status status, User user) {
@@ -49,4 +49,5 @@ public class Order {
         this.status = status;
         this.user = user;
     }
+
 }

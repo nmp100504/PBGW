@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
+import java.util.Set;
 
 @Controller
 
@@ -43,8 +44,12 @@ public class OrderController {
     @GetMapping("/detail/{id}")
     public String showOrderDetail(@PathVariable("id") int id, Model model) {
         Order order = orderService.getOrderById(id);
-        model.addAttribute("OrderDetail", order);
+        List<OrderDetail> orderDetails = orderDetailService.findByOrder(order);
+        model.addAttribute("order", order);
+        model.addAttribute("orderDetails", orderDetails);
         return "Manager/orderdetail";
     }
+
+
 
 }

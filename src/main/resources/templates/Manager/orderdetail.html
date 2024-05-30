@@ -22,6 +22,7 @@
 
     <link th:rel="stylesheet" href="../css/colReorder-bootstrap4.css}">
 
+    <link th:href="@{/css/style.css}" rel="stylesheet">
 </head>
 
 <body id="page-top">
@@ -154,17 +155,17 @@
                     <i class="fas fa-table"></i>
                     Order #? Detail
                 </div>
-                <div class="card-body container container-fluid p-0">
+                <div class="card-body container container-fluid pb-lg-1">
 
                     <div class="row" id="order_detail_box">
-                        <div class="col-md-6" id="order_general">
+                        <div class="col-md-6 mb-10" id="order_general">
                             <div class="h5">General</div>
                             <div>
                                 <div class="h6">Date created</div>
-                                <input type="date" class="form-control">
+                                <input type="date" class="form-control" th:value="${order.getOrderDate()}">
                                 <div class="h6">Status:</div>
                                 <select class="form-select form-control" aria-label="Default select example">
-                                    <option selected>Open this select menu</option>
+                                    <option selected>[[${order.status}]]</option>
                                     <option value="1">Pending payment</option>
                                     <option value="2">On hold</option>
                                     <option value="3">Processing</option>
@@ -179,19 +180,20 @@
                     <a href="#">View other orders</a>
                 </span>
                                 </div>
-                                <input type="text" class="form-control">
+                                <input type="text" class="form-control" th:value="${order.user.getFistName()}">
                             </div>
                         </div>
                         <div class="col-md-6" id="order_shipping">
                             <div class="h5">Shipping</div>
                             <p>Shipping address</p>
                             <div class="h6">Email:</div>
-                            <p>demo@gmail.com</p>
+                            <p>[[${order.user.getEmail()}]]</p>
                             <div class="h6">Phone number:</div>
-                            <p>12345678</p>
+                            <p>[[${order.user.getPhone()}]]</p>
                         </div>
                     </div>
 
+                </div>
             </div>
 
 
@@ -208,27 +210,35 @@
                             <thead>
                             <tr>
                                 <th><input type="checkbox"></th>
-                                <th>Order</th>
-                                <th>Date</th>
-                                <th>Status</th>
-                                <th>Billing</th>
-                                <th>Total</th>
-                                <th>Action</th>
+                                <th class="product-column">Product</th>
+                                <th></th>
+                                <th></th>
+                                <th class="cost-column">Cost</th>
+                                <th class="quantity-column">Quantity</th>
+                                <th class="total-column">Total</th>
                             </tr>
                             </thead>
                             <tfoot>
                             <tr>
                                 <th><input type="checkbox"></th>
-                                <th>Order</th>
-                                <th>Date</th>
-                                <th>Status</th>
-                                <th>Billing</th>
-                                <th>Total</th>
-                                <th>Action</th>
+                                <th class="product-column">Product</th>
+                                <th></th>
+                                <th></th>
+                                <th class="cost-column">Cost</th>
+                                <th class="quantity-column">Quantity</th>
+                                <th class="total-column">Total</th>
                             </tr>
                             </tfoot>
                             <tbody>
-
+                            <tr th:each="orderDetail : ${orderDetails}">
+                                <td><input type="checkbox"></td>
+                                <td class="product-column" th:text="${orderDetail.product.productName}"></td>
+                                <td></td>
+                                <td></td>
+                                <td class="cost-column" th:text="${#numbers.formatDecimal(orderDetail.product.productSalePrice, 1, 2)}"></td>
+                                <td class="quantity-column" th:text="${orderDetail.quantity}"></td>
+                                <td class="total-column" th:text="${#numbers.formatDecimal(orderDetail.quantity * orderDetail.product.productSalePrice, 1, 2)}"></td>
+                            </tr>
                             </tbody>
                         </table>
                     </div>

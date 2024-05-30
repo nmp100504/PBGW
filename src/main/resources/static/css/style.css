@@ -2,3 +2,18 @@
     width: 100%;
     box-sizing: border-box; /* Ensures padding and border are included in the width */
 }
+
+ .product-column {
+     width: 50%; /* Adjust this value as needed */
+ }
+
+.cost-column, .quantity-column, .total-column {
+    width: 10%; /* Adjust this value as needed */
+}
+
+/* Ensure table-layout is fixed for consistent column widths */
+#dataTable {
+    table-layout: fixed;
+    width: 100%;
+}
+

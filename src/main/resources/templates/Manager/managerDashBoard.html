@@ -257,7 +257,7 @@
                             </tfoot>
                             <tbody>
                             <tr th:each="order : ${OrderList}">
-                                <th><input type="checkbox"></th>
+                                <td><input type="checkbox"></td>
                                 <td><a th:href="@{'/detail/' + ${order.id}}">[[${order.id}]]</a></td>
                                 <td th:text="${order.orderDate}"></td>
                                 <td th:text="${order.status}"></td>
