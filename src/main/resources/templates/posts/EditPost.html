@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Edit Post</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container">
+    <h2>Edit Post</h2>
+    <form th:action="@{/posts/edit(id=${post.id})}" th:object="${postDto}" method="post" enctype="multipart/form-data">
+        <div class="form-group">
+            <label for="title">Title</label>
+            <input type="text" class="form-control" id="title" th:field="*{title}" required>
+        </div>
+        <div class="form-group">
+            <label for="content">Content</label>
+            <textarea class="form-control" id="content" th:field="*{content}" rows="5" required></textarea>
+        </div>
+        <div class="form-group">
+            <label for="imageFile">Image</label>
+            <input type="file" class="form-control-file" id="imageFile" th:field="*{imageFile}">
+        </div>
+        <div class="form-group">
+            <label for="userId">Select User</label>
+            <select class="form-control" id="userId" th:field="*{userId}" required>
+                <option th:each="user : ${users}" th:value="${user.id}" th:text="${user.email}"></option>
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary">Update</button>
+    </form>
+    <a href="/posts/index1" class="btn btn-secondary mt-3">Back to Posts</a>
+</div>
+</body>
+</html>
