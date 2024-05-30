@@ -44,7 +44,7 @@ public class OrderController {
     public String showOrderDetail(@PathVariable("id") int id, Model model) {
         Order order = orderService.getOrderById(id);
         model.addAttribute("OrderDetail", order);
-        return "Manager/managerDashBoard";
+        return "Manager/orderdetail";
     }
 
 }

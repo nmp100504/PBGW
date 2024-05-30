@@ -1,0 +1,4 @@
+.form-control {
+    width: 100%;
+    box-sizing: border-box; /* Ensures padding and border are included in the width */
+}
