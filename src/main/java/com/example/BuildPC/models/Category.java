@@ -23,10 +23,10 @@ public class Category {
     @Column(name = "category_name")
     private String categoryName;
 
-    @Column(name = "category_slug")
+    @Column(name = "category_slug", nullable = true)
     private String categorySlug;
 
-    @Column(name = "category_description")
+    @Column(name = "category_description", nullable = true)
     private String categoryDesc;
 
     @Column(name = "category_image")

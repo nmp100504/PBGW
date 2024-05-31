@@ -25,7 +25,7 @@ public class User  {
     private String email;
 
     @Column(name = "first_name")
-    private String firstName;
+    private String fistName;
 
     @Column(name = "last_name")
     private String lastName;
@@ -37,8 +37,8 @@ public class User  {
     private String phone;
 
     @Column(name ="role")
-    //@Enumerated(EnumType.STRING)
-    private String role;
+    @Enumerated(EnumType.STRING)
+    private Role role;
 
     @OneToMany(mappedBy = "user")
     private Set<Post> posts;
@@ -49,9 +49,9 @@ public class User  {
     @OneToMany(mappedBy = "user")
     private Set<Order> orders;
 
-    public User(String email, String firstName, String lastName, String password, String phone, String role) {
+    public User(String email, String fistName, String lastName, String password, String phone, Role role) {
         this.email = email;
-        this.firstName = firstName;
+        this.fistName = fistName;
         this.lastName = lastName;
         this.password = password;
         this.phone = phone;
