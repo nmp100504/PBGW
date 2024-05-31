@@ -21,4 +21,7 @@ public class OrderDetailService {
             List<OrderDetail> byOrder = orderDetailRepository.findByOrder(order);
             orderDetailRepository.deleteAll(byOrder);
         }
+        public List<OrderDetail> findByOrder(Order order){
+           return orderDetailRepository.findByOrder(order);
+        }
 }

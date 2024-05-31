@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Post Details</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.5/font/bootstrap-icons.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 0;
+        }
+        .top-header, .main-header, .bottom-header {
+            width: 100%;
+            padding: 10px 20px;
+        }
+        .top-header {
+            background-color: #f8f9fa;
+            font-size: 0.9rem;
+        }
+        .main-header {
+            background-color: #fff;
+        }
+        .bottom-header {
+            background-color: #2742fd;
+            color: #fff;
+        }
+        .search-bar input {
+            width: 300px;
+            padding: 5px 10px;
+            border: none;
+            border-radius: 0;
+            outline: none;
+        }
+        .cart-icon .badge {
+            position: absolute;
+            top: -5px;
+            right: -10px;
+            background-color: #ffc107;
+            color: #000;
+        }
+        .main-header .nav-link {
+            margin: 0 10px;
+            color: #000;
+            white-space: pre;
+        }
+        .main-header .nav-link:hover {
+            color: #2742fd;
+            text-decoration: none;
+        }
+        .logo img {
+            max-height: 50px;
+        }
+        .bottom-header .search-bar {
+            flex-grow: 1;
+            display: flex;
+            justify-content: center;
+        }
+        .bottom-header .search-bar input {
+            width: 100%;
+            max-width: 500px;
+        }
+        .bottom-header .search-bar button {
+            border-radius: 0 5px 5px 0;
+        }
+        .main-header nav {
+            margin-left: 156px;
+        }
+        .footer_section {
+            margin-top: 300px;
+            background-color: #FFFFFF;
+            color: #fff;
+            padding: 20px 0;
+        }
+        .footer_widget_area {
+            padding-bottom: 30px;
+            margin-left: 487px;
+        }
+        .footer_widget {
+            margin-bottom: 30px;
+        }
+        .footer_widget_title {
+            color: #fff;
+            font-size: 18px;
+            margin-bottom: 15px;
+        }
+        .footer_widget_title.text-uppercase {
+            text-transform: uppercase;
+        }
+        .footer_widget p {
+            color: #ccc;
+            font-size: 14px;
+            line-height: 1.8;
+        }
+        .footer_widget ul.ul_li_block {
+            list-style-type: none;
+            padding: 0;
+        }
+        .footer_widget ul.ul_li_block li {
+            margin-bottom: 10px;
+        }
+        .footer_widget ul.ul_li_block li a {
+            color: #ccc;
+            text-decoration: none;
+            font-size: 14px;
+        }
+        .footer_widget ul.ul_li_block li a:hover {
+            color: #fff;
+            text-decoration: underline;
+        }
+        .footer_widget .social_round {
+            list-style-type: none;
+            display: flex;
+            margin: 0 -5px;
+        }
+        .footer_widget .social_round li {
+            display: inline-block;
+            margin: 0 5px;
+        }
+        .footer_widget .social_round li a {
+            display: block;
+            width: 30px;
+            height: 30px;
+            line-height: 30px;
+            text-align: center;
+            background-color: #007bff;
+            color: #fff;
+            border-radius: 50%;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+        .footer_widget .social_round li a:hover {
+            background-color: #0056b3;
+            text-decoration: none;
+        }
+        .footer_contact .hotline_wrap {
+            margin-top: 20px;
+        }
+        .footer_contact .hotline_wrap .footer_hotline {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        .footer_contact .hotline_wrap .footer_hotline .item_icon {
+            flex: 0 0 40px;
+        }
+        .footer_contact .hotline_wrap .footer_hotline .item_content {
+            flex-grow: 1;
+            padding-left: 15px;
+        }
+        .footer_contact .hotline_wrap .footer_hotline .item_title {
+            color: #ccc;
+            font-size: 16px;
+            margin-bottom: 5px;
+        }
+        .footer_contact .hotline_wrap .footer_hotline .hotline_number {
+            color: #ccc;
+            font-size: 14px;
+        }
+        .footer_contact .livechat_btn {
+            margin-top: 10px;
+        }
+        .footer_contact .livechat_btn .btn {
+            background-color: transparent;
+            border: 1px solid #fff;
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+        .footer_contact .livechat_btn .btn:hover {
+            background-color: #fff;
+            color: #0056b3;
+            text-decoration: none;
+        }
+        .footer_bottom {
+            background-color: #002d5a;
+            padding: 15px 0;
+            color: #fff;
+        }
+        .footer_bottom p {
+            font-size: 14px;
+            margin-bottom: 0;
+        }
+        .footer_bottom a {
+            color: #fff;
+            text-decoration: none;
+        }
+        .footer_bottom a:hover {
+            text-decoration: underline;
+        }
+        .payment_method img {
+            max-width: 100%;
+        }
+        .payment{
+            margin-left: 200px;
+        }
+        .Contact{
+            flex: 0 0 auto;
+            width: 33.33333333%;
+            margin-top: 130px;
+        }
+    </style>
+    <script>
+        function confirmDelete(id) {
+            if (confirm("Are you sure you want to delete this post?")) {
+                window.location.href = "/posts/delete?id=" + id;
+            }
+        }
+    </script>
+</head>
+<body>
+
+<!-- Post Details -->
+<div class="container">
+    <h1 class="text-center my-4">Posts</h1>
+    <div class="col-md-2 text-right">
+        <a class="btn btn-success" th:href="@{/posts/create}">Add Post</a>
+    </div>
+
+    <!-- Flash message display -->
+    <div th:if="${message}" class="alert alert-info" th:text="${message}"></div>
+    <div th:if="${errorMessage}" class="alert alert-danger" th:text="${errorMessage}"></div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Image</th>
+                    <th>Creation Date</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="post : ${posts}">
+                    <td th:text="${post.postTitle}"></td>
+                    <td><img th:src="@{'/images/' + ${post.imageFileName}}" alt="..." width="100"></td>
+                    <td th:text="${#dates.format(post.postCreatedAt, 'dd-MM-yyyy HH:mm:ss')}"></td>
+                    <td>
+                        <a class="btn btn-primary btn-sm" th:href="@{/posts/details(id=${post.id})}">Read More</a>
+                        <a class="btn btn-warning btn-sm" th:href="@{/posts/edit(id=${post.id})}">Edit</a>
+                        <a class="btn btn-danger btn-sm" th:href="@{/posts/delete (id=${post.id})}"
+                           onclick="return confirm ('Are you sure?')">Delete</a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
