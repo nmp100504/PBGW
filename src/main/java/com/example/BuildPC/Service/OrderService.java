@@ -49,4 +49,8 @@ public class OrderService {
         return total;
     }
 
+    public void saveOrder(Order order){
+        orderRepository.save(order);
+    }
+
 }

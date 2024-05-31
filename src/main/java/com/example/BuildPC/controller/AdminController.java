@@ -51,7 +51,7 @@ public class AdminController {
         }
 
         User user = new User();
-        user.setFistName(userDto.getFistName());
+        user.setFirstName(userDto.getFistName());
         user.setLastName(userDto.getLastName());
         user.setEmail(userDto.getEmail());
         user.setPassword(userDto.getPassword());
@@ -69,7 +69,7 @@ public class AdminController {
             model.addAttribute("user", user);
 
             UserDto userDto = new UserDto();
-            userDto.setFistName(user.getFistName());
+            userDto.setFistName(user.getFirstName());
             userDto.setLastName(user.getLastName());
             userDto.setEmail(user.getEmail());
             userDto.setPassword(user.getPassword());
@@ -96,7 +96,7 @@ public class AdminController {
                 return "dashBoard/editUser";
             }
 
-            user.setFistName(userDto.getFistName());
+            user.setFirstName(userDto.getFistName());
             user.setLastName(userDto.getLastName());
             user.setEmail(userDto.getEmail());
             user.setPassword(userDto.getPassword());

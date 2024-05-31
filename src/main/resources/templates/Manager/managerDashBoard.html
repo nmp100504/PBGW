@@ -138,7 +138,7 @@
             <!-- Breadcrumbs-->
             <ol class="breadcrumb">
                 <li class="breadcrumb-item">
-                    <a href="#">Dashboard</a>
+                    <a th:href="@{/ManagerDashBoard}">Dashboard</a>
                 </li>
                 <li class="breadcrumb-item active">Overview</li>
             </ol>
@@ -224,6 +224,7 @@
             </div>
 
             <!-- DataTables Example -->
+            <!-- DataTables Example -->
             <div class="card mb-3">
                 <div class="card-header">
                     <i class="fas fa-table"></i>
@@ -255,8 +256,8 @@
                                 <th>Action</th>
                             </tr>
                             </tfoot>
-                            <tbody>
-                            <tr th:each="order : ${OrderList}">
+                            <tbody th:each="order : ${OrderList}">
+                            <tr>
                                 <td><input type="checkbox"></td>
                                 <td><a th:href="@{'/detail/' + ${order.id}}">[[${order.id}]]</a></td>
                                 <td th:text="${order.orderDate}"></td>
@@ -265,50 +266,10 @@
                                 <td th:text="${order.totalPrice}"></td>
                                 <td style="white-space:nowrap">
                                     <button class="btn btn-primary open-modal-btn" data-toggle="modal"
-                                            data-target="#orderModal" data-order-id="${order.id}">View Details
+                                            data-target="#orderModal" th:data-order-id="${order.id}">View Details
                                     </button>
                                     <a class="btn btn-danger" th:href="@{'/delete/' + ${order.id}}">Delete</a>
                                 </td>
-
-                                <div class="modal fade" id="orderModal" tabindex="-1" aria-labelledby="orderModalLabel"
-                                     aria-hidden="true">
-                                    <div class="modal-dialog modal-lg">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title" id="modalOrderId">Order ID:
-                                                    [[${order.id}]] </h5>
-                                                <p id="modalStatus" class="ml-auto mr-3"><strong>Status:
-                                                    [[${order.status}]]</strong></p>
-                                                <button type="button" class="close" data-dismiss="modal"
-                                                        aria-label="Close">
-                                                    <span aria-hidden="true">&times;</span>
-                                                </button>
-                                            </div>
-                                            <div class="modal-body">
-                                                <p><strong>Billing Details: </strong>[[${order.shipAddress}]]</p>
-
-                                                <p><strong>Items Ordered: </strong></p>
-                                                <table class="table">
-                                                    <thead>
-                                                    <tr>
-                                                        <th>Product</th>
-                                                        <th>Quantity</th>
-                                                        <th>Discount</th>
-                                                    </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">
-                                                    Close
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
                             </tr>
                             </tbody>
                         </table>
@@ -316,7 +277,6 @@
                 </div>
                 <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
             </div>
-
         </div>
         <!-- /.container-fluid -->
 

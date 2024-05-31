@@ -17,3 +17,53 @@
     width: 100%;
 }
 
+#order_detail_box {
+    padding: 0;
+    margin: 0;
+}
+
+#order_general, #order_shipping {
+    padding: 10px;
+}
+
+.form-control, .form-select {
+    margin-bottom: 10px;
+}
+
+.d-flex.justify-content-between {
+    margin-bottom: 10px;
+}
+
+.h5, .h6 {
+    margin-bottom: 5px;
+}
+
+#order_general .h6, #order_shipping .h6 {
+    margin-top: 10px;
+}
+
+.card-body {
+    padding: 10px;
+}
+
+#order_detail_box .form-group {
+    margin-bottom: 10px; /* Reduce the bottom margin between form groups */
+}
+
+#order_detail_box label {
+    margin-bottom: 0;
+    padding-right: 5px; /* Optional: Reduce right padding for labels */
+}
+
+#order_detail_box .form-control,
+#order_detail_box .form-select {
+    margin-bottom: 0;
+}
+
+.card-body {
+    padding: 10px; /* Optional: Reduce padding inside the card body */
+}
+
+#order_detail_box .form-group .col-sm-4 {
+    padding-left: 0; /* Remove left padding for proper alignment */
+}
