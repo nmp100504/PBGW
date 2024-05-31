@@ -3,13 +3,16 @@ package com.example.BuildPC.controller;
 import com.example.BuildPC.Service.OrderDetailService;
 import com.example.BuildPC.Service.OrderService;
 import com.example.BuildPC.dtos.OrderDTO;
+import com.example.BuildPC.dtos.UserDto;
 import com.example.BuildPC.models.Order;
 import com.example.BuildPC.models.OrderDetail;
+import com.example.BuildPC.models.User;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Set;
@@ -50,6 +53,11 @@ public class OrderController {
         return "Manager/orderdetail";
     }
 
+    @PostMapping("order/save")
+    public String saveOrder(@ModelAttribute("order") Order order) {
+        orderService.saveOrder(order);
+        return "redirect:/detail/" + order.getId();  // Redirect to the order detail page after saving
+    }
 
 
 }

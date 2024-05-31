@@ -25,7 +25,7 @@ public class User  {
     private String email;
 
     @Column(name = "first_name")
-    private String fistName;
+    private String firstName;
 
     @Column(name = "last_name")
     private String lastName;
@@ -49,9 +49,9 @@ public class User  {
     @OneToMany(mappedBy = "user")
     private Set<Order> orders;
 
-    public User(String email, String fistName, String lastName, String password, String phone, Role role) {
+    public User(String email, String firstName, String lastName, String password, String phone, Role role) {
         this.email = email;
-        this.fistName = fistName;
+        this.firstName = firstName;
         this.lastName = lastName;
         this.password = password;
         this.phone = phone;

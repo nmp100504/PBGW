@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
 import java.util.List;
@@ -22,7 +23,9 @@ public class Order {
     @Column(name = "order_id")
     private Integer id;
 
+
     @Column(name = "order_date")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date orderDate;
 
     @Column(name = "order_note")
