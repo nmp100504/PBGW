@@ -16,7 +16,7 @@ public class MainController {
 
     @Autowired private OrderService orderService;
     @GetMapping("/ManagerDashBoard")
-    public String showAdminDashBoard(Model model) {
+    public String showManagerDashBoard(Model model) {
         model.addAttribute("OrderList", orderService.listAllOrder());
         return "Manager/managerDashBoard";
     }

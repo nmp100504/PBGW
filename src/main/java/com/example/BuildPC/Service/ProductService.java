@@ -1,5 +1,6 @@
 package com.example.BuildPC.Service;
 
+import com.example.BuildPC.dtos.ProductDto;
 import com.example.BuildPC.models.Product;
 import com.example.BuildPC.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,15 +9,12 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class ProductService {
+public interface ProductService {
 
-    @Autowired
-    ProductRepository productRepository;
+    List<Product> findAll();
+    void create(ProductDto productDto);
+    Product findById(int id);
+    Boolean update(Product product);
+    Boolean delete(int id);
 
-    public List<Product> getAllProducts() {
-        return productRepository.findAll();
-    }
-    public Product getProductById(int id) {
-        return productRepository.getReferenceById((long) id);
-    }
 }

@@ -1,5 +1,8 @@
 package com.example.BuildPC.dtos;
 
+import com.example.BuildPC.models.Role;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;

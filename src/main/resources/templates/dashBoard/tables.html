@@ -9,7 +9,7 @@
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <title>SB Admin - Tables</title>
+  <title>Admin Dashboard</title>
 
   <!-- Custom fonts for this template-->
   <link th:href="@{/assetsDashboard/vendor/fontawesome-free/css/all.min.css}" rel="stylesheet" type="text/css">
@@ -119,7 +119,7 @@
       <li class="nav-item active">
         <a class="nav-link" href="/dashBoard/tables">
           <i class="fas fa-fw fa-table"></i>
-          <span>Tables</span></a>
+          <span>List Users</span></a>
       </li>
     </ul>
 
@@ -130,19 +130,20 @@
         <!-- Breadcrumbs-->
         <ol class="breadcrumb">
           <li class="breadcrumb-item">
-            <a href="#">Dashboard</a>
+            <a href="/dashBoard">Dashboard</a>
           </li>
-          <li class="breadcrumb-item active">Tables</li>
+          <li class="breadcrumb-item active">List Users</li>
         </ol>
 
         <!-- DataTables Example -->
         <div class="card mb-3">
           <div class="card-header">
             <i class="fas fa-table"></i>
-            Data Table Example</div>
+            User Account Data Table
+          </div>
           <div class="card-body">
             <div class="table-responsive">
-              <a class="btn btn-primary" href="/dashBoard/create/"> Add User</a>
+              <a class="btn btn-primary" href="/dashBoard/tables/create"> Add User Account</a>
               <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                 <thead>
                 <tr>
@@ -176,11 +177,11 @@
                   <td th:text="${users.role}"></td>
                   <td style="white-space:nowrap">
                     <a class="btn btn-primary btn-sm"
-                       th:href="@{/dashBoard/edit(id=${users.id})}">
+                       th:href="@{/dashBoard/tables/edit(id=${users.id})}">
                       Edit
                     </a>
                     <a class="btn btn-danger btn-sm"
-                       th:href="@{/dashBoard/delete(id=${users.id})}"
+                       th:href="@{/dashBoard/tables/delete(id=${users.id})}"
                        onclick="return confirm('Are you sure?')" >
                       Delete
                     </a>
