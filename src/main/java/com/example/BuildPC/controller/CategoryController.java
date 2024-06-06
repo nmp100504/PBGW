@@ -15,27 +15,26 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @Controller
-@RequestMapping("/ManagerDashBoard")
+
 public class CategoryController {
 
     @Autowired
     private CategoryService categoryService;
-
-    @GetMapping("/categoryList")
+    @GetMapping("/ManagerDashBoard/categoryList")
     public String showCategoryList(Model model) {
         List<Category> categories = categoryService.findAll();
         model.addAttribute("categories", categories);
         return "Manager/showCategoryList";
     }
 
-    @GetMapping("/categoryList/create")
+    @GetMapping("/ManagerDashBoard/categoryList/create")
     public String createCategory(Model model){
         CategoryDto categoryDto = new CategoryDto();
         model.addAttribute("categoryDto", categoryDto);
         return "Manager/createCategory";
     }
 
-    @PostMapping("/categoryList/create")
+    @PostMapping("/ManagerDashBoard/categoryList/create")
     public String createCategory(@Valid @ModelAttribute("categoryDto") CategoryDto categoryDto, BindingResult result) {
 
         if(result.hasErrors()) {
@@ -46,7 +45,7 @@ public class CategoryController {
         return "redirect:/ManagerDashBoard/categoryList";
     }
 
-    @GetMapping("/categoryList/delete")
+    @GetMapping("/ManagerDashBoard/categoryList/delete")
     public String deleteCategory(@RequestParam("id") int id) {
         try{
             categoryService.deleteCategoryById(id);
