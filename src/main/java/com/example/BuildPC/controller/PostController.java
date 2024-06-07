@@ -1,9 +1,9 @@
 package com.example.BuildPC.controller;
 
 
-import com.example.BuildPC.dtos.PostDto;
-import com.example.BuildPC.models.Post;
-import com.example.BuildPC.models.User;
+import com.example.BuildPC.dto.PostDto;
+import com.example.BuildPC.model.Post;
+import com.example.BuildPC.model.User;
 import com.example.BuildPC.repository.PostRepository;
 import com.example.BuildPC.repository.UserRepository;
 import jakarta.validation.Valid;

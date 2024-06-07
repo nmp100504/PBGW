@@ -3891,7 +3891,7 @@ function computeMinSampleSize(scale, pixels) {
 /**
  * Computes an "ideal" category based on the absolute bar thickness or, if undefined or null,
  * uses the smallest interval (see computeMinSampleSize) that prevents bar overlapping. This
- * mode currently always generates bars equally sized (until we introduce scriptable options?).
+ * model currently always generates bars equally sized (until we introduce scriptable options?).
  * @private
  */
 function computeFitCategoryTraits(index, ruler, options) {
@@ -3920,7 +3920,7 @@ function computeFitCategoryTraits(index, ruler, options) {
 
 /**
  * Computes an "optimal" category that globally arranges bars side by side (no gap when
- * percentage options are 1), based on the previous and following categories. This mode
+ * percentage options are 1), based on the previous and following categories. This model
  * generates bars with different widths when data are not evenly spaced.
  * @private
  */
@@ -5918,8 +5918,8 @@ function getNearestItems(chart, position, intersect, distanceMetric) {
 
 /**
  * Get a distance metric function for two points based on the
- * axis mode setting
- * @param {string} axis - the axis mode. x|y|xy
+ * axis model setting
+ * @param {string} axis - the axis model. x|y|xy
  */
 function getDistanceMetricForAxis(axis) {
 	var useX = axis.indexOf('x') !== -1;
@@ -5934,7 +5934,7 @@ function getDistanceMetricForAxis(axis) {
 
 function indexMode(chart, e, options) {
 	var position = getRelativePosition(e, chart);
-	// Default axis for index mode is 'x' to match old behaviour
+	// Default axis for index model is 'x' to match old behaviour
 	options.axis = options.axis || 'x';
 	var distanceMetric = getDistanceMetricForAxis(options.axis);
 	var items = options.intersect ? getIntersectItems(chart, position) : getNearestItems(chart, position, false, distanceMetric);
@@ -5999,7 +5999,7 @@ var core_interaction = {
 
 		/**
 		 * Returns items at the same index. If the options.intersect parameter is true, we only return items if we intersect something
-		 * If the options.intersect mode is false, we find the nearest item and return the items at the same index as that item
+		 * If the options.intersect model is false, we find the nearest item and return the items at the same index as that item
 		 * @function Chart.Interaction.modes.index
 		 * @since v2.4.0
 		 * @param {Chart} chart - the chart we are returning items from
@@ -6033,7 +6033,7 @@ var core_interaction = {
 
 		/**
 		 * @function Chart.Interaction.modes.x-axis
-		 * @deprecated since version 2.4.0. Use index mode and intersect == true
+		 * @deprecated since version 2.4.0. Use index model and intersect == true
 		 * @todo remove at version 3
 		 * @private
 		 */
@@ -6042,7 +6042,7 @@ var core_interaction = {
 		},
 
 		/**
-		 * Point mode returns all elements that hit test based on the event position
+		 * Point model returns all elements that hit test based on the event position
 		 * of the event
 		 * @function Chart.Interaction.modes.intersect
 		 * @param {Chart} chart - the chart we are returning items from
@@ -6055,7 +6055,7 @@ var core_interaction = {
 		},
 
 		/**
-		 * nearest mode returns the element closest to the point
+		 * nearest model returns the element closest to the point
 		 * @function Chart.Interaction.modes.intersect
 		 * @param {Chart} chart - the chart we are returning items from
 		 * @param {Event} e - the event we are find things at
@@ -6070,7 +6070,7 @@ var core_interaction = {
 		},
 
 		/**
-		 * x mode returns the elements that hit-test at the current x coordinate
+		 * x model returns the elements that hit-test at the current x coordinate
 		 * @function Chart.Interaction.modes.x
 		 * @param {Chart} chart - the chart we are returning items from
 		 * @param {Event} e - the event we are find things at
@@ -6101,7 +6101,7 @@ var core_interaction = {
 		},
 
 		/**
-		 * y mode returns the elements that hit-test at the current y coordinate
+		 * y model returns the elements that hit-test at the current y coordinate
 		 * @function Chart.Interaction.modes.y
 		 * @param {Chart} chart - the chart we are returning items from
 		 * @param {Event} e - the event we are find things at
@@ -7372,7 +7372,7 @@ core_defaults._set('global', {
 
 var positioners = {
 	/**
-	 * Average mode places the tooltip at the average position of the elements shown
+	 * Average model places the tooltip at the average position of the elements shown
 	 * @function Chart.Tooltip.positioners.average
 	 * @param elements {ChartElement[]} the elements being displayed in the tooltip
 	 * @returns {object} tooltip position
@@ -13797,7 +13797,7 @@ var Legend = core_element.extend({
  		 */
 		this._hoveredItem = null;
 
-		// Are we in doughnut mode which has a different data type
+		// Are we in doughnut model which has a different data type
 		this.doughnutMode = false;
 	},
 

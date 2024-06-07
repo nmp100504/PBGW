@@ -1,7 +1,7 @@
 package com.example.BuildPC.Service;
 
-import com.example.BuildPC.dtos.ProductDto;
-import com.example.BuildPC.models.Product;
+import com.example.BuildPC.dto.ProductDto;
+import com.example.BuildPC.model.Product;
 import com.example.BuildPC.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

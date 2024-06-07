@@ -2,20 +2,15 @@ package com.example.BuildPC.controller;
 
 import com.example.BuildPC.Service.OrderDetailService;
 import com.example.BuildPC.Service.OrderService;
-import com.example.BuildPC.dtos.OrderDTO;
-import com.example.BuildPC.dtos.UserDto;
-import com.example.BuildPC.models.Order;
-import com.example.BuildPC.models.OrderDetail;
-import com.example.BuildPC.models.User;
-import jakarta.validation.Valid;
+import com.example.BuildPC.dto.OrderDTO;
+import com.example.BuildPC.model.Order;
+import com.example.BuildPC.model.OrderDetail;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Set;
 
 @Controller
 
@@ -25,7 +20,7 @@ public class OrderController {
     OrderService orderService;
     @Autowired
     OrderDetailService orderDetailService;
-    @GetMapping("/ManagerDashBoard")
+    @GetMapping("/OrderManagerDashBoard")
     public String showManagerDashBoard(Model model) {
         model.addAttribute("OrderList", orderService.listAllOrder());
         return "Manager/managerDashBoard";

@@ -1,8 +1,8 @@
 package com.example.BuildPC.Service;
 
-import com.example.BuildPC.dtos.UserDto;
-import com.example.BuildPC.models.Role;
-import com.example.BuildPC.models.User;
+import com.example.BuildPC.dto.UserDto;
+import com.example.BuildPC.model.Role;
+import com.example.BuildPC.model.User;
 import com.example.BuildPC.repository.AdminRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

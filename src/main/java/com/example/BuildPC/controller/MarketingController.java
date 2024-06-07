@@ -1,8 +1,8 @@
 package com.example.BuildPC.controller;
 
 
-import com.example.BuildPC.dtos.PostDto;
-import com.example.BuildPC.models.Post;
+import com.example.BuildPC.dto.PostDto;
+import com.example.BuildPC.model.Post;
 import com.example.BuildPC.repository.PostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
