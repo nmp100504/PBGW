@@ -3115,6 +3115,35 @@ hr {
 .newarrivals_products .col {
   padding: 0;
 }
+.product_layout1 {
+  /* Set a fixed height for the layout */
+  height: 400px; /* Adjust height as needed */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.product_layout1 .item_image {
+  /* Set a fixed height for the image container */
+  height: 60%; /* Adjust height as needed */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.product_layout1 .item_image img {
+  max-height: 100%;
+  max-width: 100%;
+  object-fit: contain; /* Ensures the image fits within the container without being stretched */
+}
+
+.item_content {
+  height: 40%; /* Adjust height as needed */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
 
 .product_layout1 {
   overflow: hidden;
