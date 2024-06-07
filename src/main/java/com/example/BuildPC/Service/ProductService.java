@@ -14,5 +14,5 @@ public interface ProductService {
     Product findById(int id);
     Boolean update(Product product);
     Boolean delete(int id);
-
+    List<Product> listByCategory(int id);
 }

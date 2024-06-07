@@ -1,11 +1,16 @@
-package com.example.BuildPC.model;
+package com.example.BuildPC.models;
 
 
+import com.example.BuildPC.Service.ProductImageService;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 @Data
@@ -45,7 +50,9 @@ public class Product {
     @OneToMany(mappedBy = "product")
     private Set<Comment> comments;
 
-    @OneToMany(mappedBy = "product")
+    @OneToMany(mappedBy = "product",targetEntity = ProductImage.class,
+    cascade = CascadeType.ALL,
+    fetch = FetchType.EAGER)
     private Set<ProductImage> productImages;
 
     @ManyToOne()
@@ -56,5 +63,17 @@ public class Product {
     @JoinColumn(name = "category_id" , nullable = false)
     private Category category;
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        ProductImage other = (ProductImage) obj;
+        return Objects.equals(id, other.getId());
+    }
 
 }

@@ -22,8 +22,6 @@ public class ProductServiceImpl implements ProductService{
 
     @Override
     public void create(ProductDto productDto) {
-
-
     }
 
     @Override
@@ -39,5 +37,10 @@ public class ProductServiceImpl implements ProductService{
     @Override
     public Boolean delete(int id) {
         return null;
+    }
+
+    @Override
+    public List<Product> listByCategory(int id){
+        return productRepository.findByCategoryId(id);
     }
 }
