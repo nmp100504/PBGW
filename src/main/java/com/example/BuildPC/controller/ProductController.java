@@ -3,10 +3,10 @@ package com.example.BuildPC.controller;
 
 import com.example.BuildPC.Service.CategoryService;
 import com.example.BuildPC.Service.ProductService;
-import com.example.BuildPC.dtos.ProductDto;
-import com.example.BuildPC.models.Category;
-import com.example.BuildPC.models.Product;
-import com.example.BuildPC.models.ProductImage;
+import com.example.BuildPC.dto.ProductDto;
+import com.example.BuildPC.model.Category;
+import com.example.BuildPC.model.Product;
+import com.example.BuildPC.model.ProductImage;
 import com.example.BuildPC.repository.CategoryRepository;
 import com.example.BuildPC.repository.ProductRepository;
 import jakarta.validation.Valid;

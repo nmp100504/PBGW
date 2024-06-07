@@ -1,9 +1,9 @@
 package com.example.BuildPC.repository;
 
-import com.example.BuildPC.models.Order;
-import com.example.BuildPC.models.OrderDetail;
-import com.example.BuildPC.models.Product;
-import com.example.BuildPC.models.ProductImage;
+import com.example.BuildPC.model.Order;
+import com.example.BuildPC.model.OrderDetail;
+import com.example.BuildPC.model.Product;
+import com.example.BuildPC.model.ProductImage;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.CrudRepository;
 

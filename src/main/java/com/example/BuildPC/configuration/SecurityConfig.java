@@ -13,6 +13,9 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+
+import static org.springframework.security.config.Customizer.withDefaults;
 
 @Configuration
 @EnableWebSecurity
@@ -26,14 +29,24 @@ public class SecurityConfig {
                         .requestMatchers("/admin/**").hasAuthority("ADMIN")
                         .requestMatchers("/customer/**").hasAuthority("CUSTOMER")
                         .requestMatchers("/marketing/**").hasAuthority("MARKETING")
-                        .requestMatchers("/manager/**").hasAuthority("MANAGER")
+                        .requestMatchers("/ManagerDashBoard/**").hasAuthority("MANAGER")
                         .requestMatchers("/", "/login","/registration","/static/**", "/css/**", "/js/**", "/img/**", "/fonts/**","/assetsLandingPage/**").permitAll()
                         .anyRequest().authenticated())
                 .formLogin(form -> form
                         .loginPage("/login")
                         .defaultSuccessUrl("/homepage", true)
                         .permitAll())
-                .logout(LogoutConfigurer::permitAll);
+                .logout(logout -> logout
+                        .logoutSuccessUrl("/")
+                        .invalidateHttpSession(true)
+                        .deleteCookies("JSESSIONID")
+                        .permitAll())
+                .exceptionHandling(exceptionHandling -> exceptionHandling
+                        .accessDeniedPage("/403"))
+                .csrf(csrf -> csrf.disable())
+                .httpBasic(withDefaults());
+
+
         return http.build();
     }
 
