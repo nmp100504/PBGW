@@ -1,19 +1,267 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
+<!-- Mirrored from webthunder.net/html/getyootech/index_1.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 19 May 2024 08:47:33 GMT -->
 <head>
-    <meta charset="UTF-8">
-    <title>Registration page</title>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+
+    <title>Home V.1 - Getyootech - Gadgets Ecommerce Site Template</title>
+    <link rel="shortcut icon" th:href="@{/assetsLandingPage/images/logo/favourite_icon.svg}">
+
+    <!-- fraimwork - css include -->
+    <link rel="stylesheet" type="text/css" th:href="@{/assetsLandingPage/css/bootstrap.min.css}">
+
+    <!-- icon font - css include -->
+    <link rel="stylesheet" type="text/css" th:href="@{/assetsLandingPage/css/fontawesome.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/assetsLandingPage/css/stroke-gap-icons.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/assetsLandingPage/css/icofont.css}">
+
+    <!-- animation - css include -->
+    <link rel="stylesheet" type="text/css" th:href="@{/assetsLandingPage/css/animate.css}">
+
+    <!-- carousel - css include -->
+    <link rel="stylesheet" type="text/css" th:href="@{/assetsLandingPage/css/slick.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/assetsLandingPage/css/slick-theme.css}">
+
+    <!-- popup - css include -->
+    <link rel="stylesheet" type="text/css" th:href="@{/assetsLandingPage/css/magnific-popup.css}">
+
+    <!-- jquery-ui - css include -->
+    <link rel="stylesheet" type="text/css" th:href="@{/assetsLandingPage/css/jquery-ui.css}">
+
+    <!-- select option - css include -->
+    <link rel="stylesheet" type="text/css" th:href="@{/assetsLandingPage/css/nice-select.css}">
+
+    <!-- custom - css include -->
+    <link rel="stylesheet" type="text/css" th:href="@{/assetsLandingPage/css/style.css}">
+    <style>
+        .brand_link {
+            font-size: 2rem; /* Make the text 10 times bigger */
+            font-weight: bold;
+        }
+    </style>
+    <script>
+        $(document).ready(function() {
+            /* Use Thymeleaf to inject a JavaScript variable indicating whether to show the signup tab */
+            var showSignupTab = /*[[${showSignupTab}]]*/ false;
+            if (showSignupTab) {
+                $('#signin_tab').removeClass('show active');
+                $('#signup_tab').addClass('show active');
+                $('#signin-tab').removeClass('active');
+                $('#signup-tab').addClass('active');
+            }
+        });
+    </script>
 </head>
+
+
 <body>
-<form th:action="@{/registration}" method="post" th:object="${user}">
-    <input name="username" type="text" placeholder="username">
-    <input name="password" type="password" placeholder="Password">
-    <input name="firstName" type="text" placeholder="First name" required>
-    <input name="lastName" type="text" placeholder="Last Name" required>
-    <input name="phone" type="text" placeholder="Phone" required>
-    <input type="submit" value="Register">
-</form>
-<a href="/">Main page</a>
-<a href="/login">Login</a>
+
+<!-- body_wrap - start -->
+<div class="body_wrap">
+
+    <!-- backtotop - start -->
+    <div class="backtotop">
+        <a href="#" class="scroll">
+            <i class="far fa-arrow-up"></i>
+        </a>
+    </div>
+    <!-- backtotop - end -->
+
+    <!-- preloader - start -->
+    <div id="preloader"></div>
+    <!-- preloader - end -->
+
+    <!-- header_section - start
+    ================================================== -->
+    <header class="header_section align-items-center" >
+
+
+        <div class="header_middle">
+            <div class="container">
+                <div class="row justify-content-center align-items-center">
+                    <div class="col-auto">
+                        <div class="brand_logo">
+                            <a class="brand_link" href="index.html">
+                                PBGW
+                            </a>
+                        </div>
+                        <div th:if="${param.success}">
+                            You successfully registered. Please use your credentials to log in.
+                        </div>
+                        <div th:if="${param.error}">
+                            Login or password incorrect.
+                        </div>
+                        <div th:if="${param.logout}">
+                            You've been logged out.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="header_bottom">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col col-md-3 col-6">
+                        <div class="allcategories_dropdown">
+                            <div class="allcategories_collapse collapse" id="allcategories_collapse">
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </header>
+    <!-- header_section - end
+    ================================================== -->
+
+    <!-- main body - start
+    ================================================== -->
+    <main>
+
+
+        <!-- register_section - start
+        ================================================== -->
+        <section class="register_section section_space" style="padding-bottom: 0px;">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-lg-7">
+                        <ul class="nav register_tabnav ul_li_center" role="tablist">
+                            <li role="presentation">
+                                <button class="active" data-bs-toggle="tab" data-bs-target="#signin_tab" type="button" role="tab" aria-controls="signin_tab" aria-selected="true">
+                                    Sign In
+                                </button>
+                            </li>
+                            <li role="presentation">
+                                <button data-bs-toggle="tab" data-bs-target="#signup_tab" type="button" role="tab" aria-controls="signup_tab" aria-selected="false">
+                                    Register
+                                </button>
+                            </li>
+                        </ul>
+                        <div class="register_wrap tab-content">
+                            <div class="tab-pane fade show active" id="signin_tab" role="tabpanel">
+                                <form th:action="@{/login}" method="post">
+                                    <div class="form_item_wrap">
+                                        <h3 class="input_title">User Name/Email*</h3>
+                                        <div class="form_item">
+                                            <label for="username_input"><i class="fas fa-user"></i></label>
+                                            <input id="username_input" type="text" name="username" placeholder="User Name">
+                                            <span>Ex:black-level help text here.</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="form_item_wrap">
+                                        <h3 class="input_title">Password*</h3>
+                                        <div class="form_item">
+                                            <label for="password_input"><i class="fas fa-lock"></i></label>
+                                            <input id="password_input" type="password" name="password" placeholder="Password">
+                                        </div>
+                                    </div>
+
+                                    <div class="forget_pass_wrap align-items-center justify-content-between">
+                                        <div class="checkbox_item m-0">
+                                            <input id="remember_checkbox" type="checkbox">
+                                            <label for="remember_checkbox">Remember Me</label>
+                                        </div>
+                                        <div class="forget_pass">
+                                            <a href="#!">Forget Password?</a>
+                                        </div>
+                                    </div>
+
+                                    <div class="text-start">
+                                        <button type="submit" class="btn btn_secondary">Sign In Now</button>
+                                    </div>
+                                </form>
+                            </div>
+
+                            <div class="tab-pane fade" id="signup_tab" role="tabpanel">
+                                <form th:action="@{/registration}" method="post" th:object="${user}">
+                                    <div class="form_item_wrap">
+                                        <h3 class="input_title">User Name*</h3>
+                                        <div class="form_item">
+                                            <label for="username_input2"><i class="fas fa-user"></i></label>
+                                            <input id="username_input2" type="text" name="username" placeholder="User Name">
+                                            <span>Ex:black-level help text here.</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="form_item_wrap">
+                                        <h3 class="input_title">Password*</h3>
+                                        <div class="form_item">
+                                            <label for="password_input2"><i class="fas fa-lock"></i></label>
+                                            <input id="password_input2" type="password" name="password" placeholder="Password">
+                                        </div>
+                                    </div>
+
+                                    <div class="form_item_wrap">
+                                        <h3 class="input_title">Email*</h3>
+                                        <div class="form_item">
+                                            <label for="email_input"><i class="fas fa-envelope"></i></label>
+                                            <input id="email_input" type="email" name="email" placeholder="Email">
+                                        </div>
+                                    </div>
+
+                                    <div class="text-start">
+                                        <button type="submit" class="btn btn_secondary">Register Now</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- register_section - end
+        ================================================== -->
+
+
+
+    </main>
+    <!-- main body - end
+    ================================================== -->
+
+</div>
+<!-- body_wrap - end -->
+
+<!-- fraimwork - jquery include -->
+<script th:src="@{assetsLandingPage/js/jquery.min.js}"></script>
+<script th:src="@{assetsLandingPage/js/popper.min.js}"></script>
+<script th:src="@{assetsLandingPage/js/bootstrap.min.js}"></script>
+<script th:src="@{assetsLandingPage/js/bootstrap5-dropdown-ml-hack.js}"></script>
+
+<!-- carousel - jquery include -->
+<script th:src="@{assetsLandingPage/js/slick.min.js}"></script>
+
+<!-- popup - jquery include -->
+<script th:src="@{assetsLandingPage/js/magnific-popup.min.js}"></script>
+
+<!-- jquery-ui - jquery include -->
+<script th:src="@{assetsLandingPage/js/jquery-ui.js}"></script>
+
+<!-- off canvas sidebar - jquery include -->
+<script th:src="@{assetsLandingPage/js/mCustomScrollbar.js}"></script>
+
+<!-- select option - jquery include -->
+<script th:src="@{assetsLandingPage/js/nice-select.min.js}"></script>
+
+<!-- countdown timer - jquery include -->
+<script th:src="@{assetsLandingPage/js/countdown.js}"></script>
+
+<!-- counter up - jquery include -->
+<script th:src="@{assetsLandingPage/js/counterup.min.js}"></script>
+<script th:src="@{assetsLandingPage/js/waypoints.min.js}"></script>
+
+<!-- custom - jquery include -->
+<script th:src="@{assetsLandingPage/js/main.js}"></script>
+
 </body>
+
+<!-- Mirrored from webthunder.net/html/getyootech/index_1.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 19 May 2024 08:47:58 GMT -->
 </html>

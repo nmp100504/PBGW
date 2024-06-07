@@ -19,10 +19,9 @@ public class MainController {
     private CategoryService categoryService;
     @GetMapping("/")
     public String getHomePage() {
-
         return "LandingPage/index_1";
     }
-    @GetMapping("/index")
+    @GetMapping("/homepage")
     public String getHome() {
         return "LandingPage/auth_index";
     }

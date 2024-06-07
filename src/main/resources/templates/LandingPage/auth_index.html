@@ -41,9 +41,7 @@
 
 
 <body>
-<form th:action="@{/logout}" method="post">
-  <input type="submit" value="Logout">
-</form>
+
 <!-- body_wrap - start -->
 <div class="body_wrap">
 
@@ -95,9 +93,14 @@
               </li>
             </ul>
           </div>
-          <div class="col col-md-6">
-            <p class="header_hotline">Hotline: <strong>(+880)1680636189</strong></p>
-          </div>
+            <div class="col col-md-6">
+                <div class="text-md-end">
+                    <form th:action="@{/logout}" method="post">
+                        <input type="submit"  class="btn btn-secondary" value="Logout">
+                    </form>
+
+                </div>
+            </div>
         </div>
       </div>
     </div>
@@ -242,7 +245,9 @@
                     <small class="cart_counter">3</small>
                   </span>
               <span class="cart_amount">$90.00</span>
+
             </button>
+
           </div>
         </div>
       </div>
