@@ -1,23 +1,25 @@
 package com.example.BuildPC.model;
 
-
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.util.Set;
 
+@Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity
-@Table(name = "User")
-public class User  {
+public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id")
     private Integer id;
+
+    @Column(name = "username", unique = true)
+    private String username;
 
     @Column(name = "email", unique = true)
     private String email;
@@ -46,17 +48,4 @@ public class User  {
 
     @OneToMany(mappedBy = "user")
     private Set<Order> orders;
-
-    public User(String email, String firstName, String lastName, String password, String phone, Role role) {
-        this.email = email;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.password = password;
-        this.phone = phone;
-        this.role = role;
-    }
-
-
-
-
 }

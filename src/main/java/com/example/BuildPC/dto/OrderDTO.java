@@ -1,8 +1,8 @@
-package com.example.BuildPC.dtos;
+package com.example.BuildPC.dto;
 
-import com.example.BuildPC.models.Order;
-import com.example.BuildPC.models.OrderDetail;
-import com.example.BuildPC.models.User;
+import com.example.BuildPC.model.Order;
+import com.example.BuildPC.model.OrderDetail;
+import com.example.BuildPC.model.User;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

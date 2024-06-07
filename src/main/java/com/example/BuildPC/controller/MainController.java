@@ -14,17 +14,27 @@ import java.util.List;
 @Controller
 public class MainController {
 
-    @GetMapping
-    public String showHomePage() {
-        return "index";
+
     @Autowired
     private CategoryService categoryService;
-    @GetMapping("")
+    @GetMapping("/")
+    public String getHomePage() {
+
+        return "LandingPage/index_1";
+    }
+    @GetMapping("/index")
+    public String getHome() {
+        return "LandingPage/auth_index";
+    }
+
+    @GetMapping("/home")
     public String showLandingPage(Model model) {
         List<Category> categoryList = categoryService.findAll();
         model.addAttribute("categoryList",categoryList);
         return "LandingPage/index_1";
     }
+
+
 
     @Autowired private OrderService orderService;
     @GetMapping("/ManagerDashBoard")
