@@ -16,9 +16,9 @@
                 <div class="row mb-3">
                     <label class="col-sm-4 col-form-label">First Name</label>
                     <div class="col-sm-8">
-                        <input class="form-control" th:field="${userDto.fistName}">
-                        <p th:if="${#fields.hasErrors('fistName')}" th:errorclass="text-danger"
-                           th:errors="${userDto.fistName}"></p>
+                        <input class="form-control" th:field="${userDto.firstName}">
+                        <p th:if="${#fields.hasErrors('firstName')}" th:errorclass="text-danger"
+                           th:errors="${userDto.firstName}"></p>
                     </div>
                 </div>
 
@@ -33,7 +33,7 @@
                 <div class="row mb-3">
                     <label class="col-sm-4 col-form-label">Email</label>
                     <div class="col-sm-8">
-                        <input class="form-control" th:field="${userDto.email}">
+                        <input class="form-control" type="email" th:field="${userDto.email}">
                         <p th:if="${#fields.hasErrors('email')}" th:errorclass="text-danger"
                            th:errors="${userDto.email}"></p>
                     </div>
