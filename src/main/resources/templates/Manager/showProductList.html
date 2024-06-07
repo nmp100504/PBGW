@@ -9,7 +9,7 @@
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <title>SB Admin - Tables</title>
+  <title>ManagerDashboard - Tables</title>
 
   <!-- Custom fonts for this template-->
   <link th:href="@{/assetsDashboard/vendor/fontawesome-free/css/all.min.css}" rel="stylesheet" type="text/css">
@@ -26,7 +26,7 @@
 
   <nav class="navbar navbar-expand navbar-dark bg-dark static-top">
 
-    <a class="navbar-brand mr-1" href="/dashBoard/">Start Bootstrap</a>
+    <a class="navbar-brand mr-1" href="/ManagerDashBoard">Manager Dashboard</a>
 
     <button class="btn btn-link btn-sm text-white order-1 order-sm-0" id="sidebarToggle" href="#">
       <i class="fas fa-bars"></i>
@@ -88,7 +88,37 @@
   <div id="wrapper">
 
     <!-- Sidebar -->
-    <div th:replace="Manager/sidebar :: sidebar"></div>
+
+    <ul th:fragment="sidebar" class="sidebar navbar-nav">
+      <li class="nav-item active">
+        <a class="nav-link" href="/ManagerDashBoard">
+          <i class="fas fa-fw fa-tachometer-alt"></i>
+          <span> Dashboard</span>
+        </a>
+      </li>
+
+      <li class="nav-item">
+        <a class="nav-link" href="charts.html">
+          <i class="fas fa-fw fa-chart-area"></i>
+          <span>Charts</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/ManagerDashBoard">
+          <i class="fas fa-fw fa-table"></i>
+          <span>Order List</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/ManagerDashBoard/productList">
+          <i class="fas fa-fw fa-table"></i>
+          <span>Product List</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/ManagerDashBoard/categoryList">
+          <i class="fas fa-fw fa-table"></i>
+          <span>Category List</span></a>
+      </li>
+    </ul>
+
 
     <div id="content-wrapper">
 
@@ -99,14 +129,14 @@
           <li class="breadcrumb-item">
             <a href="/ManagerDashBoard">Dashboard</a>
           </li>
-          <li class="breadcrumb-item active">Tables</li>
+          <li class="breadcrumb-item active">Product Tables</li>
         </ol>
 
         <!-- DataTables Example -->
         <div class="card mb-3">
           <div class="card-header">
             <i class="fas fa-table"></i>
-            User Account Data Table
+            Product Data Table
           </div>
           <div class="card-body">
             <div class="table-responsive">
@@ -114,41 +144,47 @@
               <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                 <thead>
                 <tr>
-                  <th>Fist Name</th>
-                  <th>Last Name</th>
-                  <th>Email</th>
-                  <th>Password</th>
-                  <th>Phone</th>
-                  <th>Role</th>
+                  <th>Product Name</th>
+                  <th>Product Original Price</th>
+                  <th>Product Sale Price</th>
+                  <th>Product Description</th>
+                  <th>Units In Stock</th>
+                  <th>Units In Order</th>
+                  <th>Category Name</th>
+                  <th>Brand Name</th>
                   <th>Action</th>
                 </tr>
                 </thead>
                 <tfoot>
                 <tr>
-                  <th>Fist Name</th>
-                  <th>Last Name</th>
-                  <th>Email</th>
-                  <th>Password</th>
-                  <th>Phone</th>
-                  <th>Role</th>
+                  <th>Product Name</th>
+                  <th>Product Original Price</th>
+                  <th>Product Sale Price</th>
+                  <th>Product Description</th>
+                  <th>Units In Stock</th>
+                  <th>Units In Order</th>
+                  <th>Category Name</th>
+                  <th>Brand Name</th>
                   <th>Action</th>
                 </tr>
                 </tfoot>
                 <tbody>
-                <tr th:each="users : ${users}">
-                  <td th:text="${users.fistName}"></td>
-                  <td th:text="${users.lastName}"></td>
-                  <td th:text="${users.email}"></td>
-                  <td th:text="${users.password}"></td>
-                  <td th:text="${users.phone}"></td>
-                  <td th:text="${users.role}"></td>
+                <tr th:each="products : ${products}">
+                  <td th:text="${products.productName}"></td>
+                  <td th:text="${products.productOriginalPrice}"></td>
+                  <td th:text="${products.productSalePrice}"></td>
+                  <td th:text="${products.productDesc}"></td>
+                  <td th:text="${products.unitsInStock}"></td>
+                  <td th:text="${products.unitsInOrder}"></td>
+                  <td th:text="${products.category.categoryName}"></td>
+                  <td th:text="${products.brand.brandName}"></td>
                   <td style="white-space:nowrap">
                     <a class="btn btn-primary btn-sm"
-                       th:href="@{/ManagerDashBoard/productList/edit(id=${users.id})}">
+                       th:href="@{/ManagerDashBoard/productList/edit(id=${products.id})}">
                       Edit
                     </a>
                     <a class="btn btn-danger btn-sm"
-                       th:href="@{/ManagerDashBoard/productList/delete(id=${users.id})}"
+                       th:href="@{/ManagerDashBoard/productList/delete(id=${products.id})}"
                        onclick="return confirm('Are you sure?')" >
                       Delete
                     </a>
@@ -158,7 +194,7 @@
               </table>
             </div>
           </div>
-          <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
+
         </div>
 
         <p class="small text-center text-muted my-5">
@@ -172,7 +208,7 @@
       <footer class="sticky-footer">
         <div class="container my-auto">
           <div class="copyright text-center my-auto">
-            <span>Copyright © Your Website 2019</span>
+            <span>Copyright © Your Website 2024</span>
           </div>
         </div>
       </footer>

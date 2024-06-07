@@ -48,13 +48,13 @@ public class Product {
     @OneToMany(mappedBy = "product")
     private Set<ProductImage> productImages;
 
+
+    @ManyToOne()
+    @JoinColumn(name = "category_id",nullable = false)
+    private Category category;
+
     @ManyToOne()
     @JoinColumn(name = "brand_id", nullable = false)
     private Brand brand;
-
-    @ManyToOne()
-    @JoinColumn(name = "category_id" , nullable = false)
-    private Category category;
-
 
 }

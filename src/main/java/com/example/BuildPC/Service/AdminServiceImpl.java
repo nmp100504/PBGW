@@ -24,7 +24,7 @@ public class AdminServiceImpl implements  AdminService{
     @Override
     public void save(UserDto userDto) {
         User user = new User();
-        user.setFirstName(userDto.getFistName());
+        user.setFirstName(userDto.getFirstName());
         user.setLastName(userDto.getLastName());
         user.setEmail(userDto.getEmail());
         user.setPassword(userDto.getPassword());
@@ -40,13 +40,6 @@ public class AdminServiceImpl implements  AdminService{
 
     @Override
     public void upadteUser(User user) {
-        UserDto userDto = new UserDto();
-        userDto.setFistName(user.getFirstName());
-        userDto.setLastName(user.getLastName());
-        userDto.setEmail(user.getEmail());
-        userDto.setPassword(user.getPassword());
-        userDto.setPhone(user.getPhone());
-        userDto.setRole(String.valueOf(user.getRole()));
         adminRepository.save(user);
     }
 

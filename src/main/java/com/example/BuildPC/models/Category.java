@@ -26,11 +26,14 @@ public class Category {
     @Column(name = "category_slug", nullable = true)
     private String categorySlug;
 
-    @Column(name = "category_description", nullable = true)
+    @Column(name = "category_description")
     private String categoryDesc;
 
     @Column(name = "category_image")
     private String categoryImage;
+
+    @Column(name = "category_status")
+    private boolean categoryStatus;
 
 
     @OneToMany(mappedBy = "category")
