@@ -25,14 +25,14 @@ public class UserService {
             adminUser.setPassword(passwordEncoder.encode("abc"));
             userRepository.save(adminUser);
         }
-
-        if (userRepository.findByUsername("manager") == null) {
-            User managerUser = new User();
-            managerUser.setRole(Role.MANAGER);
-            managerUser.setUsername("manager");
-            managerUser.setPassword(passwordEncoder.encode("abc"));
-            userRepository.save(managerUser);
-        }
+//
+//        if (userRepository.findByUsername("manager") == null) {
+//            User managerUser = new User();
+//            managerUser.setRole(Role.MANAGER);
+//            managerUser.setUsername("manager");
+//            managerUser.setPassword(passwordEncoder.encode("abc"));
+//            userRepository.save(managerUser);
+//        }
     }
 
     public void register(User user) {

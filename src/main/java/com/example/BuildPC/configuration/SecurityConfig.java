@@ -26,27 +26,27 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/admin/**").hasAuthority("ADMIN")
-                        .requestMatchers("/customer/**").hasAuthority("CUSTOMER")
-                        .requestMatchers("/marketing/**").hasAuthority("MARKETING")
-                        .requestMatchers("/ManagerDashBoard/**").hasAuthority("MANAGER")
-                        .requestMatchers("/", "/login","/registration","/static/**", "/css/**", "/js/**", "/img/**", "/fonts/**","/assetsLandingPage/**").permitAll()
+                        .requestMatchers("/admin/**").hasRole("ADMIN")
+                        .requestMatchers("/customer/**").hasRole("CUSTOMER")
+                        .requestMatchers("/marketing/**").hasRole("MARKETING")
+                        .requestMatchers("/ManagerDashBoard/**").hasRole("MANAGER")
+                        .requestMatchers("/", "/login", "/registration", "/static/**", "/css/**", "/js/**", "/img/**", "/fonts/**", "/assetsLandingPage/**").permitAll()
                         .anyRequest().authenticated())
                 .formLogin(form -> form
                         .loginPage("/login")
                         .defaultSuccessUrl("/homepage", true)
                         .permitAll())
                 .logout(logout -> logout
-                        .logoutSuccessUrl("/")
                         .invalidateHttpSession(true)
                         .deleteCookies("JSESSIONID")
+                        .clearAuthentication(true)
+                        .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+                        .logoutSuccessUrl("/login?logout")
                         .permitAll())
-                .exceptionHandling(exceptionHandling -> exceptionHandling
+                .exceptionHandling(exception -> exception
                         .accessDeniedPage("/403"))
-                .csrf(csrf -> csrf.disable())
+                .authenticationManager(authenticationManager(http))
                 .httpBasic(withDefaults());
-
-
         return http.build();
     }
 
