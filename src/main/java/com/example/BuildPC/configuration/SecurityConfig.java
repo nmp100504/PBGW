@@ -1,69 +1,95 @@
 package com.example.BuildPC.configuration;
 
 import com.example.BuildPC.Service.CustomUserDetailsService;
+import com.example.BuildPC.model.Role;
+import com.example.BuildPC.model.User;
+import com.example.BuildPC.repository.UserRepository;
+import lombok.RequiredArgsConstructor;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
+import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configurers.LogoutConfigurer;
-import org.springframework.security.core.userdetails.UserDetailsService;
+
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.security.web.util.matcher.RequestMatcher;
 
-import static org.springframework.security.config.Customizer.withDefaults;
 
 @Configuration
 @EnableWebSecurity
-@EnableMethodSecurity
+@RequiredArgsConstructor
 public class SecurityConfig {
 
+    private final CustomUserDetailsService userDetailsService;
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http
+    public PasswordEncoder passwordEncoder(){
+        return new BCryptPasswordEncoder();
+    }
+    @Bean
+    public AuthenticationProvider authenticationProvider(){
+        DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
+        authenticationProvider.setUserDetailsService(userDetailsService);
+        authenticationProvider.setPasswordEncoder(passwordEncoder());
+        return authenticationProvider;
+    }
+    @Bean
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        return http
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/admin/**").hasRole("ADMIN")
-                        .requestMatchers("/customer/**").hasRole("CUSTOMER")
-                        .requestMatchers("/marketing/**").hasRole("MARKETING")
-                        .requestMatchers("/ManagerDashBoard/**").hasRole("MANAGER")
-                        .requestMatchers("/", "/login", "/registration", "/static/**", "/css/**", "/js/**", "/img/**", "/fonts/**", "/assetsLandingPage/**").permitAll()
+                        .requestMatchers("/", "/login", "/error", "/registration/**").permitAll()
+                        .requestMatchers("/users/**").hasRole("ADMIN")
+                        .requestMatchers("/dashBoard/**").hasRole("MANAGER")
+                        .requestMatchers(staticResources()).permitAll()
                         .anyRequest().authenticated())
                 .formLogin(form -> form
                         .loginPage("/login")
-                        .defaultSuccessUrl("/homepage", true)
+                        .usernameParameter("email")
+                        .defaultSuccessUrl("/", true)
                         .permitAll())
                 .logout(logout -> logout
                         .invalidateHttpSession(true)
-                        .deleteCookies("JSESSIONID")
                         .clearAuthentication(true)
                         .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-                        .logoutSuccessUrl("/login?logout")
+                        .logoutSuccessUrl("/")
                         .permitAll())
-                .exceptionHandling(exception -> exception
-                        .accessDeniedPage("/403"))
-                .authenticationManager(authenticationManager(http))
-                .httpBasic(withDefaults());
-        return http.build();
+//                .exceptionHandling(exception -> exception
+//                        .accessDeniedPage("/error/403"))
+                .build();
     }
 
     @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
+    public RequestMatcher staticResources() {
+        return new AntPathRequestMatcher("/static/**");
     }
-
     @Bean
-    public UserDetailsService userDetailsService() {
-        return new CustomUserDetailsService();
-    }
+    public CommandLineRunner setupDefaultUser(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+        return args -> {
+            if (userRepository.findByEmail("admin@example.com").isEmpty()) {
+                User admin = new User();
+                admin.setEmail("admin@example.com");
+                admin.setPassword(passwordEncoder.encode("admin123"));
+                admin.setRole(Role.ADMIN);
+                admin.setEnabled(true);
+                userRepository.save(admin);
+            }
 
-    @Bean
-    public AuthenticationManager authenticationManager(HttpSecurity http) throws Exception {
-        AuthenticationManagerBuilder authenticationManagerBuilder = http.getSharedObject(AuthenticationManagerBuilder.class);
-        authenticationManagerBuilder.userDetailsService(userDetailsService()).passwordEncoder(passwordEncoder());
-        return authenticationManagerBuilder.build();
+            if (userRepository.findByEmail("manager@example.com").isEmpty()) {
+                User manager = new User();
+                manager.setEmail("manager@example.com");
+                manager.setPassword(passwordEncoder.encode("manager123"));
+                manager.setRole(Role.MANAGER);
+                manager.setEnabled(true);
+
+                userRepository.save(manager);
+            }
+        };
     }
 }
+
+

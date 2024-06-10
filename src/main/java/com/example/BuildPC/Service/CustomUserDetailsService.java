@@ -1,28 +1,34 @@
 package com.example.BuildPC.Service;
 
+import com.example.BuildPC.configuration.CustomUserDetails;
+import com.example.BuildPC.model.Role;
 import com.example.BuildPC.model.User;
+import com.example.BuildPC.repository.UserRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.Collection;
+import java.util.Collections;
+
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
 
-    @Autowired
-    private UserService userService;
+    private final UserRepository userRepository;
 
-    @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User byLogin = userService.findByUsername(username);
-        if (byLogin == null) {
-            return null;
-        }
-        return org.springframework.security.core.userdetails.User.builder()
-                .username((byLogin.getUsername()))
-                .password(byLogin.getPassword())
-                .roles(byLogin.getRole().name())
-                .build();
+    public CustomUserDetailsService(UserRepository userRepository) {
+        this.userRepository = userRepository;
     }
+    @Override
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        return userRepository.findByEmail(email)
+                .map(CustomUserDetails::new)
+                .orElseThrow(()-> new UsernameNotFoundException("User not found"));
+    }
+
 }

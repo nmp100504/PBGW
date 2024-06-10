@@ -1,34 +1,42 @@
 package com.example.BuildPC.controller;
 
-import com.example.BuildPC.model.User;
 import com.example.BuildPC.Service.UserService;
+import com.example.BuildPC.model.User;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.Optional;
+
+@Slf4j
 @Controller
+@RequestMapping("/users")
 @RequiredArgsConstructor
 public class UserController {
-
     private final UserService userService;
 
-    @GetMapping("/login")
-    public String getLoginPage() {
-        return "LandingPage/login_page";
+    @GetMapping
+    public String getUsers(Model model){
+        model.addAttribute("users", userService.getAllUsers());
+        return "auth/users";
+    }
+    @GetMapping("/edit/{id}")
+    public String showUpdateForm(@PathVariable("id") Long id, Model model){
+        Optional<User> user = userService.findById(id);
+        model.addAttribute("user", user.get());
+        return "auth/update-user";
     }
 
-    @GetMapping("/registration")
-    public String getRegistrationPage(Model model) {
-        model.addAttribute("user", new User());
-        return "LandingPage/registration_page";
+    @PostMapping("/update/{id}")
+    public String updateUser(@PathVariable("id") Long id, User user){
+        userService.updateUser(id, user.getFirstName(), user.getLastName(), user.getEmail());
+        return "redirect:/users?update_success";
     }
-
-    @PostMapping("/registration")
-    public String registerUser(@ModelAttribute User user) {
-        userService.register(user);
-        return "redirect:/login?success";
+    @GetMapping("/delete/{id}")
+    public String deleteUser(@PathVariable("id") Long id){
+        userService.deleteUser(id);
+        return "redirect:/users?delete_success";
     }
 }

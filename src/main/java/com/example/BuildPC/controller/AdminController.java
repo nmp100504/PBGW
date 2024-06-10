@@ -119,7 +119,7 @@ public class AdminController {
             user.setPassword(userDto.getPassword());
             user.setPhone(userDto.getPhone());
             user.setRole(Role.valueOf(userDto.getRole()));
-            adminService.upadteUser(user);
+            adminService.updateUser(user);
 
         }catch (Exception ex){
             System.out.println("Exception: " + ex.getMessage());
@@ -170,7 +170,7 @@ public class AdminController {
             user.setPhone(userDto.getPhone());
             user.setRole(Role.valueOf(userDto.getRole()));
 
-            adminService.upadteUser(user);
+            adminService.updateUser(user);
 
         }catch (Exception ex){
             System.out.println("Exception: " + ex.getMessage());
@@ -180,7 +180,7 @@ public class AdminController {
     }
 
     @GetMapping("/delete")
-    public  String deleteUser(@RequestParam int id){
+    public  String deleteUser(@RequestParam long id){
         try{
 //            User user = repository.findById(id).get();
 
@@ -193,7 +193,7 @@ public class AdminController {
         return "redirect:/dashBoard";
     }
     @GetMapping("tables/delete")
-    public  String deleteUser1(@RequestParam int id){
+    public  String deleteUser1(@RequestParam long id){
         try{
 //            User user = adminService.findUserById(id);
 

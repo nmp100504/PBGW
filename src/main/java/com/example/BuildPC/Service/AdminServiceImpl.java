@@ -34,12 +34,12 @@ public class AdminServiceImpl implements  AdminService{
     }
 
     @Override
-    public User  findUserById(int id) {
+    public User  findUserById(long id) {
         return adminRepository.findById(id).get();
     }
 
     @Override
-    public void upadteUser(User user) {
+    public void updateUser(User user) {
         UserDto userDto = new UserDto();
         userDto.setFirstName(user.getFirstName());
         userDto.setLastName(user.getLastName());
@@ -51,7 +51,7 @@ public class AdminServiceImpl implements  AdminService{
     }
 
     @Override
-    public void deleteUserById(int id) {
+    public void deleteUserById(long id) {
         adminRepository.deleteById(id);
     }
 }

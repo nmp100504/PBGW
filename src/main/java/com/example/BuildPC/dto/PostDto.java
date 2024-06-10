@@ -16,7 +16,7 @@ public class PostDto {
     private MultipartFile imageFile;
 
     // Add user information
-    private Integer userId; // Assuming user ID is passed from the client
+    private Long userId; // Assuming user ID is passed from the client
 
     // Getters and Setters
 
@@ -44,11 +44,11 @@ public class PostDto {
         this.imageFile = imageFile;
     }
 
-    public Integer getUserId() {
+    public Long getUserId() {
         return userId;
     }
 
-    public void setUserId(Integer userId) {
+    public void setUserId(Long userId) {
         this.userId = userId;
     }
 }

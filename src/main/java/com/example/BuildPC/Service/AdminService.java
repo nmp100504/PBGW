@@ -10,7 +10,7 @@ import java.util.List;
 public interface AdminService {
     List<User> findAll();
     void save(UserDto userDto);
-    User findUserById(int id);
-    void upadteUser(User user);
-    void deleteUserById(int id);
+    User findUserById(long id);
+    void updateUser(User user);
+    void deleteUserById(long id);
 }

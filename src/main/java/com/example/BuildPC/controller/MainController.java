@@ -23,10 +23,6 @@ public class MainController {
 //        return "LandingPage/index_1";
 //    }
 
-    @GetMapping("/403")
-    public String errorPage() {
-        return "LandingPage/error";
-    }
 
     @GetMapping("/homepage")
     public String getHome(Model model) {
@@ -39,14 +35,14 @@ public class MainController {
 
     @Autowired
     ProductService productService;
-    @GetMapping("/")
-    public String showLandingPage(Model model) {
-        List<Category> categoryList = categoryService.findAll();
-        List<Product> productList = productService.findAll();
-        model.addAttribute("categoryList",categoryList);
-        model.addAttribute("productList",productList);
-        return "LandingPage/index_1";
-    }
+//    @GetMapping("/")
+//    public String showLandingPage(Model model) {
+//        List<Category> categoryList = categoryService.findAll();
+//        List<Product> productList = productService.findAll();
+//        model.addAttribute("categoryList",categoryList);
+//        model.addAttribute("productList",productList);
+//        return "LandingPage/index_1";
+//    }
 
     @Autowired private OrderService orderService;
 

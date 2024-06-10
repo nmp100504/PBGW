@@ -19,8 +19,6 @@ public class User {
     @Column(name = "user_id")
     private Long id;
 
-    @Column(name = "username", unique = true)
-    private String username;
     @NaturalId(mutable = true)
     @Column(name = "email", unique = true)
     private String email;
@@ -49,4 +47,15 @@ public class User {
 
     @OneToMany(mappedBy = "user")
     private Set<Order> orders;
+
+    @Column(name ="isEnabled")
+    private boolean isEnabled = false;
+
+    public User( String firstName, String lastName,String email, String password, Role role) {
+        this.email = email;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.password = password;
+        this.role = role;
+    }
 }

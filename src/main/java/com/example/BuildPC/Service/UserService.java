@@ -1,58 +1,19 @@
 package com.example.BuildPC.Service;
 
-import com.example.BuildPC.model.*;
-import com.example.BuildPC.repository.UserRepository;
-import jakarta.annotation.PostConstruct;
-import lombok.AllArgsConstructor;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Service;
+import com.example.BuildPC.dto.RegistrationRequest;
+import com.example.BuildPC.model.User;
 
-import java.util.HashSet;
+import java.util.List;
+import java.util.Optional;
 
-@Service
-@AllArgsConstructor
-public class UserService {
+public interface UserService {
+    List<User> getAllUsers();
+    User registerUser(RegistrationRequest registrationRequest);
+    Optional<User> findByEmail(String email);
 
-    private final UserRepository userRepository;
-    private final PasswordEncoder passwordEncoder;
+    Optional<User> findById(Long id);
 
-    @PostConstruct
-    public void postConstruct() {
-        if (userRepository.findByUsername("admin") == null) {
-            User adminUser = new User();
-            adminUser.setRole(Role.ADMIN);
-            adminUser.setUsername("admin");
-            adminUser.setPassword(passwordEncoder.encode("abc"));
-            userRepository.save(adminUser);
-        }
-//
-//        if (userRepository.findByUsername("manager") == null) {
-//            User managerUser = new User();
-//            managerUser.setRole(Role.MANAGER);
-//            managerUser.setUsername("manager");
-//            managerUser.setPassword(passwordEncoder.encode("abc"));
-//            userRepository.save(managerUser);
-//        }
-    }
+    void updateUser(Long id, String firstName, String lastName, String email);
 
-    public void register(User user) {
-        if (userRepository.findByUsername(user.getUsername()) == null) {
-
-
-            User newUser = new User();
-            newUser.setUsername(user.getUsername());
-            newUser.setPassword(passwordEncoder.encode(user.getPassword()));
-            newUser.setEmail(user.getEmail());
-            newUser.setRole(Role.CUSTOMER);
-            newUser.setPosts(new HashSet<>());
-            newUser.setComments(new HashSet<>());
-            newUser.setOrders(new HashSet<>());
-
-            userRepository.save(newUser);
-        }
-    }
-
-    public User findByUsername(String username) {
-        return userRepository.findByUsername(username);
-    }
+    void deleteUser(Long id);
 }
