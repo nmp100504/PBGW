@@ -30,6 +30,18 @@ public class ProductController {
     private ProductService productService;
     @Autowired CategoryService categoryService;
 
+    @GetMapping("/product/{id}")
+    public String showProductDetails(@PathVariable("id") int id, Model model) {
+        Product byId = productService.findById(id);
+        List<Category> categoryList = categoryService.findAll();
+if(byId ==null ){
+    System.out.println("No product found");
+}
+        model.addAttribute("product", byId);
+        model.addAttribute("categoryList", categoryList);
+        return "LandingPage/shop_details";
+    }
+
     @GetMapping("/category/{id}")
     public String showCategory(@PathVariable("id") int id, Model model) {
         List<Product> listByCategory = productService.listByCategory(id);

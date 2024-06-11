@@ -24,9 +24,9 @@ public class ProductServiceImpl implements ProductService{
     public void create(ProductDto productDto) {
     }
 
-    @Override
+
     public Product findById(int id) {
-        return null;
+        return productRepository.getReferenceById(id);
     }
 
     @Override

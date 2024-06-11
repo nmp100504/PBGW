@@ -656,44 +656,31 @@
 
   // quantity - start
   // --------------------------------------------------
-  (function() {
-    window.inputNumber = function(el) {
-      var min = el.attr("min") || false;
-      var max = el.attr("max") || false;
-
-      var els = {};
-
-      els.dec = el.prev();
-      els.inc = el.next();
-
-      el.each(function() {
-        init($(this));
-      });
-
-      function init(el) {
-        els.dec.on("click", decrement);
-        els.inc.on("click", increment);
-
-        function decrement() {
-          var value = el[0].value;
-          value--;
-          if (!min || value >= min) {
-            el[0].value = value;
-          }
-        }
-
-        function increment() {
-          var value = el[0].value;
-          value++;
-          if (!max || value <= max) {
-            el[0].value = value++;
-          }
-        }
+  $(document).ready(function(){
+    // Function to update quantity
+    function updateQuantity(pid, change) {
+      var quantityInput = $("#quantity" + pid);
+      var currentValue = parseInt(quantityInput.val());
+      var newValue = currentValue + change;
+      if (newValue >= 1) {  // Assuming you don't want quantities less than 1
+        quantityInput.val(newValue);
       }
-    };
-  })();
-  inputNumber($(".input_number"));
-  inputNumber($(".input_number_2"));
+    }
+
+    // Delegate event handler for decrement button
+    $(document).on("click", ".input_number_decrement", function () {
+      var pid = $(this).data("pid");
+      updateQuantity(pid, -1);
+    });
+
+    // Delegate event handler for increment button
+    $(document).on("click", ".input_number_increment", function () {
+      var pid = $(this).data("pid");
+      updateQuantity(pid, 1);
+    });
+  });
+
+  // inputNumber($(".input_number_2"));
   // quantity - end
   // --------------------------------------------------
 
