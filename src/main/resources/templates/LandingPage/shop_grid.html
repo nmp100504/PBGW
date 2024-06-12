@@ -339,8 +339,8 @@
                     <div class="row">
                       <div class="col col-lg-6">
                         <div class="product_details_image p-0">
-                          <div th:each="image : ${product.getProductImages()}">
-                            <img th:src="@{'/images/Product/' + ${image.getImageFileName()}}" alt="Getyootech - Gadgets Ecommerce Site Template">
+                          <div th:each="image, iterStat : ${product.getProductImages()}" th:if="${iterStat.index == 0}">
+                            <img th:src="@{'/images/Product/' + ${image.getImageFileName()}}" alt="Product Image">
                           </div>
                         </div>
                       </div>
@@ -460,8 +460,8 @@
 <!--                        </div>-->
 
                         <div class="item_image">
-                          <div th:each="image : ${product.getProductImages()}">
-                            <img th:src="@{'/images/Product/' + ${image.getImageFileName()}}" alt="Getyootech - Gadgets Ecommerce Site Template">
+                          <div th:each="image, iterStat : ${product.getProductImages()}" th:if="${iterStat.index == 0}">
+                            <img th:src="@{'/images/Product/' + ${image.getImageFileName()}}" alt="Product Image">
                           </div>
                           <!-- Associate "Quick View" button with corresponding modal ID -->
                           <a class="quickview_btn" data-bs-toggle="modal" th:href="'#quickview_popup_' + ${status.index}" role="button">Quick View</a>
@@ -469,7 +469,7 @@
 
                         <div class="item_content">
                           <h3 class="item_title">
-                            <a href="shop_details.html" th:text="${product.getProductName()}"></a>
+                            <a th:href="@{'/product/' + ${product.getId()}}" th:text="${product.getProductName()}"></a>
                           </h3>
                           <div class="item_price layout1">
                             <div class="original_price">
@@ -509,14 +509,14 @@
 <!--                            <span>SALE</span>-->
 <!--                          </div>-->
                           <a class="image_wrap" href="shop_details.html">
-                            <div th:each="image : ${product.getProductImages()}">
-                              <img th:src="@{'/images/Product/' + ${image.getImageFileName()}}" alt="Getyootech - Gadgets Ecommerce Site Template">
+                            <div th:each="image, iterStat : ${product.getProductImages()}" th:if="${iterStat.index == 0}">
+                              <img th:src="@{'/images/Product/' + ${image.getImageFileName()}}" alt="Product Image">
                             </div>
                           </a>
                         </div>
                         <div class="item_content">
                           <h3 class="item_title">
-                            <a href="shop_details.html" th:text="${product.getProductName()}"></a>
+                            <a th:href="@{'/product/' + ${product.getId()}}" th:text="${product.getProductName()}"></a>
                           </h3>
                           <p th:text="${product.getProductDesc()}">
 

@@ -450,7 +450,7 @@
         <div class="breadcrumb_section">
           <div class="container">
             <ul class="breadcrumb_nav ul_li">
-              <li><a href="index.html">Home</a></li>
+              <li><a th:href="@{/}">Home</a></li>
               <li th:text="${product.getProductName()}"></li>
             </ul>
           </div>
@@ -466,11 +466,21 @@
             <div class="row">
               <div class="col col-lg-6">
                 <div class="product_details_image">
-                  <div class="details_image_carousel" th:each="image : ${product.getProductImages()}">
-                    <div class="slider_item">
-                      <img th:src="@{'/images/Product/' + ${image.getImageFileName()}}" alt="Getyootech - Gadgets Ecommerce Site Template">
-                    </div>
+                  <div class="details_image_carousel" >
+                    <th:block th:each="image : ${product.getProductImages()}">
+                      <div class="slider_item">
+                        <img th:src="@{'/images/Product/' + ${image.getImageFileName()}}" alt="Getyootech - Gadgets Ecommerce Site Template">
+                      </div>
+                    </th:block>
+
+
                   </div>
+                  <div class="details_image_carousel_nav">
+                    <th:block th:each="image : ${product.getProductImages()}">
+                      <div class="slider_item">
+                        <img th:src="@{'/images/Product/' + ${image.getImageFileName()}}" alt="Getyootech - Gadgets Ecommerce Site Template">
+                      </div>
+                    </th:block>
                   </div>
                 </div>
               </div>
@@ -538,11 +548,11 @@
                   <div class="quantity_wrap">
                     <form action="#">
                       <div class="quantity_input">
-                        <button type="button" class="input_number_decrement" th:pid="${product.getId()}">
+                        <button type="button" class="input_number_decrement" th:data-pid="${product.id}">
                           <i class="fal fa-minus"></i>
                         </button>
-                        <input class="input_number" type="number" th:value="${1}" onkeydown="return false;" th:id="'quantity' + ${product.getId()}">
-                        <button type="button" class="input_number_increment" th:pid="${product.getId()}">
+                        <input class="input_number" type="number" th:value="1" onkeydown="return false;" th:id="'quantity' + ${product.id}" th:data-pid="${product.id}">
+                        <button type="button" class="input_number_increment" th:data-pid="${product.id}">
                           <i class="fal fa-plus"></i>
                         </button>
                       </div>
