@@ -1,8 +1,8 @@
 package com.example.BuildPC.controller;
 
-import com.example.BuildPC.Service.AdminService;
-import com.example.BuildPC.Service.ShoppingCartService;
-import com.example.BuildPC.models.User;
+import com.example.BuildPC.service.AdminService;
+import com.example.BuildPC.service.ShoppingCartService;
+import com.example.BuildPC.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;

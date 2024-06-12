@@ -1,10 +1,8 @@
-package com.example.BuildPC.Service;
+package com.example.BuildPC.service;
 
 
 import com.example.BuildPC.dtos.CategoryDto;
-import com.example.BuildPC.dtos.UserDto;
-import com.example.BuildPC.models.Category;
-import com.example.BuildPC.models.User;
+import com.example.BuildPC.model.Category;
 
 import java.util.List;
 

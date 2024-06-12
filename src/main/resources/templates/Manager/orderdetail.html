@@ -171,7 +171,7 @@
                                         <label for="orderStatus" class="col-sm-4 col-form-label h6">Status</label>
                                         <div class="col-sm-8">
                                             <select class="form-select form-control" id="orderStatus" th:field="*{status}">
-                                                <option th:each="status : ${T(com.example.BuildPC.models.Status).values()}"
+                                                <option th:each="status : ${T(com.example.BuildPC.model.Status).values()}"
                                                         th:value="${status}" th:text="${status}"></option>
                                             </select>
                                         </div>

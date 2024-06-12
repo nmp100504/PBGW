@@ -1,8 +1,8 @@
-package com.example.BuildPC.Service;
+package com.example.BuildPC.service;
 
-import com.example.BuildPC.models.CartItem;
-import com.example.BuildPC.models.Product;
-import com.example.BuildPC.models.User;
+import com.example.BuildPC.model.CartItem;
+import com.example.BuildPC.model.Product;
+import com.example.BuildPC.model.User;
 import com.example.BuildPC.repository.CartItemRepository;
 import com.example.BuildPC.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;

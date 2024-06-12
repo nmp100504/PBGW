@@ -1,9 +1,9 @@
 package com.example.BuildPC.controller;
 
-import com.example.BuildPC.models.CartItem;
-import com.example.BuildPC.Service.AdminService;
-import com.example.BuildPC.Service.ShoppingCartService;
-import com.example.BuildPC.models.User;
+import com.example.BuildPC.model.CartItem;
+import com.example.BuildPC.service.AdminService;
+import com.example.BuildPC.service.ShoppingCartService;
+import com.example.BuildPC.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

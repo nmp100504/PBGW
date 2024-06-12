@@ -1,8 +1,8 @@
 package com.example.BuildPC;
 
-import com.example.BuildPC.models.CartItem;
-import com.example.BuildPC.models.Product;
-import com.example.BuildPC.models.User;
+import com.example.BuildPC.model.CartItem;
+import com.example.BuildPC.model.Product;
+import com.example.BuildPC.model.User;
 import com.example.BuildPC.repository.CartItemRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;

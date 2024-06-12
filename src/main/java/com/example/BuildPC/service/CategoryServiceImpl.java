@@ -1,15 +1,13 @@
-package com.example.BuildPC.Service;
+package com.example.BuildPC.service;
 
 
 import com.example.BuildPC.dtos.CategoryDto;
-import com.example.BuildPC.models.Category;
-import com.example.BuildPC.models.User;
+import com.example.BuildPC.model.Category;
 import com.example.BuildPC.repository.CategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;

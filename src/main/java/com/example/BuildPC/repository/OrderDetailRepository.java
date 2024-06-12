@@ -1,7 +1,7 @@
 package com.example.BuildPC.repository;
 
-import com.example.BuildPC.models.Order;
-import com.example.BuildPC.models.OrderDetail;
+import com.example.BuildPC.model.Order;
+import com.example.BuildPC.model.OrderDetail;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

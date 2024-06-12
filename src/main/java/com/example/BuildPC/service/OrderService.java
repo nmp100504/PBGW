@@ -1,19 +1,15 @@
-package com.example.BuildPC.Service;
+package com.example.BuildPC.service;
 
 import com.example.BuildPC.dtos.OrderDTO;
-import com.example.BuildPC.models.Order;
-import com.example.BuildPC.models.OrderDetail;
+import com.example.BuildPC.model.Order;
+import com.example.BuildPC.model.OrderDetail;
 import com.example.BuildPC.repository.OrderDetailRepository;
 import com.example.BuildPC.repository.OrderRepository;
-import com.example.BuildPC.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Supplier;
-
-import static org.springframework.data.jpa.domain.AbstractPersistable_.id;
 
 @Service
 public class OrderService {

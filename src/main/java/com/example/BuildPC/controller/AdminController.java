@@ -1,11 +1,10 @@
 package com.example.BuildPC.controller;
 
 
-import com.example.BuildPC.Service.AdminService;
+import com.example.BuildPC.service.AdminService;
 import com.example.BuildPC.dtos.UserDto;
-import com.example.BuildPC.models.Role;
-import com.example.BuildPC.models.User;
-import com.example.BuildPC.repository.AdminRepository;
+import com.example.BuildPC.model.Role;
+import com.example.BuildPC.model.User;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
