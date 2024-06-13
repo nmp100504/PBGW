@@ -1,6 +1,6 @@
 package com.example.BuildPC.configuration;
 
-import com.example.BuildPC.Service.CustomUserDetailsService;
+import com.example.BuildPC.service.CustomUserDetailsService;
 import com.example.BuildPC.model.Role;
 import com.example.BuildPC.model.User;
 import com.example.BuildPC.repository.UserRepository;
@@ -42,21 +42,21 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/", "/login", "/error", "/registration/**").permitAll()
-                        .requestMatchers("/users/**").hasRole("ADMIN")
-                        .requestMatchers("/dashBoard/**").hasRole("MANAGER")
+                        .requestMatchers("/", "/login", "/error", "/registration/**","/homepage").permitAll()
+                        .requestMatchers("/dashBoard/**").hasRole("ADMIN")
+                        .requestMatchers("/ManagerDashBoard/**").hasRole("MANAGER")
                         .requestMatchers(staticResources()).permitAll()
                         .anyRequest().authenticated())
                 .formLogin(form -> form
                         .loginPage("/login")
                         .usernameParameter("email")
-                        .defaultSuccessUrl("/", true)
+                        .defaultSuccessUrl("/homepage", true)
                         .permitAll())
                 .logout(logout -> logout
                         .invalidateHttpSession(true)
                         .clearAuthentication(true)
                         .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-                        .logoutSuccessUrl("/")
+                        .logoutSuccessUrl("/homepage")
                         .permitAll())
 //                .exceptionHandling(exception -> exception
 //                        .accessDeniedPage("/error/403"))

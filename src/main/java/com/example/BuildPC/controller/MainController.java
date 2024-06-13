@@ -30,7 +30,7 @@ public class MainController {
         List<Product> productList = productService.findAll();
         model.addAttribute("categoryList",categoryList);
         model.addAttribute("productList",productList);
-        return "LandingPage/auth_index";
+        return "LandingPage/index_1";
     }
 
     @Autowired

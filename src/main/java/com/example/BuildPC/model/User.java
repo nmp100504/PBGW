@@ -14,7 +14,6 @@ import java.util.Set;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity
 @Table(name = "User")
 public class User  {
     @Id
@@ -54,12 +53,11 @@ public class User  {
     @Column(name ="isEnabled")
     private boolean isEnabled = false;
 
-    public User(String email, String firstName, String lastName, String password, String phone, Role role) {
+    public User(String email, String firstName, String lastName, String password, Role role) {
         this.email = email;
         this.firstName = firstName;
         this.lastName = lastName;
         this.password = password;
-        this.phone = phone;
         this.role = role;
     }
 }
