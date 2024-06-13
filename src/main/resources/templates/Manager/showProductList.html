@@ -152,6 +152,8 @@
                   <th>Units In Order</th>
                   <th>Category Name</th>
                   <th>Brand Name</th>
+                  <th>Images</th>
+                  <th>Status</th>
                   <th>Action</th>
                 </tr>
                 </thead>
@@ -165,26 +167,46 @@
                   <th>Units In Order</th>
                   <th>Category Name</th>
                   <th>Brand Name</th>
+                  <th>Images</th>
+                  <th>Status</th>
                   <th>Action</th>
                 </tr>
                 </tfoot>
                 <tbody>
-                <tr th:each="products : ${products}">
-                  <td th:text="${products.productName}"></td>
-                  <td th:text="${products.productOriginalPrice}"></td>
-                  <td th:text="${products.productSalePrice}"></td>
-                  <td th:text="${products.productDesc}"></td>
-                  <td th:text="${products.unitsInStock}"></td>
-                  <td th:text="${products.unitsInOrder}"></td>
-                  <td th:text="${products.category.categoryName}"></td>
-                  <td th:text="${products.brand.brandName}"></td>
+                <tr th:each="product : ${products}">
+                  <td th:text="${product.productName}"></td>
+                  <td th:text="${product.productOriginalPrice}"></td>
+                  <td th:text="${product.productSalePrice}"></td>
+                  <td th:text="${product.productDesc}"></td>
+                  <td th:text="${product.unitsInStock}"></td>
+                  <td th:text="${product.unitsInOrder}"></td>
+                  <td th:text="${product.category.categoryName}"></td>
+                  <td th:text="${product.brand.brandName}"></td>
+
+                  <td>
+                    <div th:if="${not #lists.isEmpty(product.productImages)}">
+                      <img th:src="@{'/images/Product/' + ${product.productImages[0].imageFileName}}" alt="Product Image" style="width: 50px; height: 50px;"/>
+                    </div>
+                  </td>
+<!--                  <td>-->
+<!--                    <div th:each="image : ${product.productImages}">-->
+<!--                      <img th:src="@{'/images/Product/' + ${image.imageFileName}}" alt="Product Image" style="width: 50px; height: 50px;"/>-->
+<!--                    </div>-->
+<!--                  </td>-->
+
+                  <td class="text-center" th:if="${product.productStatus}">
+                    <div class="badge badge-success">Active</div>
+                  </td>
+                  <td class="text-center" th:if="${!product.productStatus}">
+                    <div class="badge badge-danger"> Inactive </div>
+                  </td>
                   <td style="white-space:nowrap">
                     <a class="btn btn-primary btn-sm"
-                       th:href="@{/ManagerDashBoard/productList/edit(id=${products.id})}">
+                       th:href="@{/ManagerDashBoard/productList/edit(id=${product.id})}">
                       Edit
                     </a>
                     <a class="btn btn-danger btn-sm"
-                       th:href="@{/ManagerDashBoard/productList/delete(id=${products.id})}"
+                       th:href="@{/ManagerDashBoard/productList/delete(id=${product.id})}"
                        onclick="return confirm('Are you sure?')" >
                       Delete
                     </a>

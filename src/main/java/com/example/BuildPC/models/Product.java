@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
 import java.util.Set;
 
 @Data
@@ -41,12 +42,14 @@ public class Product {
     @Column(name = "units_in_order")
     private Integer unitsInOrder;
 
+    @Column(name = "product_status")
+    private Boolean productStatus;
 
     @OneToMany(mappedBy = "product")
     private Set<Comment> comments;
 
     @OneToMany(mappedBy = "product")
-    private Set<ProductImage> productImages;
+    private List<ProductImage> productImages;
 
 
     @ManyToOne()

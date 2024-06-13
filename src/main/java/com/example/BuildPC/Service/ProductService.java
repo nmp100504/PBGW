@@ -18,9 +18,6 @@ public interface ProductService {
     Product findProductById(int id);
     void updateProdcut(Product product);
     void deleteProduct(int id);
-
-
-
-
-
+    boolean existsByProductName(String productName);
+//    List<Product> findByProductStatus();
 }

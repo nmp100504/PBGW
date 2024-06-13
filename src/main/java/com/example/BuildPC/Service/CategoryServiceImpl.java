@@ -73,4 +73,9 @@ public class CategoryServiceImpl implements CategoryService{
     public void deleteCategoryById(int id) {
             categoryRepository.deleteById(id);
     }
+
+    @Override
+    public List<Category> findCategoryByStatus() {
+        return categoryRepository.findByCategoryStatus(true);
+    }
 }

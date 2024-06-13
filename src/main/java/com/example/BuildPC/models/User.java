@@ -36,6 +36,9 @@ public class User  {
     @Column(name ="phone")
     private String phone;
 
+    @Column(name = "user_status")
+    private boolean userStatus;
+
     @Column(name ="role")
     @Enumerated(EnumType.STRING)
     private Role role;

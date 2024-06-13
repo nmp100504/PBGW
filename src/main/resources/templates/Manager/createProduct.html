@@ -66,7 +66,8 @@
                     <label class="col-sm-4 col-form-label">Category</label>
                     <div class="col-sm-8">
                         <select class="form-select form-control" th:field="${productDto.categoryId}">
-                            <option th:each="category : ${categories}" th:value="${category.id}" th:text="${category.categoryName}"></option>
+                            <option th:each="category : ${categories}" th:value="${category.id}" th:text="${category.categoryName}"
+                                    th:selected="${category.id == productDto.categoryId}"></option>
                         </select>
                         <p th:if="${#fields.hasErrors('categoryId')}" th:errorclass="text-danger"
                            th:errors="${productDto.categoryId}"></p>
@@ -76,19 +77,44 @@
                     <label class="col-sm-4 col-form-label">Brand</label>
                     <div class="col-sm-8">
                         <select class="form-select form-control" th:field="${productDto.brandId}">
-                            <option th:each="brand : ${brands}" th:value="${brand.id}" th:text="${brand.brandName}"></option>
+                            <option th:each="brand : ${brands}" th:value="${brand.id}" th:text="${brand.brandName}"
+                                    th:selected="${brand.id == productDto.brandId}"></option>
                         </select>
                         <p th:if="${#fields.hasErrors('brandId')}" th:errorclass="text-danger"
                            th:errors="${productDto.brandId}"></p>
                     </div>
                 </div>
-
+                <div class="row mb-3">
+                    <label class="col-sm-4 col-form-label">Product Images</label>
+                    <div class="col-sm-8">
+                        <input type="file" class="form-control" th:field="${productDto.productImages}" multiple>
+                        <p th:if="${#fields.hasErrors('productImages')}" th:errorclass="text-danger"
+                           th:errors="${productDto.productImages}"></p>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <label class="col-sm-4 col-form-label">Status</label>
+                    <div class="col-sm-8" >
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input"  type="radio" th:field="${productDto.productStatus}" value="1"/>
+                            <label  class="form-check-label"> Active</label>
+                            <p th:if="${#fields.hasErrors('productStatus')}" th:errorclass="text-danger"
+                               th:errors="${productDto.productStatus}"></p>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input"  type="radio" th:field="${productDto.productStatus}" value="0">
+                            <label class="form-check-label"> Inactive</label>
+                            <p th:if="${#fields.hasErrors('productStatus')}" th:errorclass="text-danger"
+                               th:errors="${productDto.productStatus}"></p>
+                        </div>
+                    </div>
+                </div>
                 <div class="row">
                     <div class="offset-sm-4 col-sm-4 d-grid">
                         <button type="submit" class="btn btn-primary">Submit</button>
                     </div>
                     <div class="col-sm-4 d-grid">
-                        <a class="btn btn-outline-primary" href="/dashBoard" role="button">Cancel</a>
+                        <a class="btn btn-outline-primary" href="/ManagerDashBoard/productList" role="button">Cancel</a>
                     </div>
                 </div>
             </form>

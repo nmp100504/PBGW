@@ -87,16 +87,48 @@
                            th:errors="${productDto.brandId}"></p>
                     </div>
                 </div>
+                <div class="row mb-3">
+                    <label class="col-sm-4 col-form-label">Product Images</label>
+                    <div class="col-sm-8">
+                        <input type="file" class="form-control" th:field="*{productImages}" multiple>
+                        <p th:if="${#fields.hasErrors('productImages')}" th:errorclass="text-danger" th:errors="*{productImages}"></p>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <label class="col-sm-4 col-form-label ">Status</label>
+                    <div class="col-sm-8">
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" th:field="${productDto.productStatus}" value="1"/>
+                            <label class="form-check-label">Active</label>
+                            <p th:if="${#fields.hasErrors('productStatus')}" th:errorclass="text-danger"
+                                th:errors="${productDto.productStatus}"></p>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" th:field="${productDto.productStatus}" value="0"/>
+                            <label class="form-check-label">Inactive</label>
+                            <p th:if="${#fields.hasErrors('productStatus')}" th:errorclass="text-danger"
+                               th:errors="${productDto.productStatus}"></p>
+                        </div>
+                    </div>
 
+                </div>
                 <div class="row">
                     <div class="offset-sm-4 col-sm-4 d-grid">
                         <button type="submit" class="btn btn-primary">Submit</button>
                     </div>
                     <div class="col-sm-4 d-grid">
-                        <a class="btn btn-outline-primary" href="/ManagerDashBoard/categoryList" role="button">Cancel</a>
+                        <a class="btn btn-outline-primary" href="/ManagerDashBoard/productList" role="button">Cancel</a>
                     </div>
                 </div>
             </form>
+            <h2 class="mt-5">Current Images</h2>
+            <div class="row">
+                <div class="col-sm-12">
+                    <div th:each="image : ${product.productImages}" style="display: inline-block">
+                        <img th:src="@{'/images/Product/' + ${image.imageFileName}}" alt="Product Image" class="img-thumbnail" style="width: 100px; height: 100px;" />
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>

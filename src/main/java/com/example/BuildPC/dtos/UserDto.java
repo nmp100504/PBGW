@@ -24,6 +24,8 @@ public class UserDto {
     private String password;
     @Size(max = 10, message = "The description cannot exceed 10 characters")
     private String phone;
+
+    private boolean userStatus;
     @NotEmpty(message = "The role is required")
     private String role;
 }
