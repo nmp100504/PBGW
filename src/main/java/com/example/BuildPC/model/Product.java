@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
@@ -20,7 +21,7 @@ public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "product_id")
-    private int id;
+    private Integer id;
 
     @Column(name = "product_name")
     private String productName;
@@ -43,23 +44,23 @@ public class Product {
     @Column(name = "units_in_order")
     private Integer unitsInOrder;
 
+    @Column(name = "product_status")
+    private boolean productStatus;
 
     @OneToMany(mappedBy = "product")
     private Set<Comment> comments;
 
-    @OneToMany(mappedBy = "product",targetEntity = ProductImage.class,
-    cascade = CascadeType.ALL,
-    fetch = FetchType.EAGER)
-    private Set<ProductImage> productImages;
+    @OneToMany(mappedBy = "product")
+    private List<ProductImage> productImages;
+
+
+    @ManyToOne()
+    @JoinColumn(name = "category_id",nullable = false)
+    private Category category;
 
     @ManyToOne()
     @JoinColumn(name = "brand_id", nullable = false)
     private Brand brand;
-
-    @ManyToOne()
-    @JoinColumn(name = "category_id" , nullable = false)
-    private Category category;
-
     @Override
     public int hashCode() {
         return Objects.hash(id);

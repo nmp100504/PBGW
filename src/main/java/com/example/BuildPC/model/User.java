@@ -1,4 +1,4 @@
-package com.example.BuildPC.model;
+package com.example.BuildPC.models;
 
 
 import jakarta.persistence.*;
@@ -8,12 +8,14 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.NaturalId;
 
+import java.util.Collection;
+import java.util.List;
 import java.util.Set;
 
-@Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Entity
 @Table(name = "User")
 public class User  {
     @Id
@@ -58,6 +60,45 @@ public class User  {
         this.firstName = firstName;
         this.lastName = lastName;
         this.password = password;
+        this.phone = phone;
         this.role = role;
     }
+
+//    @Override
+//    public Collection<? extends GrantedAuthority> getAuthorities() {
+//        return List.of(new SimpleGrantedAuthority(role.name()));
+//    }
+//
+////    @Override
+////    public String getPassword() {
+////        return "";
+////    }
+//
+//    @Override
+//    public String getUsername() {
+//        return "";
+//    }
+//
+//    @Override
+//    public boolean isAccountNonExpired() {
+//        return false;
+//    }
+//
+//    @Override
+//    public boolean isAccountNonLocked() {
+//        return false;
+//    }
+//
+//    @Override
+//    public boolean isCredentialsNonExpired() {
+//        return false;
+//    }
+//
+//    @Override
+//    public boolean isEnabled() {
+//        return false;
+//    }
+
+
+
 }

@@ -1,4 +1,4 @@
-package com.example.BuildPC.dto;
+package com.example.BuildPC.dtos;
 
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
@@ -13,7 +13,7 @@ public class UserDto {
 
     @NotEmpty(message = "The email is required")
     private String email;
-    @NotEmpty(message = "The firstName is required")
+    @NotEmpty(message = "The fistName is required")
     private String firstName;
     @NotEmpty(message = "The lastName is required")
     private String lastName;

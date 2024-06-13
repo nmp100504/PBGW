@@ -50,7 +50,9 @@ public class CategoryServiceImpl implements CategoryService{
         Category category = new Category();
         category.setCategoryName(categoryDto.getCategoryName());
         category.setCategorySlug(categoryDto.getCategorySlug());
+        category.setCategoryDesc(categoryDto.getCategoryDesc());
         category.setCategoryImage(storeFileName);
+        category.setCategoryStatus(categoryDto.isCategoryStatus());
 
         categoryRepository.save(category);
     }
@@ -62,17 +64,16 @@ public class CategoryServiceImpl implements CategoryService{
 
     @Override
     public void upadteCategory(Category category) {
-        CategoryDto categoryDto =   new CategoryDto();
-        categoryDto.setCategoryName(category.getCategoryName());
-        categoryDto.setCategorySlug(category.getCategorySlug());
-        categoryDto.setCategoryDesc(category.getCategoryDesc());
-        //categoryDto.setCategoryImage(category.getCategoryImage());
-
         categoryRepository.save(category);
     }
 
     @Override
     public void deleteCategoryById(int id) {
             categoryRepository.deleteById(id);
+    }
+
+    @Override
+    public List<Category> findCategoryByStatus() {
+        return categoryRepository.findByCategoryStatus(true);
     }
 }

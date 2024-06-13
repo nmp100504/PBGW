@@ -16,7 +16,10 @@ public class CategoryDto {
 
     private String categorySlug;
 
+    @NotEmpty(message = "The Category Description is required")
     private String categoryDesc;
+
+    private boolean categoryStatus;
 
     private MultipartFile categoryImage;
 

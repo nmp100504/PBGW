@@ -12,4 +12,5 @@ public interface CategoryService {
     Category findCategoryById(int id);
     void upadteCategory(Category category);
     void deleteCategoryById(int id);
+    List<Category> findCategoryByStatus();
 }

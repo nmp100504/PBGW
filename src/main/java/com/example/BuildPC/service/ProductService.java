@@ -2,7 +2,13 @@ package com.example.BuildPC.service;
 
 import com.example.BuildPC.dto.ProductDto;
 import com.example.BuildPC.model.Product;
-import org.springframework.stereotype.Service;
+import com.example.BuildPC.dto.CategoryDto;
+import com.example.BuildPC.dto.ProductDto;
+import com.example.BuildPC.model.Category;
+import com.example.BuildPC.model.Product;
+import com.example.BuildPC.repository.ProductRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.service;
 
 import java.util.List;
 
@@ -15,4 +21,9 @@ public interface ProductService {
     Boolean delete(int id);
     List<Product> listByCategory(int id);
     Product findById(int id);
+    Product findProductById(int id);
+    void updateProdcut(Product product);
+    void deleteProduct(int id);
+    boolean existsByProductName(String productName);
+//    List<Product> findByProductStatus();
 }
