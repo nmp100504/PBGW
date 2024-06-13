@@ -1,6 +1,6 @@
-package com.example.BuildPC.Service;
+package com.example.BuildPC.service;
 
-import com.example.BuildPC.models.Brand;
+import com.example.BuildPC.model.Brand;
 import com.example.BuildPC.repository.BrandRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

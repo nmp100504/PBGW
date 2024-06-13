@@ -1,9 +1,9 @@
-package com.example.BuildPC.Service;
+package com.example.BuildPC.service;
 
 import com.example.BuildPC.dtos.BrandDto;
-import com.example.BuildPC.dtos.ProductDto;
-import com.example.BuildPC.models.Brand;
-import com.example.BuildPC.models.Product;
+import com.example.BuildPC.dto.ProductDto;
+import com.example.BuildPC.model.Brand;
+import com.example.BuildPC.model.Product;
 
 import java.util.List;
 

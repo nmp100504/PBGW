@@ -28,6 +28,7 @@ public class CategoryController {
     @Autowired
     private CategoryService categoryService;
 
+    @GetMapping("/categoryList")
     public String showCategoryList(Model model) {
         List<Category> categories = categoryService.findAll();
         model.addAttribute("categories", categories);
@@ -43,6 +44,7 @@ public class CategoryController {
 
     @PostMapping("/categoryList/create")
     public String createCategory(@Valid @ModelAttribute("categoryDto") CategoryDto categoryDto, BindingResult result) {
+        System.out.println("test");
         if(categoryDto.getCategoryImage().isEmpty()){
             result.addError(new FieldError("categoryDto", "categoryImage", "Please select a file"));
         }
@@ -105,12 +107,12 @@ public class CategoryController {
                 category.setCategoryName(categoryDto.getCategoryName());
                 category.setCategoryDesc(categoryDto.getCategoryDesc());
                 category.setCategoryStatus(categoryDto.isCategoryStatus());
-                categoryService.upadteCategory(category);
+                categoryService.updateCategory(category);
             }else{
                 category.setCategoryName(categoryDto.getCategoryName());
                 category.setCategoryDesc(categoryDto.getCategoryDesc());
                 category.setCategoryStatus(categoryDto.isCategoryStatus());
-                categoryService.upadteCategory(category);
+                categoryService.updateCategory(category);
             }
         }catch (Exception e){
             System.out.println("Exception: " + e.getMessage());

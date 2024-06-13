@@ -1,6 +1,7 @@
-package com.example.BuildPC.models;
+package com.example.BuildPC.model;
 
 
+import com.example.BuildPC.model.Role;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;

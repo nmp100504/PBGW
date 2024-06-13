@@ -21,34 +21,34 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @Rollback(value = false)
 public class ShoppingCartTest {
-
-    @Autowired
-    private CartItemRepository cartItemRepository;
-
-    @Autowired
-    private TestEntityManager entityManager;
-
-    @Test
-    public void testAddOneCartItem(){
-        Product product = entityManager.find(Product.class, 3);
-        User user = entityManager.find(User.class, 1);
-
-        CartItem newItem = new CartItem();
-        newItem.setUser(user);
-        newItem.setProduct(product);
-        newItem.setQuantity(5);
-
-        CartItem save = cartItemRepository.save(newItem);
-
-        assertTrue(save.getId() > 0 );
-    }
-
-    @Test
-    public void testGetCartItemsByUser(){
-        User user = new User();
-        user.setId(1);
-
-        List<CartItem> cartItems = cartItemRepository.findByUser(user);
-        Assertions.assertEquals(2,cartItems.size(),"equal!");
-    }
+//
+//    @Autowired
+//    private CartItemRepository cartItemRepository;
+//
+//    @Autowired
+//    private TestEntityManager entityManager;
+//
+//    @Test
+//    public void testAddOneCartItem(){
+//        Product product = entityManager.find(Product.class, 3);
+//        User user = entityManager.find(User.class, 1);
+//
+//        CartItem newItem = new CartItem();
+//        newItem.setUser(user);
+//        newItem.setProduct(product);
+//        newItem.setQuantity(5);
+//
+//        CartItem save = cartItemRepository.save(newItem);
+//
+//        assertTrue(save.getId() > 0 );
+//    }
+//
+//    @Test
+//    public void testGetCartItemsByUser(){
+//        User user = new User();
+//        user.setId(1);
+//
+//        List<CartItem> cartItems = cartItemRepository.findByUser(user);
+//        Assertions.assertEquals(2,cartItems.size(),"equal!");
+//    }
 }

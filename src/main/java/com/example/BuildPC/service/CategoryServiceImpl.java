@@ -16,7 +16,7 @@ import java.nio.file.StandardCopyOption;
 import java.util.List;
 
 @Service
-public class CategoryServiceImpl implements CategoryService{
+public class CategoryServiceImpl implements CategoryService {
 
     @Autowired
     private CategoryRepository categoryRepository;
@@ -35,10 +35,10 @@ public class CategoryServiceImpl implements CategoryService{
         try {
             String uploadDir = "public/images/Category/";
             Path uploadPath = Paths.get(uploadDir);
-            if(!Files.exists(uploadPath)){
+            if (!Files.exists(uploadPath)) {
                 Files.createDirectories(uploadPath);
             }
-            try(InputStream inputStream = image.getInputStream()){
+            try (InputStream inputStream = image.getInputStream()) {
                 Files.copy(inputStream, Paths.get(uploadDir + storeFileName),
                         StandardCopyOption.REPLACE_EXISTING);
             }
@@ -63,13 +63,13 @@ public class CategoryServiceImpl implements CategoryService{
     }
 
     @Override
-    public void upadteCategory(Category category) {
+    public void updateCategory(Category category) {
         categoryRepository.save(category);
     }
 
     @Override
     public void deleteCategoryById(int id) {
-            categoryRepository.deleteById(id);
+        categoryRepository.deleteById(id);
     }
 
     @Override

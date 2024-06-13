@@ -1,8 +1,8 @@
-package com.example.BuildPC.Service;
+package com.example.BuildPC.service;
 
-import com.example.BuildPC.dtos.ProductImageDto;
-import com.example.BuildPC.models.Product;
-import com.example.BuildPC.models.ProductImage;
+import com.example.BuildPC.dto.ProductImageDto;
+import com.example.BuildPC.model.Product;
+import com.example.BuildPC.model.ProductImage;
 import com.example.BuildPC.repository.ProductImageRepository;
 import com.example.BuildPC.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +31,11 @@ public class ProductImageServiceImpl implements ProductImageService{
     @Override
     public List<ProductImage> findAllImage() {
         return productImageRepository.findAll();
+    }
+
+    @Override
+    public List<ProductImage> findByProduct(Product product) {
+        return List.of();
     }
 
     @Override

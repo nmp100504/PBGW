@@ -10,7 +10,7 @@ public interface CategoryService {
     List<Category> findAll();
     void save(CategoryDto categoryDto);
     Category findCategoryById(int id);
-    void upadteCategory(Category category);
+    void updateCategory(Category category);
     void deleteCategoryById(int id);
     List<Category> findCategoryByStatus();
 }

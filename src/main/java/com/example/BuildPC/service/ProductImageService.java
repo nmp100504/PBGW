@@ -1,5 +1,6 @@
 package com.example.BuildPC.service;
 
+import com.example.BuildPC.dto.ProductImageDto;
 import com.example.BuildPC.model.Product;
 import com.example.BuildPC.model.ProductImage;
 import com.example.BuildPC.repository.ProductImageRepository;

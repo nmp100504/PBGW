@@ -1,7 +1,7 @@
 package com.example.BuildPC.dto;
 
 import jakarta.validation.constraints.NotEmpty;
-import com.example.BuildPC.models.Category;
+import com.example.BuildPC.model.Category;
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;

@@ -1,4 +1,4 @@
-package com.example.BuildPC.models;
+package com.example.BuildPC.model;
 
 
 import jakarta.persistence.*;

@@ -1,11 +1,14 @@
 package com.example.BuildPC.controller;
 
 
+import com.example.BuildPC.service.BrandService;
 import com.example.BuildPC.service.CategoryService;
+import com.example.BuildPC.service.ProductImageService;
 import com.example.BuildPC.service.ProductService;
 import com.example.BuildPC.dto.ProductDto;
 import com.example.BuildPC.model.Category;
 import com.example.BuildPC.model.Product;
+import com.example.BuildPC.model.Brand;
 import com.example.BuildPC.model.ProductImage;
 import com.example.BuildPC.repository.CategoryRepository;
 import com.example.BuildPC.repository.ProductImageRepository;
@@ -38,6 +41,12 @@ public class ProductController {
     private ProductService productService;
     @Autowired CategoryService categoryService;
 
+    @Autowired
+    private BrandService brandService;
+    @Autowired
+    private ProductImageService productImageService;
+    @Autowired
+    private ProductImageRepository productImageRepository;
     @GetMapping("/category/{id}")
     public String showCategory(@PathVariable("id") int id, Model model) {
         List<Product> listByCategory = productService.listByCategory(id);
@@ -49,19 +58,19 @@ public class ProductController {
         return "LandingPage/shop_grid";
     }
 
-    @GetMapping("/ManagerDashBoard/productList")
+    @GetMapping("/productList")
     public String showProductList(Model model) {
-        List<Product> productList = productRepository.findAll();
+        List<Product> productList = productService.findAll();
         model.addAttribute("products", productList);
         return "/Manager/showProductList";
     }
-
-    @GetMapping("/ManagerDashBoard/create")
-    public  String createProduct(Model model) {
-        ProductDto productDto = new ProductDto();
-        model.addAttribute("productDto", productDto);
-        return "Manager/createProduct";
-    }
+//
+//    @GetMapping("/ManagerDashBoard/create")
+//    public  String createProduct(Model model) {
+//        ProductDto productDto = new ProductDto();
+//        model.addAttribute("productDto", productDto);
+//        return "Manager/createProduct";
+//    }
 
 //    @PostMapping("/create")
 //    public String createProductManagerDashboard(@RequestParam int id, @Valid @ModelAttribute ProductDto productDto, BindingResult result) {
@@ -79,29 +88,9 @@ public class ProductController {
 //        product.setUnitsInOrder(productDto.getUnitsInOrder());
 //
 //    }
-    @Autowired
-    private ProductService  productService;
-    @Autowired
-    private CategoryService categoryService;
-    @Autowired
-    private BrandService brandService;
-    @Autowired
-    private ProductImageService productImageService;
-    @Autowired
-    private ProductImageRepository productImageRepository;
 
 
-    @GetMapping("/productList")
-    public String showProductList(Model model) {
-        List<Product> productList = productService.findAll();
-        model.addAttribute("products", productList);
-//        List<Category> categoryList = categoryService.findAll();
-//        model.addAttribute("categories", categoryList);
-//        List<Brand> brandList = brandService.findAll();
-//        model.addAttribute("brands", brandList);
 
-        return "/Manager/showProductList";
-    }
 
     @GetMapping("/productList/create")
     public  String createProduct(Model model) {
@@ -193,7 +182,7 @@ public class ProductController {
             product.setCategory(category);
             product.setBrand(brand);
             product.setProductStatus(productDto.isProductStatus());
-            productService.updateProdcut(product);
+            productService.updateProduct(product);
             // Cập nhật các ảnh hiện có và thêm các ảnh mới
             List<MultipartFile> images = productDto.getProductImages();
             if (images != null && !images.isEmpty() && images.stream().anyMatch(image -> !image.isEmpty())) {

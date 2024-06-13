@@ -84,6 +84,16 @@ public class ProductServiceImpl implements ProductService{
         }
     }
 
+    @Override
+    public Boolean update(Product product) {
+        return null;
+    }
+
+    @Override
+    public Boolean delete(int id) {
+        return null;
+    }
+
     public Product findById(int id) {
         return productRepository.getReferenceById(id);
     }

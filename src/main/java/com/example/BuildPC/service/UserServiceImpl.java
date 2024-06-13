@@ -28,12 +28,15 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User registerUser(RegistrationRequest registration) {
-        var user = new User(registration.getFirstName(), registration.getLastName(),
+        var user = new User
+                (registration.getFirstName(),
+                registration.getLastName(),
                 registration.getEmail(),
                 passwordEncoder.encode(registration.getPassword()),
                 Role.CUSTOMER);
         return userRepository.save(user);
     }
+
     @Override
     public Optional<User> findByEmail(String email) {
         return Optional.ofNullable(userRepository.findByEmail(email)

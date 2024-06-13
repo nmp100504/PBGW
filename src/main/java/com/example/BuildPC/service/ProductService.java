@@ -8,7 +8,7 @@ import com.example.BuildPC.model.Category;
 import com.example.BuildPC.model.Product;
 import com.example.BuildPC.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.service;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
@@ -22,7 +22,7 @@ public interface ProductService {
     List<Product> listByCategory(int id);
     Product findById(int id);
     Product findProductById(int id);
-    void updateProdcut(Product product);
+    void updateProduct(Product product);
     void deleteProduct(int id);
     boolean existsByProductName(String productName);
 //    List<Product> findByProductStatus();
