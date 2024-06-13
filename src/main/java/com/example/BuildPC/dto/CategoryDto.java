@@ -1,4 +1,4 @@
-package com.example.BuildPC.dtos;
+package com.example.BuildPC.dto;
 
 import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;

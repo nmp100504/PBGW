@@ -1,7 +1,6 @@
-package com.example.BuildPC.dtos;
+package com.example.BuildPC.dto;
 
 import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

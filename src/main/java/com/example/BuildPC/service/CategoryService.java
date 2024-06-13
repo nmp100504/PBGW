@@ -1,7 +1,7 @@
 package com.example.BuildPC.service;
 
 
-import com.example.BuildPC.dtos.CategoryDto;
+import com.example.BuildPC.dto.CategoryDto;
 import com.example.BuildPC.model.Category;
 
 import java.util.List;

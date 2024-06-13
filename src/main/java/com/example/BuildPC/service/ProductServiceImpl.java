@@ -1,6 +1,6 @@
 package com.example.BuildPC.service;
 
-import com.example.BuildPC.dtos.ProductDto;
+import com.example.BuildPC.dto.ProductDto;
 import com.example.BuildPC.model.Product;
 import com.example.BuildPC.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,6 +1,6 @@
 package com.example.BuildPC.service;
 
-import com.example.BuildPC.dtos.OrderDTO;
+import com.example.BuildPC.dto.OrderDTO;
 import com.example.BuildPC.model.Order;
 import com.example.BuildPC.model.OrderDetail;
 import com.example.BuildPC.repository.OrderDetailRepository;

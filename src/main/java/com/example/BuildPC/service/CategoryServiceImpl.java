@@ -1,7 +1,7 @@
 package com.example.BuildPC.service;
 
 
-import com.example.BuildPC.dtos.CategoryDto;
+import com.example.BuildPC.dto.CategoryDto;
 import com.example.BuildPC.model.Category;
 import com.example.BuildPC.repository.CategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;

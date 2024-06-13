@@ -2,7 +2,7 @@ package com.example.BuildPC.controller;
 
 import com.example.BuildPC.service.OrderDetailService;
 import com.example.BuildPC.service.OrderService;
-import com.example.BuildPC.dtos.OrderDTO;
+import com.example.BuildPC.dto.OrderDTO;
 import com.example.BuildPC.model.Order;
 import com.example.BuildPC.model.OrderDetail;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,6 +1,6 @@
 package com.example.BuildPC.service;
 
-import com.example.BuildPC.dtos.UserDto;
+import com.example.BuildPC.dto.UserDto;
 import com.example.BuildPC.model.User;
 import org.springframework.stereotype.Service;
 

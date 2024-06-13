@@ -2,7 +2,7 @@ package com.example.BuildPC.controller;
 
 
 import com.example.BuildPC.service.AdminService;
-import com.example.BuildPC.dtos.UserDto;
+import com.example.BuildPC.dto.UserDto;
 import com.example.BuildPC.model.Role;
 import com.example.BuildPC.model.User;
 import jakarta.validation.Valid;

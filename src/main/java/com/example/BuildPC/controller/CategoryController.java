@@ -3,7 +3,7 @@ package com.example.BuildPC.controller;
 
 
 import com.example.BuildPC.service.CategoryService;
-import com.example.BuildPC.dtos.CategoryDto;
+import com.example.BuildPC.dto.CategoryDto;
 import com.example.BuildPC.model.Category;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
