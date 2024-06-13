@@ -1,4 +1,4 @@
-package com.example.BuildPC.Service;
+package com.example.BuildPC.service;
 
 import com.example.BuildPC.configuration.CustomUserDetails;
 import com.example.BuildPC.model.Role;

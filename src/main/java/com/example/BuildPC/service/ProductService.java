@@ -11,8 +11,8 @@ public interface ProductService {
 
     List<Product> findAll();
     void create(ProductDto productDto);
-    Product findById(int id);
     Boolean update(Product product);
     Boolean delete(int id);
     List<Product> listByCategory(int id);
+    Product findById(int id);
 }

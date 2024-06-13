@@ -1,5 +1,6 @@
 package com.example.BuildPC.model;
 
+
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -13,7 +14,9 @@ import java.util.Set;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class User {
+@Entity
+@Table(name = "User")
+public class User  {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id")
@@ -51,11 +54,12 @@ public class User {
     @Column(name ="isEnabled")
     private boolean isEnabled = false;
 
-    public User( String firstName, String lastName,String email, String password, Role role) {
+    public User(String email, String firstName, String lastName, String password, String phone, Role role) {
         this.email = email;
         this.firstName = firstName;
         this.lastName = lastName;
         this.password = password;
+        this.phone = phone;
         this.role = role;
     }
 }
