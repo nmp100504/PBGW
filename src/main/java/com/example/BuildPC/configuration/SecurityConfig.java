@@ -62,7 +62,7 @@ public class SecurityConfig {
                         .invalidateHttpSession(true)
                         .clearAuthentication(true)
                         .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-                        .logoutSuccessUrl("/homepage")
+                        .logoutSuccessUrl("/")
                         .permitAll())
                 .csrf(AbstractHttpConfigurer::disable)
                 .build();

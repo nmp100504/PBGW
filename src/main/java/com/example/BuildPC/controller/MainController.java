@@ -22,27 +22,22 @@ public class MainController {
 //    public String getHomePage() {
 //        return "LandingPage/index_1";
 //    }
+@GetMapping("/login")
+public String login(){
+    return "auth/login_page";
+}
 
 
-    @GetMapping("/homepage")
-    public String getHome(Model model) {
+    @Autowired
+    ProductService productService;
+    @GetMapping({"/", "/homepage"})
+    public String showLandingPage(Model model) {
         List<Category> categoryList = categoryService.findAll();
         List<Product> productList = productService.findAll();
         model.addAttribute("categoryList",categoryList);
         model.addAttribute("productList",productList);
-        return "LandingPage/index_1";
+        return "auth/index_1";
     }
-
-    @Autowired
-    ProductService productService;
-//    @GetMapping("/")
-//    public String showLandingPage(Model model) {
-//        List<Category> categoryList = categoryService.findAll();
-//        List<Product> productList = productService.findAll();
-//        model.addAttribute("categoryList",categoryList);
-//        model.addAttribute("productList",productList);
-//        return "LandingPage/index_1";
-//    }
 
     @Autowired private OrderService orderService;
 
