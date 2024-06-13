@@ -5,10 +5,12 @@ import com.example.BuildPC.model.Role;
 import com.example.BuildPC.model.User;
 import com.example.BuildPC.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -17,8 +19,10 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
-import org.springframework.security.web.util.matcher.RequestMatcher;
+
+import org.slf4j.Logger;
 
 
 @Configuration
@@ -27,6 +31,7 @@ import org.springframework.security.web.util.matcher.RequestMatcher;
 public class SecurityConfig {
 
     private final CustomUserDetailsService userDetailsService;
+    private final UserRepository userRepository;
     @Bean
     public PasswordEncoder passwordEncoder(){
         return new BCryptPasswordEncoder();
@@ -42,7 +47,7 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/", "/login", "/error", "/registration/**","/homepage").permitAll()
+                        .requestMatchers("/","login", "/error", "/registration/**","/homepage").permitAll()
                         .requestMatchers("/dashBoard/**").hasRole("ADMIN")
                         .requestMatchers("/ManagerDashBoard/**").hasRole("MANAGER")
                         .requestMatchers(staticResources()).permitAll()
@@ -58,15 +63,23 @@ public class SecurityConfig {
                         .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
                         .logoutSuccessUrl("/homepage")
                         .permitAll())
-//                .exceptionHandling(exception -> exception
-//                        .accessDeniedPage("/error/403"))
                 .build();
     }
 
-    @Bean
-    public RequestMatcher staticResources() {
-        return new AntPathRequestMatcher("/static/**");
+
+    private static String[] staticResources() {
+        return new String[]{
+                "/css/**",
+                "/js/**",
+                "/fonts/**",
+                "/assets/**" ,
+                "/assetsLandingPage/**",
+                "/assetsDashboard/**",
+                "/assetsDashboard/vendor/**",
+                "../public/images/**" // modified path to go up one level and then into public/images
+        };
     }
+
     @Bean
     public CommandLineRunner setupDefaultUser(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         return args -> {
@@ -87,6 +100,21 @@ public class SecurityConfig {
                 manager.setEnabled(true);
 
                 userRepository.save(manager);
+            }
+        };
+    }
+
+    @Bean
+    public AuthenticationFailureHandler authenticationFailureHandler() {
+        return (request, response, exception) -> {
+            Logger logger = LoggerFactory.getLogger(this.getClass());
+
+            if (exception instanceof DisabledException) {
+                logger.debug("DisabledException caught, redirecting to /login?account_not_enabled");
+                response.sendRedirect("/login?account_not_enabled");
+            } else {
+                logger.debug("Other authentication exception: {}", exception.getMessage());
+                response.sendRedirect("/login?error");
             }
         };
     }
