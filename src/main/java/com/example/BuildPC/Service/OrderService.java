@@ -1,4 +1,4 @@
-package com.example.BuildPC.Service;
+package com.example.BuildPC.service;
 
 import com.example.BuildPC.dto.OrderDTO;
 import com.example.BuildPC.model.Order;

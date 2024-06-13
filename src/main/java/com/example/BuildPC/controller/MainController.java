@@ -1,8 +1,8 @@
 package com.example.BuildPC.controller;
 
-import com.example.BuildPC.Service.CategoryService;
-import com.example.BuildPC.Service.OrderService;
-import com.example.BuildPC.Service.ProductService;
+import com.example.BuildPC.service.CategoryService;
+import com.example.BuildPC.service.OrderService;
+import com.example.BuildPC.service.ProductService;
 import com.example.BuildPC.model.Category;
 import com.example.BuildPC.model.Product;
 import org.springframework.beans.factory.annotation.Autowired;

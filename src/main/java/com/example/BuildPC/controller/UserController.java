@@ -1,6 +1,6 @@
 package com.example.BuildPC.controller;
 
-import com.example.BuildPC.Service.UserService;
+import com.example.BuildPC.service.UserService;
 import com.example.BuildPC.model.User;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

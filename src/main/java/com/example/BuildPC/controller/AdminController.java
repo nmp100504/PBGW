@@ -1,7 +1,7 @@
 package com.example.BuildPC.controller;
 
 
-import com.example.BuildPC.Service.AdminService;
+import com.example.BuildPC.service.AdminService;
 import com.example.BuildPC.dto.UserDto;
 import com.example.BuildPC.model.Role;
 import com.example.BuildPC.model.User;

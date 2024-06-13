@@ -1,6 +1,6 @@
 package com.example.BuildPC.controller;
 
-import com.example.BuildPC.Service.*;
+import com.example.BuildPC.service.*;
 import com.example.BuildPC.dto.RegistrationRequest;
 import com.example.BuildPC.model.RegistrationCompleteEvent;
 import com.example.BuildPC.model.User;

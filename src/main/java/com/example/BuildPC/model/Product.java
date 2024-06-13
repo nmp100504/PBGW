@@ -1,7 +1,7 @@
 package com.example.BuildPC.model;
 
 
-import com.example.BuildPC.Service.ProductImageService;
+import com.example.BuildPC.service.ProductImageService;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
