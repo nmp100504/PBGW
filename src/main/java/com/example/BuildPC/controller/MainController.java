@@ -33,7 +33,7 @@ public String login(){
         List<Product> productList = productService.listActiveProduct(true);
         model.addAttribute("categoryList",categoryList);
         model.addAttribute("productList",productList);
-        return "auth/index_1";
+        return "LandingPage/index_1";
     }
 
     @Autowired private OrderService orderService;

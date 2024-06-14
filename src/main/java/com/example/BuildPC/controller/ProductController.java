@@ -77,6 +77,7 @@ public class ProductController {
         model.addAttribute("listByCategory", productService.findByProductNameContaining(query));
         List<Category> categoryList = categoryService.findAll();
         model.addAttribute("title", query);
+        model.addAttribute("searchString", query); 
         model.addAttribute("categoryList", categoryList);
         return "LandingPage/shop_grid";
     }
