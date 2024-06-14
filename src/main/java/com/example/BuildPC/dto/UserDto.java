@@ -23,6 +23,15 @@ public class UserDto {
     private String phone;
 
     private boolean isEnabled;
+    // Getter method for 'enabled'
+    public boolean isEnabled() {
+        return isEnabled;
+    }
+
+    // Setter method for 'enabled'
+    public void setEnabled(boolean isEnabled) {
+        this.isEnabled = isEnabled;
+    }
 
     @NotEmpty(message = "The role is required")
     private String role;

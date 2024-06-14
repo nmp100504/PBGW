@@ -60,7 +60,7 @@ public class ProductController {
     }
 
     @GetMapping("/productList")
-    public String showProductList(Model model, @Param("productName  ") String productName ) {
+    public String showProductList(Model model, @Param("productName") String productName ) {
         List<Product> productList = productService.findAll();
         if(productName != null && !productName.isEmpty()) {
             productList = productService.searchProductByName(productName);

@@ -44,6 +44,9 @@ public class User  {
     @Enumerated(EnumType.STRING)
     private Role role;
 
+    @Column(name ="isEnabled")
+    private boolean isEnabled;
+
     @OneToMany(mappedBy = "user")
     private Set<Post> posts;
 
@@ -53,8 +56,7 @@ public class User  {
     @OneToMany(mappedBy = "user")
     private Set<Order> orders;
 
-    @Column(name ="isEnabled")
-    private boolean isEnabled = false;
+
 
     public User(String email, String firstName, String lastName, String password, Role role) {
         this.email = email;

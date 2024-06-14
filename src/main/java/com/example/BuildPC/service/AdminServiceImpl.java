@@ -35,6 +35,7 @@ public class AdminServiceImpl implements  AdminService{
         user.setPassword(passwordEncoder.encode(userDto.getPassword()));
         user.setPhone(userDto.getPhone());
         user.setRole(Role.valueOf(userDto.getRole()));
+        user.setEnabled(userDto.isEnabled());
         adminRepository.save(user);
     }
 
@@ -52,6 +53,7 @@ public class AdminServiceImpl implements  AdminService{
         userDto.setPassword(passwordEncoder.encode(user.getPassword()));
         userDto.setPhone(user.getPhone());
         userDto.setRole(String.valueOf(user.getRole()));
+        userDto.setEnabled(user.isEnabled());
         adminRepository.save(user);
     }
 
@@ -59,4 +61,9 @@ public class AdminServiceImpl implements  AdminService{
     public void deleteUserById(long id) {
         adminRepository.deleteById(id);
     }
+
+//    @Override
+//    public List<User> findByUserStatus() {
+//        return adminRepository.findByUserStatus(true);
+//    }
 }

@@ -153,6 +153,7 @@
                   <th>Password</th>
                   <th>Phone</th>
                   <th>Role</th>
+                  <th>Status</th>
                   <th>Action</th>
                 </tr>
                 </thead>
@@ -164,6 +165,7 @@
                   <th>Password</th>
                   <th>Phone</th>
                   <th>Role</th>
+                  <th>Status</th>
                   <th>Action</th>
                 </tr>
                 </tfoot>
@@ -175,6 +177,12 @@
                   <td th:text="${users.password}"></td>
                   <td th:text="${users.phone}"></td>
                   <td th:text="${users.role}"></td>
+                  <td class="text-center" th:if="${users.isEnabled()}">
+                    <div class="badge badge-success">Active</div>
+                  </td>
+                  <td class="text-center" th:if="${!users.isEnabled()}">
+                    <div class="badge badge-danger"> Inactive </div>
+                  </td>
                   <td style="white-space:nowrap">
                     <a class="btn btn-primary btn-sm"
                        th:href="@{/dashBoard/tables/edit(id=${users.id})}">

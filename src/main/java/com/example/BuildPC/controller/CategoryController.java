@@ -49,9 +49,11 @@ public class CategoryController {
 
     @PostMapping("/categoryList/create")
     public String createCategory(@Valid @ModelAttribute("categoryDto") CategoryDto categoryDto, BindingResult result) {
-        System.out.println("test");
         if(categoryDto.getCategoryImage().isEmpty()){
             result.addError(new FieldError("categoryDto", "categoryImage", "Please select a file"));
+        }
+        if(categoryService.existCategoryByName(categoryDto.getCategoryName())){
+            result.addError(new FieldError("categoryDto", "categoryName", "Category already exists"));
         }
         if(result.hasErrors()) {
             return "Manager/createCategory";
