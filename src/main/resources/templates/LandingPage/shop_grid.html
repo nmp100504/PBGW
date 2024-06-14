@@ -225,14 +225,14 @@
               </div>
 
               <div class="col col-md-6">
-                <form action="#">
-                  <div class="advance_serach">
-                    <div class="form_item">
-                      <input type="search" name="search" placeholder="Search Prudcts...">
+                  <form th:action="@{/search}">
+                    <div class="advance_serach">
+                      <div class="form_item">
+                        <input type="search" name="search" placeholder="Search Products...">
+                      </div>
+                      <button type="submit" class="search_btn"><i class="far fa-search"></i></button>
                     </div>
-                    <button type="submit" class="search_btn"><i class="far fa-search"></i></button>
-                  </div>
-                </form>
+                  </form>
               </div>
 
               <div class="col col-md-3 col-6">
@@ -430,18 +430,21 @@
                     </div>
 
                     <div class="col col-md-4 col-sm-4">
-                      <form action="#">
+                      <form  id="sortForm" th:action="@{'/sort/' + ${categoryList.get(1).id}}">
                         <div class="select_option clearfix">
-                          <select>
+                          <select id="sortingOption" name="sortingOption" onchange="submitForm()">
                             <option data-display="Defaul Sorting">Select Your Option</option>
-                            <option value="1">Sorting By Name</option>
-                            <option value="2">Sorting By Price</option>
-                            <option value="3">Sorting By Size</option>
+                            <option value="1">Sorting By Ascending</option>
+                            <option value="2">Sorting By Decending</option>
                           </select>
                         </div>
                       </form>
                     </div>
-
+                    <script>
+                      function submitForm() {
+                        document.getElementById("sortForm").submit();
+                      }
+                    </script>
                     <div class="col col-md-4 col-sm-4">
                       <div class="result_text">Showing 1-12 of 30 relults</div>
                     </div>
@@ -561,20 +564,20 @@
 
 
 
-                      <div class="fs_widget">
-                        <h3 class="fs_widget_title">Price</h3>
-                        <form action="#">
-                          <div class="price-range-area clearfix">
-                            <div class="price-text d-flex align-items-center">
-                              <span>Range:</span>
-                              <input type="text" id="amount" readonly>
-                            </div>
-                            <div id="slider-range" class="slider-range"></div>
-                          </div>
-                        </form>
+                  <div class="fs_widget">
+                    <h3 class="fs_widget_title">Price</h3>
+                    <form action="#">
+                      <div class="price-range-area clearfix">
+                        <div class="price-text d-flex align-items-center">
+                          <span>Range:</span>
+                          <input type="text" id="amount" readonly style="border:0; color:#f6931f; font-weight:bold;">
+                        </div>
+                        <div id="slider-range" class="slider-range"></div>
                       </div>
-
+                    </form>
                   </div>
+
+              </div>
 
 
                 </aside>
@@ -725,6 +728,8 @@
     <script th:src="@{/assetsLandingPage/js/popper.min.js}"></script>
     <script th:src="@{/assetsLandingPage/js/bootstrap.min.js}"></script>
     <script th:src="@{/assetsLandingPage/js/bootstrap5-dropdown-ml-hack.js}"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.min.js"></script>
 
     <!-- carousel - jquery include -->
     <script th:src="@{/assetsLandingPage/js/slick.min.js}"></script>

@@ -28,10 +28,12 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 @Controller
-@RequestMapping("/ManagerDashBoard")
 public class ProductController {
 
     @Autowired
@@ -58,12 +60,59 @@ public class ProductController {
         return "LandingPage/shop_grid";
     }
 
-    @GetMapping("/productList")
-    public String showProductList(Model model) {
-        List<Product> productList = productService.findAll();
-        model.addAttribute("products", productList);
-        return "/Manager/showProductList";
+    @GetMapping("/product/{id}")
+    public String showProductDetails(@PathVariable("id") int id, Model model) {
+        Product byId = productService.findById(id);
+        List<Category> categoryList = categoryService.findAll();
+        if(byId ==null ){
+            System.out.println("No product found");
+        }
+        model.addAttribute("product", byId);
+        model.addAttribute("categoryList", categoryList);
+        return "LandingPage/shop_details";
     }
+
+    @GetMapping("/search")
+    public String searchProducts(@RequestParam("search") String query, Model model) {
+        model.addAttribute("listByCategory", productService.findByProductNameContaining(query));
+        List<Category> categoryList = categoryService.findAll();
+        model.addAttribute("title", query);
+        model.addAttribute("categoryList", categoryList);
+        return "LandingPage/shop_grid";
+    }
+
+    @GetMapping("/sort/{id}")
+    public String sort(@RequestParam("sortingOption") int sortingOption,@PathVariable("id") int id, Model model) {
+        List<Product> products = productService.listByCategory(id);
+
+        if(sortingOption == 1){
+            products.sort(Comparator.comparing(Product::getProductSalePrice));
+            model.addAttribute("listByCategory", products);
+        }
+        if(sortingOption == 2){
+            Collections.sort(products, Comparator.comparing(Product::getProductSalePrice).reversed());
+            model.addAttribute("listByCategory", products);
+        }
+        List<Category> categoryList = categoryService.findAll();
+        model.addAttribute("categoryList", categoryList);
+        return "LandingPage/shop_grid";
+    }
+
+    @GetMapping("/filterProductsByPrice")
+    @ResponseBody
+    public String filterProductsByPrice(@RequestParam int minPrice, @RequestParam int maxPrice, Model model) {
+        List<Product> filteredProducts = productService.findByProductSalePriceBetween(minPrice,maxPrice);
+        model.addAttribute("listByCategory", filteredProducts);
+        List<Category> categoryList = categoryService.findAll();
+        model.addAttribute("categoryList", categoryList);
+        return "LandingPage/shop_grid"; // Return the HTML fragment with updated products
+    }
+//    @GetMapping("/productList")
+//    public String showProductList(Model model) {
+//        List<Product> productList = productService.findAll();
+//        model.addAttribute("products", productList);
+//        return "/Manager/showProductList";
+//    }
 //
 //    @GetMapping("/ManagerDashBoard/create")
 //    public  String createProduct(Model model) {
@@ -92,7 +141,7 @@ public class ProductController {
 
 
 
-    @GetMapping("/productList/create")
+    @GetMapping("/ManagerDashBoard/productList/create")
     public  String createProduct(Model model) {
         ProductDto productDto = new ProductDto();
         model.addAttribute("productDto", productDto);
@@ -103,7 +152,7 @@ public class ProductController {
         return "Manager/createProduct";
     }
 
-    @PostMapping("/productList/create")
+    @PostMapping("/ManagerDashBoard/productList/create")
     public String createProductManagerDashboard(Model model,@Valid @ModelAttribute("productDto") ProductDto productDto, BindingResult result) {
 
 
@@ -128,7 +177,7 @@ public class ProductController {
 
     }
 
-    @GetMapping("/productList/edit")
+    @GetMapping("/ManagerDashBoard/productList/edit")
     public String showProductEdit(Model model, @RequestParam("id") int id) {
         try{
             Product product = productService.findProductById(id);
@@ -154,7 +203,7 @@ public class ProductController {
         }
         return "Manager/editProduct";
     }
-    @PostMapping("/productList/edit")
+    @PostMapping("/ManagerDashBoard/productList/edit")
     public String showProductEdit(Model model,@RequestParam("id") int id,@Valid @ModelAttribute("productDto") ProductDto productDto, BindingResult result) {
 
         try{
@@ -203,7 +252,7 @@ public class ProductController {
 
 
 
-    @GetMapping("/productList/delete")
+    @GetMapping("/ManagerDashBoard/productList/delete")
     public String deleteProduct(@RequestParam("id") int id) {
         try {
             productService.deleteProduct(id);

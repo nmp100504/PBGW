@@ -23,7 +23,7 @@ public class Category {
     @Column(name = "category_name")
     private String categoryName;
 
-    @Column(name = "category_slug", nullable = true)
+    @Column(name = "category_slug")
     private String categorySlug;
 
     @Column(name = "category_description")
@@ -34,7 +34,6 @@ public class Category {
 
     @Column(name = "category_status")
     private boolean categoryStatus;
-
 
     @OneToMany(mappedBy = "category")
     private Set<Product> products;

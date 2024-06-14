@@ -210,14 +210,15 @@
               </div>
 
               <div class="col col-md-6">
-                <form action="#">
-                  <div class="advance_serach">
-                    <div class="form_item">
-                      <input type="search" name="search" placeholder="Search Prudcts...">
+
+                  <form th:action="@{/search}">
+                    <div class="advance_serach">
+                      <div class="form_item">
+                        <input type="search" name="search" placeholder="Search Products...">
+                      </div>
+                      <button type="submit" class="search_btn"><i class="far fa-search"></i></button>
                     </div>
-                    <button type="submit" class="search_btn"><i class="far fa-search"></i></button>
-                  </div>
-                </form>
+                  </form>
               </div>
 
               <div class="col col-md-3 col-6">
