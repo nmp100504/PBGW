@@ -13,4 +13,6 @@ public interface CategoryService {
     void updateCategory(Category category);
     void deleteCategoryById(int id);
     List<Category> findCategoryByStatus();
+    List<Category> searchCategoryByName(String keyword);
+    boolean existCategoryByName(String categoryName);
 }

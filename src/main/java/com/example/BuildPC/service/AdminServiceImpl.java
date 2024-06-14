@@ -4,17 +4,22 @@ import com.example.BuildPC.dto.UserDto;
 import com.example.BuildPC.model.Role;
 import com.example.BuildPC.model.User;
 import com.example.BuildPC.repository.AdminRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 
 @Service
+@RequiredArgsConstructor
 public class AdminServiceImpl implements  AdminService{
 
+    private final PasswordEncoder passwordEncoder;
     @Autowired
     private AdminRepository adminRepository;
+
 
     @Override
     public List<User> findAll() {
@@ -27,9 +32,10 @@ public class AdminServiceImpl implements  AdminService{
         user.setFirstName(userDto.getFirstName());
         user.setLastName(userDto.getLastName());
         user.setEmail(userDto.getEmail());
-        user.setPassword(userDto.getPassword());
+        user.setPassword(passwordEncoder.encode(userDto.getPassword()));
         user.setPhone(userDto.getPhone());
         user.setRole(Role.valueOf(userDto.getRole()));
+        user.setEnabled(userDto.isEnabled());
         adminRepository.save(user);
     }
 
@@ -44,9 +50,10 @@ public class AdminServiceImpl implements  AdminService{
         userDto.setFirstName(user.getFirstName());
         userDto.setLastName(user.getLastName());
         userDto.setEmail(user.getEmail());
-        userDto.setPassword(user.getPassword());
+        userDto.setPassword(passwordEncoder.encode(user.getPassword()));
         userDto.setPhone(user.getPhone());
         userDto.setRole(String.valueOf(user.getRole()));
+        userDto.setEnabled(user.isEnabled());
         adminRepository.save(user);
     }
 
@@ -54,4 +61,9 @@ public class AdminServiceImpl implements  AdminService{
     public void deleteUserById(long id) {
         adminRepository.deleteById(id);
     }
+
+//    @Override
+//    public List<User> findByUserStatus() {
+//        return adminRepository.findByUserStatus(true);
+//    }
 }

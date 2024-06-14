@@ -16,6 +16,7 @@ import com.example.BuildPC.repository.ProductRepository;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotEmpty;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -34,6 +35,7 @@ import java.util.Comparator;
 import java.util.List;
 
 @Controller
+@RequestMapping("/ManagerDashBoard")
 public class ProductController {
 
     @Autowired
@@ -70,6 +72,16 @@ public class ProductController {
         model.addAttribute("product", byId);
         model.addAttribute("categoryList", categoryList);
         return "LandingPage/shop_details";
+        }
+    @GetMapping("/productList")
+    public String showProductList(Model model, @Param("productName") String productName ) {
+        List<Product> productList = productService.findAll();
+        if(productName != null && !productName.isEmpty()) {
+            productList = productService.searchProductByName(productName);
+            model.addAttribute("productName", productName);
+        }
+        model.addAttribute("products", productList);
+        return "/Manager/showProductList";
     }
 
     @GetMapping("/search")
@@ -156,11 +168,8 @@ public class ProductController {
     @PostMapping("/ManagerDashBoard/productList/create")
     public String createProductManagerDashboard(Model model,@Valid @ModelAttribute("productDto") ProductDto productDto, BindingResult result) {
 
-
-
-
         if(productDto.getProductImages().isEmpty()){
-                result.addError(new FieldError("productDto", "productImages", "Product Images cannot be empty"));
+            result.addError(new FieldError("productDto", "productImages", "Product Images cannot be empty"));
         }
         if(productService.existsByProductName(productDto.getProductName())){
             result.addError(new FieldError("productDto", "productName", "Product Name already exists"));
@@ -206,9 +215,7 @@ public class ProductController {
     }
     @PostMapping("/ManagerDashBoard/productList/edit")
     public String showProductEdit(Model model,@RequestParam("id") int id,@Valid @ModelAttribute("productDto") ProductDto productDto, BindingResult result) {
-
         try{
-
             Product product = productService.findProductById(id);
             model.addAttribute("productDto", productDto);
             if(result.hasErrors()) {
@@ -218,7 +225,6 @@ public class ProductController {
                 model.addAttribute("brands", brands);
                 return "Manager/editProduct";
             }
-
 
             Category category = categoryService.findCategoryById(productDto.getCategoryId());
             Brand brand = brandService.findByBranId(productDto.getBrandId());

@@ -30,4 +30,6 @@ public interface ProductService {
     List<Product> findByProductSalePriceBetween(int minPrice, int maxPrice);
     List<Product> findByOrderByProductSalePriceAsc();
     List<Product> findByOrderByProductSalePriceDesc();
+    List<Product> searchProductByName(String productName);
+
 }
