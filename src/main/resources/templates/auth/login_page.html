@@ -154,19 +154,6 @@
                                             <li><a href="blog_details.html">Blog Details</a></li>
                                         </ul>
                                     </li>
-                                    <li style="position: relative;">
-                                        <a href="#">
-                                            <i class="fa fa-user"></i>
-                                        </a>
-                                        <div class="dropdown-content">
-                                            <!-- Display Sign in and Register if the user is not authenticated -->
-                                            <a href="/login" sec:authorize="!isAuthenticated()">Sign in</a>
-                                            <a href="/registration/registration-form" sec:authorize="!isAuthenticated()">Register</a>
-
-                                            <!-- Display Log out if the user is authenticated -->
-                                            <a href="/logout" sec:authorize="isAuthenticated()">Log out</a>
-                                        </div>
-                                    </li>
                                     <li><a href="contact.html">Contact</a></li>
                                 </ul>
                             </div>
