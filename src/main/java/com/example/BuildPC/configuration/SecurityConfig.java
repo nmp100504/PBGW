@@ -52,6 +52,7 @@ public class SecurityConfig {
                                 ,"/product/**","/category/**","/search/**","/sort/**").permitAll()
                         .requestMatchers("/dashBoard/**").hasRole("ADMIN")
                         .requestMatchers("/ManagerDashBoard/**").hasRole("MANAGER")
+                        .requestMatchers("/posts").hasRole(("MARKETING"))
                         .requestMatchers(staticResources()).permitAll()
                         .anyRequest().authenticated())
                 .formLogin(form -> form
@@ -81,7 +82,10 @@ public class SecurityConfig {
                 "/assetsLandingPage/**",
                 "/assetsDashboard/**",
                 "/assetsDashboard/vendor/**",
-                "/images/**" // modified path to go up one level and then into public/images
+                "/images/**",
+                "/images/Category/**",
+                "/images/Product/**",
+                "/images/ProductCover/**",
         };
     }
 
@@ -105,6 +109,16 @@ public class SecurityConfig {
                 manager.setEnabled(true);
 
                 userRepository.save(manager);
+            }
+
+            if (userRepository.findByEmail("marketing@example.com").isEmpty()) {
+                User marketing = new User();
+                marketing.setEmail("marketing@example.com");
+                marketing.setPassword(passwordEncoder.encode("123"));
+                marketing.setRole(Role.MARKETING);
+                marketing.setEnabled(true);
+
+                userRepository.save(marketing);
             }
         };
     }

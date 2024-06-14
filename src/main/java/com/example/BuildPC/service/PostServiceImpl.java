@@ -3,16 +3,17 @@ package com.example.BuildPC.service;
 import com.example.BuildPC.model.Post;
 import com.example.BuildPC.model.User;
 import com.example.BuildPC.repository.PostRepository;
+import com.vladsch.flexmark.html.HtmlRenderer;
+import com.vladsch.flexmark.parser.Parser;
+import com.vladsch.flexmark.util.data.MutableDataSet;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
-import javax.swing.text.html.Option;
 import java.util.List;
 import java.util.Optional;
 
@@ -25,6 +26,14 @@ public class PostServiceImpl implements PostService {
     @Autowired
     private UserService userService;
 
+    private final Parser parser;
+    private final HtmlRenderer renderer;
+
+    public PostServiceImpl() {
+        MutableDataSet options = new MutableDataSet();
+        this.parser = Parser.builder(options).build();
+        this.renderer = HtmlRenderer.builder(options).build();
+    }
 
     @Override
     public List<Post> findAllPost(Integer pageNo, Integer pageSize, String search) {
@@ -41,13 +50,19 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public Post createNewPost(Post post) {
-       return postRepository.save(post);
+        String markdown = post.getContent();
+        String html = renderer.render(parser.parse(markdown));
+        post.setContent(html);
+        return postRepository.save(post);
     }
 
     @Override
     public Boolean updatePost(Post post) {
         Optional<Post> existingPost = postRepository.findById(post.getId());
         if (existingPost.isPresent()) {
+            String markdown = post.getContent();
+            String html = renderer.render(parser.parse(markdown));
+            post.setContent(html);
             postRepository.save(post);
             return true;
         }
@@ -74,5 +89,4 @@ public class PostServiceImpl implements PostService {
         }
         return userService.findByEmail(email);
     }
-
 }

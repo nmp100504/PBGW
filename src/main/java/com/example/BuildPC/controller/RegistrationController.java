@@ -68,7 +68,7 @@ public class RegistrationController {
     }
     @GetMapping("/forgot-password-request")
     public String forgotPasswordForm(){
-        return "auth/forgot-password-form";
+        return "auth/forgot-password";
     }
 
 //    @PostMapping("/forgot-password")
