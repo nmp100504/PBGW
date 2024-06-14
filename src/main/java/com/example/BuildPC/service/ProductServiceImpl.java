@@ -132,10 +132,7 @@ public class ProductServiceImpl implements ProductService{
     }
 
 
-    @Override
-        public boolean existsByProductName(String productName) {
-            return productRepository.existsByProductName(productName);
-        }
+
     @Override
     public boolean existsByProductName(String productName) {
         return productRepository.existsByProductName(productName);

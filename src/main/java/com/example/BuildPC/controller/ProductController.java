@@ -35,7 +35,6 @@ import java.util.Comparator;
 import java.util.List;
 
 @Controller
-@RequestMapping("/ManagerDashBoard")
 public class ProductController {
 
     @Autowired
@@ -66,14 +65,14 @@ public class ProductController {
     public String showProductDetails(@PathVariable("id") int id, Model model) {
         Product byId = productService.findById(id);
         List<Category> categoryList = categoryService.findAll();
-        if(byId ==null ){
+        if (byId == null) {
             System.out.println("No product found");
         }
         model.addAttribute("product", byId);
         model.addAttribute("categoryList", categoryList);
         return "LandingPage/shop_details";
-        }
-    @GetMapping("/productList")
+    }
+    @GetMapping("/ManagerDashBoard/productList")
     public String showProductList(Model model, @Param("productName") String productName ) {
         List<Product> productList = productService.findAll();
         if(productName != null && !productName.isEmpty()) {
@@ -150,8 +149,6 @@ public class ProductController {
 //        product.setUnitsInOrder(productDto.getUnitsInOrder());
 //
 //    }
-
-
 
 
     @GetMapping("/ManagerDashBoard/productList/create")
