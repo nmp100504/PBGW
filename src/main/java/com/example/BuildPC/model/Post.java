@@ -22,17 +22,17 @@ public class Post {
 
 
     @Column(name = "post_title",columnDefinition = "TEXT")
-    private String postTitle;
+    private String title;
 
     @Column(name = "post_content",columnDefinition = "TEXT")
 
-    private String postConent;
+    private String content;
 
     @Column(name = "post_create_at")
-    private Date postCreatedAt;
+    private Date createdAt;
 
     @Column(name = "post_update_at")
-    private Date postUpdateAt;
+    private Date updatedAt;
 
     @Column(name = "post_image")
     private String imageFileName;
@@ -44,66 +44,12 @@ public class Post {
 
     public Post(String postTitle, String postConent, Date postCreatedAt, Date postUpdateAt, User user, String imageFileName) {
         this.imageFileName = imageFileName;
-        this.postTitle = postTitle;
-        this.postConent = postConent;
-        this.postCreatedAt = postCreatedAt;
-        this.postUpdateAt = postUpdateAt;
+        this.title = postTitle;
+        this.content = postConent;
+        this.createdAt = postCreatedAt;
+        this.updatedAt = postUpdateAt;
         this.user = user;
     }
 
-    public Integer getId() {
-        return id;
-    }
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getPostTitle() {
-        return postTitle;
-    }
-
-    public void setPostTitle(String postTitle) {
-        this.postTitle = postTitle;
-    }
-
-    public String getPostConent() {
-        return postConent;
-    }
-
-    public void setPostConent(String postConent) {
-        this.postConent = postConent;
-    }
-
-    public Date getPostCreatedAt() {
-        return postCreatedAt;
-    }
-
-    public void setPostCreatedAt(Date postCreatedAt) {
-        this.postCreatedAt = postCreatedAt;
-    }
-
-    public Date getPostUpdateAt() {
-        return postUpdateAt;
-    }
-
-    public void setPostUpdateAt(Date postUpdateAt) {
-        this.postUpdateAt = postUpdateAt;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public String getImageFileName() {
-        return imageFileName;
-    }
-
-    public void setImageFileName(String imageFileName) {
-        this.imageFileName = imageFileName;
-    }
 }

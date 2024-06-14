@@ -1,8 +1,6 @@
 package com.example.BuildPC.service;
 
-import com.example.BuildPC.dto.ProductDto;
 import com.example.BuildPC.model.Post;
-import com.example.BuildPC.model.Product;
 import com.example.BuildPC.model.User;
 import org.springframework.stereotype.Service;
 
@@ -17,7 +15,7 @@ public interface PostService {
 
     Post createNewPost(Post post);
 
-    Boolean updatePost(Post Post);
+    Boolean updatePost(Post post);
 
     Boolean deletePostById(int id);
 
