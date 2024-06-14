@@ -76,4 +76,9 @@ public class CategoryServiceImpl implements CategoryService {
     public List<Category> findCategoryByStatus() {
         return categoryRepository.findByCategoryStatus(true);
     }
+
+    @Override
+    public List<Category> searchCategoryByName(String keyword) {
+        return this.categoryRepository.searchCategoryName(keyword);
+    }
 }

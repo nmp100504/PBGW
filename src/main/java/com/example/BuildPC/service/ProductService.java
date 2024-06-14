@@ -25,5 +25,6 @@ public interface ProductService {
     void updateProduct(Product product);
     void deleteProduct(int id);
     boolean existsByProductName(String productName);
-//    List<Product> findByProductStatus();
+    List<Product> searchProductByName(String productName);
+
 }

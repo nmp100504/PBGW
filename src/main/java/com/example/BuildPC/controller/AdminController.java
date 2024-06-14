@@ -6,7 +6,9 @@ import com.example.BuildPC.dto.UserDto;
 import com.example.BuildPC.model.Role;
 import com.example.BuildPC.model.User;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -15,11 +17,13 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @Controller
+@RequiredArgsConstructor
 @RequestMapping("/dashBoard")
 public class AdminController {
 
-//    @Autowired
+    //    @Autowired
 //    private AdminRepository repository;
+    private final PasswordEncoder passwordEncoder;
     @Autowired
     private AdminService adminService;
 
@@ -74,7 +78,7 @@ public class AdminController {
             return "dashBoard/createUser";
         }
 
-       adminService.save(userDto);
+        adminService.save(userDto);
         return "redirect:/dashBoard/tables";
     }
 
@@ -89,7 +93,7 @@ public class AdminController {
             userDto.setFirstName(user.getFirstName());
             userDto.setLastName(user.getLastName());
             userDto.setEmail(user.getEmail());
-            userDto.setPassword(user.getPassword());
+            userDto.setPassword(passwordEncoder.encode(user.getPassword()));
             userDto.setPhone(user.getPhone());
             userDto.setRole(String.valueOf(user.getRole()));
 
@@ -105,7 +109,7 @@ public class AdminController {
 
     @PostMapping("/edit")
     public String updateUser(Model model, @RequestParam int id, @Valid @ModelAttribute UserDto userDto,
-                                BindingResult result){
+                             BindingResult result){
         try {
             User user = adminService.findUserById(id);
             model.addAttribute("user", user);
@@ -116,7 +120,7 @@ public class AdminController {
             user.setFirstName(userDto.getFirstName());
             user.setLastName(userDto.getLastName());
             user.setEmail(userDto.getEmail());
-            user.setPassword(userDto.getPassword());
+            user.setPassword(passwordEncoder.encode(userDto.getPassword()));
             user.setPhone(userDto.getPhone());
             user.setRole(Role.valueOf(userDto.getRole()));
             adminService.updateUser(user);
@@ -139,7 +143,7 @@ public class AdminController {
             userDto.setFirstName(user.getFirstName());
             userDto.setLastName(user.getLastName());
             userDto.setEmail(user.getEmail());
-            userDto.setPassword(user.getPassword());
+            userDto.setPassword(passwordEncoder.encode(user.getPassword()));
             userDto.setPhone(user.getPhone());
             userDto.setRole(String.valueOf(user.getRole()));
 
@@ -155,7 +159,7 @@ public class AdminController {
 
     @PostMapping("/tables/edit")
     public String updateUser1(Model model, @RequestParam int id, @Valid @ModelAttribute UserDto userDto,
-                             BindingResult result){
+                              BindingResult result){
         try {
             User user = adminService.findUserById(id);
             model.addAttribute("user", user);
@@ -166,7 +170,7 @@ public class AdminController {
             user.setFirstName(userDto.getFirstName());
             user.setLastName(userDto.getLastName());
             user.setEmail(userDto.getEmail());
-            user.setPassword(userDto.getPassword());
+            user.setPassword(passwordEncoder.encode(userDto.getPassword()));
             user.setPhone(userDto.getPhone());
             user.setRole(Role.valueOf(userDto.getRole()));
 
