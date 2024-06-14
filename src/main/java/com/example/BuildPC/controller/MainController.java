@@ -18,10 +18,7 @@ public class MainController {
 
     @Autowired
     private CategoryService categoryService;
-//    @GetMapping("/")
-//    public String getHomePage() {
-//        return "LandingPage/index_1";
-//    }
+
 @GetMapping("/login")
 public String login(){
     return "auth/login_page";

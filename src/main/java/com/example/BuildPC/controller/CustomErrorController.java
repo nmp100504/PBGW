@@ -13,22 +13,19 @@ public class CustomErrorController implements ErrorController {
 
     @RequestMapping(ERROR_PATH)
     public String handleError(HttpServletRequest request) {
-        // Get the HTTP error status code
         Integer statusCode = (Integer) request.getAttribute(RequestDispatcher.ERROR_STATUS_CODE);
 
-        // Handle different error codes
         if (statusCode != null) {
             if (statusCode == HttpStatus.FORBIDDEN.value()) {
-                return "error/403"; // Thymeleaf template for 403 Forbidden error
+                return "error/403";
             } else if (statusCode == HttpStatus.NOT_FOUND.value()) {
-                return "error/404"; // Thymeleaf template for 404 Not Found error
+                return "error/404";
             } else if (statusCode == HttpStatus.INTERNAL_SERVER_ERROR.value()) {
-                return "error/500"; // Thymeleaf template for 500 Internal Server Error
+                return "error/500";
             }
         }
 
-        // For other errors, display a generic error page
-        return "error/error"; // Thymeleaf template for other errors
+        return "error/error";
     }
 
     public String getErrorPath() {

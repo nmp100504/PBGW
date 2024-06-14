@@ -64,6 +64,8 @@ public class SecurityConfig {
                         .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
                         .logoutSuccessUrl("/")
                         .permitAll())
+                .rememberMe(rememberMe -> rememberMe
+                        .key("uniqueAndSecret").tokenValiditySeconds(86400))
                 .csrf(AbstractHttpConfigurer::disable)
                 .build();
     }
@@ -113,6 +115,7 @@ public class SecurityConfig {
 
             if (exception instanceof DisabledException) {
                 logger.debug("DisabledException caught, redirecting to /login?account_not_enabled");
+
                 response.sendRedirect("/login?account_not_enabled");
             } else {
                 logger.debug("Other authentication exception: {}", exception.getMessage());
