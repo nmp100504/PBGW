@@ -29,10 +29,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public User registerUser(RegistrationRequest registration) {
         var user = new User
-                (registration.getFirstName(),
+                (registration.getEmail(),
+                registration.getFirstName(),
                 registration.getLastName(),
-                registration.getEmail(),
                 passwordEncoder.encode(registration.getPassword()),
+                registration.getPhone(),
                 Role.CUSTOMER);
         return userRepository.save(user);
     }

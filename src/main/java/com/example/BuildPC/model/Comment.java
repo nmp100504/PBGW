@@ -26,12 +26,16 @@ public class Comment {
     private User user;
 
     @ManyToOne()
+    @JoinColumn(name ="post_id", nullable = false)
+    private Post post;
+
+    @ManyToOne()
     @JoinColumn(name = "product_id", nullable = false)
     private Product product;
 
     public Comment(String commentContent, User user, Product product) {
         this.commentContent = commentContent;
         this.user = user;
-        this.product = product;
+//        this.product = product;
     }
 }

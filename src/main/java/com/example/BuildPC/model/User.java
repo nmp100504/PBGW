@@ -1,16 +1,12 @@
 package com.example.BuildPC.model;
 
 
-import com.example.BuildPC.model.Role;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.NaturalId;
 
-import java.util.Collection;
-import java.util.List;
 import java.util.Set;
 
 @Data
@@ -56,12 +52,12 @@ public class User  {
     @Column(name ="isEnabled")
     private boolean isEnabled = false;
 
-    public User(String email, String firstName, String lastName, String password, Role role) {
+    public User(String email, String firstName, String lastName, String password, String phone, Role role) {
         this.email = email;
         this.firstName = firstName;
         this.lastName = lastName;
         this.password = password;
-        this.phone = phone;
+        this.phone = this.phone;
         this.role = role;
     }
 

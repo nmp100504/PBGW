@@ -102,6 +102,30 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
+ .dropdown-content {
+   display: none; /* Hide dropdown links until someone hovers over the icon */
+   position: absolute;
+   background-color: #f9f9f9;
+   min-width: 160px;
+   box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+   z-index: 1;
+ }
+
+li:hover .dropdown-content {
+  display: block; /* Show dropdown links when hovering over the list item */
+}
+
+.dropdown-content a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+  text-align: left;
+}
+
+.dropdown-content a:hover {background-color: #f1f1f1}
+
+
 .body_wrap {
   overflow: hidden;
   position: relative;

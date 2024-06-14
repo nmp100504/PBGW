@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+>
 <head>
 
   	<meta charset="utf-8">
@@ -94,9 +96,6 @@
               </div>
               <div class="col col-md-6">
                 <div class="text-md-end">
-                  <a href="/login">
-                    <button type="button" class="btn btn-primary">Sign in</button>
-                  </a>
                 </div>
               </div>
             </div>
@@ -166,8 +165,15 @@
                           <li><a href="about.html">About Us</a></li>
                           <li><a href="team.html">Team</a></li>
                           <li><a href="account.html">My Account</a></li>
-                          <li><a href="register.html">Register</a></li>
-                          <li><a href="error.html">404 Error</a></li>
+                          <li class="nav-item" sec:authorize="!isAuthenticated()">
+                            <a class="nav-link" href="#" th:href="@{/registration/registration-form}">Register</a>
+                          </li>
+                          <li class="nav-item" sec:authorize="!isAuthenticated()">
+                            <a class="nav-link" href="#" th:href="@{/login}">Login</a>
+                          </li>
+                          <<li class="nav-item" sec:authorize="isAuthenticated()">
+                          <a class="nav-link" href="#" th:href="@{/logout}">Logout</a>
+                        </li>
                         </ul>
                       </li>
                       <li><a href="contact.html">Contact</a></li>
@@ -229,10 +235,10 @@
               </div>
 
               <div class="col col-md-6">
-                <form th:action="@{/search}">
+                <form action="#">
                   <div class="advance_serach">
                     <div class="form_item">
-                      <input type="search" name="search" placeholder="Search Products...">
+                      <input type="search" name="search" placeholder="Search Prudcts...">
                     </div>
                     <button type="submit" class="search_btn"><i class="far fa-search"></i></button>
                   </div>
@@ -243,7 +249,7 @@
                 <button type="button" class="cart_btn">
                   <span class="cart_icon">
                     <i class="icon icon-ShoppingCart"></i>
-<!--                    <small class="cart_counter"></small>-->
+                    <small class="cart_counter"></small>
                   </span>
                   <span class="cart_amount"></span>
                 </button>
@@ -2344,5 +2350,4 @@
 
   </body>
 
-<!-- Mirrored from webthunder.net/html/getyootech/index_1.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 19 May 2024 08:47:58 GMT -->
 </html>
