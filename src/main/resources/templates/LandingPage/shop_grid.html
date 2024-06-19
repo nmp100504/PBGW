@@ -243,7 +243,7 @@
               </div>
 
               <div class="col col-md-6">
-                <form action="#">
+                <form th:action="@{/search}">
                   <div class="advance_serach">
                     <div class="form_item">
                       <input type="search" name="search" placeholder="Search Prudcts...">
@@ -448,7 +448,7 @@
                     </div>
 
                     <div class="col col-md-4 col-sm-4">
-                      <form  id="sortForm" th:action="@{'/sort/' + ${categoryList.get(1).id}}">
+                      <form  id="sortForm" th:action="@{'/sort/' + ${listByCategory.get(0).category.id}}">
                         <div class="select_option clearfix">
                           <select id="sortingOption" name="sortingOption" onchange="submitForm()">
                             <option data-display="Defaul Sorting">Select Your Option</option>
