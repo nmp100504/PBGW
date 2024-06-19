@@ -1,6 +1,8 @@
 package com.example.BuildPC.configuration;
 
 import com.example.BuildPC.model.User;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -17,6 +19,15 @@ public class CustomUserDetails implements UserDetails {
     private String password;
     private boolean isEnabled;
     private List<GrantedAuthority> authorities;
+    @Setter
+    @Getter
+    private String firstName;
+    @Setter
+    @Getter
+    private String lastName;
+    @Setter
+    @Getter
+    private String email;
 
     public CustomUserDetails(User user) {
         this.userName = user.getEmail();
@@ -24,7 +35,9 @@ public class CustomUserDetails implements UserDetails {
         this.isEnabled = user.isEnabled();
         this.authorities =
                 Collections.singletonList(new SimpleGrantedAuthority("ROLE_" + user.getRole().name()));
-
+        this.firstName = user.getFirstName();
+        this.lastName = user.getLastName();
+        this.email = user.getEmail();
     }
 
     @Override
@@ -39,7 +52,8 @@ public class CustomUserDetails implements UserDetails {
 
     @Override
     public String getUsername() {
-        return userName;
+        return
+                this.firstName + this.lastName;
     }
 
     @Override
@@ -61,4 +75,5 @@ public class CustomUserDetails implements UserDetails {
     public boolean isEnabled() {
         return isEnabled;
     }
+
 }

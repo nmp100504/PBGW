@@ -1,14 +1,18 @@
 package com.example.BuildPC.controller;
 
+import com.example.BuildPC.configuration.CustomUserDetails;
+import com.example.BuildPC.model.User;
 import com.example.BuildPC.service.CategoryService;
 import com.example.BuildPC.service.OrderService;
 import com.example.BuildPC.service.ProductService;
 import com.example.BuildPC.model.Category;
 import com.example.BuildPC.model.Product;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
@@ -36,6 +40,11 @@ public String login(){
         return "auth/index_1";
     }
 
-    @Autowired private OrderService orderService;
-
+    @GetMapping("/account")
+    public String showAccountPage(Model model, @AuthenticationPrincipal CustomUserDetails user) {
+        model.addAttribute("user",user);
+        model.addAttribute("firstName", user.getFirstName());
+        model.addAttribute("lastName", user.getLastName());
+        return "auth/account";
+    }
 }
