@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 
 <!-- Mirrored from webthunder.net/html/getyootech/index_1.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 19 May 2024 08:47:33 GMT -->
@@ -412,7 +413,7 @@
                 <div class="col col-lg-6">
                   <ul class="btns_group ul_li_right">
                     <li><a class="btn border_black" href="#!">Update Cart</a></li>
-                    <li><a class="btn btn_dark" href="#!">Prceed To Checkout</a></li>
+                    <li><a class="btn btn_dark" th:href="@{/checkout}">Prceed To Checkout</a></li>
                   </ul>
                 </div>
               </div>

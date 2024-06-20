@@ -51,5 +51,12 @@ public class Order {
         this.status = status;
         this.user = user;
     }
+    public Order(Date orderDate, String orderNote, String shipAddress, User user) {
+        this.orderDate = orderDate;
+        this.orderNote = orderNote;
+        this.shipAddress = shipAddress;
+        this.status = Status.WAIT;
+        this.user = user;
+    }
 
 }

@@ -1,15 +1,10 @@
 package com.example.BuildPC.controller;
 
 
-import com.example.BuildPC.service.BrandService;
-import com.example.BuildPC.service.CategoryService;
-import com.example.BuildPC.service.ProductImageService;
-import com.example.BuildPC.service.ProductService;
+import com.example.BuildPC.model.*;
+import com.example.BuildPC.repository.SpecificationRepository;
+import com.example.BuildPC.service.*;
 import com.example.BuildPC.dto.ProductDto;
-import com.example.BuildPC.model.Category;
-import com.example.BuildPC.model.Product;
-import com.example.BuildPC.model.Brand;
-import com.example.BuildPC.model.ProductImage;
 import com.example.BuildPC.repository.CategoryRepository;
 import com.example.BuildPC.repository.ProductImageRepository;
 import com.example.BuildPC.repository.ProductRepository;
@@ -38,9 +33,6 @@ import java.util.List;
 public class ProductController {
 
     @Autowired
-    private ProductRepository  productRepository;
-    private CategoryRepository categoryRepository;
-    @Autowired
     private ProductService productService;
     @Autowired CategoryService categoryService;
 
@@ -49,7 +41,8 @@ public class ProductController {
     @Autowired
     private ProductImageService productImageService;
     @Autowired
-    private ProductImageRepository productImageRepository;
+    private SpecificationService specificationService;
+
     @GetMapping("/category/{id}")
     public String showCategory(@PathVariable("id") int id, Model model) {
         List<Product> listByCategory = productService.listByCategory(id);
@@ -65,11 +58,18 @@ public class ProductController {
     public String showProductDetails(@PathVariable("id") int id, Model model) {
         Product byId = productService.findById(id);
         List<Category> categoryList = categoryService.findAll();
-        if (byId == null) {
-            System.out.println("No product found");
+        List<Specifications> specList = specificationService.getAllSpecificationsByCategory(categoryService.findCategoryById(
+                byId.getCategory().getId()));
+        if(byId.getProductSpecifications().isEmpty()){
+            System.out.println("No specifications found");
+        }else {
+            for(ProductSpecifications spec : byId.getProductSpecifications()){
+                System.out.println(spec.getSpecValue());
+            }
         }
         model.addAttribute("product", byId);
         model.addAttribute("categoryList", categoryList);
+        model.addAttribute("specList", specList);
         return "LandingPage/shop_details";
     }
     @GetMapping("/ManagerDashBoard/productList")

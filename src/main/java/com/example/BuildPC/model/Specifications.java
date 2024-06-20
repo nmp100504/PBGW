@@ -16,7 +16,7 @@ public class Specifications {
 
     @Id
     @Column(name = "spec_id")
-    private String specId;
+    private Long specId;
 
     @Column(name = "spec_name")
     private String specName;
