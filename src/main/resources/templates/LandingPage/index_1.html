@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
 
   	<meta charset="utf-8">
@@ -65,39 +66,35 @@
               <div class="col col-md-6">
                 <ul class="header_select_options ul_li">
                   <li>
-<!--                    <div class="select_option">-->
-<!--                      <div class="flug_wrap">-->
-<!--                        <img src="assetsLandingPage/images/flug/flug_uk.png" alt="Getyootech - Gadgets Ecommerce Site Template">-->
-<!--                      </div>-->
-<!--                      <select>-->
-<!--                        <option data-display="Select Option">Select Your Language</option>-->
-<!--                        <option value="1" selected>English</option>-->
-<!--                        <option value="2">Bangla</option>-->
-<!--                        <option value="3" disabled>Arabic</option>-->
-<!--                        <option value="4">Hebrew</option>-->
-<!--                      </select>-->
-<!--                    </div>-->
+                    <!--                    <div class="select_option">-->
+                    <!--                      <div class="flug_wrap">-->
+                    <!--                        <img src="assetsLandingPage/images/flug/flug_uk.png" alt="Getyootech - Gadgets Ecommerce Site Template">-->
+                    <!--                      </div>-->
+                    <!--                      <select>-->
+                    <!--                        <option data-display="Select Option">Select Your Language</option>-->
+                    <!--                        <option value="1" selected>English</option>-->
+                    <!--                        <option value="2">Bangla</option>-->
+                    <!--                        <option value="3" disabled>Arabic</option>-->
+                    <!--                        <option value="4">Hebrew</option>-->
+                    <!--                      </select>-->
+                    <!--                    </div>-->
                   </li>
                   <li>
-<!--                    <div class="select_option">-->
-<!--                      <h3 class="title_text">Currency:</h3>-->
-<!--                      <select>-->
-<!--                        <option data-display="Select Option">Select Your Currency</option>-->
-<!--                        <option value="united States Dollar" selected>USD</option>-->
-<!--                        <option value="Armenian Dram">AMD</option>-->
-<!--                        <option value="Australian Dollar" disabled>AUD</option>-->
-<!--                        <option value="Austria">EUR</option>-->
-<!--                      </select>-->
-<!--                    </div>-->
+                    <!--                    <div class="select_option">-->
+                    <!--                      <h3 class="title_text">Currency:</h3>-->
+                    <!--                      <select>-->
+                    <!--                        <option data-display="Select Option">Select Your Currency</option>-->
+                    <!--                        <option value="united States Dollar" selected>USD</option>-->
+                    <!--                        <option value="Armenian Dram">AMD</option>-->
+                    <!--                        <option value="Australian Dollar" disabled>AUD</option>-->
+                    <!--                        <option value="Austria">EUR</option>-->
+                    <!--                      </select>-->
+                    <!--                    </div>-->
                   </li>
                 </ul>
               </div>
               <div class="col col-md-6">
-                <div class="text-md-end">
-                  <a href="/login">
-                    <button type="button" class="btn btn-primary">Sign in</button>
-                  </a>
-                </div>
+                <p class="header_hotline">Hotline: <strong>(+880)1680636189</strong></p>
               </div>
             </div>
           </div>
@@ -107,11 +104,11 @@
           <div class="container">
             <div class="row align-items-center">
               <div class="col col-lg-3 col-5">
-<!--                <div class="brand_logo">-->
-<!--&lt;!&ndash;                  <a class="brand_link" href="index.html">&ndash;&gt;-->
-<!--&lt;!&ndash;                    <img src="assetsLandingPage/images/logo/site_logo.svg" alt="Getyootech - Gadgets Ecommerce Site Template">&ndash;&gt;-->
-<!--&lt;!&ndash;                  </a>&ndash;&gt;-->
-<!--                </div>-->
+                <div class="brand_logo">
+<!--                  <a class="brand_link" href="index.html">-->
+<!--                    <img src="assetsLandingPage/images/logo/site_logo.svg" alt="Getyootech - Gadgets Ecommerce Site Template">-->
+<!--                  </a>-->
+                </div>
               </div>
               <div class="col col-lg-6 col-2">
                 <nav class="main_menu navbar navbar-expand-lg">
@@ -166,8 +163,15 @@
                           <li><a href="about.html">About Us</a></li>
                           <li><a href="team.html">Team</a></li>
                           <li><a href="account.html">My Account</a></li>
-                          <li><a href="register.html">Register</a></li>
-                          <li><a href="error.html">404 Error</a></li>
+                          <li class="nav-item" sec:authorize="!isAuthenticated()">
+                            <a class="nav-link" href="#" th:href="@{/registration/registration-form}">Register</a>
+                          </li>
+                          <li class="nav-item" sec:authorize="!isAuthenticated()">
+                            <a class="nav-link" href="#" th:href="@{/login}">Login</a>
+                          </li>
+                          <li class="nav-item" sec:authorize="isAuthenticated()">
+                            <a class="nav-link" href="#" th:href="@{/logout}">Logout</a>
+                          </li>
                         </ul>
                       </li>
                       <li><a href="contact.html">Contact</a></li>
@@ -184,14 +188,22 @@
                     </button>
                   </li>
                   <li><a href="contact.html"><i class="fa-regular fa-location-dot"></i></a></li>
-                  <li><a href="compare.html"><i class="fa-solid fa-arrows-rotate"></i></a></li>
-                  <li>
-                    <a href="wishlist.html">
-                      <i class="fa-regular fa-heart"></i>
-                      <small class="wishlist_counter">5</small>
+                  <li sec:authorize="hasRole('MANAGER')">
+                    <a th:href="@{/ManagerDashBoard}">
+                      <i class="fa-solid fa-table-columns"></i>
                     </a>
                   </li>
-                  <li><a href="account.html"><i class="fa-regular fa-user"></i></a></li>
+                  <li sec:authorize="hasRole('ADMIN')">
+                    <a th:href="@{/dashBoard}">
+                      <i class="fa-solid fa-table-columns"></i>
+                    </a>
+                  </li>
+                  <li sec:authorize="isAuthenticated()">
+                    <a th:href="@{/logout}">
+                      <i class="fa-solid fa-arrow-right-from-bracket"></i>
+                    </a>
+                  </li>
+                  <li><a th:href="account.html"><i class="fa-regular fa-user"></i></a></li>
                 </ul>
               </div>
             </div>
@@ -217,11 +229,6 @@
                         <th:block th:each="category : ${categoryList}">
                           <li><a th:href="@{'/category/' + ${category.id}}"><i class="fa-duotone fa-earth-americas"></i>[[${category.categoryName}]]</a></li>
                         </th:block>
-<!--                        <li><a href="shop_grid.html"><i class="fa-duotone fa-star-christmas"></i> Deals of the day</a></li>-->
-<!--                        <li><a href="shop_list.html"><i class="fa-duotone fa-mobile-screen"></i> Mobile Accessories</a></li>-->
-<!--                        <li><a href="shop_grid.html"><i class="fa-duotone fa-computer-classic"></i> Computer Accessories</a></li>-->
-<!--                        <li><a href="shop_list.html"><i class="fa-solid fa-lightbulb-cfl"></i> Consumer Electronics</a></li>-->
-<!--                        <li><a href="shop_grid.html"><i class="fa-duotone fa-car"></i> Automobiles & Motorcycles</a></li>-->
                       </ul>
                     </div>
                   </div>
@@ -229,7 +236,7 @@
               </div>
 
               <div class="col col-md-6">
-                <form action="#">
+                <form th:action="@{/search}">
                   <div class="advance_serach">
                     <div class="form_item">
                       <input type="search" name="search" placeholder="Search Prudcts...">
@@ -240,13 +247,12 @@
               </div>
 
               <div class="col col-md-3 col-6">
-                <button type="button" class="cart_btn">
+                <a th:href="@{/cart}" class="button cart_btn">
                   <span class="cart_icon">
                     <i class="icon icon-ShoppingCart"></i>
-                    <small class="cart_counter"></small>
                   </span>
-                  <span class="cart_amount"></span>
-                </button>
+<!--                  <span class="cart_amount"></span>-->
+                </a>
               </div>
             </div>
           </div>
@@ -261,70 +267,6 @@
 
         <!-- sidebar cart - start
         ================================================== -->
-        <div class="sidebar-menu-wrapper">
-          <div class="cart_sidebar">
-            <button type="button" class="close_btn"><i class="fal fa-times"></i></button>
-
-            <ul class="cart_items_list ul_li_block mb_30 clearfix">
-<!--              <li>-->
-<!--                <div class="item_image">-->
-<!--                  <img src="assetsLandingPage/images/cart/cart_img_1.webp" alt="Getyootech - Gadgets Ecommerce Site Template">-->
-<!--                </div>-->
-<!--                <div class="item_content">-->
-<!--                  <h4 class="item_title">Yellow Blouse</h4>-->
-<!--                  <span class="item_price">$30.00</span>-->
-<!--                </div>-->
-<!--                <button type="button" class="remove_btn"><i class="fal fa-trash-alt"></i></button>-->
-<!--              </li>-->
-<!--              <li>-->
-<!--                <div class="item_image">-->
-<!--                  <img src="assetsLandingPage/images/cart/cart_img_2.webp" alt="Getyootech - Gadgets Ecommerce Site Template">-->
-<!--                </div>-->
-<!--                <div class="item_content">-->
-<!--                  <h4 class="item_title">Yellow Blouse</h4>-->
-<!--                  <span class="item_price">$30.00</span>-->
-<!--                </div>-->
-<!--                <button type="button" class="remove_btn"><i class="fal fa-trash-alt"></i></button>-->
-<!--              </li>-->
-<!--              <li>-->
-<!--                <div class="item_image">-->
-<!--                  <img src="assetsLandingPage/images/cart/cart_img_3.webp" alt="Getyootech - Gadgets Ecommerce Site Template">-->
-<!--                </div>-->
-<!--                <div class="item_content">-->
-<!--                  <h4 class="item_title">Yellow Blouse</h4>-->
-<!--                  <span class="item_price">$30.00</span>-->
-<!--                </div>-->
-<!--                <button type="button" class="remove_btn"><i class="fal fa-trash-alt"></i></button>-->
-<!--              </li>-->
-            </ul>
-
-            <ul class="total_price ul_li_block mb_30 clearfix">
-              <li>
-                <span>Subtotal:</span>
-                <span></span>
-              </li>
-              <li>
-                <span>Vat"</span>
-                <span></span>
-              </li>
-              <li>
-                <span>Discount :</span>
-                <span></span>
-              </li>
-              <li>
-                <span>Total:</span>
-                <span></span>
-              </li>
-            </ul>
-
-            <ul class="btns_group ul_li_block clearfix">
-              <li><a class="btn btn_primary" href="cart.html">View Cart</a></li>
-              <li><a class="btn btn_secondary" href="checkout.html">Checkout</a></li>
-            </ul>
-          </div>
-
-          <div class="cart_overlay"></div>
-        </div>
         <!-- sidebar cart - end
         ================================================== -->
 
@@ -574,46 +516,6 @@
           </div>
         </section>
         <!-- category_section - end
-        ================================================== -->
-
-        <!-- promotion_section - start
-        ================================================== -->
-<!--        <section class="promotion_section">-->
-<!--          <div class="container">-->
-<!--            <div class="row promotion_banner_wrap">-->
-<!--              <div class="col col-lg-6">-->
-<!--                <div class="promotion_banner">-->
-<!--                  <div class="item_image">-->
-<!--                    <img src="assets/images/promotion/banner_img_1.webp" alt="Getyootech - Gadgets Ecommerce Site Template">-->
-<!--                  </div>-->
-<!--                  <div class="item_content">-->
-<!--                    <h3 class="item_title">Protective Sleeves</h3>-->
-<!--                    <p>-->
-<!--                      It is a long established fact that a reader will be distracted-->
-<!--                    </p>-->
-<!--                    <a class="btn btn_primary" href="shop_details.html">Shop Now</a>-->
-<!--                  </div>-->
-<!--                </div>-->
-<!--              </div>-->
-
-<!--              <div class="col col-lg-6">-->
-<!--                <div class="promotion_banner">-->
-<!--                  <div class="item_image">-->
-<!--                    <img src="assets/images/promotion/banner_img_2.webp" alt="Getyootech - Gadgets Ecommerce Site Template">-->
-<!--                  </div>-->
-<!--                  <div class="item_content">-->
-<!--                    <h3 class="item_title">Nutrillet Blender</h3>-->
-<!--                    <p>-->
-<!--                      It is a long established fact that a reader will be distracted-->
-<!--                    </p>-->
-<!--                    <a class="btn btn_primary" href="shop_details.html">Shop Now</a>-->
-<!--                  </div>-->
-<!--                </div>-->
-<!--              </div>-->
-<!--            </div>-->
-<!--          </div>-->
-<!--        </section>-->
-        <!-- promotion_section - end
         ================================================== -->
 
         <!-- new_arrivals_section - start
@@ -1952,230 +1854,6 @@
 <!--        </div>-->
         <!-- brand_section - end
         ================================================== -->
-
-        <!-- viewed_products_section - start
-        ================================================== -->
-<!--        <section class="viewed_products_section section_space">-->
-<!--          <div class="container">-->
-<!--            <div class="section_title mb-0">-->
-<!--              <h2 class="title_text"><i class="fa-duotone fa-eye"></i> Recently Viewed Products</h2>-->
-<!--            </div>-->
-<!--            <div class="viewed_products_wrap arrows_topright">-->
-<!--              <div class="viewed_products_carousel row" data-slick='{"dots": false}'>-->
-<!--                <div class="slider_item col">-->
-<!--                  <div class="viewed_product_item">-->
-<!--                    <div class="item_image">-->
-<!--                      <img src="assets/images/viewed_products/viewed_product_img_1.webp" alt="Getyootech - Gadgets Ecommerce Site Template">-->
-<!--                    </div>-->
-<!--                    <div class="item_content">-->
-<!--                      <h3 class="item_title">Electronics</h3>-->
-<!--                      <ul class="ul_li_block">-->
-<!--                        <li><a href="shop_grid.html">Computers</a></li>-->
-<!--                        <li><a href="shop_grid.html">Laptop</a></li>-->
-<!--                        <li><a href="shop_grid.html">Macbook</a></li>-->
-<!--                        <li><a href="shop_grid.html">Accessories</a></li>-->
-<!--                        <li><a href="shop_grid.html">More...</a></li>-->
-<!--                      </ul>-->
-<!--                    </div>-->
-<!--                  </div>-->
-
-<!--                  <div class="viewed_product_item">-->
-<!--                    <div class="item_image">-->
-<!--                      <img src="assets/images/viewed_products/viewed_product_img_2.webp" alt="Getyootech - Gadgets Ecommerce Site Template">-->
-<!--                    </div>-->
-<!--                    <div class="item_content">-->
-<!--                      <h3 class="item_title">PC & Laptop</h3>-->
-<!--                      <ul class="ul_li_block">-->
-<!--                        <li><a href="shop_grid.html">Computers</a></li>-->
-<!--                        <li><a href="shop_grid.html">Laptop</a></li>-->
-<!--                        <li><a href="shop_grid.html">Macbook</a></li>-->
-<!--                        <li><a href="shop_grid.html">Accessories</a></li>-->
-<!--                        <li><a href="shop_grid.html">More...</a></li>-->
-<!--                      </ul>-->
-<!--                    </div>-->
-<!--                  </div>-->
-<!--                </div>-->
-
-<!--                <div class="slider_item col">-->
-<!--                  <div class="viewed_product_item">-->
-<!--                    <div class="item_image">-->
-<!--                      <img src="assets/images/viewed_products/viewed_product_img_3.webp" alt="Getyootech - Gadgets Ecommerce Site Template">-->
-<!--                    </div>-->
-<!--                    <div class="item_content">-->
-<!--                      <h3 class="item_title">Tables & Mobiles</h3>-->
-<!--                      <ul class="ul_li_block">-->
-<!--                        <li><a href="shop_grid.html">Computers</a></li>-->
-<!--                        <li><a href="shop_grid.html">Laptop</a></li>-->
-<!--                        <li><a href="shop_grid.html">Macbook</a></li>-->
-<!--                        <li><a href="shop_grid.html">Accessories</a></li>-->
-<!--                        <li><a href="shop_grid.html">More...</a></li>-->
-<!--                      </ul>-->
-<!--                    </div>-->
-<!--                  </div>-->
-
-<!--                  <div class="viewed_product_item">-->
-<!--                    <div class="item_image">-->
-<!--                      <img src="assets/images/viewed_products/viewed_product_img_4.webp" alt="Getyootech - Gadgets Ecommerce Site Template">-->
-<!--                    </div>-->
-<!--                    <div class="item_content">-->
-<!--                      <h3 class="item_title">Accessories</h3>-->
-<!--                      <ul class="ul_li_block">-->
-<!--                        <li><a href="shop_grid.html">Computers</a></li>-->
-<!--                        <li><a href="shop_grid.html">Laptop</a></li>-->
-<!--                        <li><a href="shop_grid.html">Macbook</a></li>-->
-<!--                        <li><a href="shop_grid.html">Accessories</a></li>-->
-<!--                        <li><a href="shop_grid.html">More...</a></li>-->
-<!--                      </ul>-->
-<!--                    </div>-->
-<!--                  </div>-->
-<!--                </div>-->
-
-<!--                <div class="slider_item col">-->
-<!--                  <div class="viewed_product_item">-->
-<!--                    <div class="item_image">-->
-<!--                      <img src="assets/images/viewed_products/viewed_product_img_5.webp" alt="Getyootech - Gadgets Ecommerce Site Template">-->
-<!--                    </div>-->
-<!--                    <div class="item_content">-->
-<!--                      <h3 class="item_title">TV & Audio</h3>-->
-<!--                      <ul class="ul_li_block">-->
-<!--                        <li><a href="shop_grid.html">Computers</a></li>-->
-<!--                        <li><a href="shop_grid.html">Laptop</a></li>-->
-<!--                        <li><a href="shop_grid.html">Macbook</a></li>-->
-<!--                        <li><a href="shop_grid.html">Accessories</a></li>-->
-<!--                        <li><a href="shop_grid.html">More...</a></li>-->
-<!--                      </ul>-->
-<!--                    </div>-->
-<!--                  </div>-->
-
-<!--                  <div class="viewed_product_item">-->
-<!--                    <div class="item_image">-->
-<!--                      <img src="assets/images/viewed_products/viewed_product_img_6.webp" alt="Getyootech - Gadgets Ecommerce Site Template">-->
-<!--                    </div>-->
-<!--                    <div class="item_content">-->
-<!--                      <h3 class="item_title">Gameing</h3>-->
-<!--                      <ul class="ul_li_block">-->
-<!--                        <li><a href="shop_grid.html">Computers</a></li>-->
-<!--                        <li><a href="shop_grid.html">Laptop</a></li>-->
-<!--                        <li><a href="shop_grid.html">Macbook</a></li>-->
-<!--                        <li><a href="shop_grid.html">Accessories</a></li>-->
-<!--                        <li><a href="shop_grid.html">More...</a></li>-->
-<!--                      </ul>-->
-<!--                    </div>-->
-<!--                  </div>-->
-<!--                </div>-->
-
-<!--                <div class="slider_item col">-->
-<!--                  <div class="viewed_product_item">-->
-<!--                    <div class="item_image">-->
-<!--                      <img src="assets/images/viewed_products/viewed_product_img_1.webp" alt="Getyootech - Gadgets Ecommerce Site Template">-->
-<!--                    </div>-->
-<!--                    <div class="item_content">-->
-<!--                      <h3 class="item_title">Electronics</h3>-->
-<!--                      <ul class="ul_li_block">-->
-<!--                        <li><a href="shop_grid.html">Computers</a></li>-->
-<!--                        <li><a href="shop_grid.html">Laptop</a></li>-->
-<!--                        <li><a href="shop_grid.html">Macbook</a></li>-->
-<!--                        <li><a href="shop_grid.html">Accessories</a></li>-->
-<!--                        <li><a href="shop_grid.html">More...</a></li>-->
-<!--                      </ul>-->
-<!--                    </div>-->
-<!--                  </div>-->
-
-<!--                  <div class="viewed_product_item">-->
-<!--                    <div class="item_image">-->
-<!--                      <img src="assets/images/viewed_products/viewed_product_img_2.webp" alt="Getyootech - Gadgets Ecommerce Site Template">-->
-<!--                    </div>-->
-<!--                    <div class="item_content">-->
-<!--                      <h3 class="item_title">PC & Laptop</h3>-->
-<!--                      <ul class="ul_li_block">-->
-<!--                        <li><a href="shop_grid.html">Computers</a></li>-->
-<!--                        <li><a href="shop_grid.html">Laptop</a></li>-->
-<!--                        <li><a href="shop_grid.html">Macbook</a></li>-->
-<!--                        <li><a href="shop_grid.html">Accessories</a></li>-->
-<!--                        <li><a href="shop_grid.html">More...</a></li>-->
-<!--                      </ul>-->
-<!--                    </div>-->
-<!--                  </div>-->
-<!--                </div>-->
-
-<!--                <div class="slider_item col">-->
-<!--                  <div class="viewed_product_item">-->
-<!--                    <div class="item_image">-->
-<!--                      <img src="assets/images/viewed_products/viewed_product_img_3.webp" alt="Getyootech - Gadgets Ecommerce Site Template">-->
-<!--                    </div>-->
-<!--                    <div class="item_content">-->
-<!--                      <h3 class="item_title">Tables & Mobiles</h3>-->
-<!--                      <ul class="ul_li_block">-->
-<!--                        <li><a href="shop_grid.html">Computers</a></li>-->
-<!--                        <li><a href="shop_grid.html">Laptop</a></li>-->
-<!--                        <li><a href="shop_grid.html">Macbook</a></li>-->
-<!--                        <li><a href="shop_grid.html">Accessories</a></li>-->
-<!--                        <li><a href="shop_grid.html">More...</a></li>-->
-<!--                      </ul>-->
-<!--                    </div>-->
-<!--                  </div>-->
-
-<!--                  <div class="viewed_product_item">-->
-<!--                    <div class="item_image">-->
-<!--                      <img src="assets/images/viewed_products/viewed_product_img_4.webp" alt="Getyootech - Gadgets Ecommerce Site Template">-->
-<!--                    </div>-->
-<!--                    <div class="item_content">-->
-<!--                      <h3 class="item_title">Accessories</h3>-->
-<!--                      <ul class="ul_li_block">-->
-<!--                        <li><a href="shop_grid.html">Computers</a></li>-->
-<!--                        <li><a href="shop_grid.html">Laptop</a></li>-->
-<!--                        <li><a href="shop_grid.html">Macbook</a></li>-->
-<!--                        <li><a href="shop_grid.html">Accessories</a></li>-->
-<!--                        <li><a href="shop_grid.html">More...</a></li>-->
-<!--                      </ul>-->
-<!--                    </div>-->
-<!--                  </div>-->
-<!--                </div>-->
-
-<!--                <div class="slider_item col">-->
-<!--                  <div class="viewed_product_item">-->
-<!--                    <div class="item_image">-->
-<!--                      <img src="assets/images/viewed_products/viewed_product_img_5.webp" alt="Getyootech - Gadgets Ecommerce Site Template">-->
-<!--                    </div>-->
-<!--                    <div class="item_content">-->
-<!--                      <h3 class="item_title">TV & Audio</h3>-->
-<!--                      <ul class="ul_li_block">-->
-<!--                        <li><a href="shop_grid.html">Computers</a></li>-->
-<!--                        <li><a href="shop_grid.html">Laptop</a></li>-->
-<!--                        <li><a href="shop_grid.html">Macbook</a></li>-->
-<!--                        <li><a href="shop_grid.html">Accessories</a></li>-->
-<!--                        <li><a href="shop_grid.html">More...</a></li>-->
-<!--                      </ul>-->
-<!--                    </div>-->
-<!--                  </div>-->
-
-<!--                  <div class="viewed_product_item">-->
-<!--                    <div class="item_image">-->
-<!--                      <img src="assets/images/viewed_products/viewed_product_img_6.webp" alt="Getyootech - Gadgets Ecommerce Site Template">-->
-<!--                    </div>-->
-<!--                    <div class="item_content">-->
-<!--                      <h3 class="item_title">Gameing</h3>-->
-<!--                      <ul class="ul_li_block">-->
-<!--                        <li><a href="shop_grid.html">Computers</a></li>-->
-<!--                        <li><a href="shop_grid.html">Laptop</a></li>-->
-<!--                        <li><a href="shop_grid.html">Macbook</a></li>-->
-<!--                        <li><a href="shop_grid.html">Accessories</a></li>-->
-<!--                        <li><a href="shop_grid.html">More...</a></li>-->
-<!--                      </ul>-->
-<!--                    </div>-->
-<!--                  </div>-->
-<!--                </div>-->
-<!--              </div>-->
-<!--              <div class="carousel_nav">-->
-<!--                <button type="button" class="vpc_left_arrow"><i class="fa-regular fa-angle-left"></i></button>-->
-<!--                <button type="button" class="vpc_right_arrow"><i class="fa-regular fa-angle-right"></i></button>-->
-<!--              </div>-->
-<!--            </div>-->
-<!--          </div>-->
-<!--        </section>-->
-        <!-- viewed_products_section - end
-        ================================================== -->
-
         <!-- newsletter_section - start
         ================================================== -->
         <section class="newsletter_section">
@@ -2200,7 +1878,6 @@
         </section>
         <!-- newsletter_section - end
         ================================================== -->
-
       </main>
       <!-- main body - end
       ================================================== -->

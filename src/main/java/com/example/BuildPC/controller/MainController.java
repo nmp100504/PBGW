@@ -34,10 +34,10 @@ public String login(){
     @GetMapping({"/", "/homepage"})
     public String showLandingPage(Model model) {
         List<Category> categoryList = categoryService.findAll();
-        List<Product> productList = productService.findAll();
+        List<Product> productList = productService.listActiveProduct(true);
         model.addAttribute("categoryList",categoryList);
         model.addAttribute("productList",productList);
-        return "auth/index_1";
+        return "LandingPage/index_1";
     }
 
     @GetMapping("/account")

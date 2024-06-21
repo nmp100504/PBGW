@@ -7,6 +7,7 @@ import com.example.BuildPC.dto.CategoryDto;
 import com.example.BuildPC.model.Category;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -29,8 +30,12 @@ public class CategoryController {
     private CategoryService categoryService;
 
     @GetMapping("/categoryList")
-    public String showCategoryList(Model model) {
+    public String showCategoryList(Model model, @Param("keyword") String keyword) {
         List<Category> categories = categoryService.findAll();
+        if(keyword != null){
+            categories = categoryService.searchCategoryByName(keyword);
+            model.addAttribute("keyword", keyword);
+        }
         model.addAttribute("categories", categories);
         return "Manager/showCategoryList";
     }
@@ -44,9 +49,11 @@ public class CategoryController {
 
     @PostMapping("/categoryList/create")
     public String createCategory(@Valid @ModelAttribute("categoryDto") CategoryDto categoryDto, BindingResult result) {
-        System.out.println("test");
         if(categoryDto.getCategoryImage().isEmpty()){
             result.addError(new FieldError("categoryDto", "categoryImage", "Please select a file"));
+        }
+        if(categoryService.existCategoryByName(categoryDto.getCategoryName())){
+            result.addError(new FieldError("categoryDto", "categoryName", "Category already exists"));
         }
         if(result.hasErrors()) {
             return "Manager/createCategory";

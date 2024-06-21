@@ -626,31 +626,40 @@
 
   // price range - start
   // --------------------------------------------------
-  if($("#slider-range").length){
-    $( "#slider-range" ).slider({
+  $(function() {
+    var minPrice = 0; // Minimum price (you can set this dynamically)
+    var maxPrice = 10000000; // Maximum price (you can set this dynamically)
+
+    $("#slider-range").slider({
       range: true,
-      min: 0,
-      max: 10000,
-      values: [ 0, 4000.00 ],
-      slide: function( event, ui ) {
-        $( "#amount" ).val( "$" + ui.values[ 0 ] + " - $" + ui.values[ 1 ] );
+      min: minPrice,
+      max: maxPrice,
+      values: [minPrice, maxPrice],
+      slide: function(event, ui) {
+        $("#amount").val(ui.values[0] + " VND - " + ui.values[1] + " VND");
+      },
+      change: function(event, ui) {
+        filterProducts(ui.values[0], ui.values[1]);
       }
     });
-    $( "#amount" ).val( "$" + $( "#slider-range" ).slider( "values", 0 ) +
-      " - $" + $( "#slider-range" ).slider( "values", 1 ) );
+
+    $("#amount").val($("#slider-range").slider("values", 0) + " VND - " +
+        $("#slider-range").slider("values", 1) + " VND");
+  });
+
+
+  function filterProducts(min, max) {
+    $(".product_layout1, .product_layout2").each(function() {
+      var productPrice = parseFloat($(this).find(".item_price span").text().replace(/[^\d]/g, ''));
+
+      if (!isNaN(productPrice) && productPrice >= min && productPrice <= max) {
+        $(this).show();
+      } else {
+        $(this).hide();
+      }
+    });
   }
 
-  $('.ar_top').on('click', function () {
-    var getID = $(this).next().attr('id');
-    var result = document.getElementById(getID);
-    var qty = result.value;
-    $('.proceed_to_checkout .update-cart').removeAttr('disabled');
-    if( !isNaN( qty ) ) {
-      result.value++;
-    }else{
-      return false;
-    }
-  });
   // price range - end
   // --------------------------------------------------
 
@@ -683,5 +692,8 @@
   // inputNumber($(".input_number_2"));
   // quantity - end
   // --------------------------------------------------
+
+
+  //price range slider
 
 })(jQuery);

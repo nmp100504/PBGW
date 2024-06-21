@@ -13,4 +13,5 @@ public interface AdminService {
     User findUserById(long id);
     void updateUser(User user);
     void deleteUserById(long id);
+    //List<User> findByUserStatus();
 }

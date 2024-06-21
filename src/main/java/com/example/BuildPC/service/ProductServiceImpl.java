@@ -110,7 +110,6 @@ public class ProductServiceImpl implements ProductService{
         }else {
             throw new RuntimeException("Product with id " + product.getId() + " does not exist");
         }
-
     }
 
     @Override
@@ -127,10 +126,42 @@ public class ProductServiceImpl implements ProductService{
         return productRepository.findByCategoryId(id);
     }
 
-        @Override
-        public boolean existsByProductName(String productName) {
-            return productRepository.existsByProductName(productName);
-        }
+    @Override
+    public List<Product> listActiveProduct(boolean status) {
+        return productRepository.findByProductStatus(status);
+    }
+
+
+
+    @Override
+    public boolean existsByProductName(String productName) {
+        return productRepository.existsByProductName(productName);
+    }
+
+    @Override
+    public List<Product> findByProductNameContaining(String productName) {
+        return productRepository.findByProductNameContaining(productName);
+    }
+
+    @Override
+    public List<Product> findByProductSalePriceBetween(int minPrice, int maxPrice) {
+        return productRepository.findByProductSalePriceBetween(minPrice,maxPrice);
+    }
+
+    @Override
+    public List<Product> findByOrderByProductSalePriceAsc() {
+        return productRepository.findByOrderByProductSalePriceAsc();
+    }
+
+    @Override
+    public List<Product> findByOrderByProductSalePriceDesc() {
+        return productRepository.findByOrderByProductSalePriceDesc();
+    }
+
+    @Override
+    public List<Product> searchProductByName(String productName) {
+        return this.productRepository.searchProductName(productName);
+    }
 
 //    @Override
 //    public List<Product> findByProductStatus() {

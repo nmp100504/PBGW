@@ -1,7 +1,10 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
->
+<head>
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
 
   	<meta charset="utf-8">
@@ -41,31 +44,6 @@
   </head>
 
 
-<style>
-  .dropdown-content {
-    display: none; /* Hide dropdown links until someone hovers over the icon */
-    position: absolute;
-    background-color: #f9f9f9;
-    min-width: 160px;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-    z-index: 1;
-  }
-
-  li:hover .dropdown-content {
-    display: block; /* Show dropdown links when hovering over the list item */
-  }
-
-  .dropdown-content a {
-    color: black;
-    padding: 12px 16px;
-    text-decoration: none;
-    display: block;
-    text-align: left;
-  }
-
-  .dropdown-content a:hover {background-color: #f1f1f1}
-
-</style>
   <body>
 
     <!-- body_wrap - start -->
@@ -181,6 +159,26 @@
 <!--                          <li><a href="blog_list.html">Blog List Layout</a></li>-->
 <!--                          <li><a href="blog_details.html">Blog Details</a></li>-->
                         </ul>
+                      </li>
+                      <li class="dropdown">
+                        <a class="nav-link" href="#" id="pages_submenu" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                          Pages
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="pages_submenu">
+                          <li><a href="about.html">About Us</a></li>
+                          <li><a href="team.html">Team</a></li>
+                          <li><a href="account.html">My Account</a></li>
+                          <li class="nav-item" sec:authorize="!isAuthenticated()">
+                            <a class="nav-link" href="#" th:href="@{/registration/registration-form}">Register</a>
+                          </li>
+                          <li class="nav-item" sec:authorize="!isAuthenticated()">
+                            <a class="nav-link" href="#" th:href="@{/login}">Login</a>
+                          </li>
+                          <li class="nav-item" sec:authorize="isAuthenticated()">
+                          <a class="nav-link" href="#" th:href="@{/logout}">Logout</a>
+                        </li>
+                        </ul>
+                      </li>
                       <li><a href="contact.html">Contact</a></li>
                     </ul>
                   </div>
@@ -202,17 +200,7 @@
                       <small class="wishlist_counter">5</small>
                     </a>
                   </li>
-                  <li style="position: relative;">
-                    <a href="#">
-                      <i class="fa fa-user"></i>
-                    </a>
-                    <div class="dropdown-content">
-                      <a href="/login" sec:authorize="!isAuthenticated()">Sign in</a>
-                      <a href="/registration/registration-form" sec:authorize="!isAuthenticated()">Register</a>
-
-                      <a href="/logout" sec:authorize="isAuthenticated()">Log out</a>
-                    </div>
-                  </li>
+                  <li><a href="account.html"><i class="fa-regular fa-user"></i></a></li>
                 </ul>
               </div>
             </div>

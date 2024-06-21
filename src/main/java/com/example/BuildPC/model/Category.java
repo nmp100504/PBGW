@@ -5,7 +5,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
+import java.util.List;
 import java.util.Set;
 
 @Data
@@ -23,7 +23,7 @@ public class Category {
     @Column(name = "category_name")
     private String categoryName;
 
-    @Column(name = "category_slug", nullable = true)
+    @Column(name = "category_slug")
     private String categorySlug;
 
     @Column(name = "category_description")
@@ -35,10 +35,10 @@ public class Category {
     @Column(name = "category_status")
     private boolean categoryStatus;
 
-
     @OneToMany(mappedBy = "category")
     private Set<Product> products;
 
-
+    @OneToMany(mappedBy = "category")
+    private List<Specifications> specifications;
 
 }

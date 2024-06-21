@@ -5,6 +5,7 @@ import com.example.BuildPC.service.AdminService;
 import com.example.BuildPC.service.ShoppingCartService;
 import com.example.BuildPC.model.User;
 import com.example.BuildPC.service.UserService;
+import com.example.BuildPC.service.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -22,11 +23,11 @@ public class ShoppingCartController {
     private ShoppingCartService shoppingCartService;
 
     @Autowired
-    private UserService userService;
+    private UserServiceImpl userService;
 
     @GetMapping("/cart")
     public String showShoppingCart(Model model) {
-        Optional<User> currentUserOpt = getCurrentUser();
+        Optional<User> currentUserOpt = userService.getCurrentUser();
 
         if (currentUserOpt.isPresent()) {
             User user = currentUserOpt.get();
@@ -41,14 +42,4 @@ public class ShoppingCartController {
     }
 
     // Method to get the current logged-in user
-    public Optional<User> getCurrentUser() {
-        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        String email;
-        if (principal instanceof UserDetails) {
-            email = ((UserDetails) principal).getUsername();
-        } else {
-            email = principal.toString();
-        }
-        return userService.findByEmail(email);
-    }
 }

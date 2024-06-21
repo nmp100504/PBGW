@@ -1,21 +1,17 @@
 package com.example.BuildPC.controller;
 
 
-import com.example.BuildPC.service.BrandService;
-import com.example.BuildPC.service.CategoryService;
-import com.example.BuildPC.service.ProductImageService;
-import com.example.BuildPC.service.ProductService;
+import com.example.BuildPC.model.*;
+import com.example.BuildPC.repository.SpecificationRepository;
+import com.example.BuildPC.service.*;
 import com.example.BuildPC.dto.ProductDto;
-import com.example.BuildPC.model.Category;
-import com.example.BuildPC.model.Product;
-import com.example.BuildPC.model.Brand;
-import com.example.BuildPC.model.ProductImage;
 import com.example.BuildPC.repository.CategoryRepository;
 import com.example.BuildPC.repository.ProductImageRepository;
 import com.example.BuildPC.repository.ProductRepository;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotEmpty;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -28,15 +24,14 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 @Controller
-@RequestMapping("/ManagerDashBoard")
 public class ProductController {
 
-    @Autowired
-    private ProductRepository  productRepository;
-    private CategoryRepository categoryRepository;
     @Autowired
     private ProductService productService;
     @Autowired CategoryService categoryService;
@@ -46,7 +41,8 @@ public class ProductController {
     @Autowired
     private ProductImageService productImageService;
     @Autowired
-    private ProductImageRepository productImageRepository;
+    private SpecificationService specificationService;
+
     @GetMapping("/category/{id}")
     public String showCategory(@PathVariable("id") int id, Model model) {
         List<Product> listByCategory = productService.listByCategory(id);
@@ -58,12 +54,77 @@ public class ProductController {
         return "LandingPage/shop_grid";
     }
 
-    @GetMapping("/productList")
-    public String showProductList(Model model) {
+    @GetMapping("/product/{id}")
+    public String showProductDetails(@PathVariable("id") int id, Model model) {
+        Product byId = productService.findById(id);
+        List<Category> categoryList = categoryService.findAll();
+        List<Specifications> specList = specificationService.getAllSpecificationsByCategory(categoryService.findCategoryById(
+                byId.getCategory().getId()));
+        if(byId.getProductSpecifications().isEmpty()){
+            System.out.println("No specifications found");
+        }else {
+            for(ProductSpecifications spec : byId.getProductSpecifications()){
+                System.out.println(spec.getSpecValue());
+            }
+        }
+        model.addAttribute("product", byId);
+        model.addAttribute("categoryList", categoryList);
+        model.addAttribute("specList", specList);
+        return "LandingPage/shop_details";
+    }
+    @GetMapping("/ManagerDashBoard/productList")
+    public String showProductList(Model model, @Param("productName") String productName ) {
         List<Product> productList = productService.findAll();
+        if(productName != null && !productName.isEmpty()) {
+            productList = productService.searchProductByName(productName);
+            model.addAttribute("productName", productName);
+        }
         model.addAttribute("products", productList);
         return "/Manager/showProductList";
     }
+
+    @GetMapping("/search")
+    public String searchProducts(@RequestParam("search") String query, Model model) {
+        model.addAttribute("listByCategory", productService.findByProductNameContaining(query));
+        List<Category> categoryList = categoryService.findAll();
+        model.addAttribute("title", query);
+        model.addAttribute("searchString", query); 
+        model.addAttribute("categoryList", categoryList);
+        return "LandingPage/shop_grid";
+    }
+
+    @GetMapping("/sort/{id}")
+    public String sort(@RequestParam("sortingOption") int sortingOption,@PathVariable("id") int id, Model model) {
+        List<Product> products = productService.listByCategory(id);
+
+        if(sortingOption == 1){
+            products.sort(Comparator.comparing(Product::getProductSalePrice));
+            model.addAttribute("listByCategory", products);
+        }
+        if(sortingOption == 2){
+            Collections.sort(products, Comparator.comparing(Product::getProductSalePrice).reversed());
+            model.addAttribute("listByCategory", products);
+        }
+        List<Category> categoryList = categoryService.findAll();
+        model.addAttribute("categoryList", categoryList);
+        return "LandingPage/shop_grid";
+    }
+
+    @GetMapping("/filterProductsByPrice")
+    @ResponseBody
+    public String filterProductsByPrice(@RequestParam int minPrice, @RequestParam int maxPrice, Model model) {
+        List<Product> filteredProducts = productService.findByProductSalePriceBetween(minPrice,maxPrice);
+        model.addAttribute("listByCategory", filteredProducts);
+        List<Category> categoryList = categoryService.findAll();
+        model.addAttribute("categoryList", categoryList);
+        return "LandingPage/shop_grid"; // Return the HTML fragment with updated products
+    }
+//    @GetMapping("/productList")
+//    public String showProductList(Model model) {
+//        List<Product> productList = productService.findAll();
+//        model.addAttribute("products", productList);
+//        return "/Manager/showProductList";
+//    }
 //
 //    @GetMapping("/ManagerDashBoard/create")
 //    public  String createProduct(Model model) {
@@ -90,9 +151,7 @@ public class ProductController {
 //    }
 
 
-
-
-    @GetMapping("/productList/create")
+    @GetMapping("/ManagerDashBoard/productList/create")
     public  String createProduct(Model model) {
         ProductDto productDto = new ProductDto();
         model.addAttribute("productDto", productDto);
@@ -103,14 +162,11 @@ public class ProductController {
         return "Manager/createProduct";
     }
 
-    @PostMapping("/productList/create")
+    @PostMapping("/ManagerDashBoard/productList/create")
     public String createProductManagerDashboard(Model model,@Valid @ModelAttribute("productDto") ProductDto productDto, BindingResult result) {
 
-
-
-
         if(productDto.getProductImages().isEmpty()){
-                result.addError(new FieldError("productDto", "productImages", "Product Images cannot be empty"));
+            result.addError(new FieldError("productDto", "productImages", "Product Images cannot be empty"));
         }
         if(productService.existsByProductName(productDto.getProductName())){
             result.addError(new FieldError("productDto", "productName", "Product Name already exists"));
@@ -128,7 +184,7 @@ public class ProductController {
 
     }
 
-    @GetMapping("/productList/edit")
+    @GetMapping("/ManagerDashBoard/productList/edit")
     public String showProductEdit(Model model, @RequestParam("id") int id) {
         try{
             Product product = productService.findProductById(id);
@@ -154,11 +210,9 @@ public class ProductController {
         }
         return "Manager/editProduct";
     }
-    @PostMapping("/productList/edit")
+    @PostMapping("/ManagerDashBoard/productList/edit")
     public String showProductEdit(Model model,@RequestParam("id") int id,@Valid @ModelAttribute("productDto") ProductDto productDto, BindingResult result) {
-
         try{
-
             Product product = productService.findProductById(id);
             model.addAttribute("productDto", productDto);
             if(result.hasErrors()) {
@@ -168,7 +222,6 @@ public class ProductController {
                 model.addAttribute("brands", brands);
                 return "Manager/editProduct";
             }
-
 
             Category category = categoryService.findCategoryById(productDto.getCategoryId());
             Brand brand = brandService.findByBranId(productDto.getBrandId());
@@ -203,7 +256,7 @@ public class ProductController {
 
 
 
-    @GetMapping("/productList/delete")
+    @GetMapping("/ManagerDashBoard/productList/delete")
     public String deleteProduct(@RequestParam("id") int id) {
         try {
             productService.deleteProduct(id);
