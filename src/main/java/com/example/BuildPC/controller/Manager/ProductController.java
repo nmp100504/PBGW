@@ -1,17 +1,14 @@
-package com.example.BuildPC.controller;
+package com.example.BuildPC.controller.Manager;
 
 
+import com.example.BuildPC.configuration.CustomUserDetails;
 import com.example.BuildPC.model.*;
-import com.example.BuildPC.repository.SpecificationRepository;
 import com.example.BuildPC.service.*;
 import com.example.BuildPC.dto.ProductDto;
-import com.example.BuildPC.repository.CategoryRepository;
-import com.example.BuildPC.repository.ProductImageRepository;
-import com.example.BuildPC.repository.ProductRepository;
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotEmpty;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -19,15 +16,10 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.InputStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 public class ProductController {
@@ -43,15 +35,25 @@ public class ProductController {
     @Autowired
     private SpecificationService specificationService;
 
+    @Autowired
+    private UserService userService;
+
     @GetMapping("/category/{id}")
-    public String showCategory(@PathVariable("id") int id, Model model) {
-        List<Product> listByCategory = productService.listByCategory(id);
-        List<Category> categoryList = categoryService.findAll();
-        model.addAttribute("listByCategory", listByCategory);
-        model.addAttribute("categoryList", categoryList);
-        String catename = categoryService.findCategoryById(id).getCategoryName();
-        model.addAttribute("title", catename);
-        return "LandingPage/shop_grid";
+    public String showCategory(@PathVariable("id") int id, Model model, @AuthenticationPrincipal CustomUserDetails userDetails) {
+        if (userDetails != null) {
+            Optional<User> user = userService.findByEmail(userDetails.getEmail());
+            if (user.isPresent()) {
+                model.addAttribute("user", user.get());
+                List<Product> listByCategory = productService.listByCategory(id);
+                List<Category> categoryList = categoryService.findAll();
+                model.addAttribute("listByCategory", listByCategory);
+                model.addAttribute("categoryList", categoryList);
+                String catename = categoryService.findCategoryById(id).getCategoryName();
+                model.addAttribute("title", catename);
+                return "LandingPage/shop_grid";
+            }
+        }
+        return "auth/login_page";
     }
 
     @GetMapping("/product/{id}")

@@ -52,7 +52,7 @@ public class SecurityConfig {
                                 ,"/product/**","/category/**","/search/**","/sort/**").permitAll()
                         .requestMatchers("/dashBoard/**").hasRole("ADMIN")
                         .requestMatchers("/ManagerDashBoard/**").hasRole("MANAGER")
-                        .requestMatchers("/posts").hasRole(("MARKETING"))
+                        .requestMatchers("/posts").hasRole("MARKETING")
                         .requestMatchers(staticResources()).permitAll()
                         .anyRequest().authenticated())
                 .formLogin(form -> form

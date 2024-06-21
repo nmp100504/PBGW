@@ -1,4 +1,4 @@
-package com.example.BuildPC.controller;
+package com.example.BuildPC.controller.Marketing;
 
 import com.example.BuildPC.model.Post;
 import com.example.BuildPC.model.User;

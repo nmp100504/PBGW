@@ -21,16 +21,17 @@ public class ShoppingCartService {
         return cartItemRepository.findByUser(user);
     }
 
-    public Integer addProduct(Integer productiId, Integer quantity, User user){
+    public Integer addProduct(Integer productId, Integer quantity, User user) {
         Integer addedQuantity = quantity;
 
-        Product product = productRepository.findById(productiId).get();
+        Product product = productRepository.findById(productId)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid product ID: " + productId));
 
         CartItem cartItem = cartItemRepository.findByUserAndProduct(user, product);
-        if(cartItem != null){
+        if (cartItem != null) {
             addedQuantity = cartItem.getQuantity() + quantity;
             cartItem.setQuantity(addedQuantity);
-        }else {
+        } else {
             cartItem = new CartItem();
             cartItem.setQuantity(quantity);
             cartItem.setUser(user);
@@ -40,4 +41,29 @@ public class ShoppingCartService {
 
         return addedQuantity;
     }
+
+    public void updateProductQuantity(Integer productId, Integer quantity, User user) {
+        Product product = productRepository.findById(productId)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid product ID: " + productId));
+
+        CartItem cartItem = cartItemRepository.findByUserAndProduct(user, product);
+        if (cartItem != null) {
+            cartItem.setQuantity(quantity);
+            cartItemRepository.save(cartItem);
+        } else {
+            throw new IllegalArgumentException("Cart item not found for user: " + user.getEmail() + " and product ID: " + productId);
+        }
+    }
+
+    public void deleteProduct(Integer productId, User user) {
+        Product product = productRepository.findById(productId)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid product ID: " + productId));
+        CartItem cartItem = cartItemRepository.findByUserAndProduct(user, product);
+        if (cartItem != null) {
+            cartItemRepository.delete(cartItem);
+        } else {
+            throw new IllegalArgumentException("Cart item not found for user: " + user.getEmail() + " and product ID: " + productId);
+        }
+    }
+
 }

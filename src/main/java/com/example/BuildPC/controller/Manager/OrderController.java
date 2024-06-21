@@ -1,4 +1,4 @@
-package com.example.BuildPC.controller;
+package com.example.BuildPC.controller.Manager;
 
 import com.example.BuildPC.model.CartItem;
 import com.example.BuildPC.model.User;

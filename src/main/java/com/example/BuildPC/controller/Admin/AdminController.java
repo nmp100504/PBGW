@@ -1,4 +1,4 @@
-package com.example.BuildPC.controller;
+package com.example.BuildPC.controller.Admin;
 
 
 import com.example.BuildPC.service.AdminService;
