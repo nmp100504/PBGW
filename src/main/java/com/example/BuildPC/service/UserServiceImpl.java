@@ -75,4 +75,9 @@ public class UserServiceImpl implements UserService {
         theUser.ifPresent(user -> verificationTokenService.deleteUserToken(user.getId()));
         userRepository.deleteById(id);
     }
+    @Override
+    public void updateUser(User user) {
+        user.setPassword(passwordEncoder.encode(user.getPassword())); // Hash the password before saving
+        userRepository.save(user);
+    }
 }

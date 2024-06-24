@@ -8,7 +8,9 @@ import java.util.Optional;
 
 public interface UserService {
     List<User> getAllUsers();
+
     User registerUser(RegistrationRequest registrationRequest);
+
     Optional<User> findByEmail(String email);
 
     Optional<User> findById(Long id);
@@ -16,4 +18,6 @@ public interface UserService {
     void updateUser(Long id, String firstName, String lastName, String email);
 
     void deleteUser(Long id);
+
+    public void updateUser(User user);
 }
