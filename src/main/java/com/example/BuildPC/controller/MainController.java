@@ -33,6 +33,9 @@ public class MainController {
     @Autowired
     private ProductService productService;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
     @GetMapping("/login")
     public String login() {
         return "auth/login_page";
@@ -61,7 +64,7 @@ public class MainController {
 
 
 
-    @GetMapping("/change_password")
+    @GetMapping("/change-password")
     public String changePassword(Model model, @AuthenticationPrincipal CustomUserDetails userDetails) {
         if (userDetails != null) {
             Optional<User> user = userService.findByEmail(userDetails.getEmail());
@@ -72,14 +75,13 @@ public class MainController {
         }
         return "redirect:/login";
     }
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+
     @PostMapping("/update-password")
     public String updatePassword(@RequestParam("oldPassword") String oldPassword,
                                  @RequestParam("newPassword") String newPassword,
                                  @RequestParam("confirmPassword") String confirmPassword,
                                  @AuthenticationPrincipal CustomUserDetails userDetails,
-                                 HttpServletRequest request, Model model) {
+                                 Model model) {
         if (userDetails != null) {
             Optional<User> userOptional = userService.findByEmail(userDetails.getEmail());
             if (userOptional.isPresent()) {
@@ -92,7 +94,7 @@ public class MainController {
                     model.addAttribute("error", "New passwords do not match");
                     return "auth/change_password";
                 }
-                user.setPassword(passwordEncoder.encode(newPassword));
+                user.setPassword((newPassword));
                 userService.updateUser(user);
                 return "redirect:/account";
             }
