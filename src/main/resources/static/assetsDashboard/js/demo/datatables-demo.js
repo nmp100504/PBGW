@@ -4,5 +4,6 @@ $(document).ready(function() {
 });
 
 $('#dataTable').DataTable( {
-  colReorder: true
+  colReorder: true,
+  searching: false
 } );
