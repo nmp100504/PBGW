@@ -4,10 +4,7 @@ import com.example.BuildPC.configuration.CustomUserDetails;
 import com.example.BuildPC.model.Category;
 import com.example.BuildPC.model.Product;
 import com.example.BuildPC.model.User;
-import com.example.BuildPC.service.CategoryService;
-import com.example.BuildPC.service.OrderService;
-import com.example.BuildPC.service.ProductService;
-import com.example.BuildPC.service.UserService;
+import com.example.BuildPC.service.*;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -17,7 +14,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
@@ -35,6 +34,9 @@ public class MainController {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private ImageService imageService;
 
     @GetMapping("/login")
     public String login() {
@@ -117,6 +119,7 @@ public class MainController {
     public String updateUserInfo(@RequestParam("firstName") String firstName,
                                  @RequestParam("lastName") String lastName,
                                  @RequestParam("phone") String phone,
+                                 @RequestParam("profileImage") MultipartFile profileImage,
                                  @AuthenticationPrincipal CustomUserDetails userDetails,
                                  HttpServletRequest request, Model model) {
         if (userDetails != null) {
@@ -126,9 +129,19 @@ public class MainController {
                 user.setFirstName(firstName);
                 user.setLastName(lastName);
                 user.setPhone(phone);
-                userService.updateUser(user.getId(), user.getFirstName(), user.getLastName(), user.getEmail());
+
+                if (!profileImage.isEmpty()) {
+                    try {
+                        String profileImageUrl = imageService.saveProfileImage(profileImage);
+                        user.setProfileImage(profileImageUrl);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                userService.updateUser(user);
                 model.addAttribute("user", user);
-                return "auth/account"; // Replace with the appropriate view name
+                return "auth/account_information";
             }
         }
         return "redirect:/login";

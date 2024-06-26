@@ -52,7 +52,8 @@ public class User  {
     @OneToMany(mappedBy = "user")
     private Set<Order> orders;
 
-
+    @Column(name = "profile_image")
+    private String profileImage;
 
     public User(String email, String firstName, String lastName, String password, String phone, Role role) {
         this.email = email;

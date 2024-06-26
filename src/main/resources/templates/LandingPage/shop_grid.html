@@ -401,9 +401,6 @@
                             <ul class="item_btns_group ul_li">
                               <li><a class="addtocart_btn" href="#" th:onclick="'submitForm(' + ${product.id} + '); return false;'">Add To Cart</a></li>
                             </ul>
-
-<!--                            <li><a class="addtocart_btn" th:href="add-to-cart" method="post">Add To Cart</a>-->
-                            </li>
                             <li><a href="#!"><i class="fa-solid fa-arrows-rotate"></i></a></li>
                             <li><a href="#!"><i class="fas fa-heart"></i></a></li>
                           </ul>
@@ -486,41 +483,36 @@
                     <div class="product_wrap">
                       <div th:each="product, status : ${listByCategory}" class="product_layout1">
                         <form th:action="@{/add-to-cart}" method="post" class="add-to-cart-form" th:data-product-id="${product.id}">
-
-                        <!-- Generate unique modal IDs -->
-<!--                        <div class="modal fade" th:id="'quickview_popup_' + ${status.index}" aria-hidden="true" aria-labelledby="'exampleModalToggleLabel2_' + ${status.index}" tabindex="-1">-->
-<!--                          &lt;!&ndash; Modal content &ndash;&gt;-->
-<!--                        </div>-->
-
-                        <div class="item_image">
-                          <div th:each="image, iterStat : ${product.getProductImages()}" th:if="${iterStat.index == 0}">
-                            <img th:src="@{'/images/Product/' + ${image.getImageFileName()}}" alt="Product Image">
-                          </div>
-                          <!-- Associate "Quick View" button with corresponding modal ID -->
-                          <a class="quickview_btn" data-bs-toggle="modal" th:href="'#quickview_popup_' + ${status.index}" role="button">Quick View</a>
-                        </div>
-
-                        <div class="item_content">
-                          <h3 class="item_title">
-                            <a th:href="@{'/product/' + ${product.getId()}}" th:text="${product.getProductName()}"></a>
-                          </h3>
-                          <div class="item_price layout1">
-                            <div class="original_price">
-                              <del th:text="${#numbers.formatDecimal(product.getProductOriginalPrice(), 0, 'COMMA', 2, 'POINT') + 'VND'}"></del>
+                          <div class="item_image">
+                            <div th:each="image, iterStat : ${product.getProductImages()}" th:if="${iterStat.index == 0}">
+                              <img th:src="@{'/images/Product/' + ${image.getImageFileName()}}" alt="Product Image">
                             </div>
-                            <div class="sale_price">
-                              <span th:text="${#numbers.formatDecimal(product.getProductSalePrice(), 0, 'COMMA', 2, 'POINT') + 'VND'}"></span>
-                            </div>
+                            <a class="quickview_btn" data-bs-toggle="modal" th:href="'#quickview_popup_' + ${status.index}" role="button">Quick View</a>
                           </div>
-                          <ul class="item_btns_group ul_li">
-                            <input type="hidden" th:value="${product.id}" name="id">
+
+                          <div class="item_content">
+                            <h3 class="item_title">
+                              <a th:href="@{'/product/' + ${product.getId()}}" th:text="${product.getProductName()}"></a>
+                            </h3>
+                            <div class="item_price layout1">
+                              <div class="original_price">
+                                <del th:text="${#numbers.formatDecimal(product.getProductOriginalPrice(), 0, 'COMMA', 2, 'POINT') + 'VND'}"></del>
+                              </div>
+                              <div class="sale_price">
+                                <span th:text="${#numbers.formatDecimal(product.getProductSalePrice(), 0, 'COMMA', 2, 'POINT') + 'VND'}"></span>
+                              </div>
+                            </div>
                             <ul class="item_btns_group ul_li">
+                              <input type="hidden" th:value="${product.id}" name="id">
                               <li><a class="addtocart_btn" href="#" th:onclick="'submitForm(' + ${product.id} + '); return false;'">Add To Cart</a></li>
+                              <li><a href="#!" th:onclick="'submitWishlistForm(' + ${product.id} + '); return false;'"><i class="fas fa-heart"></i></a></li>
                             </ul>
-<!--                            <li><a href="#!"><i class="fa-solid fa-arrows-rotate"></i></a></li>-->
-<!--                            <li><a href="#!"><i class="fas fa-heart"></i></a></li>-->
-                          </ul>
-                        </div>
+                          </div>
+                        </form>
+
+                        <form th:action="@{/add-to-wishlist}" method="post" th:id="'wishlist-form-' + ${product.id}" style="display:none;">
+                          <input type="hidden" name="id" th:value="${product.id}">
+                          <input type="hidden" name="quantity" value="1">
                         </form>
                       </div>
                     </div>
@@ -768,6 +760,12 @@
         if (form) {
           form.submit();
         }
+      }
+    </script>
+
+    <script>
+      function submitWishlistForm(productId) {
+        document.getElementById('wishlist-form-' + productId).submit();
       }
     </script>
     <!-- fraimwork - jquery include -->

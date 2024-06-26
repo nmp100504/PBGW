@@ -1,11 +1,8 @@
 package com.example.BuildPC.controller;
 
 import com.example.BuildPC.configuration.CustomUserDetails;
-import com.example.BuildPC.model.CartItem;
-import com.example.BuildPC.model.Category;
-import com.example.BuildPC.model.Product;
+import com.example.BuildPC.model.*;
 import com.example.BuildPC.service.*;
-import com.example.BuildPC.model.User;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -3,8 +3,10 @@ package com.example.BuildPC.service;
 import com.example.BuildPC.model.CartItem;
 import com.example.BuildPC.model.Product;
 import com.example.BuildPC.model.User;
+import com.example.BuildPC.model.WishlistItem;
 import com.example.BuildPC.repository.CartItemRepository;
 import com.example.BuildPC.repository.ProductRepository;
+import com.example.BuildPC.repository.WishlistRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -66,4 +68,16 @@ public class ShoppingCartService {
         }
     }
 
+    @Autowired
+    private WishlistRepository wishlistRepository;
+
+    public void addProductToWishlist(Integer productId, Integer quantity, User user) {
+        Product product = productRepository.findById(productId).orElseThrow(() -> new IllegalArgumentException("Invalid product ID"));
+        WishlistItem wishlistItem = new WishlistItem();
+        wishlistItem.setUser(user);
+        wishlistItem.setProduct(product);
+        wishlistItem.setQuantity(quantity);
+
+        wishlistRepository.save(wishlistItem);
+    }
 }

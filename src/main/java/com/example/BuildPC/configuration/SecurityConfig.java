@@ -86,6 +86,7 @@ public class SecurityConfig {
                 "/images/Category/**",
                 "/images/Product/**",
                 "/images/ProductCover/**",
+                "/uploads/**"
         };
     }
 
