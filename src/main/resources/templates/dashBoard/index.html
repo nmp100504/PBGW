@@ -34,47 +34,8 @@
       <i class="fas fa-bars"></i>
     </button>
 
-    <!-- Navbar Search -->
-    <form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">
-      <div class="input-group">
-        <input type="text" class="form-control" placeholder="Search for..." aria-label="Search"
-          aria-describedby="basic-addon2">
-        <div class="input-group-append">
-          <button class="btn btn-primary" type="button">
-            <i class="fas fa-search"></i>
-          </button>
-        </div>
-      </div>
-    </form>
-
     <!-- Navbar -->
-    <ul class="navbar-nav ml-auto ml-md-0">
-      <li class="nav-item dropdown no-arrow mx-1">
-        <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button" data-toggle="dropdown"
-          aria-haspopup="true" aria-expanded="false">
-          <i class="fas fa-bell fa-fw"></i>
-          <span class="badge badge-danger">9+</span>
-        </a>
-        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="alertsDropdown">
-          <a class="dropdown-item" href="#">Action</a>
-          <a class="dropdown-item" href="#">Another action</a>
-          <div class="dropdown-divider"></div>
-          <a class="dropdown-item" href="#">Something else here</a>
-        </div>
-      </li>
-      <li class="nav-item dropdown no-arrow mx-1">
-        <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button" data-toggle="dropdown"
-          aria-haspopup="true" aria-expanded="false">
-          <i class="fas fa-envelope fa-fw"></i>
-          <span class="badge badge-danger">7</span>
-        </a>
-        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="messagesDropdown">
-          <a class="dropdown-item" href="#">Action</a>
-          <a class="dropdown-item" href="#">Another action</a>
-          <div class="dropdown-divider"></div>
-          <a class="dropdown-item" href="#">Something else here</a>
-        </div>
-      </li>
+    <ul class="navbar-nav ml-auto ml-md-50">
       <li class="nav-item dropdown no-arrow">
         <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown"
           aria-haspopup="true" aria-expanded="false">
@@ -84,7 +45,7 @@
           <a class="dropdown-item" href="#">Settings</a>
           <a class="dropdown-item" href="#">Activity Log</a>
           <div class="dropdown-divider"></div>
-          <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">Logout</a>
+          <a class="dropdown-item" href="/logout" >Logout</a>
         </div>
       </li>
     </ul>
@@ -101,23 +62,6 @@
           <span>Admin Dashboard</span>
         </a>
       </li>
-<!--      <li class="nav-item dropdown">-->
-<!--        <a class="nav-link dropdown-toggle" href="#" id="pagesDropdown" role="button" data-toggle="dropdown"-->
-<!--          aria-haspopup="true" aria-expanded="false">-->
-<!--          <i class="fas fa-fw fa-folder"></i>-->
-<!--          <span>Pages</span>-->
-<!--        </a>-->
-<!--        <div class="dropdown-menu" aria-labelledby="pagesDropdown">-->
-<!--          <h6 class="dropdown-header">Login Screens:</h6>-->
-<!--          <a class="dropdown-item" href="login.html">Login</a>-->
-<!--          <a class="dropdown-item" href="register.html">Register</a>-->
-<!--          <a class="dropdown-item" href="forgot-password.html">Forgot Password</a>-->
-<!--          <div class="dropdown-divider"></div>-->
-<!--          <h6 class="dropdown-header">Other Pages:</h6>-->
-<!--          <a class="dropdown-item" href="404.html">404 Page</a>-->
-<!--          <a class="dropdown-item" href="blank.html">Blank Page</a>-->
-<!--        </div>-->
-<!--      </li>-->
       <li class="nav-item">
         <a class="nav-link" href="charts.html">
           <i class="fas fa-fw fa-chart-area"></i>
@@ -144,15 +88,15 @@
 
         <!-- Icon Cards-->
         <div class="row">
-          <div class="col-xl-3 col-sm-6 mb-3">
+          <div class="col-xl-4 col-sm-6 mb-3">
             <div class="card text-white bg-primary o-hidden h-100">
               <div class="card-body">
                 <div class="card-body-icon">
                   <i class="fas fa-fw fa-comments"></i>
                 </div>
-                <div class="mr-5">26 New Messages!</div>
+                <div class="mr-5" th:text="${totalAccounts + ' Total Accounts'}"></div>
               </div>
-              <a class="card-footer text-white clearfix small z-1" href="#">
+              <a class="card-footer text-white clearfix small z-1" href="/dashBoard/tables">
                 <span class="float-left">View Details</span>
                 <span class="float-right">
                   <i class="fas fa-angle-right"></i>
@@ -160,15 +104,15 @@
               </a>
             </div>
           </div>
-          <div class="col-xl-3 col-sm-6 mb-3">
+          <div class="col-xl-4 col-sm-6 mb-3">
             <div class="card text-white bg-warning o-hidden h-100">
               <div class="card-body">
                 <div class="card-body-icon">
                   <i class="fas fa-fw fa-list"></i>
                 </div>
-                <div class="mr-5">11 New Tasks!</div>
+                <div class="mr-5" th:text="${activeAccounts + ' Active Accounts'}"></div>
               </div>
-              <a class="card-footer text-white clearfix small z-1" href="#">
+              <a class="card-footer text-white clearfix small z-1" href="/dashBoard/tables/activeAccount">
                 <span class="float-left">View Details</span>
                 <span class="float-right">
                   <i class="fas fa-angle-right"></i>
@@ -176,15 +120,15 @@
               </a>
             </div>
           </div>
-          <div class="col-xl-3 col-sm-6 mb-3">
+          <div class="col-xl-4 col-sm-6 mb-3">
             <div class="card text-white bg-success o-hidden h-100">
               <div class="card-body">
                 <div class="card-body-icon">
                   <i class="fas fa-fw fa-shopping-cart"></i>
                 </div>
-                <div class="mr-5">123 New Orders!</div>
+                <div class="mr-5" th:text="${inActiveAccounts + ' Inactive Accounts'}"></div>
               </div>
-              <a class="card-footer text-white clearfix small z-1" href="#">
+              <a class="card-footer text-white clearfix small z-1" href="/dashBoard/tables/inActiveAccount">
                 <span class="float-left">View Details</span>
                 <span class="float-right">
                   <i class="fas fa-angle-right"></i>
@@ -192,21 +136,6 @@
               </a>
             </div>
           </div>
-          <div class="col-xl-3 col-sm-6 mb-3">
-            <div class="card text-white bg-danger o-hidden h-100">
-              <div class="card-body">
-                <div class="card-body-icon">
-                  <i class="fas fa-fw fa-life-ring"></i>
-                </div>
-                <div class="mr-5">13 New Tickets!</div>
-              </div>
-              <a class="card-footer text-white clearfix small z-1" href="#">
-                <span class="float-left">View Details</span>
-                <span class="float-right">
-                  <i class="fas fa-angle-right"></i>
-                </span>
-              </a>
-            </div>
           </div>
         </div>
 
@@ -231,11 +160,30 @@
           <div class="card-body">
             <div class="table-responsive">
               <a class="btn btn-primary" href="/dashBoard/create"> Add User Account </a>
-              <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+              <form class="d-flex justify-content-end">
+                <div class="input-group input-group-btn hidden-xs" style="width: 200px; margin-right: 10px; margin-bottom: 10px">
+                  <input type="text" name="searchByEmailOrPhone" class="form-control pull-right" placeholder="Search" th:value="${searchByEmailOrPhone}">
+                  <div class="input-group-btn">
+                    <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
+                  </div>
+                </div>
+                  <div class="input-group input-group-sm hidden-xs" style="width: 200px; margin-right: 10px;">
+                    <select name="status" class="form-control">
+                      <option value="" selected>Select Status</option>
+                      <option value="active" th:if="${status == 'active'}" selected>Active</option>
+                      <option value="inactive" th:if="${status == 'inactive'}" selected>Inactive</option>
+                      <option value="active" th:unless="${status == 'active'}">Active</option>
+                      <option value="inactive" th:unless="${status == 'inactive'}">Inactive</option>
+                    </select>
+                    <div class="input-group-btn">
+                      <button type="submit" class="btn btn-default" style="height: 38px"><i class="fa fa-search"></i></button>
+                    </div>
+                  </div>
+              </form>
+              <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0"> <!--id="dataTable" width="100%" cellspacing="0"-->
                 <thead>
                 <tr>
-                  <th>Fist Name</th>
-                  <th>Last Name</th>
+                  <th>Full Name</th>
                   <th>Email</th>
                   <th>Password</th>
                   <th>Phone</th>
@@ -246,8 +194,7 @@
                 </thead>
                 <tfoot>
                 <tr>
-                  <th>First Name</th>
-                  <th>Last Name</th>
+                  <th>Full Name</th>
                   <th>Email</th>
                   <th>Password</th>
                   <th>Phone</th>
@@ -258,8 +205,7 @@
                 </tfoot>
                 <tbody>
                 <tr th:each="user : ${user}">
-                  <td th:text="${user.firstName}"></td>
-                  <td th:text="${user.lastName}"></td>
+                  <td th:text="${user.firstName +' '+ user.lastName}"></td>
                   <td th:text="${user.email}"></td>
                   <td th:text="${user.password}"></td>
                   <td th:text="${user.phone}"></td>
@@ -285,6 +231,35 @@
                 </tbody>
               </table>
             </div>
+            <div class="dataTables_paginate paging_simple_numbers">
+              <ul class="pagination pagination-sm justify-content-end">
+                <li class="paginate_button page-item previous" th:if="${currentPage > 1}">
+                  <a th:href="@{${(searchByEmailOrPhone != null && searchByEmailOrPhone != '' ? '?searchByEmailOrPhone=' + searchByEmailOrPhone + '&' : '') +
+                            (status != null && status != '' ? 'status=' + status + '&' : '') + 'pageNo=' + (currentPage - 1)}}"
+                     tabindex="0" class="page-link">Previous</a>
+                </li>
+                <li class="paginate_button page-item" th:each="i: ${#numbers.sequence(1, totalPages)}" th:classappend="${currentPage == i ? 'active' : ''}">
+                  <a th:if="${searchByEmailOrPhone != null && searchByEmailOrPhone != '' && status != null && status != ''}"
+                     th:href="@{'?searchByEmailOrPhone=' + ${searchByEmailOrPhone} + '?status=' + ${status} + '&pageNo=' + ${i}}"
+                     th:text="${i}" tabindex="0" class="page-link"></a>
+                  <a th:if="${searchByEmailOrPhone != null && searchByEmailOrPhone != '' && (status == null || status == '')}"
+                     th:href="@{'?searchByEmailOrPhone=' + ${searchByEmailOrPhone} + '&pageNo=' + ${i}}"
+                     th:text="${i}" tabindex="0" class="page-link"></a>
+                  <a th:if="${(searchByEmailOrPhone == null || searchByEmailOrPhone == '') && status != null && status != ''}"
+                     th:href="@{'?status=' + ${status} + '&pageNo=' + ${i}}"
+                     th:text="${i}" tabindex="0" class="page-link"></a>
+                  <a th:if="${(searchByEmailOrPhone == null || searchByEmailOrPhone == '') && (status == null || status == '')}"
+                     th:href="@{'?pageNo=' + ${i}}"
+                     th:text="${i}" tabindex="0" class="page-link"></a>
+                </li>
+                <li class="paginate_button page-item next" th:if="${currentPage < totalPages}">
+                  <a th:href="@{${(searchByEmailOrPhone != null && searchByEmailOrPhone != '' ? '?searchByEmailOrPhone=' + searchByEmailOrPhone + '&' : '') +
+                            (status != null && status != '' ? 'status=' + status + '&' : '') + 'pageNo=' + (currentPage + 1)}}"
+                     tabindex="0" class="page-link">Next</a>
+                </li>
+              </ul>
+            </div>
+
           </div>
           <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
         </div>
@@ -354,7 +329,6 @@
   <script th:src="@{/assetsDashboard/js/demo/chart-area-demo.js}"></script>
   <script th:src="@{/assetsDashboard/js/colReorder-dataTables-min.js}"></script>
   <script th:src="@{/assetsDashboard/js/colReorder-bootstrap4-min.js}"></script>
-
 
 </body>
 
