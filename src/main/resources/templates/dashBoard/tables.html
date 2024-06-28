@@ -43,7 +43,7 @@
         <a class="dropdown-item" href="#">Settings</a>
         <a class="dropdown-item" href="#">Activity Log</a>
         <div class="dropdown-divider"></div>
-        <a class="dropdown-item" href="#" >Logout</a>
+        <a class="dropdown-item" href="/login" >Logout</a>
       </div>
     </li>
   </ul>
@@ -101,7 +101,7 @@
                   </div>
                 </div>
                 <div class="input-group input-group-sm hidden-xs" style="width: 200px; margin-right: 10px;">
-                  <select name="status" class="form-control">
+                  <select name="status" class="form-control" style="padding-top: 6px; margin-bottom: 6px; padding-left: 12px; padding-right: 12px; height: 38px; ">
                     <option value="" selected>Select Status</option>
                     <option value="active" th:if="${status == 'active'}" selected>Active</option>
                     <option value="inactive" th:if="${status == 'inactive'}" selected>Inactive</option>
@@ -113,12 +113,13 @@
                   </div>
                 </div>
               </form>
-             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0"> <!-- id="dataTable" width="100%" cellspacing="0"-->
+
+              <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0"> <!-- id="dataTable" width="100%" cellspacing="0"-->
                 <thead>
                 <tr>
                   <th>Full Name</th>
                   <th>Email</th>
-                  <th>Password</th>
+<!--                  <th>Password</th>-->
                   <th>Phone</th>
                   <th>Role</th>
                   <th>Status</th>
@@ -129,7 +130,7 @@
                 <tr>
                   <th>Full Name</th>
                   <th>Email</th>
-                  <th>Password</th>
+<!--                  <th>Password</th>-->
                   <th>Phone</th>
                   <th>Role</th>
                   <th>Status</th>
@@ -140,7 +141,7 @@
                 <tr th:each="users : ${users}">
                   <td th:text="${users.firstName +' ' +users.lastName}"></td>
                   <td th:text="${users.email}"></td>
-                  <td th:text="${users.password}"></td>
+<!--                  <td th:text="${users.password}"></td>-->
                   <td th:text="${users.phone}"></td>
                   <td th:text="${users.role}"></td>
                   <td class="text-center" th:if="${users.isEnabled()}">

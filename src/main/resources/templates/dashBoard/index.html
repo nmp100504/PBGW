@@ -161,14 +161,14 @@
             <div class="table-responsive">
               <a class="btn btn-primary" href="/dashBoard/create"> Add User Account </a>
               <form class="d-flex justify-content-end">
-                <div class="input-group input-group-btn hidden-xs" style="width: 200px; margin-right: 10px; margin-bottom: 10px">
+                <div class="input-group input-group-sm hidden-xs" style="width: 200px; margin-right: 10px; margin-bottom: 10px">
                   <input type="text" name="searchByEmailOrPhone" class="form-control pull-right" placeholder="Search" th:value="${searchByEmailOrPhone}">
                   <div class="input-group-btn">
                     <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
                   </div>
                 </div>
                   <div class="input-group input-group-sm hidden-xs" style="width: 200px; margin-right: 10px;">
-                    <select name="status" class="form-control">
+                    <select name="status" class="form-control" style="padding-top: 6px; margin-bottom: 6px; padding-left: 12px; padding-right: 12px; height: 38px; ">
                       <option value="" selected>Select Status</option>
                       <option value="active" th:if="${status == 'active'}" selected>Active</option>
                       <option value="inactive" th:if="${status == 'inactive'}" selected>Inactive</option>
@@ -185,7 +185,7 @@
                 <tr>
                   <th>Full Name</th>
                   <th>Email</th>
-                  <th>Password</th>
+<!--                  <th>Password</th>-->
                   <th>Phone</th>
                   <th>Role</th>
                   <th>Status</th>
@@ -196,7 +196,7 @@
                 <tr>
                   <th>Full Name</th>
                   <th>Email</th>
-                  <th>Password</th>
+<!--                  <th>Password</th>-->
                   <th>Phone</th>
                   <th>Role</th>
                   <th>Status</th>
@@ -207,7 +207,7 @@
                 <tr th:each="user : ${user}">
                   <td th:text="${user.firstName +' '+ user.lastName}"></td>
                   <td th:text="${user.email}"></td>
-                  <td th:text="${user.password}"></td>
+<!--                  <td th:text="${user.password}"></td>-->
                   <td th:text="${user.phone}"></td>
                   <td th:text="${user.role}"></td>
                   <td class="text-center" th:if="${user.isEnabled()}">
@@ -231,35 +231,6 @@
                 </tbody>
               </table>
             </div>
-            <div class="dataTables_paginate paging_simple_numbers">
-              <ul class="pagination pagination-sm justify-content-end">
-                <li class="paginate_button page-item previous" th:if="${currentPage > 1}">
-                  <a th:href="@{${(searchByEmailOrPhone != null && searchByEmailOrPhone != '' ? '?searchByEmailOrPhone=' + searchByEmailOrPhone + '&' : '') +
-                            (status != null && status != '' ? 'status=' + status + '&' : '') + 'pageNo=' + (currentPage - 1)}}"
-                     tabindex="0" class="page-link">Previous</a>
-                </li>
-                <li class="paginate_button page-item" th:each="i: ${#numbers.sequence(1, totalPages)}" th:classappend="${currentPage == i ? 'active' : ''}">
-                  <a th:if="${searchByEmailOrPhone != null && searchByEmailOrPhone != '' && status != null && status != ''}"
-                     th:href="@{'?searchByEmailOrPhone=' + ${searchByEmailOrPhone} + '?status=' + ${status} + '&pageNo=' + ${i}}"
-                     th:text="${i}" tabindex="0" class="page-link"></a>
-                  <a th:if="${searchByEmailOrPhone != null && searchByEmailOrPhone != '' && (status == null || status == '')}"
-                     th:href="@{'?searchByEmailOrPhone=' + ${searchByEmailOrPhone} + '&pageNo=' + ${i}}"
-                     th:text="${i}" tabindex="0" class="page-link"></a>
-                  <a th:if="${(searchByEmailOrPhone == null || searchByEmailOrPhone == '') && status != null && status != ''}"
-                     th:href="@{'?status=' + ${status} + '&pageNo=' + ${i}}"
-                     th:text="${i}" tabindex="0" class="page-link"></a>
-                  <a th:if="${(searchByEmailOrPhone == null || searchByEmailOrPhone == '') && (status == null || status == '')}"
-                     th:href="@{'?pageNo=' + ${i}}"
-                     th:text="${i}" tabindex="0" class="page-link"></a>
-                </li>
-                <li class="paginate_button page-item next" th:if="${currentPage < totalPages}">
-                  <a th:href="@{${(searchByEmailOrPhone != null && searchByEmailOrPhone != '' ? '?searchByEmailOrPhone=' + searchByEmailOrPhone + '&' : '') +
-                            (status != null && status != '' ? 'status=' + status + '&' : '') + 'pageNo=' + (currentPage + 1)}}"
-                     tabindex="0" class="page-link">Next</a>
-                </li>
-              </ul>
-            </div>
-
           </div>
           <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
         </div>

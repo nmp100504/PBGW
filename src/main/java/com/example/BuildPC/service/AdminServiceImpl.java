@@ -6,6 +6,10 @@ import com.example.BuildPC.model.User;
 import com.example.BuildPC.repository.AdminRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -46,14 +50,6 @@ public class AdminServiceImpl implements  AdminService{
 
     @Override
     public void updateUser(User user) {
-        UserDto userDto = new UserDto();
-        userDto.setFirstName(user.getFirstName());
-        userDto.setLastName(user.getLastName());
-        userDto.setEmail(user.getEmail());
-        userDto.setPassword(passwordEncoder.encode(user.getPassword()));
-        userDto.setPhone(user.getPhone());
-        userDto.setRole(String.valueOf(user.getRole()));
-        userDto.setEnabled(user.isEnabled());
         adminRepository.save(user);
     }
 
@@ -62,8 +58,53 @@ public class AdminServiceImpl implements  AdminService{
         adminRepository.deleteById(id);
     }
 
-//    @Override
-//    public List<User> findByUserStatus() {
-//        return adminRepository.findByUserStatus(true);
-//    }
+    @Override
+    public long countTotalAccounts() {
+        return adminRepository.count();
+    }
+
+    @Override
+    public long countActiveAccounts() {
+        return adminRepository.countByIsEnabled(true);
+    }
+
+    @Override
+    public long countInactiveAccounts() {
+        return adminRepository.countByIsEnabled(false);
+    }
+
+    @Override
+    public List<User> findActiveAccounts() {
+        return adminRepository.findByIsEnabled(true);
+    }
+
+    @Override
+    public List<User> findInactiveAccounts() {
+        return adminRepository.findByIsEnabled(false);
+    }
+
+    @Override
+    public void deactivateAccountById(long id) {
+        User user = adminRepository.findById(id).get();
+        if(user != null){
+            user.setEnabled(false);
+            updateUser(user);
+        }
+    }
+
+    @Override
+    public List<User> listByUserIsEnabled(boolean status) {
+        return adminRepository.findByIsEnabled(status);
+    }
+
+    @Override
+    public List<User> searchByUserEmailOrPhone(String emailOrPhone) {
+        return adminRepository.searchByUserEmailOrPhone(emailOrPhone);
+    }
+
+    @Override
+    public List<User> searchByUserEmailOrPhoneAndIsEnabled(String emailOrPhone, boolean status) {
+        return adminRepository.findByUserEmailOrPhoneAndIsEnabled(emailOrPhone, status);
+    }
+
 }
