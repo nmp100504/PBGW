@@ -8,10 +8,10 @@ import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
 @Entity
 @Table(name = "Order_detail")
 public class OrderDetail {
+
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,5 +32,10 @@ public class OrderDetail {
     @JoinColumn(name = "product_id" , nullable = false)
     private Product product;
 
-
+    public OrderDetail(Integer quantity, Float discount, Order order, Product product) {
+        this.quantity = quantity;
+        this.discount = discount;
+        this.order = order;
+        this.product = product;
+    }
 }

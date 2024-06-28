@@ -88,16 +88,21 @@ public class OrderController {
         // Assuming you have a User entity with an address field
         LocalDate currentDate = LocalDate.now();
         Date date = Date.from(currentDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
+        List<CartItem> itemsList = shoppingCartService.listCartItems(currentUser.get());
+
 
         Order order = new Order(date,note, fullAddress.toString(),currentUser.get());
         orderService.saveOrder(order);
+        for(CartItem item : itemsList){
+            OrderDetail od = new OrderDetail(item.getQuantity(), (float) 0,order,item.getProduct());
+        }
 //        currentUser.setAddress(fullAddress.toString());
 
 
         // Add success message to the model
         model.addAttribute("message", "Billing saved successfully!");
 
-        return "LandingPage/checkout";
+        return "redirect:/";
     }
 
     @GetMapping("/delete/{id}")
