@@ -8,7 +8,7 @@ import com.example.BuildPC.dto.OrderDTO;
 import com.example.BuildPC.model.Order;
 import com.example.BuildPC.model.OrderDetail;
 import com.example.BuildPC.service.ShoppingCartService;
-import com.example.BuildPC.service.UserServiceImpl;
+import com.example.BuildPC.service.implementation.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

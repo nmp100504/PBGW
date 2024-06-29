@@ -5,6 +5,7 @@ import com.example.BuildPC.dto.RegistrationRequest;
 import com.example.BuildPC.model.RegistrationCompleteEvent;
 import com.example.BuildPC.model.User;
 import com.example.BuildPC.model.VerificationToken;
+import com.example.BuildPC.service.implementation.VerificationTokenServiceImpl;
 import com.example.BuildPC.utils.UrlUtil;
 import jakarta.mail.MessagingException;
 import jakarta.servlet.http.HttpServletRequest;

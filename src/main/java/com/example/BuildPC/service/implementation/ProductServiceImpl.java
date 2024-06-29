@@ -1,33 +1,24 @@
-package com.example.BuildPC.service;
+package com.example.BuildPC.service.implementation;
 
 import com.example.BuildPC.dto.ProductDto;
 import com.example.BuildPC.model.Product;
-import com.example.BuildPC.dto.ProductDto;
 import com.example.BuildPC.model.Brand;
 import com.example.BuildPC.model.Category;
-import com.example.BuildPC.model.Product;
-import com.example.BuildPC.model.ProductImage;
 import com.example.BuildPC.repository.BrandRepository;
 import com.example.BuildPC.repository.CategoryRepository;
-import com.example.BuildPC.repository.ProductImageRepository;
 import com.example.BuildPC.repository.ProductRepository;
+import com.example.BuildPC.service.ProductImageService;
+import com.example.BuildPC.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.validation.FieldError;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.InputStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 
 @Service
-public class ProductServiceImpl implements ProductService{
+public class ProductServiceImpl implements ProductService {
 
     @Autowired
     private ProductRepository productRepository;

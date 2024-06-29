@@ -1,9 +1,10 @@
-package com.example.BuildPC.service;
+package com.example.BuildPC.service.implementation;
 
 import com.example.BuildPC.model.User;
 import com.example.BuildPC.model.VerificationToken;
 import com.example.BuildPC.repository.UserRepository;
 import com.example.BuildPC.repository.VerificationTokenRepository;
+import com.example.BuildPC.service.VerificationTokenService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

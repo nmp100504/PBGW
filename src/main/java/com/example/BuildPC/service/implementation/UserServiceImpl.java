@@ -1,9 +1,11 @@
-package com.example.BuildPC.service;
+package com.example.BuildPC.service.implementation;
 
 import com.example.BuildPC.dto.RegistrationRequest;
 import com.example.BuildPC.model.Role;
 import com.example.BuildPC.model.User;
 import com.example.BuildPC.repository.UserRepository;
+import com.example.BuildPC.service.UserService;
+import com.example.BuildPC.service.VerificationTokenService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -12,7 +14,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 

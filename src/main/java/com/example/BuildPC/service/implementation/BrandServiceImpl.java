@@ -1,14 +1,15 @@
-package com.example.BuildPC.service;
+package com.example.BuildPC.service.implementation;
 
 import com.example.BuildPC.model.Brand;
 import com.example.BuildPC.repository.BrandRepository;
+import com.example.BuildPC.service.BrandService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-public class BrandServiceImpl implements BrandService{
+public class BrandServiceImpl implements BrandService {
 
     @Autowired
     private BrandRepository brandRepository;

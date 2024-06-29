@@ -1,9 +1,10 @@
-package com.example.BuildPC.service;
+package com.example.BuildPC.service.implementation;
 
 import com.example.BuildPC.model.Product;
 import com.example.BuildPC.model.User;
 import com.example.BuildPC.model.WishlistItem;
 import com.example.BuildPC.repository.WishlistRepository;
+import com.example.BuildPC.service.WishlistService;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

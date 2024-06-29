@@ -1,8 +1,10 @@
-package com.example.BuildPC.service;
+package com.example.BuildPC.service.implementation;
 
 import com.example.BuildPC.model.Post;
 import com.example.BuildPC.model.User;
 import com.example.BuildPC.repository.PostRepository;
+import com.example.BuildPC.service.PostService;
+import com.example.BuildPC.service.UserService;
 import com.vladsch.flexmark.html.HtmlRenderer;
 import com.vladsch.flexmark.parser.Parser;
 import com.vladsch.flexmark.util.data.MutableDataSet;

@@ -2373,7 +2373,7 @@ var exports$1 = {
 			// NOTE: the rounded rect implementation changed to use `arc` instead of
 			// `quadraticCurveTo` since it generates better results when rect is
 			// almost a circle. 0.516 (instead of 0.5) produces results with visually
-			// closer proportion to the previous impl and it is inscribed in the
+			// closer proportion to the previous implementation and it is inscribed in the
 			// circle with `radius`. For more details, see the following PRs:
 			// https://github.com/chartjs/Chart.js/issues/5597
 			// https://github.com/chartjs/Chart.js/issues/5858

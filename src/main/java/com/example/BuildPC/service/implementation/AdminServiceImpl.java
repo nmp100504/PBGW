@@ -1,9 +1,10 @@
-package com.example.BuildPC.service;
+package com.example.BuildPC.service.implementation;
 
 import com.example.BuildPC.dto.UserDto;
 import com.example.BuildPC.model.Role;
 import com.example.BuildPC.model.User;
 import com.example.BuildPC.repository.AdminRepository;
+import com.example.BuildPC.service.AdminService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -14,7 +15,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class AdminServiceImpl implements  AdminService{
+public class AdminServiceImpl implements AdminService {
 
     private final PasswordEncoder passwordEncoder;
     @Autowired

@@ -1,9 +1,10 @@
-package com.example.BuildPC.service;
+package com.example.BuildPC.service.implementation;
 
 
 import com.example.BuildPC.dto.CategoryDto;
 import com.example.BuildPC.model.Category;
 import com.example.BuildPC.repository.CategoryRepository;
+import com.example.BuildPC.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;

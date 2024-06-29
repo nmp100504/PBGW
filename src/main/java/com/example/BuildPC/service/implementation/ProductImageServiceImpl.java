@@ -1,15 +1,15 @@
-package com.example.BuildPC.service;
+package com.example.BuildPC.service.implementation;
 
 import com.example.BuildPC.dto.ProductImageDto;
 import com.example.BuildPC.model.Product;
 import com.example.BuildPC.model.ProductImage;
 import com.example.BuildPC.repository.ProductImageRepository;
 import com.example.BuildPC.repository.ProductRepository;
+import com.example.BuildPC.service.ProductImageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class ProductImageServiceImpl implements ProductImageService{
+public class ProductImageServiceImpl implements ProductImageService {
 
     @Autowired
     private ProductImageRepository productImageRepository;

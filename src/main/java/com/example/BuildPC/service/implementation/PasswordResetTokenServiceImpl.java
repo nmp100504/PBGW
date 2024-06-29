@@ -1,9 +1,10 @@
-package com.example.BuildPC.service;
+package com.example.BuildPC.service.implementation;
 
 import com.example.BuildPC.model.PasswordResetToken;
 import com.example.BuildPC.model.User;
 import com.example.BuildPC.repository.PasswordResetTokenRepository;
 import com.example.BuildPC.repository.UserRepository;
+import com.example.BuildPC.service.PasswordResetTokenService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
