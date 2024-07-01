@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface PostRepository extends JpaRepository<Post, Long> {
-    Optional<Post> findByUrl(String postUrl);
+    Optional<Post> findByUrl(String Url);
 //    @Query(value = "SELECT * FROM post p " +
 //            "WHERE (LOWER(p.post_content) LIKE LOWER(CONCAT('%', :searchTerm, '%')) " +
 //            "OR LOWER(p.post_title) LIKE LOWER(CONCAT('%', :searchTerm, '%')) "
