@@ -9,8 +9,10 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+import java.util.Optional;
 
-public interface PostRepository extends JpaRepository<Post, Integer> {
+public interface PostRepository extends JpaRepository<Post, Long> {
+    Optional<Post> findByUrl(String url);
 //    @Query(value = "SELECT * FROM post p " +
 //            "WHERE (LOWER(p.post_content) LIKE LOWER(CONCAT('%', :searchTerm, '%')) " +
 //            "OR LOWER(p.post_title) LIKE LOWER(CONCAT('%', :searchTerm, '%')) "
