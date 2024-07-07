@@ -91,5 +91,33 @@
 
 </nav>
 
+<ul th:fragment="sidebar" class="sidebar navbar-nav">
+    <li class="nav-item active">
+        <a class="nav-link" href="/ManagerDashBoard">
+            <i class="fas fa-fw fa-tachometer-alt"></i>
+            <span>Dashboard</span>
+        </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" th:href="@{createPost}">
+            <i class="fas fa-fw fa-chart-area"></i>
+            <span>New Post</span></a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="/ManagerDashBoard">
+            <i class="fas fa-fw fa-table"></i>
+            <span>Order List</span></a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="/ManagerDashBoard/productList">
+            <i class="fas fa-fw fa-table"></i>
+            <span>Product List</span></a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="/ManagerDashBoard/categoryList">
+            <i class="fas fa-fw fa-table"></i>
+            <span>Category List</span></a>
+    </li>
+</ul>
 </body>
 </html>

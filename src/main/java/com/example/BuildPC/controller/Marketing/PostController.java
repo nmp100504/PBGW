@@ -29,11 +29,17 @@ public class PostController {
 
     @GetMapping("/dashboard")
     public String dashboard(Model model)
-
     {
         List<PostDto> posts = postService.findAllPost();
         model.addAttribute("posts", posts);
         return "marketing/dashboard";
+    }
+
+    @GetMapping("/createPost")
+    public String newPostForm(Model model){
+        PostDto postDto = new PostDto();
+        model.addAttribute("post", postDto);
+        return "marketing/create";
     }
 //    @GetMapping("")
 //    public String getAllPosts(
