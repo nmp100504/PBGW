@@ -13,49 +13,60 @@
                 <li class="breadcrumb-item">
                     <a th:href="@{/ManagerDashBoard}">Dashboard</a>
                 </li>
-                <li class="breadcrumb-item active">Overview</li>
+                <li class="breadcrumb-item active">Create New Post</li>
             </ol>
-            <div class="card mb-3">
-                <div class="card-header h3">
-                    <i class="fas fa-table"></i>
-                    Post
-                </div>
-                <div class="card-body">
-                    <div class="table-responsive">
-                        <!--                        <a class="btn btn-primary" href="#">Add order</a>-->
-                        <table class="table table-top" id="dataTable">
-                            <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Post Title</th>
-                                <th>Post Short Description</th>
-                                <th>Post Created On</th>
-                                <th>Actions</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr th:each = "post, postStat : ${posts}">
-                                <td th:text="${postStat.count}">1</td>
-                                <td th:text="${post.title}">Post Title</td>
-                                <td th:text="${post.shortDescription}">Post Short Description</td>
-                                <td th:text="${post.createdOn}">Post Created Date</td>
-                            </tr>
-                            </tbody>
-                            <tfoot>
+            <div class="row col-md-8 offset-md-2">
+                <div class="card w-100">
+                    <div class="card-header">
+                        <h2 class="text-center">Create Post</h2>
+                    </div>
+                    <div class="card-body">
+                        <form role="form" method="post" th:action="@{/posts/createPost}" th:object="${post}">
+                            <div class="mb-3">
+                                <label class="form-label"> Title </label>
+                                <input type="text"
+                                       class="form-control"
+                                       id="title"
+                                       placeholder="Enter Post Title"
+                                       name="title"
+                                       th:field="*{title}"
+                                >
+                            </div>
 
-                            </tfoot>
+                            <div class="mb-3">
+                                <label class="form-label"> Short Description </label>
+                                <textarea
+                                        class="form-control"
+                                        id="shortDescription"
+                                        placeholder="Enter Post Short Description"
+                                        rows="3"
+                                        name="shortDescription"
+                                        th:field="*{shortDescription}"
+                                ></textarea>
+                            </div>
 
-                        </table>
+                            <div class="mb-3">
+                                <label class="form-label"> Content </label>
+                                <textarea
+                                        class="form-control"
+                                        id="content"
+                                        placeholder="Enter Post Content"
+                                        rows="12"
+                                        name="content"
+                                        th:field="*{content}"
+                                ></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Submit</button>
+
+                        </form>
                     </div>
                 </div>
-                <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
             </div>
         </div>
-
-        <div th:replace="/fragment/dashboardFooter :: footer"></div>
     </div>
-</div>
-<!-- /#wrapper -->
+    <div th:replace="/fragment/dashboardFooter :: footer"></div>
+
+    <!-- /#wrapper -->
 <!-- Scroll to Top Button-->
 <a class="scroll-to-top rounded" href="#page-top">
     <i class="fas fa-angle-up"></i>
