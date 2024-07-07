@@ -28,7 +28,7 @@
 
 <nav class="navbar navbar-expand navbar-dark bg-dark static-top">
 
-    <a class="navbar-brand mr-1" href="#">List Blog Post</a>
+    <a class="navbar-brand mr-1" th:href="@{/posts/dashboard}">List Blog Post</a>
 
     <button class="btn btn-link btn-sm text-white order-1 order-sm-0" id="sidebarToggle" href="#">
         <i class="fas fa-bars"></i>
@@ -95,7 +95,7 @@
 <div id="wrapper">
 
     <!-- Sidebar -->
-    <div th:replace="/Manager/sidebar :: sidebar"></div>
+    <div th:replace="/marketing/sidebar :: sidebar"></div>
 
     <div id="content-wrapper">
 
