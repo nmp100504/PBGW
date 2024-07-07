@@ -1,5 +1,6 @@
 package com.example.BuildPC.controller.Marketing;
 
+import com.example.BuildPC.dto.PostDto;
 import com.example.BuildPC.model.Post;
 import com.example.BuildPC.model.User;
 import com.example.BuildPC.service.PostService;
@@ -20,14 +21,18 @@ import java.util.Optional;
 @RequestMapping("/posts")
 public class PostController {
 
-    @Autowired
     private PostService postService;
+
+    public PostController(PostService postService) {
+        this.postService = postService;
+    }
 
     @GetMapping("/dashboard")
     public String dashboard(Model model)
 
     {
-//        String user = principal.getName();
+        List<PostDto> posts = postService.findAllPost();
+        model.addAttribute("posts", posts);
         return "marketing/dashboard";
     }
 //    @GetMapping("")
