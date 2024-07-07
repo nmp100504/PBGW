@@ -28,7 +28,7 @@
 
 <nav class="navbar navbar-expand navbar-dark bg-dark static-top">
 
-    <a class="navbar-brand mr-1" href="/ManagerDashBoard">Manager Dashboard</a>
+    <a class="navbar-brand mr-1" href="#">List Blog Post</a>
 
     <button class="btn btn-link btn-sm text-white order-1 order-sm-0" id="sidebarToggle" href="#">
         <i class="fas fa-bars"></i>
@@ -115,7 +115,7 @@
             <div class="card mb-3">
                 <div class="card-header h3">
                     <i class="fas fa-table"></i>
-                    Order:
+                    Post
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
@@ -123,25 +123,23 @@
                         <table class="table table-top" id="dataTable">
                             <thead>
                             <tr>
-                                <th><input type="checkbox"></th>
-                                <th>Order</th>
-                                <th>Date</th>
-                                <th>Status</th>
-                                <th>Billing</th>
-                                <th>Total</th>
-                                <!--                                <th>Action</th>-->
+                                <th>ID</th>
+                                <th>Post Title</th>
+                                <th>Post Short Description</th>
+                                <th>Post Created On</th>
+                                <th>Actions</th>
                             </tr>
                             </thead>
-                            <tfoot>
-                            <tr>
-                                <th><input type="checkbox"></th>
-                                <th>Order</th>
-                                <th>Date</th>
-                                <th>Status</th>
-                                <th>Billing</th>
-                                <th>Total</th>
-                                <!--                                <th>Action</th>-->
+                            <tbody>
+                            <tr th:each = "post, postStat : ${posts}">
+                                <td th:text="${postStat.count}">1</td>
+                                <td th:text="${post.title}">Post Title</td>
+                                <td th:text="${post.shortDescription}">Post Short Description</td>
+                                <td th:text="${post.createdOn}">Post Created Date</td>
                             </tr>
+                            </tbody>
+                            <tfoot>
+
                             </tfoot>
 
                         </table>
