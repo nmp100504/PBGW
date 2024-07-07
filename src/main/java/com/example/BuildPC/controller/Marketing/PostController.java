@@ -13,6 +13,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.naming.Binding;
 import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
@@ -43,7 +44,12 @@ public class PostController {
     }
 
     @PostMapping("/createPost")
-    public String createPost(@ModelAttribute PostDto postDto){
+    public String createPost(@Valid @ModelAttribute("post") PostDto postDto, BindingResult result,
+                             Model model){
+        if(result.hasErrors()){
+            model.addAttribute("post", postDto);
+            return "marketing/create";
+        }
         postDto.setUrl(getUrl(postDto.getTitle()));
         postService.createPost(postDto);
         return "redirect:/posts/dashboard";

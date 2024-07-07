@@ -16,9 +16,12 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class PostDto {
     private Long id;
+    @NotEmpty(message = "Title should not be empty")
     private String title;
     private String url;
+    @NotEmpty(message = "Content should not be empty")
     private String content;
+    @NotEmpty(message = "Short description should not be empty")
     private String shortDescription;
     private LocalDateTime createdOn;
     private LocalDateTime updatedOn;
