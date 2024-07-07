@@ -1,6 +1,6 @@
 package com.example.BuildPC.service;
 
-import com.example.BuildPC.dto.PostDTO;
+import com.example.BuildPC.dto.PostDto;
 import com.example.BuildPC.model.Post;
 import com.example.BuildPC.model.User;
 import org.springframework.stereotype.Service;
@@ -10,7 +10,7 @@ import java.util.Optional;
 
 @Service
 public interface PostService {
-    List<PostDTO> findAllPost();
+    List<PostDto> findAllPost();
 
 //    Post findPostById(Integer postId);
 //

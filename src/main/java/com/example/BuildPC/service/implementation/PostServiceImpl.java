@@ -1,6 +1,7 @@
 package com.example.BuildPC.service.implementation;
 
-import com.example.BuildPC.dto.PostDTO;
+import com.example.BuildPC.dto.PostDto;
+import com.example.BuildPC.mapper.PostMapper;
 import com.example.BuildPC.model.Post;
 import com.example.BuildPC.model.User;
 import com.example.BuildPC.repository.PostRepository;
@@ -19,6 +20,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -31,7 +33,9 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public List<Post> findAllPost() {
-        return postRepository.findAll();
+    public List<PostDto> findAllPost() {
+        List<Post> posts = postRepository.findAll();
+        return posts.stream().map(PostMapper::mapToPostDTO)
+                .toList();
     }
 }
