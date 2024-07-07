@@ -44,9 +44,6 @@ public class User  {
     private boolean isEnabled;
 
     @OneToMany(mappedBy = "user")
-    private Set<Post> posts;
-
-    @OneToMany(mappedBy = "user")
     private Set<Comment> comments;
 
     @OneToMany(mappedBy = "user")
