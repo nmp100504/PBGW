@@ -12,6 +12,7 @@ import java.util.Optional;
 public interface PostService {
     List<PostDto> findAllPost();
 
+    void createPost(PostDto postDto);
 //    Post findPostById(Integer postId);
 //
 //    Post createNewPost(Post post);

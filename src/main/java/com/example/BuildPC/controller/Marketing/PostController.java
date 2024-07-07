@@ -41,6 +41,20 @@ public class PostController {
         model.addAttribute("post", postDto);
         return "marketing/create";
     }
+
+    @PostMapping("/createPost")
+    public String createPost(@ModelAttribute PostDto postDto){
+        postDto.setUrl(getUrl(postDto.getTitle()));
+        postService.createPost(postDto);
+        return "redirect:/posts/dashboard";
+    }
+
+    private static String getUrl(String postTitle){
+        String title = postTitle.trim().toLowerCase();
+        String url = title.replaceAll("\\s+", "-");
+        url = url.replaceAll("[^A-Za-z0-9]", "-");
+        return url;
+    }
 //    @GetMapping("")
 //    public String getAllPosts(
 //            @RequestParam(defaultValue = "0") Integer pageNo,
