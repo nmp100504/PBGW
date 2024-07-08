@@ -23,5 +23,4 @@ public class CategoryDto {
 
     private MultipartFile categoryImage;
 
-
 }

@@ -30,11 +30,20 @@ public class CategoryController {
     private CategoryService categoryService;
 
     @GetMapping("/categoryList")
-    public String showCategoryList(Model model, @Param("keyword") String keyword) {
+    public String showCategoryList(Model model, @Param("categoryName") String categoryName, @RequestParam(required = false) String status) {
         List<Category> categories = categoryService.findAll();
-        if(keyword != null){
-            categories = categoryService.searchCategoryByName(keyword);
-            model.addAttribute("keyword", keyword);
+        if(categoryName != null){
+            categories = categoryService.searchCategoryByName(categoryName);
+            model.addAttribute("categoryName", categoryName);
+        }
+        if(status != null && !status.isEmpty()){
+            boolean isActive = status.equalsIgnoreCase("active");
+            categories = categoryService.listByCategoryStatus(isActive);
+            model.addAttribute("status", status);
+        }
+        if(categoryName != null && !categoryName.isEmpty() && status != null && !status.isEmpty()){
+            boolean isActive = status.equalsIgnoreCase("active");
+            categories = categoryService.searchByCategoryNameAndStatus(categoryName,isActive);
         }
         model.addAttribute("categories", categories);
         return "Manager/showCategoryList";
@@ -43,6 +52,7 @@ public class CategoryController {
     @GetMapping("/categoryList/create")
     public String createCategory(Model model){
         CategoryDto categoryDto = new CategoryDto();
+        categoryDto.setCategoryStatus(true);
         model.addAttribute("categoryDto", categoryDto);
         return "Manager/createCategory";
     }
@@ -131,7 +141,8 @@ public class CategoryController {
     @GetMapping("/categoryList/delete")
     public String deleteCategory(@RequestParam("id") int id) {
         try{
-            categoryService.deleteCategoryById(id);
+            //categoryService.deleteCategoryById(id);
+            categoryService.deActivateCategoryById(id);
         }catch (Exception e) {
             System.out.println("Exception: " + e.getMessage());
             return "redirect:/ManagerDashBoard/categoryList";

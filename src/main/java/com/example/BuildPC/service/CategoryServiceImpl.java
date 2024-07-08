@@ -3,6 +3,7 @@ package com.example.BuildPC.service;
 
 import com.example.BuildPC.dto.CategoryDto;
 import com.example.BuildPC.model.Category;
+import com.example.BuildPC.model.Product;
 import com.example.BuildPC.repository.CategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -73,6 +74,15 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
+    public void deActivateCategoryById(int id) {
+        Category category = categoryRepository.findById(id).get();
+        if(category != null){
+            category.setCategoryStatus(false);
+            updateCategory(category);
+        }
+    }
+
+    @Override
     public List<Category> findCategoryByStatus() {
         return categoryRepository.findByCategoryStatus(true);
     }
@@ -85,5 +95,15 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public boolean existCategoryByName(String categoryName) {
         return categoryRepository.existsByCategoryName(categoryName);
+    }
+
+    @Override
+    public List<Category> listByCategoryStatus(boolean status) {
+        return categoryRepository.findByCategoryStatus(status);
+    }
+
+    @Override
+    public List<Category> searchByCategoryNameAndStatus(String categoryName, boolean status) {
+        return categoryRepository.searchByCategoryNameAndStatus(categoryName,status);
     }
 }
