@@ -42,6 +42,7 @@
                                 <td>
                                     <a th:href="@{/posts/{postId}/edit(postId=${post.id})}" class="btn btn-primary">Edit</a>
                                     <a th:href="@{/posts/{postId}/delete(postId=${post.id})}" class="btn btn-danger">Delete</a>
+                                    <a th:href="@{/posts/{postUrl}/view(postUrl=${post.url})}" class="btn btn-info">View</a>
                                 </td>
                             </tr>
                             </tbody>
