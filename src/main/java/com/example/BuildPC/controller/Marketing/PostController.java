@@ -62,6 +62,21 @@ public class PostController {
         return "marketing/edit";
     }
 
+    @PostMapping("/{postId}")
+    public String updatePost(@Valid @ModelAttribute("post") PostDto post,
+                             @PathVariable Long postId,
+                             BindingResult result,
+                             Model model){
+        if(result.hasErrors()){
+            model.addAttribute("post", post);
+            return "marketing/edit";
+        }
+
+        post.setId(postId);
+        postService.updatePost(post);
+        return "redirect:/posts/dashboard";
+    }
+
     private static String getUrl(String postTitle){
         String title = postTitle.trim().toLowerCase();
         String url = title.replaceAll("\\s+", "-");

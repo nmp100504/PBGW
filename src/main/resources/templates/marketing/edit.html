@@ -23,8 +23,7 @@
                         <h2 class="text-center">Create Post</h2>
                     </div>
                     <div class="card-body">
-                        <form role="form" method="post" th:action="@{/posts/createPost}" th:object="${post}">
-                            <input type="hidden" th:field="*{id}">
+                        <form role="form" method="post" th:action="@{/posts/{postId}(postId=${post.id})}" th:object="${post}">
                             <input type="hidden" th:field="*{url}">
                             <input type="hidden" th:field="*{createdOn}">
                             <div class="mb-3">
