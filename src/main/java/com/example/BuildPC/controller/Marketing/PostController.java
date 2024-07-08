@@ -91,4 +91,10 @@ public class PostController {
         return url;
     }
 
+    @GetMapping("/search")
+    public String searchPosts(@RequestParam(value = "query") String query, Model model){
+        List<PostDto> posts = postService.searchPosts(query);
+        model.addAttribute("posts", posts);
+        return  "marketing/dashboard";
+    }
 }

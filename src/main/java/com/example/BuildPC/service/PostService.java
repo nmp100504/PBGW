@@ -21,6 +21,8 @@ public interface PostService {
     void deletePost(long id);
 
     PostDto findPostByUrl(String postUrl);
+
+    List<PostDto> searchPosts(String query);
 //    Post findPostById(Integer postId);
 //
 //    Post createNewPost(Post post);
