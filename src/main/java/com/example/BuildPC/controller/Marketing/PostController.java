@@ -55,6 +55,13 @@ public class PostController {
         return "redirect:/posts/dashboard";
     }
 
+    @GetMapping("/{postId}/edit")
+    public String editPostForm(@PathVariable Long postId, Model model){
+        PostDto postDto = postService.findPostById(postId);
+        model.addAttribute("post", postDto);
+        return "posts/edit";
+    }
+
     private static String getUrl(String postTitle){
         String title = postTitle.trim().toLowerCase();
         String url = title.replaceAll("\\s+", "-");

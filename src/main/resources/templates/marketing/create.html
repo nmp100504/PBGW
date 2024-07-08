@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <div th:replace="/fragment/dashboardHeader ::header "></div>
+<link rel="stylesheet" href="https://cdn.ckeditor.com/ckeditor5/42.0.0/ckeditor5.css">
+
 <body id="page-top">
 <div th:replace="/fragment/dashboardHeader ::navbar"></div>
 <div id="wrapper">
@@ -23,44 +25,41 @@
                     <div class="card-body">
                         <form role="form" method="post" th:action="@{/posts/createPost}" th:object="${post}">
                             <div class="mb-3">
-                                <label class="form-label"> Title </label>
+                                <label class="form-label">Title</label>
                                 <input type="text"
                                        class="form-control"
                                        id="title"
                                        placeholder="Enter Post Title"
                                        name="title"
                                        th:field="*{title}"
-                                >
+                                       maxlength="255">
                                 <p th:if="${#fields.hasErrors('title')}" class="text-danger" th:errors="*{title}"></p>
                             </div>
 
                             <div class="mb-3">
-                                <label class="form-label"> Short Description </label>
-                                <textarea
-                                        class="form-control"
-                                        id="shortDescription"
-                                        placeholder="Enter Post Short Description"
-                                        rows="3"
-                                        name="shortDescription"
-                                        th:field="*{shortDescription}"
-                                ></textarea>
+                                <label class="form-label">Short Description</label>
+                                <textarea class="form-control"
+                                          id="shortDescription"
+                                          placeholder="Enter Post Short Description"
+                                          rows="3"
+                                          name="shortDescription"
+                                          th:field="*{shortDescription}"
+                                          maxlength="500"></textarea>
                                 <p th:if="${#fields.hasErrors('shortDescription')}" class="text-danger" th:errors="*{shortDescription}"></p>
-
                             </div>
 
                             <div class="mb-3">
-                                <label class="form-label"> Content </label>
-                                <textarea
-                                        class="form-control"
-                                        id="content"
-                                        placeholder="Enter Post Content"
-                                        rows="12"
-                                        name="content"
-                                        th:field="*{content}"
-                                ></textarea>
+                                <label class="form-label">Content</label>
+                                <textarea class="form-control"
+                                          id="content"
+                                          placeholder="Enter Post Content"
+                                          rows="12"
+                                          name="content"
+                                          th:field="*{content}"
+                                          maxlength="65535"></textarea>
                                 <p th:if="${#fields.hasErrors('content')}" class="text-danger" th:errors="*{content}"></p>
-
                             </div>
+
                             <div class="d-flex justify-content-center">
                                 <button type="submit" class="btn btn-primary">Submit</button>
                             </div>
@@ -81,5 +80,81 @@
     <!-- Bootstrap core JavaScript-->
     <div th:replace="/fragment/dashboardFooter :: source"></div>
 </div>
+<script type="importmap">
+    {
+        "imports": {
+            "ckeditor5": "https://cdn.ckeditor.com/ckeditor5/42.0.0/ckeditor5.js",
+            "ckeditor5/": "https://cdn.ckeditor.com/ckeditor5/42.0.0/"
+        }
+    }
+</script>
+<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+<script type="module">
+    import {
+        ClassicEditor,
+        Essentials,
+        Paragraph,
+        Bold,
+        Italic,
+        Underline,
+        Strikethrough,
+        Font,
+        Alignment,
+        List,
+        Link,
+        BlockQuote,
+        Image,
+        ImageToolbar,
+        ImageCaption,
+        ImageStyle,
+        ImageResize,
+        Table,
+        TableToolbar,
+        MediaEmbed,
+        Heading,
+        Code,
+        CodeBlock
+    } from 'ckeditor5';
+
+    ClassicEditor
+        .create(document.querySelector('#content'), {
+            plugins: [
+                Essentials, Paragraph, Bold, Italic, Underline, Strikethrough,
+                Font, Alignment, List, Link, BlockQuote,
+                Image, ImageToolbar, ImageCaption, ImageStyle, ImageResize,
+                Table, TableToolbar, MediaEmbed, Heading, Code, CodeBlock
+            ],
+            toolbar: [
+                'heading', '|',
+                'bold', 'italic', 'underline', 'strikethrough', '|',
+                'link', '|',
+                'numberedList', 'bulletedList', '|',
+                'alignment', '|',
+                'fontSize', 'fontFamily', 'fontColor', 'fontBackgroundColor', '|',
+                'imageUpload', 'blockQuote', 'insertTable', 'mediaEmbed', '|',
+                'code', 'codeBlock', '|',
+                'undo', 'redo'
+            ],
+            image: {
+                toolbar: [
+                    'imageTextAlternative', 'imageStyle:inline', 'imageStyle:block', 'imageStyle:side'
+                ]
+            },
+            table: {
+                contentToolbar: [
+                    'tableColumn', 'tableRow', 'mergeTableCells'
+                ]
+            }
+        })
+        .then(editor => {
+            window.editor = editor;
+        })
+        .catch(error => {
+            console.error(error);
+        });
+</script>
+
+
+
 </body>
 </html>

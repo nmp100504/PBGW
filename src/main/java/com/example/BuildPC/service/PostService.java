@@ -13,6 +13,8 @@ public interface PostService {
     List<PostDto> findAllPost();
 
     void createPost(PostDto postDto);
+
+    PostDto findPostById(long id);
 //    Post findPostById(Integer postId);
 //
 //    Post createNewPost(Post post);

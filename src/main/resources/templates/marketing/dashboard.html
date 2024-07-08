@@ -39,6 +39,9 @@
                                 <td th:text="${post.title}">Post Title</td>
                                 <td th:text="${post.shortDescription}">Post Short Description</td>
                                 <td th:text="${post.createdOn}">Post Created Date</td>
+                                <td>
+                                    <a th:href="@{/posts/{postId}/edit(postId=${post.id})}" class="btn btn-primary">Edit</a>
+                                </td>
                             </tr>
                             </tbody>
                             <tfoot>
