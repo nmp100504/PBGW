@@ -77,6 +77,12 @@ public class PostController {
         return "redirect:/posts/dashboard";
     }
 
+    @GetMapping("/{postId}/delete")
+    public String deletePost(@PathVariable("postId") Long postId){
+        postService.deletePost(postId);
+        return "redirect:/posts/dashboard";
+    }
+
     private static String getUrl(String postTitle){
         String title = postTitle.trim().toLowerCase();
         String url = title.replaceAll("\\s+", "-");
