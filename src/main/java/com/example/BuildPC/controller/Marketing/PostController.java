@@ -59,7 +59,7 @@ public class PostController {
     public String editPostForm(@PathVariable Long postId, Model model){
         PostDto postDto = postService.findPostById(postId);
         model.addAttribute("post", postDto);
-        return "posts/edit";
+        return "marketing/edit";
     }
 
     private static String getUrl(String postTitle){
