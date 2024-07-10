@@ -75,7 +75,7 @@
               <div class="col col-lg-8">
                 <div th:each ="post: ${posts}">
                   <div class="bolg_standard">
-                    <a class="item_image" th:href="@{/posts/{postUrl}(postUrl=${post.url})}">
+                    <a class="item_image" th:href="@{/blog/{postUrl}(postUrl=${post.url})}">
                       <img src="assets/images/blog/blog_2.webp" alt="Getyootech - Gadgets Ecommerce Site Template">
                     </a>
                     <div class="item_content">
@@ -84,12 +84,12 @@
                         <li><a href="#!">admin</a></li>
                       </ul>
                       <h3 class="item_title">
-                        <a th:href="@{/posts/{postUrl}(postUrl=${post.url})}" th:text="${post.title}">Post Title</a>
+                        <a th:href="@{/blog/{postUrl}(postUrl=${post.url})}" th:text="${post.title}">Post Title</a>
                       </h3>
                       <p th:text="${post.shortDescription}">
                         Short Description
                       </p>
-                      <a class="btn btn_gray" th:href="@{/posts/{postUrl}(postUrl=${post.url})}">Read More</a>
+                      <a class="btn btn_gray" th:href="@{/blog/{postUrl}(postUrl=${post.url})}">Read More</a>
                     </div>
                   </div>
                 </div>
