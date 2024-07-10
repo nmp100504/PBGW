@@ -1,5 +1,6 @@
 package com.example.BuildPC.controller.Marketing;
 
+import com.example.BuildPC.dto.CommentDto;
 import com.example.BuildPC.dto.PostDto;
 import com.example.BuildPC.model.Post;
 import com.example.BuildPC.service.PostService;
@@ -32,7 +33,10 @@ public class BlogController {
     @GetMapping("/{postUrl}")
     private String showBlogPost(@PathVariable("postUrl") String postUrl, Model model){
         PostDto postDto = postService.findPostByUrl(postUrl);
+
+        CommentDto commentDto = new CommentDto();
         model.addAttribute("post", postDto);
+        model.addAttribute("comment", commentDto);
         return "marketing/view";
     }
 
