@@ -1,7 +1,9 @@
 package com.example.BuildPC.controller.Marketing;
 
 
+import com.example.BuildPC.dto.CommentDto;
 import com.example.BuildPC.dto.PostDto;
+import com.example.BuildPC.service.CommentService;
 import com.example.BuildPC.service.PostService;
 import jakarta.validation.Valid;
 
@@ -17,9 +19,11 @@ import java.util.List;
 public class PostController {
 
     private PostService postService;
+    private CommentService commentService;
 
-    public PostController(PostService postService) {
+    public PostController(PostService postService, CommentService commentService) {
         this.postService = postService;
+        this.commentService = commentService;
     }
 
     @GetMapping("/dashboard")
@@ -96,5 +100,12 @@ public class PostController {
         List<PostDto> posts = postService.searchPosts(query);
         model.addAttribute("posts", posts);
         return  "marketing/dashboard";
+    }
+
+    @GetMapping("/comments")
+    public String postComments(Model model){
+        List<CommentDto> comments = commentService.findAllComments();
+        model.addAttribute(comments);
+        return  "marketing/comments";
     }
 }
