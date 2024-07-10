@@ -3,6 +3,8 @@ package com.example.BuildPC.mapper;
 import com.example.BuildPC.dto.PostDto;
 import com.example.BuildPC.model.Post;
 
+import java.util.stream.Collectors;
+
 public class PostMapper {
     public static PostDto mapToPostDTO(Post post) {
         return PostDto.builder()
@@ -13,6 +15,9 @@ public class PostMapper {
                 .shortDescription(post.getShortDescription())
                 .createdOn(post.getCreatedOn())
                 .updatedOn(post.getUpdatedOn())
+                .comments(post.getComments().stream()
+                        .map((comment) -> CommentMapper.mapToCommentDto(comment))
+                                .collect(Collectors.toSet()))
                 .build();
     }
 
@@ -25,6 +30,9 @@ public class PostMapper {
                 .shortDescription(postDto.getShortDescription())
                 .createdOn(postDto.getCreatedOn())
                 .updatedOn(postDto.getUpdatedOn())
+                .comments(postDto.getComments().stream()
+                        .map((comment) -> CommentMapper.mapToComment(comment))
+                        .collect(Collectors.toSet()))
                 .build();
     }
 }

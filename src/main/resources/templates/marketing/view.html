@@ -160,52 +160,23 @@
 
                         <div class="comment_area">
                             <h3 class="area_title">Comments</h3>
-                            <ul class="comment_list ul_li_block">
-                                <li>
-                                    <div class="comment_item clearfix">
-                                        <div class="thumbnail_wrap">
-                                            <img src="assets/images/comment/cmnt_thumb_1.webp" alt="Getyootech - Gadgets Ecommerce Site Template">
-                                        </div>
-                                        <div class="content_wrap">
-                                            <h4 class="hero_name">John Smith, <span class="comment_date">17 July 2023</span></h4>
-                                            <p>
-                                                Ut tellus dolor, dapibus eget, elementum vel, cursus eleifend, elit. Aenean auctor wisi et urna. Aliquam erat volutpat. Duis ac turpis.
-                                            </p>
-                                            <button type="button" class="reply_btn"><i class="fas fa-reply"></i></button>
-                                        </div>
-                                    </div>
-                                    <ul class="comment_list ul_li_block">
-                                        <li>
-                                            <div class="comment_item clearfix">
-                                                <div class="thumbnail_wrap">
-                                                    <img src="assets/images/comment/cmnt_thumb_2.webp" alt="Getyootech - Gadgets Ecommerce Site Template">
-                                                </div>
-                                                <div class="content_wrap">
-                                                    <h4 class="hero_name">Admin, <span class="comment_date">17 July 2023</span></h4>
-                                                    <p>
-                                                        Ut tellus dolor, dapibus eget, elementum vel, cursus eleifend, elit. Aenean auctor wisi et urna. Aliquam erat volutpat. Duis ac turpis.
-                                                    </p>
-                                                    <button type="button" class="reply_btn"><i class="fas fa-reply"></i></button>
-                                                </div>
+                            <ul class="comment_list ul_li_block" th:each="comment : ${post.comments}">
+                                    <li>
+                                        <div class="comment_item clearfix">
+                                            <div class="thumbnail_wrap">
+                                                <img src="assets/images/comment/cmnt_thumb_3.webp" alt="Getyootech - Gadgets Ecommerce Site Template">
                                             </div>
-                                        </li>
-                                    </ul>
-                                </li>
-
-                                <li>
-                                    <div class="comment_item clearfix">
-                                        <div class="thumbnail_wrap">
-                                            <img src="assets/images/comment/cmnt_thumb_3.webp" alt="Getyootech - Gadgets Ecommerce Site Template">
+                                            <div class="content_wrap">
+                                                <h4 class="hero_name">
+                                                    <span th:text="${comment.email}">User Email</span>
+                                                    <span class="comment_date" th:text="${#temporals.format(comment.createdOn,'dd MMMM yy')}">10 July 2024</span>
+                                                </h4>
+                                                <p th:text="${comment.content}">
+                                                    Message
+                                                </p>
+                                            </div>
                                         </div>
-                                        <div class="content_wrap">
-                                            <h4 class="hero_name">John Smith, <span class="comment_date">17 July 2023</span></h4>
-                                            <p>
-                                                Ut tellus dolor, dapibus eget, elementum vel, cursus eleifend, elit. Aenean auctor wisi et urna. Aliquam erat volutpat. Duis ac turpis.
-                                            </p>
-                                            <button type="button" class="reply_btn"><i class="fas fa-reply"></i></button>
-                                        </div>
-                                    </div>
-                                </li>
+                                    </li>
                             </ul>
                         </div>
 
@@ -226,12 +197,14 @@
                                                 <div class="form_item">
                                                     <h4 class="input_title">Name<sup>*</sup></h4>
                                                     <input type="text" name="name" id="name" th:field="*{name}">
+                                                    <p th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="text-danger"></p>
                                                 </div>
                                             </div>
                                             <div class="col col-md-6">
                                                 <div class="form_item">
                                                     <h4 class="input_title">Email Address<sup>*</sup></h4>
                                                     <input type="email" name="email" id="email" th:field="*{email}">
+                                                    <p th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="text-danger"></p>
                                                 </div>
                                             </div>
                                         </div>
@@ -239,6 +212,7 @@
                                         <div class="form_item">
                                             <h4 class="input_title">Message</h4>
                                             <textarea name="content" id="content" th:field="*{content}"></textarea>
+                                            <p th:if="${#fields.hasErrors('content')}" th:errors="*{content}" class="text-danger"></p>
                                         </div>
                                     </div>
                                     <div class="btn_wrap">
