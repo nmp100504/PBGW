@@ -21,7 +21,7 @@ public class BlogController {
     public String viewBlogPosts(Model model){
         List<PostDto> postsResponse = postService.findAllPost();
         model.addAttribute("posts", postsResponse);
-        return "marketing/blog_details";
+        return "marketing/blog";
     }
 
 
