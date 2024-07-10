@@ -47,8 +47,6 @@ public class Product {
     @Column(name = "product_status")
     private boolean productStatus;
 
-    @OneToMany(mappedBy = "product")
-    private Set<Comment> comments;
 
     @OneToMany(mappedBy = "product")
     private List<ProductImage> productImages;

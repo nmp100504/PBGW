@@ -15,19 +15,19 @@ import java.util.List;
 @Service
 public class CommentService {
 
-    @Autowired
-    private CommentRepository commentRepository;
-
-    public List<Comment> getAllComments() {
-        return commentRepository.findAll();
-    }
-
-    public List<Comment> getCommentsByProduct(Product product) {
-        return commentRepository.findByProduct(product);
-    }
-
-    public Comment saveComment(Comment comment) {
-        comment.setDate(LocalDateTime.now());
-        return commentRepository.save(comment);
-    }
+//    @Autowired
+//    private CommentRepository commentRepository;
+//
+//    public List<Comment> getAllComments() {
+//        return commentRepository.findAll();
+//    }
+//
+//    public List<Comment> getCommentsByProduct(Product product) {
+//        return commentRepository.findByProduct(product);
+//    }
+//
+//    public Comment saveComment(Comment comment) {
+//        comment.setDate(LocalDateTime.now());
+//        return commentRepository.save(comment);
+//    }
 }
