@@ -105,7 +105,7 @@ public class PostController {
     @GetMapping("/comments")
     public String postComments(Model model){
         List<CommentDto> comments = commentService.findAllComments();
-        model.addAttribute(comments);
+        model.addAttribute("comments",comments);
         return  "marketing/comments";
     }
 }
