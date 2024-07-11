@@ -3,8 +3,11 @@ package com.example.BuildPC.service.implementation;
 import com.example.BuildPC.dto.PostDto;
 import com.example.BuildPC.mapper.PostMapper;
 import com.example.BuildPC.model.Post;
+import com.example.BuildPC.model.User;
 import com.example.BuildPC.repository.PostRepository;
+import com.example.BuildPC.repository.UserRepository;
 import com.example.BuildPC.service.PostService;
+import com.example.BuildPC.utils.SecurityUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -14,15 +17,21 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
-@RequiredArgsConstructor
 public class PostServiceImpl implements PostService {
 
     private final PostRepository postRepository;
-    private final Path storageLocation = Paths.get("public/images/thumbnail/"); // Set your upload directory
+    private final UserRepository userRepository;
+//    private final Path storageLocation = Paths.get("public/images/thumbnail/"); // Set your upload directory
+
+    public PostServiceImpl(PostRepository postRepository, UserRepository userRepository) {
+        this.postRepository = postRepository;
+        this.userRepository = userRepository;
+    }
 
     @Override
     public List<PostDto> findAllPost() {
@@ -40,8 +49,13 @@ public class PostServiceImpl implements PostService {
 //                e.printStackTrace();
 //            }
 //        }
+        String email = Objects.requireNonNull(SecurityUtils.getCurrentUser()).getEmail();
+        Optional<User> user = userRepository.findByEmail(email);
         Post post = PostMapper.mapToPost(postDto);
-        postRepository.save(post);
+        if(user.isPresent()){
+            post.setCreatedBy(user.get());
+            postRepository.save(post);
+        }
     }
 
     @Override
@@ -81,11 +95,11 @@ public class PostServiceImpl implements PostService {
         return posts.stream().map(PostMapper::mapToPostDTO).collect(Collectors.toList());
     }
 
-    private String saveThumbnail(MultipartFile file) throws IOException {
-        Files.createDirectories(storageLocation);
-        String fileName = file.getOriginalFilename();
-        Path targetLocation = storageLocation.resolve(fileName);
-        Files.copy(file.getInputStream(), targetLocation);
-        return fileName;
-    }
+//    private String saveThumbnail(MultipartFile file) throws IOException {
+//        Files.createDirectories(storageLocation);
+//        String fileName = file.getOriginalFilename();
+//        Path targetLocation = storageLocation.resolve(fileName);
+//        Files.copy(file.getInputStream(), targetLocation);
+//        return fileName;
+//    }
 }
