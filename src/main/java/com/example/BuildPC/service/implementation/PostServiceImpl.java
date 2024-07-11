@@ -3,43 +3,43 @@ package com.example.BuildPC.service.implementation;
 import com.example.BuildPC.dto.PostDto;
 import com.example.BuildPC.mapper.PostMapper;
 import com.example.BuildPC.model.Post;
-import com.example.BuildPC.model.User;
 import com.example.BuildPC.repository.PostRepository;
 import com.example.BuildPC.service.PostService;
-import com.example.BuildPC.service.UserService;
-import com.vladsch.flexmark.html.HtmlRenderer;
-import com.vladsch.flexmark.parser.Parser;
-import com.vladsch.flexmark.util.data.MutableDataSet;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class PostServiceImpl implements PostService {
 
-    private PostRepository postRepository;
-
-    public PostServiceImpl(PostRepository postRepository) {
-        this.postRepository = postRepository;
-    }
+    private final PostRepository postRepository;
+    private final Path storageLocation = Paths.get("public/images/thumbnail/"); // Set your upload directory
 
     @Override
     public List<PostDto> findAllPost() {
         List<Post> posts = postRepository.findAll();
-        return posts.stream().map(PostMapper::mapToPostDTO)
-                .toList();
+        return posts.stream().map(PostMapper::mapToPostDTO).toList();
     }
 
     @Override
     public void createPost(PostDto postDto) {
+//        if (postDto.getThumbnailFile() != null && !postDto.getThumbnailFile().isEmpty()) {
+//            try {
+//                String fileName = saveThumbnail(postDto.getThumbnailFile());
+//                postDto.setThumbnail(fileName);
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//        }
         Post post = PostMapper.mapToPost(postDto);
         postRepository.save(post);
     }
@@ -52,6 +52,14 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public void updatePost(PostDto postDto) {
+//        if (postDto.getThumbnailFile() != null && !postDto.getThumbnailFile().isEmpty()) {
+//            try {
+//                String fileName = saveThumbnail(postDto.getThumbnailFile());
+//                postDto.setThumbnail(fileName);
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//        }
         Post post = PostMapper.mapToPost(postDto);
         postRepository.save(post);
     }
@@ -73,4 +81,11 @@ public class PostServiceImpl implements PostService {
         return posts.stream().map(PostMapper::mapToPostDTO).collect(Collectors.toList());
     }
 
+    private String saveThumbnail(MultipartFile file) throws IOException {
+        Files.createDirectories(storageLocation);
+        String fileName = file.getOriginalFilename();
+        Path targetLocation = storageLocation.resolve(fileName);
+        Files.copy(file.getInputStream(), targetLocation);
+        return fileName;
+    }
 }

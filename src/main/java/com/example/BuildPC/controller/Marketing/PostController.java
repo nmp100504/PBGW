@@ -3,15 +3,20 @@ package com.example.BuildPC.controller.Marketing;
 
 import com.example.BuildPC.dto.CommentDto;
 import com.example.BuildPC.dto.PostDto;
+import com.example.BuildPC.model.Post;
 import com.example.BuildPC.service.CommentService;
 import com.example.BuildPC.service.PostService;
+import com.example.BuildPC.utils.FileUploadUtil;
 import jakarta.validation.Valid;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 @Controller
@@ -42,8 +47,9 @@ public class PostController {
     }
 
     @PostMapping("/createPost")
-    public String createPost(@Valid @ModelAttribute("post") PostDto postDto, BindingResult result,
-                             Model model){
+    public String createPost(@Valid @ModelAttribute("post") PostDto postDto,
+                             BindingResult result,
+                             Model model) throws IOException {
         if(result.hasErrors()){
             model.addAttribute("post", postDto);
             return "marketing/create";
@@ -52,6 +58,7 @@ public class PostController {
         postService.createPost(postDto);
         return "redirect:/posts/dashboard";
     }
+
 
     @GetMapping("/{postId}/edit")
     public String editPostForm(@PathVariable Long postId, Model model){
@@ -69,8 +76,6 @@ public class PostController {
             model.addAttribute("post", post);
             return "marketing/edit";
         }
-
-        post.setId(postId);
         postService.updatePost(post);
         return "redirect:/posts/dashboard";
     }
@@ -84,7 +89,9 @@ public class PostController {
     @GetMapping("/{postUrl}/view")
     public String viewPost(@PathVariable String postUrl, Model model){
         PostDto postDto = postService.findPostByUrl(postUrl);
+        CommentDto commentDto = new CommentDto();
         model.addAttribute("post", postDto);
+        model.addAttribute("comment", commentDto);
         return "marketing/view";
     }
 

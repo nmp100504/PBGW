@@ -7,8 +7,10 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.Set;
 
 @Data
@@ -35,5 +37,7 @@ public class PostDto {
     private LocalDateTime createdOn;
     private LocalDateTime updatedOn;
 
-    private Set<CommentDto> comments;
+    private Set<CommentDto> comments = new HashSet<>();
+//    private String thumbnail;
+//    private MultipartFile thumbnailFile;
 }

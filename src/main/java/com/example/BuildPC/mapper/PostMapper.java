@@ -18,6 +18,7 @@ public class PostMapper {
                 .comments(post.getComments().stream()
                         .map((comment) -> CommentMapper.mapToCommentDto(comment))
                                 .collect(Collectors.toSet()))
+//                .thumbnail(post.getThumbnail())
                 .build();
     }
 
@@ -33,6 +34,7 @@ public class PostMapper {
                 .comments(postDto.getComments().stream()
                         .map((comment) -> CommentMapper.mapToComment(comment))
                         .collect(Collectors.toSet()))
+//                .thumbnail(postDto.getThumbnail())
                 .build();
     }
 }

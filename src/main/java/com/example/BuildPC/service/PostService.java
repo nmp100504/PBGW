@@ -23,13 +23,5 @@ public interface PostService {
     PostDto findPostByUrl(String postUrl);
 
     List<PostDto> searchPosts(String query);
-//    Post findPostById(Integer postId);
-//
-//    Post createNewPost(Post post);
-//
-//    Boolean updatePost(Post post);
-//
-//    Boolean deletePostById(int id);
-//
-//    Optional<User> getCurrentUser();
+
 }

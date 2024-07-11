@@ -23,7 +23,7 @@
                         <h2 class="text-center">Create Post</h2>
                     </div>
                     <div class="card-body">
-                        <form role="form" method="post" th:action="@{/posts/{postId}(postId=${post.id})}" th:object="${post}">
+                        <form role="form" method="post" th:action="@{/posts/{postId}(postId=${post.id})}" th:object="${post}" >
                             <input type="hidden" th:field="*{url}">
                             <input type="hidden" th:field="*{createdOn}">
                             <div class="mb-3">
@@ -61,6 +61,17 @@
                                           maxlength="65535"></textarea>
                                 <p th:if="${#fields.hasErrors('content')}" class="text-danger" th:errors="*{content}"></p>
                             </div>
+
+<!--                            <div class="mb-3">-->
+<!--                                <label class="form-label">Thumbnail</label>-->
+<!--                                <div>-->
+<!--                                    <img th:src="@{/images/thumbnail/{thumbnail}(thumbnail=${post.thumbnail})}" alt="Thumbnail Image" class="img-thumbnail" />-->
+<!--                                </div>-->
+<!--                                <div class="form-group mt-3">-->
+<!--                                    <input class="form-control" type="file" name="thumbnailFile" accept="image/*" />-->
+<!--                                    <p th:if="${#fields.hasErrors('thumbnail')}" class="text-danger" th:errors="*{thumbnail}"></p>-->
+<!--                                </div>-->
+<!--                            </div>-->
 
                             <div class="d-flex justify-content-center">
                                 <button type="submit" class="btn btn-primary">Submit</button>

@@ -35,8 +35,6 @@ public class MainController {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    @Autowired
-    private ImageService imageService;
 
     @GetMapping("/login")
     public String login() {
@@ -130,14 +128,14 @@ public class MainController {
                 user.setLastName(lastName);
                 user.setPhone(phone);
 
-                if (!profileImage.isEmpty()) {
-                    try {
-                        String profileImageUrl = imageService.saveProfileImage(profileImage);
-                        user.setProfileImage(profileImageUrl);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
+//                if (!profileImage.isEmpty()) {
+//                    try {
+//                        String profileImageUrl = imageService.saveProfileImage(profileImage);
+//                        user.setProfileImage(profileImageUrl);
+//                    } catch (IOException e) {
+//                        e.printStackTrace();
+//                    }
+//                }
 
                 userService.updateUser(user);
                 model.addAttribute("user", user);

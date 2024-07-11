@@ -1,11 +1,14 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<div th:replace="/fragment/dashboardHeader ::header "></div>
+<div th:replace="~{fragment/dashboardHeader :: header}"> </div>
+
 <body id="page-top">
-<div th:replace="/fragment/dashboardHeader ::navbar"></div>
+<div th:replace="~{fragment/dashboardHeader :: navbar}"> </div>
+
 <div id="wrapper">
     <!-- Sidebar -->
-    <div th:replace="/fragment/dashboardHeader :: sidebar"></div>
+    <div th:replace="~{fragment/dashboardHeader :: sidebar}"> </div>
+
     <div id="content-wrapper">
         <div class="container-fluid">
             <!-- Breadcrumbs-->
@@ -72,7 +75,8 @@
             </div>
         </div>
 
-<div th:replace="/fragment/dashboardFooter :: footer"></div>
+        <div th:replace="~{fragment/dashboardFooter :: footer}"> </div>
+
     </div>
 </div>
 <!-- /#wrapper -->
@@ -80,8 +84,10 @@
 <a class="scroll-to-top rounded" href="#page-top">
     <i class="fas fa-angle-up"></i>
 </a>
-<div th:replace="/fragment/dashboardFooter :: logout-module"></div>
+<div th:replace="~{fragment/dashboardFooter :: logout-module}"> </div>
+
 <!-- Bootstrap core JavaScript-->
-<div th:replace="/fragment/dashboardFooter :: source"></div>
+<div th:replace="~{fragment/dashboardFooter :: source}"> </div>
+
 </body>
 </html>
