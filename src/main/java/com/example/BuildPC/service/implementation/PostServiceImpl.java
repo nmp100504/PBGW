@@ -74,7 +74,10 @@ public class PostServiceImpl implements PostService {
 //                e.printStackTrace();
 //            }
 //        }
+        String email = Objects.requireNonNull(SecurityUtils.getCurrentUser()).getEmail();
+        Optional<User> user = userRepository.findByEmail(email);
         Post post = PostMapper.mapToPost(postDto);
+        post.setCreatedBy(user.get());
         postRepository.save(post);
     }
 
