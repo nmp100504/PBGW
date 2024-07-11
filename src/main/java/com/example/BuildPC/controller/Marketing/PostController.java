@@ -115,4 +115,10 @@ public class PostController {
         model.addAttribute("comments",comments);
         return  "marketing/comments";
     }
+
+    @GetMapping("/comments/{commentId}")
+    public String deleteComment(@PathVariable Long commentId, Model model){
+        commentService.deleteComment(commentId);
+        return "redirect:/posts/comments";
+    }
 }

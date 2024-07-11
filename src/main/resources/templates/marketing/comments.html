@@ -55,7 +55,7 @@
                                 <td th:text="${comment.content}">Content</td>
                                 <td th:text="${#temporals.format(comment.createdOn, 'dd MMM yyyy')}">Comment Created Date</td>
                                 <td>
-                                    <a class="btn btn-danger">Delete</a>
+                                    <a class="btn btn-danger" th:href="@{/posts/comments/{commentId}(commentId=${comment.id})}">Delete</a>
                                 </td>
                             </tr>
                             </tbody>
