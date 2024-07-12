@@ -1,15 +1,12 @@
 package com.example.BuildPC.controller;
 
 
+import com.example.BuildPC.model.*;
 import com.example.BuildPC.service.BrandService;
 import com.example.BuildPC.service.CategoryService;
 import com.example.BuildPC.service.ProductImageService;
 import com.example.BuildPC.service.ProductService;
 import com.example.BuildPC.dto.ProductDto;
-import com.example.BuildPC.model.Category;
-import com.example.BuildPC.model.Product;
-import com.example.BuildPC.model.Brand;
-import com.example.BuildPC.model.ProductImage;
 import com.example.BuildPC.repository.CategoryRepository;
 import com.example.BuildPC.repository.ProductImageRepository;
 import com.example.BuildPC.repository.ProductRepository;
@@ -72,16 +69,7 @@ public class ProductController {
         model.addAttribute("categoryList", categoryList);
         return "LandingPage/shop_details";
     }
-    @GetMapping("/ManagerDashBoard/productList")
-    public String showProductList(Model model, @Param("productName") String productName ) {
-        List<Product> productList = productService.findAll();
-        if(productName != null && !productName.isEmpty()) {
-            productList = productService.searchProductByName(productName);
-            model.addAttribute("productName", productName);
-        }
-        model.addAttribute("products", productList);
-        return "/Manager/showProductList";
-    }
+
 
     @GetMapping("/search")
     public String searchProducts(@RequestParam("search") String query, Model model) {
@@ -119,41 +107,49 @@ public class ProductController {
         model.addAttribute("categoryList", categoryList);
         return "LandingPage/shop_grid"; // Return the HTML fragment with updated products
     }
-//    @GetMapping("/productList")
-//    public String showProductList(Model model) {
-//        List<Product> productList = productService.findAll();
-//        model.addAttribute("products", productList);
-//        return "/Manager/showProductList";
-//    }
-//
-//    @GetMapping("/ManagerDashBoard/create")
-//    public  String createProduct(Model model) {
-//        ProductDto productDto = new ProductDto();
-//        model.addAttribute("productDto", productDto);
-//        return "Manager/createProduct";
-//    }
 
-//    @PostMapping("/create")
-//    public String createProductManagerDashboard(@RequestParam int id, @Valid @ModelAttribute ProductDto productDto, BindingResult result) {
-//
-//        if(result.hasErrors()) {
-//            return "Manager/createProduct";
-//        }
-//        Category category = categoryRepository.findById(id)
-//        Product product = new Product();
-//        product.setProductName(productDto.getProductName());
-//        product.setProductOriginalPrice(productDto.getProductOriginalPrice());
-//        product.setProductSalePrice(productDto.getProductSalePrice());
-//        product.setProductDesc(productDto.getProductDesc());
-//        product.setUnitsInStock(productDto.getUnitsInStock());
-//        product.setUnitsInOrder(productDto.getUnitsInOrder());
-//
-//    }
+    @GetMapping("/ManagerDashBoard/productList")
+    public String showProductList(Model model, @Param("productNameOrCategoryName") String productNameOrCategoryName, @RequestParam(required = false) String status) {
+        List<Product> productList = productService.findAll();
 
+        if(productNameOrCategoryName != null && !productNameOrCategoryName.isEmpty()) {
+            productList = productService.searchByProductNameOrCategoryName(productNameOrCategoryName);
+            model.addAttribute("productNameOrCategoryName", productNameOrCategoryName);
+        }
+        if(status != null && !status.isEmpty()) {
+            boolean isActive = status.equalsIgnoreCase("active");
+            productList = productService.listActiveProduct(isActive);
+            model.addAttribute("status", status);
+        }
+        if(status != null && !status.isEmpty() && productNameOrCategoryName != null && !productNameOrCategoryName.isEmpty()) {
+            boolean isActive = status.equalsIgnoreCase("active");
+            productList = productService.searchByProductNameOrCategoryNameAndStatus(productNameOrCategoryName, isActive);
+        }
+
+//        List<Category> categories = categoryService.findCategoryByStatus();
+//        model.addAttribute("categories", categories);
+        model.addAttribute("products", productList);
+        return "/Manager/showProductList";
+    }
+
+    //Thống kê hiển thị ra danh sách tài khoản có trạng thái
+    @GetMapping("/ManagerDashBoard/productList/activeProduct")
+    public String showProductListActive(Model model) {
+        List<Product> productList = productService.findActiveProducts();
+        model.addAttribute("products", productList);
+        return "/Manager/showProductList";
+    }
+    @GetMapping("/ManagerDashBoard/productList/inActiveProduct")
+    public String showProductListInActive(Model model) {
+        List<Product> productList = productService.findInActiveProducts();
+        model.addAttribute("products", productList);
+        return "/Manager/showProductList";
+    }
 
     @GetMapping("/ManagerDashBoard/productList/create")
     public  String createProduct(Model model) {
         ProductDto productDto = new ProductDto();
+        productDto.setProductStatus(true);
         model.addAttribute("productDto", productDto);
         List<Category> categories = categoryService.findCategoryByStatus();
         model.addAttribute("categories", categories);
@@ -165,11 +161,14 @@ public class ProductController {
     @PostMapping("/ManagerDashBoard/productList/create")
     public String createProductManagerDashboard(Model model,@Valid @ModelAttribute("productDto") ProductDto productDto, BindingResult result) {
 
-        if(productDto.getProductImages().isEmpty()){
-            result.addError(new FieldError("productDto", "productImages", "Product Images cannot be empty"));
-        }
+//        if(productImageService.findAllImage().isEmpty()){
+//            result.addError(new FieldError("productDto", "productImages", "Product Images cannot be empty"));
+//        }
         if(productService.existsByProductName(productDto.getProductName())){
             result.addError(new FieldError("productDto", "productName", "Product Name already exists"));
+        }
+        if(Float.compare(productDto.getProductOriginalPrice(),productDto.getProductSalePrice()) <0){
+            result.addError(new FieldError("productDto", "productOriginalPrice", "Product Original Price cannot be less than Product Sale Price"));
         }
         if(result.hasErrors()) {
             List<Category> categories = categoryService.findCategoryByStatus();
@@ -179,9 +178,7 @@ public class ProductController {
             return "Manager/createProduct";
         }
         productService.create(productDto);
-
         return "redirect:/ManagerDashBoard/productList";
-
     }
 
     @GetMapping("/ManagerDashBoard/productList/edit")
@@ -199,6 +196,7 @@ public class ProductController {
             productDto.setUnitsInOrder(product.getUnitsInOrder());
             productDto.setCategoryId(product.getCategory().getId());
             productDto.setBrandId(product.getBrand().getId());
+            productDto.setProductStatus(product.isProductStatus());
             model.addAttribute("productDto", productDto);
             List<Category> categories = categoryService.findCategoryByStatus();
             model.addAttribute("categories", categories);
@@ -215,6 +213,12 @@ public class ProductController {
         try{
             Product product = productService.findProductById(id);
             model.addAttribute("productDto", productDto);
+            if(productService.existsByProductName(productDto.getProductName())){
+                result.addError(new FieldError("productDto", "productName", "Product Name already exists"));
+            }
+            if(Float.compare(productDto.getProductOriginalPrice(),productDto.getProductSalePrice()) <0){
+                result.addError(new FieldError("productDto", "productOriginalPrice", "Product Original Price cannot be less than Product Sale Price"));
+            }
             if(result.hasErrors()) {
                 List<Category> categories = categoryService.findCategoryByStatus();
                 model.addAttribute("categories", categories);
@@ -241,12 +245,9 @@ public class ProductController {
             if (images != null && !images.isEmpty() && images.stream().anyMatch(image -> !image.isEmpty())) {
                 // Xóa các ảnh hiện có
                 productImageService.deleteAllProductImages(product.getProductImages());
-
                 // Lưu các ảnh mới
                 productImageService.createAllProductImages(images, product.getId());
             }
-
-
         }catch (Exception e) {
             System.out.println("Exception: " + e.getMessage());
             return "redirect:/ManagerDashBoard/productList";
@@ -254,12 +255,11 @@ public class ProductController {
         return "redirect:/ManagerDashBoard/productList";
     }
 
-
-
     @GetMapping("/ManagerDashBoard/productList/delete")
     public String deleteProduct(@RequestParam("id") int id) {
         try {
-            productService.deleteProduct(id);
+            //productService.deleteProduct(id);
+            productService.deActivateProduct(id);
         }catch (Exception e) {
             System.out.println("Error in deleting product" + e.getMessage());
             return "redirect:/ManagerDashBoard/productList";

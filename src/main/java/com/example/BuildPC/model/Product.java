@@ -3,6 +3,7 @@ package com.example.BuildPC.model;
 
 import com.example.BuildPC.service.ProductImageService;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -24,21 +25,29 @@ public class Product {
     private Integer id;
 
     @Column(name = "product_name")
+    @NotEmpty(message = "The Product Name is required")
+    @Size(max = 100, message = "The Product Name does not exceed 100 characters")
     private String productName;
 
     @Column(name = "product_slug")
     private String productSlug;
 
     @Column(name = "product_original_price")
+    @NotNull(message =  "The Product Original Price is required and must be number!")
+    @DecimalMin(value = "0.0", inclusive = false, message = "The Product Original Price is must greater than 0!")
     private float productOriginalPrice;
 
     @Column(name = "product_sale_price")
+    @DecimalMin(value = "0.0", inclusive = false, message = "The Product Sale Price is must greater than 0!")
     private float productSalePrice;
 
     @Column(name = "product_desc")
+    @NotEmpty(message = "The Product Description is required")
     private String productDesc;
 
     @Column(name = "units_in_stock")
+    @NotNull(message =  "The Units In Stock is required and must be number!")
+    @Min(value = 1, message = "The Units In Stock is must greater than equal 1!")
     private Integer unitsInStock;
 
     @Column(name = "units_in_order")

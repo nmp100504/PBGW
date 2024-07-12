@@ -1,10 +1,12 @@
 package com.example.BuildPC.controller;
 
+import com.example.BuildPC.model.Product;
 import com.example.BuildPC.service.OrderDetailService;
 import com.example.BuildPC.service.OrderService;
 import com.example.BuildPC.dto.OrderDTO;
 import com.example.BuildPC.model.Order;
 import com.example.BuildPC.model.OrderDetail;
+import com.example.BuildPC.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,10 +21,18 @@ public class OrderController {
     @Autowired
     OrderService orderService;
     @Autowired
+    ProductService productService;
+    @Autowired
     OrderDetailService orderDetailService;
     @GetMapping("/ManagerDashBoard")
     public String showManagerDashBoard(Model model) {
         model.addAttribute("OrderList", orderService.listAllOrder());
+        long totalProducts = productService.countTotalProducts();
+        model.addAttribute("totalProducts", totalProducts);
+        long activeProducts = productService.countActiveProducts();
+        model.addAttribute("activeProducts", activeProducts);
+        long inActiveProducts = productService.countInActiveProducts();
+        model.addAttribute("inActiveProducts", inActiveProducts);
         return "Manager/managerDashBoard";
     }
 

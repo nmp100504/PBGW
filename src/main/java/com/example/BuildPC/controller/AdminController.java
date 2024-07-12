@@ -70,6 +70,12 @@ public class AdminController {
             model.addAttribute("status", status);
         }
         model.addAttribute("users", users);
+        long totalAccounts = adminService.countTotalAccounts();
+        model.addAttribute("totalAccounts", totalAccounts);
+        long activeAccounts = adminService.countActiveAccounts();
+        model.addAttribute("activeAccounts", activeAccounts);
+        long inActiveAccounts = adminService.countInactiveAccounts();
+        model.addAttribute("inActiveAccounts", inActiveAccounts);
         return "dashBoard/tables";
     }
     // Hien thi danh sach thong tin nguoi dung trong trang tables theo trang thai tai khoan dang hoat dong
@@ -77,6 +83,12 @@ public class AdminController {
     public String showActiveUserListAdminDashboardTableDetail(Model model){
         List<User> users = adminService.findActiveAccounts();
         model.addAttribute("users", users);
+        long totalAccounts = adminService.countTotalAccounts();
+        model.addAttribute("totalAccounts", totalAccounts);
+        long activeAccounts = adminService.countActiveAccounts();
+        model.addAttribute("activeAccounts", activeAccounts);
+        long inActiveAccounts = adminService.countInactiveAccounts();
+        model.addAttribute("inActiveAccounts", inActiveAccounts);
         return "dashBoard/tables";
     }
     // Hien thi danh sach thong tin nguoi dung trong trang tables theo trang thai tai khoan khong hoat dong
@@ -84,6 +96,12 @@ public class AdminController {
     public String showInActiveUserListAdminDashboardTableDetail(Model model){
         List<User> users = adminService.findInactiveAccounts();
         model.addAttribute("users", users);
+        long totalAccounts = adminService.countTotalAccounts();
+        model.addAttribute("totalAccounts", totalAccounts);
+        long activeAccounts = adminService.countActiveAccounts();
+        model.addAttribute("activeAccounts", activeAccounts);
+        long inActiveAccounts = adminService.countInactiveAccounts();
+        model.addAttribute("inActiveAccounts", inActiveAccounts);
         return "dashBoard/tables";
     }
 

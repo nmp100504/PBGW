@@ -57,12 +57,6 @@ public class ProductServiceImpl implements ProductService{
                 System.out.println("Brand not found");
                 return;
             }
-//            if(productRepository.existsByProductName(productDto.getProductName())){
-//                System.out.println("Product name already exists");
-//                return;
-//            }
-
-
             Product product = new Product();
             product.setProductName(productDto.getProductName());
             product.setProductSlug(productDto.getProductSlug());
@@ -122,6 +116,15 @@ public class ProductServiceImpl implements ProductService{
     }
 
     @Override
+    public void deActivateProduct(int id) {
+        Product product = productRepository.findById(id).orElse(null);
+        if(product != null) {
+            product.setProductStatus(false);
+            updateProduct(product);
+        }
+    }
+
+    @Override
     public List<Product> listByCategory(int id){
         return productRepository.findByCategoryId(id);
     }
@@ -130,8 +133,6 @@ public class ProductServiceImpl implements ProductService{
     public List<Product> listActiveProduct(boolean status) {
         return productRepository.findByProductStatus(status);
     }
-
-
 
     @Override
     public boolean existsByProductName(String productName) {
@@ -159,12 +160,43 @@ public class ProductServiceImpl implements ProductService{
     }
 
     @Override
-    public List<Product> searchProductByName(String productName) {
-        return this.productRepository.searchProductName(productName);
+    public List<Product> searchByProductNameOrCategoryName(String productNameOrCategoryName) {
+        return this.productRepository.searchByProductNameOrCategoryName(productNameOrCategoryName);
     }
 
-//    @Override
-//    public List<Product> findByProductStatus() {
-//        return productRepository.findByProductStatus(true);
-//    }
+    @Override
+    public List<Product> searchCategoryName(String categoryName) {
+        return this.productRepository.searchCategoryByName(categoryName);
+    }
+
+    @Override
+    public long countTotalProducts() {
+        return productRepository.count();
+    }
+
+    @Override
+    public long countActiveProducts() {
+        return productRepository.countByProductStatus(true);
+    }
+
+    @Override
+    public long countInActiveProducts() {
+        return productRepository.countByProductStatus(false);
+    }
+
+    @Override
+    public List<Product> findActiveProducts() {
+        return productRepository.findByProductStatus(true);
+    }
+
+    @Override
+    public List<Product> findInActiveProducts() {
+        return productRepository.findByProductStatus(false);
+    }
+
+    @Override
+    public List<Product> searchByProductNameOrCategoryNameAndStatus(String searchByProductNameOrCategoryNameAndStatus, boolean status) {
+        return productRepository.searchByProductNameOrCategoryNameAndStatus(searchByProductNameOrCategoryNameAndStatus, status);
+    }
+
 }
