@@ -3,6 +3,9 @@ package com.example.BuildPC.mapper;
 import com.example.BuildPC.dto.CommentDto;
 import com.example.BuildPC.model.Comment;
 
+import static com.example.BuildPC.mapper.PostMapper.mapToPost;
+import static com.example.BuildPC.mapper.PostMapper.mapToPostDTO;
+
 public class CommentMapper {
     public static CommentDto mapToCommentDto(Comment comment){
         return  CommentDto.builder()
@@ -12,6 +15,7 @@ public class CommentMapper {
                 .content(comment.getContent())
                 .createdOn(comment.getCreatedOn())
                 .updatedOn(comment.getUpdatedOn())
+//                .post(mapToPostDTO(comment.getPost()))
                 .build();
     }
 
@@ -23,6 +27,7 @@ public class CommentMapper {
                 .content(commentDto.getContent())
                 .createdOn(commentDto.getCreatedOn())
                 .updatedOn(commentDto.getUpdatedOn())
+//                .post(mapToPost(commentDto.getPost()))
                 .build();
     }
 }

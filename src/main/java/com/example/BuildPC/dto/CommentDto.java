@@ -26,4 +26,6 @@ public class CommentDto {
     private String content;
     private LocalDateTime createdOn;
     private LocalDateTime updatedOn;
+
+    private PostDto post;
 }

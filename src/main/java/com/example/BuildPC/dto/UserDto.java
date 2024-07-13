@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserDto {
-
+    private Long id;
     @NotEmpty(message = "The email is required")
     private String email;
     @NotEmpty(message = "The fistName is required")

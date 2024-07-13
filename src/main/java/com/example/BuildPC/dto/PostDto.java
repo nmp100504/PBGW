@@ -37,7 +37,7 @@ public class PostDto {
     private LocalDateTime createdOn;
     private LocalDateTime updatedOn;
 
+    private UserDto createdBy;
     private Set<CommentDto> comments = new HashSet<>();
-//    private String thumbnail;
-//    private MultipartFile thumbnailFile;
+
 }

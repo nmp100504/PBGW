@@ -41,14 +41,6 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public void createPost(PostDto postDto) {
-//        if (postDto.getThumbnailFile() != null && !postDto.getThumbnailFile().isEmpty()) {
-//            try {
-//                String fileName = saveThumbnail(postDto.getThumbnailFile());
-//                postDto.setThumbnail(fileName);
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-//        }
         String email = Objects.requireNonNull(SecurityUtils.getCurrentUser()).getEmail();
         Optional<User> user = userRepository.findByEmail(email);
         Post post = PostMapper.mapToPost(postDto);
@@ -66,14 +58,6 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public void updatePost(PostDto postDto) {
-//        if (postDto.getThumbnailFile() != null && !postDto.getThumbnailFile().isEmpty()) {
-//            try {
-//                String fileName = saveThumbnail(postDto.getThumbnailFile());
-//                postDto.setThumbnail(fileName);
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-//        }
         String email = Objects.requireNonNull(SecurityUtils.getCurrentUser()).getEmail();
         Optional<User> user = userRepository.findByEmail(email);
         Post post = PostMapper.mapToPost(postDto);

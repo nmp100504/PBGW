@@ -5,6 +5,8 @@ import com.example.BuildPC.model.Post;
 
 import java.util.stream.Collectors;
 
+import static com.example.BuildPC.mapper.UserMapper.mapToUserDto;
+
 public class PostMapper {
     public static PostDto mapToPostDTO(Post post) {
         return PostDto.builder()
@@ -18,6 +20,7 @@ public class PostMapper {
                 .comments(post.getComments().stream()
                         .map((comment) -> CommentMapper.mapToCommentDto(comment))
                                 .collect(Collectors.toSet()))
+                .createdBy(mapToUserDto(post.getCreatedBy()))
 //                .thumbnail(post.getThumbnail())
                 .build();
     }

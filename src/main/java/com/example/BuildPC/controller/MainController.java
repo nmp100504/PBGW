@@ -56,7 +56,7 @@ public class MainController {
             Optional<User> user = userService.findByEmail(userDetails.getEmail());
             if (user.isPresent()) {
                 model.addAttribute("user", user.get());
-                return "auth/account";
+                return "auth/account_information";
             }
         }
         return "LandingPage/index_1";

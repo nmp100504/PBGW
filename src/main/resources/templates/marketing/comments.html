@@ -45,6 +45,7 @@
                                 <th>Email</th>
                                 <th>Comment</th>
                                 <th>Created Date</th>
+                                <th>Post</th>
                                 <th>Actions</th>
                             </tr>
                             </thead>
@@ -54,8 +55,11 @@
                                 <td th:text="${comment.email}">Email</td>
                                 <td th:text="${comment.content}">Content</td>
                                 <td th:text="${#temporals.format(comment.createdOn, 'dd MMM yyyy')}">Comment Created Date</td>
+<!--                                <td>-->
+<!--                                    <a th:href="@{/posts/{id}(id=${comment.post.id})}" th:text="${comment.post.title}"></a>-->
+<!--                                </td>-->
                                 <td>
-                                    <a class="btn btn-danger" th:href="@{/posts/comments/{commentId}(commentId=${comment.id})}">Delete</a>
+                                    <a class="btn btn-danger" th:href="@{/posts/{postUrl}/view(postUrl=${comment.post.url})}">Delete</a>
                                 </td>
                             </tr>
                             </tbody>

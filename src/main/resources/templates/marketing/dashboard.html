@@ -48,6 +48,7 @@
                                 <th>Post Title</th>
                                 <th>Post Short Description</th>
                                 <th>Post Created On</th>
+                                <th>Post Created By</th>
                                 <th>Actions</th>
                             </tr>
                             </thead>
@@ -57,6 +58,7 @@
                                 <td th:text="${post.title}">Post Title</td>
                                 <td th:text="${post.shortDescription}">Post Short Description</td>
                                 <td th:text="${#temporals.format(post.createdOn, 'dd MMM yyyy')}">Post Created Date</td>
+                                <td th:text="${post.createdBy.email}"></td>
                                 <td>
                                     <a th:href="@{/posts/{postId}/edit(postId=${post.id})}" class="btn btn-primary">Edit</a>
                                     <a th:href="@{/posts/{postId}/delete(postId=${post.id})}" class="btn btn-danger">Delete</a>
