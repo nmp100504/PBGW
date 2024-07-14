@@ -103,6 +103,15 @@ public class PostController {
         return url;
     }
 
+    @GetMapping("/{postId}/comments")
+    public String getCommentsByPostId(@PathVariable Long postId, Model model) {
+        List<CommentDto> comments = commentService.findCommentsByPostId(postId);
+        PostDto post = postService.findPostById(postId);
+        model.addAttribute("post", post);
+        model.addAttribute("comments",comments);
+        return  "marketing/comments";
+    }
+
     @GetMapping("/search")
     public String searchPosts(@RequestParam(value = "query") String query, Model model){
         List<PostDto> posts = postService.searchPosts(query);

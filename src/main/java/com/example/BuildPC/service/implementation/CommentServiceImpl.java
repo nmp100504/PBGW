@@ -42,4 +42,11 @@ public class CommentServiceImpl implements CommentService {
     public void deleteComment(Long commentId) {
         commentRepository.deleteById(commentId);
     }
+
+    @Override
+    public List<CommentDto> findCommentsByPostId(Long postId) {
+        List<Comment> comments = commentRepository.findByPostId(postId);
+        return comments.stream()
+                .map(CommentMapper::mapToCommentDto).collect(Collectors.toList());
+    }
 }

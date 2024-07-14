@@ -27,21 +27,21 @@
                 <div class="row">
                     <div class="col-md-3 ml-3">
                         <div class="form-group">
-                            <form class="form-inline" th:action="@{/posts/search}">
-                                <div class="input-group w-100">
-                                    <input type="text" class="form-control" name="query"/>
-                                    <span class="input-group-btn">
-                                        <button class="btn btn-primary" type="submit">Search</button>
-                                    </span>
-                                </div>
-                            </form>
+<!--                            <form class="form-inline" th:action="@{/posts/search}">-->
+<!--                                <div class="input-group w-100">-->
+<!--                                    <input type="text" class="form-control" name="query"/>-->
+<!--                                    <span class="input-group-btn">-->
+<!--                                        <button class="btn btn-primary" type="submit">Search</button>-->
+<!--                                    </span>-->
+<!--                                </div>-->
+<!--                            </form>-->
                         </div>
                     </div>
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
                         <!--                        <a class="btn btn-primary" href="#">Add order</a>-->
-                        <table class="table table-top" >
+                        <table class="table table-top" id="dataTable">
                             <thead>
                             <tr>
                                 <th>ID</th>
@@ -63,6 +63,7 @@
                                     <a th:href="@{/posts/{postId}/edit(postId=${post.id})}" class="btn btn-primary">Edit</a>
                                     <a th:href="@{/posts/{postId}/delete(postId=${post.id})}" class="btn btn-danger">Delete</a>
                                     <a th:href="@{/posts/{postUrl}/view(postUrl=${post.url})}" class="btn btn-info">View</a>
+                                    <a th:href="@{/posts/{postId}/comments(postId=${post.id})}" class="btn btn-success">Comments</a>
                                 </td>
                             </tr>
                             </tbody>
