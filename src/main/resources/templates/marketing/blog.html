@@ -97,13 +97,36 @@
 
 
 
-                <div class="pagination_wrap p-0">
+                <div th:if="${totalPages > 1}" class="pagination_wrap p-0">
                   <ul class="pagination_nav ul_li">
-                    <li class="active"><a href="#!">1</a></li>
-                    <li><a href="#!">2</a></li>
-                    <li><a href="#!">3</a></li>
-                    <li class="prev_btn"><a href="#!"><i class="fa-regular fa-angle-left"></i></a></li>
-                    <li class="next_btn"><a href="#!"><i class="fa-regular fa-angle-right"></i></a></li>
+                    <!-- Previous Button -->
+                    <li th:if="${currentPage > 1}" class="prev_btn">
+                      <a th:href="@{'/blog/page/' + ${currentPage - 1}}"><i class="fa-regular fa-angle-left"></i></a>
+                    </li>
+                    <li th:if="${currentPage == 1}" class="prev_btn disabled">
+                      <a href="#"><i class="fa-regular fa-angle-left"></i></a>
+                    </li>
+
+                    <!-- Page Numbers -->
+                    <li th:each="i : ${#numbers.sequence(1, totalPages)}" th:classappend="${currentPage == i} ? 'active'">
+                      <a th:href="@{'/blog/page/' + ${i}}">[[${i}]]</a>
+                    </li>
+
+                    <!-- Next Button -->
+                    <li th:if="${currentPage < totalPages}" class="next_btn">
+                      <a th:href="@{'/blog/page/' + ${currentPage + 1}}"><i class="fa-regular fa-angle-right"></i></a>
+                    </li>
+                    <li th:if="${currentPage == totalPages}" class="next_btn disabled">
+                      <a href="#"><i class="fa-regular fa-angle-right"></i></a>
+                    </li>
+
+                    <!-- Last Button -->
+                    <li th:if="${currentPage < totalPages}" class="last_btn">
+                      <a th:href="@{'/blog/page/' + ${totalPages}}"><i class="fa-regular fa-angle-double-right"></i></a>
+                    </li>
+                    <li th:if="${currentPage == totalPages}" class="last_btn disabled">
+                      <a href="#"><i class="fa-regular fa-angle-double-right"></i></a>
+                    </li>
                   </ul>
                 </div>
               </div>

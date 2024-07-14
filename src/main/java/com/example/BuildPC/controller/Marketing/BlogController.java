@@ -27,9 +27,9 @@ public class BlogController {
     @GetMapping("")
     public String viewBlogPosts(Model model){
         return findPaginated(1, model);
-        List<PostDto> postsResponse = postService.findAllPost();
-        model.addAttribute("posts", postsResponse);
-        return "marketing/blog";
+//        List<PostDto> postsResponse = postService.findAllPost();
+//        model.addAttribute("posts", postsResponse);
+//        return "marketing/blog";
     }
 
     @GetMapping("/{postUrl}")
