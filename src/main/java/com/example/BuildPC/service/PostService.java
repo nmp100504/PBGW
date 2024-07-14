@@ -3,6 +3,7 @@ package com.example.BuildPC.service;
 import com.example.BuildPC.dto.PostDto;
 import com.example.BuildPC.model.Post;
 import com.example.BuildPC.model.User;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -24,4 +25,5 @@ public interface PostService {
 
     List<PostDto> searchPosts(String query);
 
+    Page<PostDto> findPaginatedPost(int pageNo, int pageSize);
 }

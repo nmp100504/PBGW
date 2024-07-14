@@ -9,6 +9,9 @@ import com.example.BuildPC.repository.UserRepository;
 import com.example.BuildPC.service.PostService;
 import com.example.BuildPC.utils.SecurityUtils;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -80,6 +83,12 @@ public class PostServiceImpl implements PostService {
     public List<PostDto> searchPosts(String query) {
         List<Post> posts = postRepository.searchPosts(query);
         return posts.stream().map(PostMapper::mapToPostDTO).collect(Collectors.toList());
+    }
+
+    @Override
+    public Page<PostDto> findPaginatedPost(int pageNo, int pageSize) {
+        Pageable pageable = PageRequest.of(pageNo -1, pageSize);
+        return this.postRepository.findAll(pageable).map(PostMapper::mapToPostDTO);
     }
 
 //    private String saveThumbnail(MultipartFile file) throws IOException {

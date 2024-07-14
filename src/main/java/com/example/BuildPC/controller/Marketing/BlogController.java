@@ -4,6 +4,7 @@ import com.example.BuildPC.dto.CommentDto;
 import com.example.BuildPC.dto.PostDto;
 import com.example.BuildPC.model.Post;
 import com.example.BuildPC.service.PostService;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,6 +26,7 @@ public class BlogController {
 
     @GetMapping("")
     public String viewBlogPosts(Model model){
+        return findPaginated(1, model);
         List<PostDto> postsResponse = postService.findAllPost();
         model.addAttribute("posts", postsResponse);
         return "marketing/blog";
@@ -43,6 +45,20 @@ public class BlogController {
     @GetMapping("/search")
     public String searchPost(@RequestParam(value = "query") String query, Model model){
         List<PostDto> postsResponse = postService.searchPosts(query);
+        model.addAttribute("posts", postsResponse);
+        return "marketing/blog";
+    }
+
+    @GetMapping("/page/{pageNo}")
+    public String findPaginated(@PathVariable (value = "pageNo") int pageNo, Model model){
+        int pageSize = 5;
+
+        Page<PostDto> page = postService.findPaginatedPost(pageNo, pageSize);
+        List<PostDto> postsResponse = page.getContent();
+
+        model.addAttribute("currentPage", pageNo);
+        model.addAttribute("totalPages", page.getTotalPages());
+        model.addAttribute("totalItems", page.getTotalElements());
         model.addAttribute("posts", postsResponse);
         return "marketing/blog";
     }
