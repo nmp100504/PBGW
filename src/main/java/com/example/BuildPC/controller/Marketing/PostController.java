@@ -125,12 +125,12 @@ public class PostController {
         return  "marketing/comments";
     }
 
-    @GetMapping("/search")
-    public String searchPosts(@RequestParam(value = "query") String query, Model model){
-        List<PostDto> posts = postService.searchPosts(query);
-        model.addAttribute("posts", posts);
-        return  "marketing/dashboard";
-    }
+//    @GetMapping("/search")
+//    public String searchPosts(@RequestParam(value = "query") String query, Model model){
+//        List<PostDto> posts = postService.searchPosts(query);
+//        model.addAttribute("posts", posts);
+//        return  "marketing/dashboard";
+//    }
 
     @GetMapping("/comments")
     public String postComments(Model model){

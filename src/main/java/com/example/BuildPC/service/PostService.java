@@ -23,7 +23,7 @@ public interface PostService {
 
     PostDto findPostByUrl(String postUrl);
 
-    List<PostDto> searchPosts(String query);
+//    List<PostDto> searchPosts(String query);
 
     Page<PostDto> findPaginatedPost(int pageNo, int pageSize);
 }

@@ -1,15 +1,10 @@
 package com.example.BuildPC.controller;
 
 
-import com.example.BuildPC.service.BrandService;
-import com.example.BuildPC.service.CategoryService;
-import com.example.BuildPC.service.ProductImageService;
-import com.example.BuildPC.service.ProductService;
+import com.example.BuildPC.configuration.CustomUserDetails;
+import com.example.BuildPC.model.*;
+import com.example.BuildPC.service.*;
 import com.example.BuildPC.dto.ProductDto;
-import com.example.BuildPC.model.Category;
-import com.example.BuildPC.model.Product;
-import com.example.BuildPC.model.Brand;
-import com.example.BuildPC.model.ProductImage;
 import com.example.BuildPC.repository.CategoryRepository;
 import com.example.BuildPC.repository.ProductImageRepository;
 import com.example.BuildPC.repository.ProductRepository;
@@ -17,6 +12,7 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotEmpty;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;

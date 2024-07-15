@@ -42,12 +42,12 @@ public class BlogController {
         return "marketing/view";
     }
 
-    @GetMapping("/search")
-    public String searchPost(@RequestParam(value = "query") String query, Model model){
-        List<PostDto> postsResponse = postService.searchPosts(query);
-        model.addAttribute("posts", postsResponse);
-        return "marketing/blog";
-    }
+//    @GetMapping("/search")
+//    public String searchPost(@RequestParam(value = "query") String query, Model model){
+//        List<PostDto> postsResponse = postService.searchPosts(query);
+//        model.addAttribute("posts", postsResponse);
+//        return "marketing/blog";
+//    }
 
     @GetMapping("/page/{pageNo}")
     public String findPaginated(@PathVariable (value = "pageNo") int pageNo, Model model){

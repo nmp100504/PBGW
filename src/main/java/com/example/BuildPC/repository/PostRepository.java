@@ -12,11 +12,19 @@ import java.util.List;
 import java.util.Optional;
 
 public interface PostRepository extends JpaRepository<Post, Long> {
-    Optional<Post> findByUrl(String postUrl);
+    Optional<Post> findByUrl(String Url);
+//    @Query(value = "SELECT * FROM post p " +
+//            "WHERE (LOWER(p.post_content) LIKE LOWER(CONCAT('%', :searchTerm, '%')) " +
+//            "OR LOWER(p.post_title) LIKE LOWER(CONCAT('%', :searchTerm, '%')) "
+////            "OR LOWER(p.user_id.email) LIKE LOWER(CONCAT('%', :searchTerm, '%'))) "
+//            , nativeQuery = true)
+//    Page<Post> searchPostsAndFilter(@Param("searchTerm") String searchTerm, Pageable pageable);
 
-    @Query("select p from Post p WHERE  " +
-    " p.title LIKE CONCAT('%', :query, '%') OR" +
-    " p.shortDescription LIKE CONCAT('%', :query, '%')")
-    List<Post> searchPosts(String query);
+//    @Query(value = "SELECT * FROM post p " +
+//            "WHERE (LOWER(p.post_content) LIKE LOWER(CONCAT('%', :searchTerm, '%')) " +
+//            "OR LOWER(p.post_title) LIKE LOWER(CONCAT('%', :searchTerm, '%'))) " +
+//            "ORDER BY p.post_id LIMIT :limit OFFSET :offset",
+//            nativeQuery = true)
+//    List<Post> searchPostsAndFilter(@Param("searchTerm") String searchTerm, @Param("limit") int limit, @Param("offset") int offset);
 
 }
