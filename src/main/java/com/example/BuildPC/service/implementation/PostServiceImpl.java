@@ -16,9 +16,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -46,7 +48,27 @@ public class PostServiceImpl implements PostService {
     public void createPost(PostDto postDto) {
         String email = Objects.requireNonNull(SecurityUtils.getCurrentUser()).getEmail();
         Optional<User> user = userRepository.findByEmail(email);
+
+        //save image file
+        MultipartFile image = postDto.getThumbnailImage();
+        String storeFileName = image.getOriginalFilename();
+
+        try{
+            String uploadDir ="public/images/Thumbnail/";
+            Path uploadPath = Paths.get(uploadDir);
+            if (!Files.exists(uploadPath)) {
+                Files.createDirectories(uploadPath);
+            }
+            try (InputStream inputStream = image.getInputStream()) {
+                Files.copy(inputStream, Paths.get(uploadDir + storeFileName),
+                        StandardCopyOption.REPLACE_EXISTING);
+            }
+        }   catch (Exception ex){
+            System.out.println("Exception: " + ex.getMessage());
+        }
+
         Post post = PostMapper.mapToPost(postDto);
+        post.setThumbnailImage(storeFileName);
         if(user.isPresent()){
             post.setCreatedBy(user.get());
             postRepository.save(post);

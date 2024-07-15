@@ -44,4 +44,6 @@ public class Post {
     @OneToMany(mappedBy = "post", cascade = CascadeType.REMOVE)
     private Set<Comment> comments = new HashSet<>();
 
+    private String thumbnailImage;
+
 }

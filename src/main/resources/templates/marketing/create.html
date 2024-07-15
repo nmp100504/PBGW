@@ -60,14 +60,21 @@
                                 <p th:if="${#fields.hasErrors('content')}" class="text-danger" th:errors="*{content}"></p>
                             </div>
 
+                            <div class="mb-3">
+                                    <div class="form-group">
+                                        <input  class="form-control" type="file" th:field="${post.thumbnailImage}" name="thumbnailFile" accept="image/*" />
+                                        <p th:if="${#fields.hasErrors('thumbnailImage')}" th:errorclass="text-danger"
+                                           th:errors="${post.thumbnailImage}"></p>
+                                    </div>
+                            </div>
 <!--                            <div class="mb-3">-->
-<!--                                    <div class="form-group">-->
-<!--                                        <input  class="form-control" type="file" name="thumbnailFile" accept="image/*" />-->
-<!--                                        <p th:if="${#fields.hasErrors('thumbnail')}" class="text-danger"-->
-<!--                                           th:errors="*{thumbnail}"></p>-->
-<!--                                    </div>-->
+<!--                                <label class="form-label">Image</label>-->
+<!--                                <div class="form-control">-->
+<!--                                    <input class="form-control" type="file" th:field="${categoryDto.categoryImage}">-->
+<!--                                    <p th:if="${#fields.hasErrors('categoryImage')}" th:errorclass="text-danger"-->
+<!--                                       th:errors="${categoryDto.categoryImage}"></p>-->
+<!--                                </div>-->
 <!--                            </div>-->
-
                             <div class="d-flex justify-content-center">
                                 <button type="submit" class="btn btn-primary">Submit</button>
                             </div>

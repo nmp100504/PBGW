@@ -13,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -50,6 +51,12 @@ public class PostController {
     public String createPost(@Valid @ModelAttribute("post") PostDto postDto,
                              BindingResult result,
                              Model model) throws IOException {
+        if(postDto.getThumbnailImage().isEmpty()){
+            result.addError(new FieldError("postDto", "thumbnailImage", "Please select a file"));
+        }
+        if(postService.findPostByUrl(postDto.getUrl()) != null){
+            result.addError(new FieldError("postDto", "postTitle", "Post title already exists"));
+        }
         if(result.hasErrors()){
             model.addAttribute("post", postDto);
             return "marketing/create";
@@ -72,6 +79,12 @@ public class PostController {
                              @PathVariable("postId") Long postId,
                              BindingResult result,
                              Model model){
+        if(post.getThumbnailImage().isEmpty()){
+            result.addError(new FieldError("post", "thumbnailImage", "Please select a file"));
+        }
+        if(postService.findPostByUrl(post.getUrl()) != null){
+            result.addError(new FieldError("post", "postTitle", "Post title already exists"));
+        }
         if(result.hasErrors()){
             model.addAttribute("post", post);
             return "marketing/edit";

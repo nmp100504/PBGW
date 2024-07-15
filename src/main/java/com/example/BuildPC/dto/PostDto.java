@@ -40,4 +40,6 @@ public class PostDto {
     private UserDto createdBy;
     private Set<CommentDto> comments = new HashSet<>();
 
+    private MultipartFile thumbnailImage;
+
 }
