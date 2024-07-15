@@ -2,7 +2,6 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
-<!-- Mirrored from webthunder.net/html/getyootech/error.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 19 May 2024 08:48:42 GMT -->
 <head>
 
     <meta charset="utf-8">
@@ -12,8 +11,7 @@
     <title>404 Error - Opps! Page Not Found - Getyootech - Gadgets Ecommerce Site Template</title>
     <link rel="shortcut icon" th:href="@{/assetsLandingPage/images/logo/favourite_icon.svg}">
 
-    <th:block th:replace="fragment/framework :: framework"></th:block>
-
+    <th:block th:replace="~{fragment/framework :: framework}"> </th:block>
 
 </head>
 
@@ -37,13 +35,20 @@
 
     <!-- header_section - start
     ================================================== -->
-    <th:block th:replace="fragment/header :: header"></th:block>
+    <th:block th:replace="~{fragment/header :: header}"> </th:block>
     <!-- header_section - end
     ================================================== -->
 
     <!-- main body - start
     ================================================== -->
     <main>
+
+        <!-- sidebar cart - start
+        ================================================== -->
+        <th:block th:replace="~{fragment/sidebar_cart :: sidebar_cart}"> </th:block>
+
+        <!-- sidebar cart - end
+        ================================================== -->
 
         <!-- breadcrumb_section - start
         ================================================== -->
@@ -65,7 +70,7 @@
 
                 <div class="error_content">
                     <h1>4<span>0</span>4</h1>
-                    <h2>Sorry, but we couldn't find the page you are looking for.</h2>
+                    <h2>Page Not Found.</h2>
                     <p class="mb-0">
                         Please check to make sure you've typed the URL correctly. Maybe try a search?
                     </p>
@@ -120,14 +125,17 @@
 
     <!-- footer_section - start
     ================================================== -->
-    <th:block th:replace="fragment/footer :: footer"></th:block>
+    <th:block th:replace="~{fragment/footer :: footer}"> </th:block>
+
+
     <!-- footer_section - end
     ================================================== -->
 
 </div>
 <!-- body_wrap - end -->
 
-<th:block th:replace="fragment/script :: script"></th:block>
+<th:block th:replace="~{fragment/script :: script}"> </th:block>
 
-<!-- Mirrored from webthunder.net/html/getyootech/error.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 19 May 2024 08:48:42 GMT -->
+
+</body>
 </html>

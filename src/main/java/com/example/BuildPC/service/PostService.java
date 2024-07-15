@@ -1,7 +1,9 @@
 package com.example.BuildPC.service;
 
+import com.example.BuildPC.dto.PostDto;
 import com.example.BuildPC.model.Post;
 import com.example.BuildPC.model.User;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -9,15 +11,19 @@ import java.util.Optional;
 
 @Service
 public interface PostService {
-    List<Post> findAllPost(Integer pageNo, Integer pageSize, String search);
+    List<PostDto> findAllPost();
 
-    Post findPostById(Integer postId);
+    void createPost(PostDto postDto);
 
-    Post createNewPost(Post post);
+    PostDto findPostById(long id);
 
-    Boolean updatePost(Post post);
+    void updatePost(PostDto postDto);
 
-    Boolean deletePostById(int id);
+    void deletePost(long id);
 
-    Optional<User> getCurrentUser();
+    PostDto findPostByUrl(String postUrl);
+
+    List<PostDto> searchPosts(String query);
+
+    Page<PostDto> findPaginatedPost(int pageNo, int pageSize);
 }

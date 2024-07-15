@@ -1,54 +1,45 @@
 package com.example.BuildPC.dto;
 
+import jakarta.persistence.Column;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.web.multipart.MultipartFile;
 
-public class PostDto {
+import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 
-    @NotEmpty(message = "The title is required")
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+public class PostDto {
+    private Long id;
+
+    @NotEmpty(message = "Title should not be empty")
+    @Size(max = 255, message = "Title should not exceed 255 characters")
     private String title;
 
-    @Size(min = 10, message = "The content should be at least 10 characters")
-    @Size(max = 500000, message = "The content cannot exceed 500000 characters")
+    private String url;
+
+    @NotEmpty(message = "Content should not be empty")
+    @Column(columnDefinition="TEXT")
     private String content;
 
-    private MultipartFile imageFile;
+    @NotEmpty(message = "Short description should not be empty")
+    @Size(max = 500, message = "Short description should not exceed 500 characters")
+    private String shortDescription;
 
-    // Add user information
-    private Long userId; // Assuming user ID is passed from the client
+    private LocalDateTime createdOn;
+    private LocalDateTime updatedOn;
 
-    // Getters and Setters
+    private UserDto createdBy;
+    private Set<CommentDto> comments = new HashSet<>();
 
-    public String getTitle() {
-        return title;
-    }
+    private MultipartFile thumbnailImage;
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getContent() {
-        return content;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
-    }
-
-    public MultipartFile getImageFile() {
-        return imageFile;
-    }
-
-    public void setImageFile(MultipartFile imageFile) {
-        this.imageFile = imageFile;
-    }
-
-    public Long getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Long userId) {
-        this.userId = userId;
-    }
 }

@@ -72,24 +72,6 @@ public class RegistrationController {
         return "auth/forgot-password";
     }
 
-//    @PostMapping("/forgot-password")
-//    public String resetPasswordRequest(HttpServletRequest request, Model model){
-//        String email = request.getParameter("email");
-//        Optional<User> user= userService.findByEmail(email);
-//        if (user.isEmpty()){
-//            return  "redirect:/registration/forgot-password-request?not_found";
-//        }
-//        String passwordResetToken = UUID.randomUUID().toString();
-//        passwordResetTokenService.createPasswordResetTokenForUser(user.get(), passwordResetToken);
-//        //send password reset verification email to the user
-//        String url = UrlUtil.getApplicationUrl(request)+"/registration/password-reset-form?token="+passwordResetToken;
-//        try {
-//            eventListener.sendPasswordResetVerificationEmail(url);
-//        } catch (MessagingException | UnsupportedEncodingException e) {
-//            model.addAttribute("error", e.getMessage());
-//        }
-//        return "redirect:/registration/forgot-password-request?success";
-//    }
 @PostMapping("/forgot-password")
 public String resetPasswordRequest(HttpServletRequest request, Model model) {
     String email = request.getParameter("email");

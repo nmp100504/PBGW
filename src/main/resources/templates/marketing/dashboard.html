@@ -1,1 +1,96 @@
-Hello World
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<div th:replace="~{fragment/dashboardHeader :: header}"> </div>
+
+<body id="page-top">
+<div th:replace="~{fragment/dashboardHeader :: navbar}"> </div>
+
+<div id="wrapper">
+    <!-- Sidebar -->
+    <div th:replace="~{fragment/dashboardHeader :: sidebar}"> </div>
+
+    <div id="content-wrapper">
+        <div class="container-fluid">
+            <!-- Breadcrumbs-->
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">
+                    <a th:href="@{/ManagerDashBoard}">Dashboard</a>
+                </li>
+                <li class="breadcrumb-item active">Overview</li>
+            </ol>
+            <div class="card mb-3">
+                <div class="card-header h3">
+                    <i class="fas fa-table"></i>
+                    Post
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-md-3 ml-3">
+                        <div class="form-group">
+<!--                            <form class="form-inline" th:action="@{/posts/search}">-->
+<!--                                <div class="input-group w-100">-->
+<!--                                    <input type="text" class="form-control" name="query"/>-->
+<!--                                    <span class="input-group-btn">-->
+<!--                                        <button class="btn btn-primary" type="submit">Search</button>-->
+<!--                                    </span>-->
+<!--                                </div>-->
+<!--                            </form>-->
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <!--                        <a class="btn btn-primary" href="#">Add order</a>-->
+                        <table class="table table-top" id="dataTable">
+                            <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Post Title</th>
+                                <th>Post Short Description</th>
+                                <th>Post Created On</th>
+                                <th>Post Created By</th>
+                                <th>Actions</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each = "post, postStat : ${posts}">
+                                <td th:text="${postStat.count}">1</td>
+                                <td th:text="${post.title}">Post Title</td>
+                                <td th:text="${post.shortDescription}">Post Short Description</td>
+                                <td th:text="${#temporals.format(post.createdOn, 'dd MMM yyyy')}">Post Created Date</td>
+                                <td th:text="${post.createdBy.email}"></td>
+                                <td>
+                                    <a th:href="@{/posts/{postId}/edit(postId=${post.id})}" class="btn btn-primary">Edit</a>
+                                    <a th:href="@{/posts/{postId}/delete(postId=${post.id})}" class="btn btn-danger">Delete</a>
+                                    <a th:href="@{/posts/{postUrl}/view(postUrl=${post.url})}" class="btn btn-info">View</a>
+                                    <a th:href="@{/posts/{postId}/comments(postId=${post.id})}" class="btn btn-success">Comments</a>
+                                </td>
+                            </tr>
+                            </tbody>
+                            <tfoot>
+
+                            </tfoot>
+
+                        </table>
+                    </div>
+                </div>
+                <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
+            </div>
+        </div>
+
+        <div th:replace="~{fragment/dashboardFooter :: footer}"> </div>
+
+    </div>
+</div>
+<!-- /#wrapper -->
+<!-- Scroll to Top Button-->
+<a class="scroll-to-top rounded" href="#page-top">
+    <i class="fas fa-angle-up"></i>
+</a>
+<div th:replace="~{fragment/dashboardFooter :: logout-module}"> </div>
+
+<!-- Bootstrap core JavaScript-->
+<div th:replace="~{fragment/dashboardFooter :: source}"> </div>
+
+</body>
+</html>

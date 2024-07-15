@@ -43,11 +43,7 @@ public class User  {
     @Column(name ="isEnabled")
     private boolean isEnabled;
 
-    @OneToMany(mappedBy = "user")
-    private Set<Post> posts;
 
-    @OneToMany(mappedBy = "user")
-    private Set<Comment> comments;
 
     @OneToMany(mappedBy = "user")
     private Set<Order> orders;
