@@ -17,6 +17,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
+import java.util.stream.Collectors;
 import java.util.List;
 
 @Controller
@@ -29,23 +31,24 @@ public class AdminController {
 
 
     //Hien thi thong tin nguoi dung o trang dashboard
-    @GetMapping({"","/"})
-    public String showUserListAdminDashboard(Model model, @Param("searchByEmailOrPhone") String searchByEmailOrPhone,
-                                             @Param("status") String status){
+    @GetMapping({"", "/"})
+    public String showUserListAdminDashboard(Model model,
+                                             @RequestParam(value = "searchByEmailOrPhone", required = false) String searchByEmailOrPhone,
+                                             @RequestParam(value = "status", required = false) String status) {
         List<User> user = adminService.findAll();
-        if(searchByEmailOrPhone != null && !searchByEmailOrPhone.isEmpty()){
+
+        if (searchByEmailOrPhone != null && !searchByEmailOrPhone.isEmpty() && status != null && !status.isEmpty()) {
+            boolean isActive = status.equals("active");
+            user = adminService.searchByUserEmailOrPhoneAndIsEnabled(searchByEmailOrPhone, isActive);
+        } else if (searchByEmailOrPhone != null && !searchByEmailOrPhone.isEmpty()) {
             user = adminService.searchByUserEmailOrPhone(searchByEmailOrPhone);
             model.addAttribute("searchByEmailOrPhone", searchByEmailOrPhone);
-        }
-        if(status != null && !status.isEmpty()){
+        } else if (status != null && !status.isEmpty()) {
             boolean isActive = status.equals("active");
             user = adminService.listByUserIsEnabled(isActive);
             model.addAttribute("status", status);
         }
-        if(searchByEmailOrPhone != null && !searchByEmailOrPhone.isEmpty() && status != null && !status.isEmpty()){
-            boolean isActive = status.equals("active");
-            user = adminService.searchByUserEmailOrPhoneAndIsEnabled(searchByEmailOrPhone, isActive);
-        }
+
         model.addAttribute("user", user);
         long totalAccounts = adminService.countTotalAccounts();
         model.addAttribute("totalAccounts", totalAccounts);
@@ -53,18 +56,33 @@ public class AdminController {
         model.addAttribute("activeAccounts", activeAccounts);
         long inActiveAccounts = adminService.countInactiveAccounts();
         model.addAttribute("inActiveAccounts", inActiveAccounts);
+
         return "dashBoard/index";
+    }
+    @GetMapping("/charts")
+    public String showChart(Model model){
+        long totalAccounts = adminService.countTotalAccounts();
+        long activeAccounts = adminService.countActiveAccounts();
+        long inActiveAccounts = adminService.countInactiveAccounts();
+
+        model.addAttribute("totalAccounts", totalAccounts);
+        model.addAttribute("activeAccounts", activeAccounts);
+        model.addAttribute("inActiveAccounts", inActiveAccounts);
+
+        return "dashBoard/charts";
     }
 
     // Hien thi danh sach thong tin nguoi dung trong trang tables
     @GetMapping("/tables")
     public String showUserListAdminDashboardTableDetail(Model model,@Param("searchByEmailOrPhone") String searchByEmailOrPhone, @Param("status") String status){
         List<User> users = adminService.findAll();
-        if(searchByEmailOrPhone != null && !searchByEmailOrPhone.isEmpty()){
+        if (searchByEmailOrPhone != null && !searchByEmailOrPhone.isEmpty() && status != null && !status.isEmpty()) {
+            boolean isActive = status.equals("active");
+            users = adminService.searchByUserEmailOrPhoneAndIsEnabled(searchByEmailOrPhone, isActive);
+        } else if (searchByEmailOrPhone != null && !searchByEmailOrPhone.isEmpty()) {
             users = adminService.searchByUserEmailOrPhone(searchByEmailOrPhone);
             model.addAttribute("searchByEmailOrPhone", searchByEmailOrPhone);
-        }
-        if(status != null && !status.isEmpty()){
+        } else if (status != null && !status.isEmpty()) {
             boolean isActive = status.equals("active");
             users = adminService.listByUserIsEnabled(isActive);
             model.addAttribute("status", status);
@@ -117,8 +135,8 @@ public class AdminController {
 
     @PostMapping("/create")
     public String createUserAdminDashboard(@Valid @ModelAttribute UserDto userDto, BindingResult result){
-        if (userDto.getPassword() == null || userDto.getPassword().isEmpty()) {
-            result.rejectValue("password", "error.userDto", "The password is required");
+        if(adminService.existsByUserEmail(userDto.getEmail())){
+            result.addError(new FieldError("userDto", "email", "Email already exists"));
         }
         if(result.hasErrors()){
             return "dashBoard/createUser";
@@ -138,8 +156,8 @@ public class AdminController {
 
     @PostMapping("/tables/create")
     public String createCreateAdminDashboardTableDetail(@Valid @ModelAttribute UserDto userDto, BindingResult result){
-        if (userDto.getPassword() == null || userDto.getPassword().isEmpty()) {
-            result.rejectValue("password", "error.userDto", "The password is required");
+        if(adminService.existsByUserEmail(userDto.getEmail())){
+            result.addError(new FieldError("userDto", "email", "Email already exists"));
         }
         if(result.hasErrors()){
             return "dashBoard/createUser";

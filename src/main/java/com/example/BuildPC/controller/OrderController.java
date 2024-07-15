@@ -24,17 +24,7 @@ public class OrderController {
     ProductService productService;
     @Autowired
     OrderDetailService orderDetailService;
-    @GetMapping("/ManagerDashBoard")
-    public String showManagerDashBoard(Model model) {
-        model.addAttribute("OrderList", orderService.listAllOrder());
-        long totalProducts = productService.countTotalProducts();
-        model.addAttribute("totalProducts", totalProducts);
-        long activeProducts = productService.countActiveProducts();
-        model.addAttribute("activeProducts", activeProducts);
-        long inActiveProducts = productService.countInActiveProducts();
-        model.addAttribute("inActiveProducts", inActiveProducts);
-        return "Manager/managerDashBoard";
-    }
+
 
     public String showOrders(Model model) {
         List<OrderDTO> orderList = orderService.listAllOrder();

@@ -13,7 +13,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.EnumMap;
 import java.util.List;
+import java.util.Map;
 
 
 @Service
@@ -73,6 +75,7 @@ public class AdminServiceImpl implements  AdminService{
         return adminRepository.countByIsEnabled(false);
     }
 
+
     @Override
     public List<User> findActiveAccounts() {
         return adminRepository.findByIsEnabled(true);
@@ -105,6 +108,11 @@ public class AdminServiceImpl implements  AdminService{
     @Override
     public List<User> searchByUserEmailOrPhoneAndIsEnabled(String emailOrPhone, boolean status) {
         return adminRepository.findByUserEmailOrPhoneAndIsEnabled(emailOrPhone, status);
+    }
+
+    @Override
+    public boolean existsByUserEmail(String email) {
+        return adminRepository.existsByEmail(email);
     }
 
 }

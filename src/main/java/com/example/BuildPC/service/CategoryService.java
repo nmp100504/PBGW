@@ -14,11 +14,16 @@ public interface CategoryService {
     void updateCategory(Category category);
     void deleteCategoryById(int id);
     void deActivateCategoryById(int id);
-    List<Category> findCategoryByStatus();
+    List<Category> findActiveCategories();
     List<Category> searchCategoryByName(String keyword);
     boolean existCategoryByName(String categoryName);
     List<Category> listByCategoryStatus(boolean status);
     List<Category> searchByCategoryNameAndStatus(String categoryName, boolean status);
+    long countTotalCategories();
+    long countActiveCategories();
+    long countInActiveCategories();
+
+    List<Category> findInActiveCategories();
 
 
 }

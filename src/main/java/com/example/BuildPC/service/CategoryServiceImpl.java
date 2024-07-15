@@ -83,10 +83,13 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public List<Category> findCategoryByStatus() {
+    public List<Category> findActiveCategories() {
         return categoryRepository.findByCategoryStatus(true);
     }
-
+    @Override
+    public List<Category> findInActiveCategories() {
+        return categoryRepository.findByCategoryStatus(false);
+    }
     @Override
     public List<Category> searchCategoryByName(String keyword) {
         return this.categoryRepository.searchCategoryName(keyword);
@@ -106,4 +109,21 @@ public class CategoryServiceImpl implements CategoryService {
     public List<Category> searchByCategoryNameAndStatus(String categoryName, boolean status) {
         return categoryRepository.searchByCategoryNameAndStatus(categoryName,status);
     }
+
+    @Override
+    public long countTotalCategories() {
+        return categoryRepository.count();
+    }
+
+    @Override
+    public long countActiveCategories() {
+        return categoryRepository.countByCategoryStatus(true);
+    }
+
+    @Override
+    public long countInActiveCategories() {
+        return categoryRepository.countByCategoryStatus(false);
+    }
+
+
 }

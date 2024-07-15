@@ -108,6 +108,39 @@ public class ProductController {
         return "LandingPage/shop_grid"; // Return the HTML fragment with updated products
     }
 
+    @GetMapping("/ManagerDashBoard")
+    public String showManagerDashBoard(Model model) {
+        long totalProducts = productService.countTotalProducts();
+        model.addAttribute("totalProducts", totalProducts);
+        long activeProducts = productService.countActiveProducts();
+        model.addAttribute("activeProducts", activeProducts);
+        long inActiveProducts = productService.countInActiveProducts();
+        model.addAttribute("inActiveProducts", inActiveProducts);
+        long totalCategories = categoryService.countTotalCategories();
+        model.addAttribute("totalCategories", totalCategories);
+        long activeCategories = categoryService.countActiveCategories();
+        model.addAttribute("activeCategories", activeCategories);
+        long inActiveCategories = categoryService.countInActiveCategories();
+        model.addAttribute("inActiveCategories", inActiveCategories);
+        return "Manager/managerDashBoard";
+    }
+
+    @GetMapping("/ManagerDashBoard/chartsManager")
+    public String showChart(Model model){
+        long activeProducts = productService.countActiveProducts();
+        long inActiveProducts  = productService.countInActiveProducts();
+        model.addAttribute("activeProducts", activeProducts);
+        model.addAttribute("inActiveProducts", inActiveProducts);
+        long activeCategories = categoryService.countActiveCategories();
+        model.addAttribute("activeCategories", activeCategories);
+        long inActiveCategories = categoryService.countInActiveCategories();
+        model.addAttribute("inActiveCategories", inActiveCategories);
+        long totalProducts = productService.countTotalProducts();
+        model.addAttribute("totalProducts", totalProducts);
+        long totalCategories = categoryService.countTotalCategories();
+        model.addAttribute("totalCategories", totalCategories);
+        return "Manager/chartsManager";
+    }
     @GetMapping("/ManagerDashBoard/productList")
     public String showProductList(Model model, @Param("productNameOrCategoryName") String productNameOrCategoryName, @RequestParam(required = false) String status) {
         List<Product> productList = productService.findAll();
@@ -128,21 +161,40 @@ public class ProductController {
 
 //        List<Category> categories = categoryService.findCategoryByStatus();
 //        model.addAttribute("categories", categories);
+        long totalProducts = productService.countTotalProducts();
+        model.addAttribute("totalProducts", totalProducts);
+        long activeProducts = productService.countActiveProducts();
+        model.addAttribute("activeProducts", activeProducts);
+        long inActiveProducts = productService.countInActiveProducts();
+        model.addAttribute("inActiveProducts", inActiveProducts);
         model.addAttribute("products", productList);
         return "/Manager/showProductList";
     }
+
 
     //Thống kê hiển thị ra danh sách tài khoản có trạng thái
     @GetMapping("/ManagerDashBoard/productList/activeProduct")
     public String showProductListActive(Model model) {
         List<Product> productList = productService.findActiveProducts();
         model.addAttribute("products", productList);
+        long totalProducts = productService.countTotalProducts();
+        model.addAttribute("totalProducts", totalProducts);
+        long activeProducts = productService.countActiveProducts();
+        model.addAttribute("activeProducts", activeProducts);
+        long inActiveProducts = productService.countInActiveProducts();
+        model.addAttribute("inActiveProducts", inActiveProducts);
         return "/Manager/showProductList";
     }
     @GetMapping("/ManagerDashBoard/productList/inActiveProduct")
     public String showProductListInActive(Model model) {
         List<Product> productList = productService.findInActiveProducts();
         model.addAttribute("products", productList);
+        long totalProducts = productService.countTotalProducts();
+        model.addAttribute("totalProducts", totalProducts);
+        long activeProducts = productService.countActiveProducts();
+        model.addAttribute("activeProducts", activeProducts);
+        long inActiveProducts = productService.countInActiveProducts();
+        model.addAttribute("inActiveProducts", inActiveProducts);
         return "/Manager/showProductList";
     }
 
@@ -151,7 +203,7 @@ public class ProductController {
         ProductDto productDto = new ProductDto();
         productDto.setProductStatus(true);
         model.addAttribute("productDto", productDto);
-        List<Category> categories = categoryService.findCategoryByStatus();
+        List<Category> categories = categoryService.findActiveCategories();
         model.addAttribute("categories", categories);
         List<Brand> brands = brandService.findAll();
         model.addAttribute("brands", brands);
@@ -171,7 +223,7 @@ public class ProductController {
             result.addError(new FieldError("productDto", "productOriginalPrice", "Product Original Price cannot be less than Product Sale Price"));
         }
         if(result.hasErrors()) {
-            List<Category> categories = categoryService.findCategoryByStatus();
+            List<Category> categories = categoryService.findActiveCategories();
             model.addAttribute("categories", categories);
             List<Brand> brands = brandService.findAll();
             model.addAttribute("brands", brands);
@@ -198,7 +250,7 @@ public class ProductController {
             productDto.setBrandId(product.getBrand().getId());
             productDto.setProductStatus(product.isProductStatus());
             model.addAttribute("productDto", productDto);
-            List<Category> categories = categoryService.findCategoryByStatus();
+            List<Category> categories = categoryService.findActiveCategories();
             model.addAttribute("categories", categories);
             List<Brand> brands = brandService.findAll();
             model.addAttribute("brands", brands);
@@ -220,7 +272,7 @@ public class ProductController {
                 result.addError(new FieldError("productDto", "productOriginalPrice", "Product Original Price cannot be less than Product Sale Price"));
             }
             if(result.hasErrors()) {
-                List<Category> categories = categoryService.findCategoryByStatus();
+                List<Category> categories = categoryService.findActiveCategories();
                 model.addAttribute("categories", categories);
                 List<Brand> brands = brandService.findAll();
                 model.addAttribute("brands", brands);

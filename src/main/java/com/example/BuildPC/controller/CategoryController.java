@@ -2,6 +2,7 @@ package com.example.BuildPC.controller;
 
 
 
+import com.example.BuildPC.model.Product;
 import com.example.BuildPC.service.CategoryService;
 import com.example.BuildPC.dto.CategoryDto;
 import com.example.BuildPC.model.Category;
@@ -29,6 +30,8 @@ public class CategoryController {
     @Autowired
     private CategoryService categoryService;
 
+
+
     @GetMapping("/categoryList")
     public String showCategoryList(Model model, @Param("categoryName") String categoryName, @RequestParam(required = false) String status) {
         List<Category> categories = categoryService.findAll();
@@ -45,8 +48,40 @@ public class CategoryController {
             boolean isActive = status.equalsIgnoreCase("active");
             categories = categoryService.searchByCategoryNameAndStatus(categoryName,isActive);
         }
+        long totalCategories = categoryService.countTotalCategories();
+        model.addAttribute("totalCategories", totalCategories);
+        long activeCategories = categoryService.countActiveCategories();
+        model.addAttribute("activeCategories", activeCategories);
+        long inActiveCategories = categoryService.countInActiveCategories();
+        model.addAttribute("inActiveCategories", inActiveCategories);
         model.addAttribute("categories", categories);
         return "Manager/showCategoryList";
+    }
+
+    //Thống kê hiển thị ra danh sách tài khoản có trạng thái
+    @GetMapping("/categoryList/activeCategory")
+    public String showProductListActive(Model model) {
+        List<Category> categoryList = categoryService.findActiveCategories();
+        model.addAttribute("categories", categoryList);
+        long totalCategories = categoryService.countTotalCategories();
+        model.addAttribute("totalCategories", totalCategories);
+        long activeCategories = categoryService.countActiveCategories();
+        model.addAttribute("activeCategories", activeCategories);
+        long inActiveCategories = categoryService.countInActiveCategories();
+        model.addAttribute("inActiveCategories", inActiveCategories);
+        return "/Manager/showCategoryList";
+    }
+    @GetMapping("/categoryList/inActiveCategory")
+    public String showProductListInActive(Model model) {
+        List<Category> categoryList = categoryService.findInActiveCategories();
+        model.addAttribute("categories", categoryList);
+        long totalCategories = categoryService.countTotalCategories();
+        model.addAttribute("totalCategories", totalCategories);
+        long activeCategories = categoryService.countActiveCategories();
+        model.addAttribute("activeCategories", activeCategories);
+        long inActiveCategories = categoryService.countInActiveCategories();
+        model.addAttribute("inActiveCategories", inActiveCategories);
+        return "/Manager/showCategoryList";
     }
 
     @GetMapping("/categoryList/create")
