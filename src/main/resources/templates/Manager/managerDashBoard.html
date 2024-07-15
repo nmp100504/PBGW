@@ -22,6 +22,9 @@
     <link th:href="@{/assetsDashboard/css/style.css}" rel="stylesheet">
     <link th:rel="stylesheet" href="../css/colReorder-bootstrap4.css}">
 
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/highcharts-3d.js"></script>
+    <script src="https://code.highcharts.com/modules/exporting.js"></script>
 </head>
 
 <body id="page-top">
@@ -35,47 +38,11 @@
     </button>
 
     <!-- Navbar Search -->
-    <form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">
-        <div class="input-group">
-            <input type="text" class="form-control" placeholder="Search for..." aria-label="Search"
-                   aria-describedby="basic-addon2">
-            <div class="input-group-append">
-                <button class="btn btn-primary" type="button">
-                    <i class="fas fa-search"></i>
-                </button>
-            </div>
-        </div>
-    </form>
+    
 
     <!-- Navbar -->
 
-    <ul class="navbar-nav ml-auto ml-md-0">
-        <li class="nav-item dropdown no-arrow mx-1">
-            <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button" data-toggle="dropdown"
-               aria-haspopup="true" aria-expanded="false">
-                <i class="fas fa-bell fa-fw"></i>
-                <span class="badge badge-danger">9+</span>
-            </a>
-            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="alertsDropdown">
-                <a class="dropdown-item" href="#">Action</a>
-                <a class="dropdown-item" href="#">Another action</a>
-                <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="#">Something else here</a>
-            </div>
-        </li>
-        <li class="nav-item dropdown no-arrow mx-1">
-            <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button" data-toggle="dropdown"
-               aria-haspopup="true" aria-expanded="false">
-                <i class="fas fa-envelope fa-fw"></i>
-                <span class="badge badge-danger">7</span>
-            </a>
-            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="messagesDropdown">
-                <a class="dropdown-item" href="#">Action</a>
-                <a class="dropdown-item" href="#">Another action</a>
-                <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="#">Something else here</a>
-            </div>
-        </li>
+    <ul class="navbar-nav ml-auto ml-md-50">
         <li class="nav-item dropdown no-arrow">
             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown"
                aria-haspopup="true" aria-expanded="false">
@@ -85,7 +52,7 @@
                 <a class="dropdown-item" href="#">Settings</a>
                 <a class="dropdown-item" href="#">Activity Log</a>
                 <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">Logout</a>
+                <a class="dropdown-item" href="/logout" >Logout</a>
             </div>
         </li>
     </ul>
@@ -95,7 +62,35 @@
 <div id="wrapper">
 
     <!-- Sidebar -->
-    <div th:replace="/Manager/sidebar :: sidebar"></div>
+    <ul th:fragment="sidebar" class="sidebar navbar-nav">
+        <li class="nav-item active">
+            <a class="nav-link" href="/ManagerDashBoard">
+                <i class="fas fa-fw fa-tachometer-alt"></i>
+                <span>Dashboard</span>
+            </a>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link" href="/ManagerDashBoard/chartsManager">
+                <i class="fas fa-fw fa-chart-area"></i>
+                <span>Charts</span></a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/ManagerDashBoard">
+                <i class="fas fa-fw fa-table"></i>
+                <span>Order List</span></a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/ManagerDashBoard/productList">
+                <i class="fas fa-fw fa-table"></i>
+                <span>Product List</span></a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/ManagerDashBoard/categoryList">
+                <i class="fas fa-fw fa-table"></i>
+                <span>Category List</span></a>
+        </li>
+    </ul>
 
     <div id="content-wrapper">
 
@@ -108,9 +103,151 @@
                 </li>
                 <li class="breadcrumb-item active">Overview</li>
             </ol>
+            <div class="card-header h5">
+                <i class="fas"></i>
+                Product:
+            </div>
+            <div class="row">
+                <div class="col-xl-4 col-sm-6 mb-3">
+                    <div class="card text-white bg-primary o-hidden h-100">
+                        <div class="card-body">
+                            <div class="card-body-icon">
+                                <i class="fas fa-fw fa-comments"></i>
+                            </div>
+                            <div class="mr-5" th:text="${totalProducts + ' Total Products'}"></div>
+                        </div>
+                        <a class="card-footer text-white clearfix small z-1" href="/ManagerDashBoard/productList">
+                            <span class="float-left">View Details</span>
+                            <span class="float-right">
+                  <i class="fas fa-angle-right"></i>
+                </span>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-xl-4 col-sm-6 mb-3">
+                    <div class="card text-white bg-warning o-hidden h-100">
+                        <div class="card-body">
+                            <div class="card-body-icon">
+                                <i class="fas fa-fw fa-list"></i>
+                            </div>
+                            <div class="mr-5" th:text="${activeProducts + ' Active Products'}"></div>
+                        </div>
+                        <a class="card-footer text-white clearfix small z-1" href="/ManagerDashBoard/productList/activeProduct">
+                            <span class="float-left">View Details</span>
+                            <span class="float-right">
+                  <i class="fas fa-angle-right"></i>
+                </span>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-xl-4 col-sm-6 mb-3">
+                    <div class="card text-white bg-success o-hidden h-100">
+                        <div class="card-body">
+                            <div class="card-body-icon">
+                                <i class="fas fa-fw fa-shopping-cart"></i>
+                            </div>
+                            <div class="mr-5" th:text="${inActiveProducts + ' Inactive Products'}"></div>
+                        </div>
+                        <a class="card-footer text-white clearfix small z-1" href="/ManagerDashBoard/productList/inActiveProduct">
+                            <span class="float-left">View Details</span>
+                            <span class="float-right">
+                  <i class="fas fa-angle-right"></i>
+                </span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="card-header h5">
+                <i class="fas "></i>
+                Category:
+            </div>
+            <div class="row">
+                <div class="col-xl-4 col-sm-6 mb-3">
+                    <div class="card text-white bg-primary o-hidden h-100">
+                        <div class="card-body">
+                            <div class="card-body-icon">
+                                <i class="fas fa-fw fa-comments"></i>
+                            </div>
+                            <div class="mr-5" th:text="${totalCategories + ' Total Categories'}"></div>
+                        </div>
+                        <a class="card-footer text-white clearfix small z-1" href="/ManagerDashBoard/categoryList">
+                            <span class="float-left">View Details</span>
+                            <span class="float-right">
+                  <i class="fas fa-angle-right"></i>
+                </span>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-xl-4 col-sm-6 mb-3">
+                    <div class="card text-white bg-warning o-hidden h-100">
+                        <div class="card-body">
+                            <div class="card-body-icon">
+                                <i class="fas fa-fw fa-list"></i>
+                            </div>
+                            <div class="mr-5" th:text="${activeCategories + ' Active Categories'}"></div>
+                        </div>
+                        <a class="card-footer text-white clearfix small z-1" href="/ManagerDashBoard/categoryList/activeCategory">
+                            <span class="float-left">View Details</span>
+                            <span class="float-right">
+                  <i class="fas fa-angle-right"></i>
+                </span>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-xl-4 col-sm-6 mb-3">
+                    <div class="card text-white bg-success o-hidden h-100">
+                        <div class="card-body">
+                            <div class="card-body-icon">
+                                <i class="fas fa-fw fa-shopping-cart"></i>
+                            </div>
+                            <div class="mr-5" th:text="${inActiveCategories + ' Inactive Categories'}"></div>
+                        </div>
+                        <a class="card-footer text-white clearfix small z-1" href="/ManagerDashBoard/categoryList/inActiveCategory">
+                            <span class="float-left">View Details</span>
+                            <span class="float-right">
+                  <i class="fas fa-angle-right"></i>
+                </span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
 
+        <div class="container-fluid">
 
-            <!-- DataTables Example -->
+            <!-- Breadcrumbs and other content omitted for brevity -->
+
+            <!-- Row for Pie Charts -->
+            <div class="row">
+                <!-- First Pie Chart -->
+                <div class="col-lg-6 mb-3">
+                    <div class="card">
+                        <div class="card-header">
+                            <i class="fas fa-chart-pie"></i>
+                            Product Activity Pie Chart
+                        </div>
+                        <div class="card-body">
+                            <div id="pieChartContainer" style="height: 400px;"></div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Second Pie Chart -->
+                <div class="col-lg-6 mb-3">
+                    <div class="card">
+                        <div class="card-header">
+                            <i class="fas fa-chart-pie"></i>
+                            Product Activity Pie Chart
+                        </div>
+                        <div class="card-body">
+                            <div id="pieChartContainer1" style="height: 400px;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- DataTables Example and other content omitted for brevity -->
+
+        </div>
             <!-- DataTables Example -->
             <div class="card mb-3">
                 <div class="card-header h3">
@@ -232,7 +369,84 @@
 <script th:src="@{/assetsDashboard/js/colReorder-dataTables-min.js}"></script>
 <script th:src="@{/assetsDashboard/js/colReorder-bootstrap4-min.js}"></script>
 
-
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    Highcharts.chart('pieChartContainer', {
+        chart: {
+            type: 'pie',
+            options3d: {
+                enabled: true,
+                alpha: 50,
+                beta: 0
+            }
+        },
+        title: {
+            text: 'Product Status'
+        },
+        tooltip: {
+            pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+        },
+        plotOptions: {
+            pie: {
+                allowPointSelect: true,
+                cursor: 'pointer',
+                depth: 35,
+                dataLabels: {
+                    enabled: true,
+                    format: '{point.name}: {point.y}'
+                }
+            }
+        },
+        series: [{
+            type: 'pie',
+            name: 'Products',
+            data: [
+                ['Active', /*[[${activeCategories}]]*/ 0],
+                ['Inactive', /*[[${inActiveProducts}]]*/ 0]
+            ]
+        }]
+    });
+    /*]]>*/
+</script>
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    Highcharts.chart('pieChartContainer1', {
+        chart: {
+            type: 'pie',
+            options3d: {
+                enabled: true,
+                alpha: 50,
+                beta: 0
+            }
+        },
+        title: {
+            text: 'Category Status'
+        },
+        tooltip: {
+            pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+        },
+        plotOptions: {
+            pie: {
+                allowPointSelect: true,
+                cursor: 'pointer',
+                depth: 35,
+                dataLabels: {
+                    enabled: true,
+                    format: '{point.name}: {point.y}'
+                }
+            }
+        },
+        series: [{
+            type: 'pie',
+            name: 'Categories',
+            data: [
+                ['Active', /*[[${activeCategories}]]*/ 0],
+                ['Inactive', /*[[${inActiveCategories}]]*/ 0]
+            ]
+        }]
+    });
+    /*]]>*/
+</script>
 </body>
 
 </html>

@@ -5,5 +5,5 @@ $(document).ready(function() {
 
 $('#dataTable').DataTable( {
   colReorder: true,
-  searching : false
+  searching: false
 } );

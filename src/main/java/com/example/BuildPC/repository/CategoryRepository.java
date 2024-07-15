@@ -13,4 +13,8 @@ public interface CategoryRepository extends JpaRepository<Category, Integer> {
     @Query("SELECT c FROM Category c WHERE c.categoryName LIKE %?1%")
     List<Category> searchCategoryName(String keyword);
     boolean existsByCategoryName(String categoryName);
+
+    @Query("SELECT c FROM Category  c WHERE c.categoryName LIKE %?1% AND c.categoryStatus =?2")
+    List<Category> searchByCategoryNameAndStatus(String categoryName, boolean status);
+    long countByCategoryStatus(boolean Status);
 }

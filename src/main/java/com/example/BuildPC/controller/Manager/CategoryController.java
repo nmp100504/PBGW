@@ -2,6 +2,7 @@ package com.example.BuildPC.controller.Manager;
 
 
 
+import com.example.BuildPC.model.Product;
 import com.example.BuildPC.service.CategoryService;
 import com.example.BuildPC.dto.CategoryDto;
 import com.example.BuildPC.model.Category;
@@ -29,20 +30,64 @@ public class CategoryController {
     @Autowired
     private CategoryService categoryService;
 
+
+
     @GetMapping("/categoryList")
-    public String showCategoryList(Model model, @Param("keyword") String keyword) {
+    public String showCategoryList(Model model, @Param("categoryName") String categoryName, @RequestParam(required = false) String status) {
         List<Category> categories = categoryService.findAll();
-        if(keyword != null){
-            categories = categoryService.searchCategoryByName(keyword);
-            model.addAttribute("keyword", keyword);
+        if(categoryName != null){
+            categories = categoryService.searchCategoryByName(categoryName);
+            model.addAttribute("categoryName", categoryName);
         }
+        if(status != null && !status.isEmpty()){
+            boolean isActive = status.equalsIgnoreCase("active");
+            categories = categoryService.listByCategoryStatus(isActive);
+            model.addAttribute("status", status);
+        }
+        if(categoryName != null && !categoryName.isEmpty() && status != null && !status.isEmpty()){
+            boolean isActive = status.equalsIgnoreCase("active");
+            categories = categoryService.searchByCategoryNameAndStatus(categoryName,isActive);
+        }
+        long totalCategories = categoryService.countTotalCategories();
+        model.addAttribute("totalCategories", totalCategories);
+        long activeCategories = categoryService.countActiveCategories();
+        model.addAttribute("activeCategories", activeCategories);
+        long inActiveCategories = categoryService.countInActiveCategories();
+        model.addAttribute("inActiveCategories", inActiveCategories);
         model.addAttribute("categories", categories);
         return "Manager/showCategoryList";
+    }
+
+    //Thống kê hiển thị ra danh sách tài khoản có trạng thái
+    @GetMapping("/categoryList/activeCategory")
+    public String showProductListActive(Model model) {
+        List<Category> categoryList = categoryService.findActiveCategories();
+        model.addAttribute("categories", categoryList);
+        long totalCategories = categoryService.countTotalCategories();
+        model.addAttribute("totalCategories", totalCategories);
+        long activeCategories = categoryService.countActiveCategories();
+        model.addAttribute("activeCategories", activeCategories);
+        long inActiveCategories = categoryService.countInActiveCategories();
+        model.addAttribute("inActiveCategories", inActiveCategories);
+        return "/Manager/showCategoryList";
+    }
+    @GetMapping("/categoryList/inActiveCategory")
+    public String showProductListInActive(Model model) {
+        List<Category> categoryList = categoryService.findInActiveCategories();
+        model.addAttribute("categories", categoryList);
+        long totalCategories = categoryService.countTotalCategories();
+        model.addAttribute("totalCategories", totalCategories);
+        long activeCategories = categoryService.countActiveCategories();
+        model.addAttribute("activeCategories", activeCategories);
+        long inActiveCategories = categoryService.countInActiveCategories();
+        model.addAttribute("inActiveCategories", inActiveCategories);
+        return "/Manager/showCategoryList";
     }
 
     @GetMapping("/categoryList/create")
     public String createCategory(Model model){
         CategoryDto categoryDto = new CategoryDto();
+        categoryDto.setCategoryStatus(true);
         model.addAttribute("categoryDto", categoryDto);
         return "Manager/createCategory";
     }
@@ -131,7 +176,8 @@ public class CategoryController {
     @GetMapping("/categoryList/delete")
     public String deleteCategory(@RequestParam("id") int id) {
         try{
-            categoryService.deleteCategoryById(id);
+            //categoryService.deleteCategoryById(id);
+            categoryService.deActivateCategoryById(id);
         }catch (Exception e) {
             System.out.println("Exception: " + e.getMessage());
             return "redirect:/ManagerDashBoard/categoryList";

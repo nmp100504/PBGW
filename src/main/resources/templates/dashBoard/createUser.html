@@ -67,23 +67,21 @@
                            th:errors="${userDto.role}"></p>
                     </div>
                 </div>
-<!--                <div class="row mb-3">-->
-<!--                    <label class="col-sm-4 col-form-label">Status</label>-->
-<!--                    <div class="col-sm-8" >-->
-<!--                        <div class="form-check form-check-inline">-->
-<!--                            <input class="form-check-input"  type="radio" th:field="${userDto.isEnabled}" value="1"/>-->
-<!--                            <label  class="form-check-label"> Active</label>-->
-<!--                            <p th:if="${#fields.hasErrors('isEnabled')}" th:errorclass="text-danger"-->
-<!--                               th:errors="${userDto.isEnabled}"></p>-->
-<!--                        </div>-->
-<!--                        <div class="form-check form-check-inline">-->
-<!--                            <input class="form-check-input"  type="radio" th:field="${userDto.isEnabled}" value="0">-->
-<!--                            <label class="form-check-label"> Inactive</label>-->
-<!--                            <p th:if="${#fields.hasErrors('isEnabled')}" th:errorclass="text-danger"-->
-<!--                               th:errors="${userDto.isEnabled}"></p>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                </div>-->
+                <div class="row mb-3">
+                    <label class="col-sm-4 col-form-label">Status</label>
+                    <div class="col-sm-8">
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" th:field="${userDto.enabled}" value="true"/>
+                            <label class="form-check-label">Active</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" th:field="${userDto.enabled}" value="false"/>
+                            <label class="form-check-label">Inactive</label>
+                        </div>
+                        <p th:if="${#fields.hasErrors('enabled')}" th:errorclass="text-danger"
+                           th:errors="${userDto.enabled}"></p>
+                    </div>
+                </div>
 
                 <div class="row">
                     <div class="offset-sm-4 col-sm-4 d-grid">

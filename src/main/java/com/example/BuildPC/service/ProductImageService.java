@@ -19,4 +19,5 @@ public interface ProductImageService {
     void deleteProductImage(ProductImage productImage);
     void deleteAllProductImages(List<ProductImage> productImages);
     List<ProductImage> createAllProductImages(List<MultipartFile> images, Integer productId);
+
 }

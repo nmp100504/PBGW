@@ -3,6 +3,7 @@ package com.example.BuildPC.service.implementation;
 
 import com.example.BuildPC.dto.CategoryDto;
 import com.example.BuildPC.model.Category;
+import com.example.BuildPC.model.Product;
 import com.example.BuildPC.repository.CategoryRepository;
 import com.example.BuildPC.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -74,10 +75,22 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public List<Category> findCategoryByStatus() {
-        return categoryRepository.findByCategoryStatus(true);
+    public void deActivateCategoryById(int id) {
+        Category category = categoryRepository.findById(id).get();
+        if(category != null){
+            category.setCategoryStatus(false);
+            updateCategory(category);
+        }
     }
 
+    @Override
+    public List<Category> findActiveCategories() {
+        return categoryRepository.findByCategoryStatus(true);
+    }
+    @Override
+    public List<Category> findInActiveCategories() {
+        return categoryRepository.findByCategoryStatus(false);
+    }
     @Override
     public List<Category> searchCategoryByName(String keyword) {
         return this.categoryRepository.searchCategoryName(keyword);
@@ -87,4 +100,31 @@ public class CategoryServiceImpl implements CategoryService {
     public boolean existCategoryByName(String categoryName) {
         return categoryRepository.existsByCategoryName(categoryName);
     }
+
+    @Override
+    public List<Category> listByCategoryStatus(boolean status) {
+        return categoryRepository.findByCategoryStatus(status);
+    }
+
+    @Override
+    public List<Category> searchByCategoryNameAndStatus(String categoryName, boolean status) {
+        return categoryRepository.searchByCategoryNameAndStatus(categoryName,status);
+    }
+
+    @Override
+    public long countTotalCategories() {
+        return categoryRepository.count();
+    }
+
+    @Override
+    public long countActiveCategories() {
+        return categoryRepository.countByCategoryStatus(true);
+    }
+
+    @Override
+    public long countInActiveCategories() {
+        return categoryRepository.countByCategoryStatus(false);
+    }
+
+
 }

@@ -25,11 +25,21 @@ public interface ProductService {
     Product findProductById(int id);
     void updateProduct(Product product);
     void deleteProduct(int id);
+    void deActivateProduct(int id);
     boolean existsByProductName(String productName);
+    //boolean existsByProductNameAndProductId(String productName, Integer productId);
     List<Product> findByProductNameContaining(String productName);
     List<Product> findByProductSalePriceBetween(int minPrice, int maxPrice);
     List<Product> findByOrderByProductSalePriceAsc();
     List<Product> findByOrderByProductSalePriceDesc();
-    List<Product> searchProductByName(String productName);
+    List<Product> searchByProductNameOrCategoryName(String productNameOrCategoryName);
+    List<Product> searchCategoryName(String categoryName);
+    long countTotalProducts();
+    long countActiveProducts();
+    long countInActiveProducts();
+    List<Product> findActiveProducts();
+    List<Product> findInActiveProducts();
+    List<Product> searchByProductNameOrCategoryNameAndStatus(String searchByProductNameOrCategoryNameAndStatus, boolean status);
+
 
 }

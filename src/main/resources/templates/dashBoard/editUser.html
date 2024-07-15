@@ -12,7 +12,7 @@
         <div class="col-md-8 mx-auto rounded border p-4 m-4">
             <h2 class="text-center mb-5">Edit User</h2>
 
-            <form method="post" enctype="multipart/form-data" th:object="${userDto}">
+            <form method="post"  enctype="multipart/form-data" th:object="${userDto}">
 
                 <div class="row mb-3">
                     <label class="col-sm-4 col-form-label">ID</label>
@@ -48,7 +48,7 @@
                 <div class="row mb-3">
                     <label class="col-sm-4 col-form-label">Password</label>
                     <div class="col-sm-8">
-                        <input class="form-control" type="password" th:field="${userDto.password}">
+                        <input class="form-control" type="password" th:field="${userDto.password}" placeholder="*******">
                         <p th:if="${#fields.hasErrors('password')}" th:errorclass="text-danger"
                            th:errors="${userDto.password}" readonly></p>
                     </div>
@@ -74,6 +74,24 @@
                            th:errors="${userDto.role}"></p>
                     </div>
                 </div>
+                <div class="row mb-3">
+                    <label class="col-sm-4 col-form-label">Status</label>
+                    <div class="col-sm-8" >
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input"  type="radio" th:field="${userDto.enabled}" value="1"/>
+                            <label  class="form-check-label"> Active</label>
+                            <p th:if="${#fields.hasErrors('enabled')}" th:errorclass="text-danger"
+                               th:errors="${userDto.enabled}"></p>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input"  type="radio" th:field="${userDto.enabled}" value="0">
+                            <label class="form-check-label"> Inactive</label>
+                            <p th:if="${#fields.hasErrors('enabled')}" th:errorclass="text-danger"
+                               th:errors="${userDto.enabled}"></p>
+                        </div>
+                    </div>
+                </div>
+
 
                 <div class="row">
                     <div class="offset-sm-4 col-sm-4 d-grid">

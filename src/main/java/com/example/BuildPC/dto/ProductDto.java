@@ -28,8 +28,8 @@ public class ProductDto {
     @NotEmpty(message = "The Product Description is required")
     private String productDesc;
 
-
-    @Min(value = 0, message = "The Units In Stock is must greater than 0!")
+    @NotNull(message =  "The Units In Stock is required and must be number!")
+    @Min(value = 1, message = "The Units In Stock is must greater than equal 1!")
     private Integer unitsInStock;
     private Integer unitsInOrder;
     private boolean productStatus;
@@ -38,7 +38,6 @@ public class ProductDto {
     private Integer categoryId;
     @NotNull(message =  "The Brand is required")
     private Integer brandId;
-
 
     private List<MultipartFile> productImages;
 
