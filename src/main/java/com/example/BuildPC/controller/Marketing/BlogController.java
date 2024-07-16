@@ -62,4 +62,9 @@ public class BlogController {
         model.addAttribute("posts", postsResponse);
         return "marketing/blog";
     }
+
+    @GetMapping("/display")
+    public String displayImage(){
+        return "marketing/imageDisplay";
+    }
 }

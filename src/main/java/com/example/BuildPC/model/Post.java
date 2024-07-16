@@ -8,6 +8,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Base64;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -44,6 +45,12 @@ public class Post {
     @OneToMany(mappedBy = "post", cascade = CascadeType.REMOVE)
     private Set<Comment> comments = new HashSet<>();
 
-    private String thumbnailImage;
 
+    @Lob
+    @Column(nullable = true, columnDefinition = "LONGBLOB")
+    private byte[] thumbnailData;
+
+    public String getThumbnailDataBase64() {
+        return Base64.getEncoder().encodeToString(this.thumbnailData);
+    }
 }

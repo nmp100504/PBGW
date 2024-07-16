@@ -1,6 +1,7 @@
 package com.example.BuildPC.service.implementation;
 
 import com.example.BuildPC.dto.PostDto;
+import com.example.BuildPC.mapper.CommentMapper;
 import com.example.BuildPC.mapper.PostMapper;
 import com.example.BuildPC.model.Post;
 import com.example.BuildPC.model.User;
@@ -45,31 +46,20 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public void createPost(PostDto postDto) {
+    public void createPost(PostDto postDto, MultipartFile thumbnail) {
         String email = Objects.requireNonNull(SecurityUtils.getCurrentUser()).getEmail();
         Optional<User> user = userRepository.findByEmail(email);
 
-        //save image file
-        MultipartFile image = postDto.getThumbnailImage();
-        String storeFileName = image.getOriginalFilename();
-
-        try{
-            String uploadDir ="public/images/Thumbnail/";
-            Path uploadPath = Paths.get(uploadDir);
-            if (!Files.exists(uploadPath)) {
-                Files.createDirectories(uploadPath);
+        Post post = PostMapper.mapToPost(postDto);
+        if (thumbnail != null && !thumbnail.isEmpty()) {
+            try {
+                post.setThumbnailData(thumbnail.getBytes());
+            } catch (IOException e) {
+                throw new RuntimeException("Failed to save thumbnail image", e);
             }
-            try (InputStream inputStream = image.getInputStream()) {
-                Files.copy(inputStream, Paths.get(uploadDir + storeFileName),
-                        StandardCopyOption.REPLACE_EXISTING);
-            }
-        }   catch (Exception ex){
-            System.out.println("Exception: " + ex.getMessage());
         }
 
-        Post post = PostMapper.mapToPost(postDto);
-        post.setThumbnailImage(storeFileName);
-        if(user.isPresent()){
+        if (user.isPresent()) {
             post.setCreatedBy(user.get());
             postRepository.save(post);
         }
@@ -82,12 +72,34 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public void updatePost(PostDto postDto) {
+    public void updatePost(PostDto postDto, MultipartFile thumbnail) {
         String email = Objects.requireNonNull(SecurityUtils.getCurrentUser()).getEmail();
         Optional<User> user = userRepository.findByEmail(email);
-        Post post = PostMapper.mapToPost(postDto);
-        post.setCreatedBy(user.get());
-        postRepository.save(post);
+
+        Post existingPost = postRepository.findById(postDto.getId()).orElseThrow(() -> new RuntimeException("Post not found"));
+
+        existingPost.setTitle(postDto.getTitle());
+        existingPost.setContent(postDto.getContent());
+        existingPost.setUrl(postDto.getUrl());
+        existingPost.setShortDescription(postDto.getShortDescription());
+        existingPost.setCreatedOn(postDto.getCreatedOn());
+        existingPost.setUpdatedOn(postDto.getUpdatedOn());
+        existingPost.setComments(postDto.getComments().stream()
+                .map(CommentMapper::mapToComment)
+                .collect(Collectors.toSet()));
+
+        if (thumbnail != null && !thumbnail.isEmpty()) {
+            try {
+                existingPost.setThumbnailData(thumbnail.getBytes());
+            } catch (IOException e) {
+                throw new RuntimeException("Failed to save thumbnail image", e);
+            }
+        }
+
+        if (user.isPresent()) {
+            existingPost.setCreatedBy(user.get());
+            postRepository.save(existingPost);
+        }
     }
 
     @Override

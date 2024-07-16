@@ -73,7 +73,7 @@
                 <div class="row justify-content-center">
                     <div class="col col-lg-8">
                         <div class="details_image">
-                            <img src="assets/images/details/blog_details_img_1.webp" alt="Getyootech - Gadgets Ecommerce Site Template">
+                            <img  th:src="@{'data:image/jpeg;base64,'+${post.getThumbnailDataBase64()}}" alt="images from database" width="50%" height="50%"/>
                         </div>
                         <ul class="post_meta ul_li">
                             <li th:text="${post.createdOn}">8 July 2024</li>
@@ -165,6 +165,7 @@
                                         <div class="comment_item clearfix">
                                             <div class="thumbnail_wrap">
                                                 <img src="assets/images/comment/cmnt_thumb_3.webp" alt="Getyootech - Gadgets Ecommerce Site Template">
+
                                             </div>
                                             <div class="content_wrap">
                                                 <h4 class="hero_name">

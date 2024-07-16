@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
+import java.util.Base64;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -40,6 +41,9 @@ public class PostDto {
     private UserDto createdBy;
     private Set<CommentDto> comments = new HashSet<>();
 
-    private MultipartFile thumbnailImage;
+    private byte[] thumbnailData;
 
+    public String getThumbnailDataBase64() {
+        return Base64.getEncoder().encodeToString(this.thumbnailData);
+    }
 }
