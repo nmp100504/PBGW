@@ -18,7 +18,6 @@ import java.util.Set;
 public class Order {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "order_id")
     private Integer id;
 
@@ -52,6 +51,14 @@ public class Order {
         this.user = user;
     }
     public Order(Date orderDate, String orderNote, String shipAddress, User user) {
+        this.orderDate = orderDate;
+        this.orderNote = orderNote;
+        this.shipAddress = shipAddress;
+        this.status = Status.WAIT;
+        this.user = user;
+    }
+    public Order(Integer id, Date orderDate, String orderNote, String shipAddress, User user) {
+       this.id = id;
         this.orderDate = orderDate;
         this.orderNote = orderNote;
         this.shipAddress = shipAddress;

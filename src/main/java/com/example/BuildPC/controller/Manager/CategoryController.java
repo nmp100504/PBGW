@@ -6,6 +6,7 @@ import com.example.BuildPC.model.Product;
 import com.example.BuildPC.service.CategoryService;
 import com.example.BuildPC.dto.CategoryDto;
 import com.example.BuildPC.model.Category;
+import com.example.BuildPC.service.OrderService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
@@ -30,7 +31,8 @@ public class CategoryController {
     @Autowired
     private CategoryService categoryService;
 
-
+    @Autowired
+    private OrderService orderService;
 
     @GetMapping("/categoryList")
     public String showCategoryList(Model model, @Param("categoryName") String categoryName, @RequestParam(required = false) String status) {
@@ -55,6 +57,7 @@ public class CategoryController {
         long inActiveCategories = categoryService.countInActiveCategories();
         model.addAttribute("inActiveCategories", inActiveCategories);
         model.addAttribute("categories", categories);
+        model.addAttribute("OrderList", orderService.listAllOrder());
         return "Manager/showCategoryList";
     }
 

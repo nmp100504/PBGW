@@ -290,7 +290,7 @@
         ================================================== -->
         <section class="checkout_section section_space">
           <div class="container">
-            <form action="#" th:action="@{/saveBilling}" method="post">
+            <form action="#" th:action="@{/api/payment/create-payment}" method="post">
 
               <!-- Billing Details Section -->
               <div class="checkout_widget bg-light">
@@ -357,6 +357,7 @@
               </div>
 
               <!-- Your Order Section -->
+              <!-- Cart Subtotal and Order Total in Your Order Section -->
               <div class="checkout_widget">
                 <h3 class="checkout_widget_title">Your Order</h3>
                 <div class="cart_table checkout_table">
@@ -366,50 +367,40 @@
                       <th>PRODUCT</th>
                       <th>PRICE</th>
                       <th>QUANTITY</th>
-                      <th>TOTLA</th>
+                      <th>TOTAL</th>
                     </tr>
                     </thead>
                     <tbody>
-                    <tr th:each="items : ${cartItems}" >
+                    <tr th:each="items : ${cartItems}">
                       <td>
-                        <div  th:each="product, iterStat : ${items.getProduct().getProductImages()}" th:if="${iterStat.index == 0}" class="cart_product">
-                          <img th:src="@{'/images/Product/' + ${product.getImageFileName()}}" alt="Getyootech - Gadgets Ecommerce Site Template">
+                        <div th:each="product, iterStat : ${items.getProduct().getProductImages()}" th:if="${iterStat.index == 0}" class="cart_product">
+                          <img th:src="@{'/images/Product/' + ${product.getImageFileName()}}" alt="Product Image">
                           <h3 th:text="${items.product.getProductName()}"></h3>
                         </div>
                       </td>
-                      <td><span class="price_text"></span></td>
+                      <td><span class="price_text" th:text="${#numbers.formatDecimal(items.product.getProductSalePrice(), 0, 'COMMA', 2, 'POINT') + ' VND'}"></span></td>
                       <td><strong class="quantity_count" th:text="${items.getQuantity()}"></strong></td>
-                      <td><span class="price_text">$10.50</span></td>
-                    </tr>
-                    <tr>
-                      <td></td>
-                      <td></td>
-                      <td><strong>Cart Subtotal</strong></td>
-                      <td><strong></strong></td>
-                    </tr>
-                    <tr>
-                      <td></td>
-                      <td></td>
-                      <td><strong>Shipping and Handling</strong></td>
-                      <td><strong class="free_text">Free</strong></td>
+                      <td><span class="price_text" th:text="${#numbers.formatDecimal(items.product.getProductSalePrice() * items.getQuantity(), 0, 'COMMA', 2, 'POINT') + ' VND'}"></span></td>
                     </tr>
                     <tr>
                       <td></td>
                       <td></td>
                       <td><strong>Order Total</strong></td>
-                      <td><strong class="total_text"></strong></td>
+                      <td><strong th:text="${#numbers.formatDecimal(orderTotal, 0, 'COMMA', 2, 'POINT') + ' VND'}"></strong></td>
                     </tr>
                     </tbody>
                   </table>
                 </div>
               </div>
 
+              <input type="hidden" name="amount" th:value="${orderTotal}">
               <!-- Place Order Button -->
               <div class="load_more">
                 <button type="submit" class="btn btn_primary w-100">Place Order</button>
               </div>
 
             </form>
+
 
 
 
