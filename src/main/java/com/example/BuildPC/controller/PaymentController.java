@@ -1,9 +1,11 @@
 package com.example.BuildPC.controller;
 
 import com.example.BuildPC.configuration.vnpay.Config;
+import com.example.BuildPC.dto.TransactionStatusDTO;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.view.RedirectView;
 
@@ -94,6 +96,21 @@ public class PaymentController {
 
         RedirectView redirectView = new RedirectView();
         redirectView.setUrl(paymentUrl);
+
+        return redirectView;
+    }
+    @GetMapping("/payment_infor")
+    public RedirectView transaction(@RequestParam(value = "vnp_Amount") String amount,
+                                    @RequestParam(value = "vnp_BankCode") String bankcode,
+                                    @RequestParam(value = "vnp_OrderInfo") String order,
+                                    @RequestParam(value = "vnp_ResponseCode") String responseCode) {
+        RedirectView redirectView = new RedirectView();
+
+        if ("00".equals(responseCode)) {
+            redirectView.setUrl("/payment/PaymentSuccess");
+        } else {
+            redirectView.setUrl("/payment/PaymentFail");
+        }
 
         return redirectView;
     }

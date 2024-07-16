@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<!-- Mirrored from webthunder.net/html/getyootech/error.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 19 May 2024 08:48:42 GMT -->
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+
+    <title>404 Error - Opps! Page Not Found - Getyootech - Gadgets Ecommerce Site Template</title>
+    <link rel="shortcut icon" th:href="@{/assetsLandingPage/images/logo/favourite_icon.svg}">
+
+    <th:block th:replace="~{fragment/framework :: framework}"> </th:block>
+
+</head>
+
+
+<body>
+
+<!-- body_wrap - start -->
+<div class="body_wrap">
+
+    <!-- backtotop - start -->
+    <div class="backtotop">
+        <a href="#" class="scroll">
+            <i class="far fa-arrow-up"></i>
+        </a>
+    </div>
+    <!-- backtotop - end -->
+
+    <!-- preloader - start -->
+    <div id="preloader"></div>
+    <!-- preloader - end -->
+
+    <!-- header_section - start
+    ================================================== -->
+    <th:block th:replace="~{fragment/header :: header}"> </th:block>
+    <!-- header_section - end
+    ================================================== -->
+
+    <!-- main body - start
+    ================================================== -->
+    <main>
+
+        <!-- sidebar cart - start
+        ================================================== -->
+        <th:block th:replace="~{fragment/sidebar_cart :: sidebar_cart}"> </th:block>
+
+        <!-- sidebar cart - end
+        ================================================== -->
+
+        <!-- breadcrumb_section - start
+        ================================================== -->
+        <div class="breadcrumb_section">
+            <div class="container">
+                <ul class="breadcrumb_nav ul_li">
+                    <li><a th:href="@{/}">Home</a></li>
+                    <li>Oops! Somethings wrong with your payment process, please try again or contact us!</li>
+                </ul>
+            </div>
+        </div>
+        <!-- breadcrumb_section - end
+        ================================================== -->
+
+        <!-- error_section - start
+        ================================================== -->
+        <section class="error_section section_space">
+            <div class="container">
+
+                <div class="error_content">
+                    <h1>4<span>0</span>3</h1>
+                    <h2>Access denied!.</h2>
+                    <p class="mb-0">
+                        Please check to make sure you've typed the URL correctly. Maybe try a search?
+                    </p>
+                </div>
+
+                <div class="row justify-content-center">
+                    <div class="col col-lg-6">
+                        <div class="error_search_form">
+                            <form action="#">
+                                <div class="newsletter_form">
+                                    <input type="search" name="search" placeholder="Search...">
+                                    <button type="submit" class="btn btn_secondary">Search</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+        <!-- error_section - end
+        ================================================== -->
+
+        <!-- newsletter_section - start
+        ================================================== -->
+        <section class="newsletter_section">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col col-lg-6">
+                        <h2 class="newsletter_title text-white">
+                            <i class="icofont-paper-plane"></i>
+                            Sign Up for Newsletter
+                        </h2>
+                    </div>
+                    <div class="col col-lg-6">
+                        <form action="#!">
+                            <div class="newsletter_form">
+                                <input type="email" name="email" placeholder="Enter your email address">
+                                <button type="submit" class="btn btn_danger">Submit</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- newsletter_section - end
+        ================================================== -->
+
+    </main>
+    <!-- main body - end
+    ================================================== -->
+
+    <!-- footer_section - start
+    ================================================== -->
+    <th:block th:replace="~{fragment/footer :: footer}"> </th:block>
+
+
+    <!-- footer_section - end
+    ================================================== -->
+
+</div>
+<!-- body_wrap - end -->
+
+<th:block th:replace="~{fragment/script :: script}"> </th:block>
+
+
+<!-- Mirrored from webthunder.net/html/getyootech/error.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 19 May 2024 08:48:42 GMT -->
+</body>
+</html>
