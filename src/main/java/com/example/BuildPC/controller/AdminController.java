@@ -138,6 +138,11 @@ public class AdminController {
         if(adminService.existsByUserEmail(userDto.getEmail())){
             result.addError(new FieldError("userDto", "email", "Email already exists"));
         }
+        if(userDto.getPassword() == null || userDto.getPassword().isEmpty()){
+            result.addError(new FieldError("userDto", "password", "Please enter a password"));
+        } else if(userDto.getPassword().length() < 8){
+            result.addError(new FieldError("userDto", "password", "Password must be at least 8 characters long"));
+        }
         if(result.hasErrors()){
             return "dashBoard/createUser";
         }
@@ -159,12 +164,15 @@ public class AdminController {
         if(adminService.existsByUserEmail(userDto.getEmail())){
             result.addError(new FieldError("userDto", "email", "Email already exists"));
         }
+        if(userDto.getPassword() == null || userDto.getPassword().isEmpty()){
+            result.addError(new FieldError("userDto", "password", "Please enter a password"));
+        } else if(userDto.getPassword().length() < 8){
+            result.addError(new FieldError("userDto", "password", "Password must be at least 8 characters long"));
+        }
         if(result.hasErrors()){
             return "dashBoard/createUser";
         }
-        if(userDto.getPassword() == null && userDto.getPassword().isEmpty()){
-            result.addError(new FieldError("userDto", "password", "Please select a file"));
-        }
+
 
         adminService.save(userDto);
         return "redirect:/dashBoard/tables";
@@ -201,6 +209,15 @@ public class AdminController {
         try {
             User user = adminService.findUserById(id);
             model.addAttribute("user", user);
+
+            if(userDto.getPassword() != null && !userDto.getPassword().isEmpty()){
+                if(userDto.getPassword().length() < 8){
+                    result.addError(new FieldError("userDto", "password", "Password must be at least 8 characters long"));
+                } else {
+                    user.setPassword(passwordEncoder.encode(userDto.getPassword()));
+                }
+            }
+
             if(result.hasErrors()){
                 return "dashBoard/editUser";
             }
@@ -208,10 +225,6 @@ public class AdminController {
             user.setFirstName(userDto.getFirstName());
             user.setLastName(userDto.getLastName());
             user.setEmail(userDto.getEmail());
-            if(userDto.getPassword() != null && !userDto.getPassword().isEmpty()){
-                user.setPassword(passwordEncoder.encode(userDto.getPassword()));
-            }
-
             user.setPhone(userDto.getPhone());
             user.setRole(Role.valueOf(userDto.getRole()));
             user.setEnabled(userDto.isEnabled());
@@ -256,15 +269,22 @@ public class AdminController {
         try {
             User user = adminService.findUserById(id);
             model.addAttribute("user", user);
+
+            if(userDto.getPassword() != null && !userDto.getPassword().isEmpty()){
+                if(userDto.getPassword().length() < 8){
+                    result.addError(new FieldError("userDto", "password", "Password must be at least 8 characters long"));
+                } else {
+                    user.setPassword(passwordEncoder.encode(userDto.getPassword()));
+                }
+            }
+
             if(result.hasErrors()){
                 return "dashBoard/editUser";
             }
+
             user.setFirstName(userDto.getFirstName());
             user.setLastName(userDto.getLastName());
             user.setEmail(userDto.getEmail());
-            if(userDto.getPassword() != null && !userDto.getPassword().isEmpty()){
-                user.setPassword(passwordEncoder.encode(userDto.getPassword()));
-            }
             user.setPhone(userDto.getPhone());
             user.setRole(Role.valueOf(userDto.getRole()));
             user.setEnabled(userDto.isEnabled());
