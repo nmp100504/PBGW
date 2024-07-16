@@ -234,7 +234,7 @@ public class ProductController {
     }
 
     @GetMapping("/ManagerDashBoard/productList/edit")
-    public String showProductEdit(Model model, @RequestParam("id") int id) {
+    public String showProductEdit(Model model, @RequestParam int id) {
         try{
             Product product = productService.findProductById(id);
             model.addAttribute("product", product);
@@ -261,13 +261,12 @@ public class ProductController {
         return "Manager/editProduct";
     }
     @PostMapping("/ManagerDashBoard/productList/edit")
-    public String showProductEdit(Model model,@RequestParam("id") int id,@Valid @ModelAttribute("productDto") ProductDto productDto, BindingResult result) {
+    public String showProductEdit(Model model,@RequestParam int id,@Valid @ModelAttribute("productDto") ProductDto productDto, BindingResult result) {
         try{
             Product product = productService.findProductById(id);
-            model.addAttribute("productDto", productDto);
-            if(productService.existsByProductName(productDto.getProductName())){
-                result.addError(new FieldError("productDto", "productName", "Product Name already exists"));
-            }
+            model.addAttribute("product", product);
+
+
             if(Float.compare(productDto.getProductOriginalPrice(),productDto.getProductSalePrice()) <0){
                 result.addError(new FieldError("productDto", "productOriginalPrice", "Product Original Price cannot be less than Product Sale Price"));
             }
