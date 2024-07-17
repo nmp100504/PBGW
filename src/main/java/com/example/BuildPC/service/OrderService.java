@@ -25,26 +25,32 @@ public class OrderService {
         }
         return orderDTOS;
     }
-    public void deleteOrderById(int id){
-        orderRepository.deleteById(id);
-    }
-    public Order getOrderById(int id){
-        return orderRepository.findById(id).get();
-    }
+
     public float calculateTotal(Order order){
         List<OrderDetail> orderDetails = orderDetailRepository.findByOrder(order);
         float total = 0;
+
+        System.out.println("Order ID: " + order.getId() + ", Order Details Count: " + orderDetails.size());
 
         for (OrderDetail orderDetail : orderDetails) {
             float productSalePrice = orderDetail.getProduct().getProductSalePrice();
             int quantity = orderDetail.getQuantity();
             float discount = orderDetail.getDiscount() != null ? orderDetail.getDiscount() : 1;
 
-            total += quantity * productSalePrice * discount;
+            System.out.println("Product Sale Price: " + productSalePrice + ", Quantity: " + quantity + ", Discount: " + discount);
+
+            total += quantity * productSalePrice * (1 - discount);
         }
+        System.out.println("Total for Order ID " + order.getId() + ": " + total);
         return total;
     }
 
+    public void deleteOrderById(int id){
+        orderRepository.deleteById(id);
+    }
+    public Order getOrderById(int id){
+        return orderRepository.findById(id).get();
+    }
     public void saveOrder(Order order){
         orderRepository.save(order);
     }

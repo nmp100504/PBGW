@@ -1,5 +1,6 @@
 package com.example.BuildPC.controller.Manager;
 
+import com.example.BuildPC.configuration.CustomUserDetails;
 import com.example.BuildPC.model.CartItem;
 import com.example.BuildPC.model.User;
 import com.example.BuildPC.service.OrderDetailService;
@@ -10,10 +11,12 @@ import com.example.BuildPC.model.OrderDetail;
 import com.example.BuildPC.service.ShoppingCartService;
 import com.example.BuildPC.service.implementation.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Date;
@@ -43,12 +46,22 @@ public class OrderController {
         return "ManagerDashBoard";
     }
     @GetMapping("/checkout")
-    public String showCheckout(Model model) {
-        Optional<User> currentUser = userService.getCurrentUser();
-        List<CartItem> cartItems = shoppingCartService.listCartItems(currentUser.get());
-        model.addAttribute("currentUser", currentUser);
-        model.addAttribute("cartItems", cartItems);
-        return "LandingPage/checkout";
+    public String showCheckout(Model model, @AuthenticationPrincipal CustomUserDetails userDetails) {
+        Optional<User> currentUser = userService.findByEmail(userDetails.getEmail());
+        if(currentUser.isPresent()) {
+            List<CartItem> cartItems = shoppingCartService.listCartItems(currentUser.get());
+            model.addAttribute("currentUser", currentUser);
+            model.addAttribute("cartItems", cartItems);
+            BigDecimal orderTotal = cartItems.stream()
+                    .map(item -> BigDecimal.valueOf(item.getProduct().getProductSalePrice())
+                            .multiply(BigDecimal.valueOf(item.getQuantity())))
+                    .reduce(BigDecimal.ZERO, BigDecimal::add);
+            // Modify if there are additional charges like shipping
+            model.addAttribute("orderTotal", orderTotal);
+            return "LandingPage/checkout";
+        }
+
+        return "auth/login_page";
     }
 
     @PostMapping("/saveBilling")

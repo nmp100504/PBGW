@@ -18,6 +18,9 @@ public class ShoppingCartService {
     private CartItemRepository cartItemRepository;
     @Autowired
     private ProductRepository productRepository;
+    public void removeAll(User user) {
+        cartItemRepository.removeAllByUser(user);
+    }
 
     public List<CartItem> listCartItems(User user){
         return cartItemRepository.findByUser(user);
