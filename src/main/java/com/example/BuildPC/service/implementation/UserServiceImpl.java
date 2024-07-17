@@ -1,6 +1,8 @@
 package com.example.BuildPC.service.implementation;
 
 import com.example.BuildPC.dto.RegistrationRequest;
+import com.example.BuildPC.mapper.PostMapper;
+import com.example.BuildPC.model.Post;
 import com.example.BuildPC.model.Role;
 import com.example.BuildPC.model.User;
 import com.example.BuildPC.repository.UserRepository;
@@ -13,7 +15,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
@@ -63,11 +67,11 @@ public class UserServiceImpl implements UserService {
         return userRepository.findById(id);
     }
 
-    @Transactional
-    @Override
-    public void updateUser(Long id, String firstName, String lastName, String email) {
-        userRepository.update(firstName, lastName, email, id);
-    }
+//    @Transactional
+//    @Override
+//    public void updateUser(Long id, String firstName, String lastName, String email) {
+//        userRepository.update(firstName, lastName, email, id);
+//    }
 
     @Transactional
     @Override
@@ -77,8 +81,19 @@ public class UserServiceImpl implements UserService {
         userRepository.deleteById(id);
     }
     @Override
-    public void updateUser(User user) {
+    public void updateUser(User user, String password) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
+        userRepository.save(user);
+    }
+    @Override
+    public void updateUser(User user, MultipartFile avatar) {
+        if (avatar != null && !avatar.isEmpty()) {
+            try {
+                user.setAvatar(avatar.getBytes());
+            } catch (IOException e) {
+                throw new RuntimeException("Failed to save thumbnail image", e);
+            }
+        }
         userRepository.save(user);
     }
 }

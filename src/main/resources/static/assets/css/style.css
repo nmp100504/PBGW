@@ -2192,6 +2192,12 @@ hr {
   margin-bottom: 20px;
   display: inline-block;
 }
+
+.pfp{
+  width: 200px !important;
+  height: 200px !important;
+}
+
 .ab_author .author_name {
   line-height: 1;
   font-size: 18px;

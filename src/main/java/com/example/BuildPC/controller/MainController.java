@@ -5,19 +5,23 @@ import com.example.BuildPC.model.Category;
 import com.example.BuildPC.model.Product;
 import com.example.BuildPC.model.User;
 import com.example.BuildPC.service.*;
+import com.example.BuildPC.utils.SecurityUtils;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.naming.Binding;
 import java.io.IOException;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Controller
@@ -51,28 +55,27 @@ public class MainController {
     }
 
     @GetMapping("/account")
-    public String showAccountPage(Model model, @AuthenticationPrincipal CustomUserDetails userDetails) {
-        if (userDetails != null) {
-            Optional<User> user = userService.findByEmail(userDetails.getEmail());
-            if (user.isPresent()) {
+    public String showAccountPage(Model model) {
+        String email = Objects.requireNonNull(SecurityUtils.getCurrentUser()).getEmail();
+        Optional<User> user = userService.findByEmail(email);
+        if (user.isPresent()) {
                 model.addAttribute("user", user.get());
                 return "auth/account_information";
             }
-        }
         return "LandingPage/index_1";
     }
 
 
 
     @GetMapping("/change-password")
-    public String changePassword(Model model, @AuthenticationPrincipal CustomUserDetails userDetails) {
-        if (userDetails != null) {
-            Optional<User> user = userService.findByEmail(userDetails.getEmail());
+    public String changePassword(Model model) {
+        String email = Objects.requireNonNull(SecurityUtils.getCurrentUser()).getEmail();
+        Optional<User> currentUser = userService.findByEmail(email);
+            Optional<User> user = userService.findByEmail(currentUser.get().getEmail());
             if (user.isPresent()) {
                 model.addAttribute("user", user.get());
                 return "auth/change_password";
             }
-        }
         return "redirect:/login";
     }
 
@@ -80,11 +83,11 @@ public class MainController {
     public String updatePassword(@RequestParam("oldPassword") String oldPassword,
                                  @RequestParam("newPassword") String newPassword,
                                  @RequestParam("confirmPassword") String confirmPassword,
-                                 @AuthenticationPrincipal CustomUserDetails userDetails,
                                  Model model) {
-        if (userDetails != null) {
-            Optional<User> userOptional = userService.findByEmail(userDetails.getEmail());
-            if (userOptional.isPresent()) {
+
+        String email = Objects.requireNonNull(SecurityUtils.getCurrentUser()).getEmail();
+        Optional<User> userOptional = userService.findByEmail(email);
+        if (userOptional.isPresent()) {
                 User user = userOptional.get();
                 if (!passwordEncoder.matches(oldPassword, user.getPassword())) {
                     model.addAttribute("error", "Old password is incorrect");
@@ -95,53 +98,42 @@ public class MainController {
                     return "auth/change_password";
                 }
                 user.setPassword((newPassword));
-                userService.updateUser(user);
+                userService.updateUser(user, newPassword);
                 return "redirect:/account";
             }
-        }
+
         return "redirect:/login";
     }
 
     @GetMapping("/update-user-info")
-    public String editInfo(Model model, @AuthenticationPrincipal CustomUserDetails userDetails) {
-        if (userDetails != null) {
-            Optional<User> user = userService.findByEmail(userDetails.getEmail());
+    public String editInfo(Model model) {
+        String email = Objects.requireNonNull(SecurityUtils.getCurrentUser()).getEmail();
+        Optional<User> user = userService.findByEmail(email);
             if (user.isPresent()) {
                 model.addAttribute("user", user.get());
                 return "auth/account_information";
             }
-        }
+
         return "LandingPage/index_1";
     }
     @PostMapping("/update-user-info")
     public String updateUserInfo(@RequestParam("firstName") String firstName,
                                  @RequestParam("lastName") String lastName,
                                  @RequestParam("phone") String phone,
-                                 @RequestParam("profileImage") MultipartFile profileImage,
-                                 @AuthenticationPrincipal CustomUserDetails userDetails,
-                                 HttpServletRequest request, Model model) {
-        if (userDetails != null) {
-            Optional<User> userOptional = userService.findByEmail(userDetails.getEmail());
-            if (userOptional.isPresent()) {
+                                 @RequestParam("avatar") MultipartFile avatar,
+                                 Model model) {
+        String email = Objects.requireNonNull(SecurityUtils.getCurrentUser()).getEmail();
+        Optional<User> userOptional = userService.findByEmail(email);
+        if (userOptional.isPresent()) {
                 User user = userOptional.get();
                 user.setFirstName(firstName);
                 user.setLastName(lastName);
                 user.setPhone(phone);
-
-//                if (!profileImage.isEmpty()) {
-//                    try {
-//                        String profileImageUrl = imageService.saveProfileImage(profileImage);
-//                        user.setProfileImage(profileImageUrl);
-//                    } catch (IOException e) {
-//                        e.printStackTrace();
-//                    }
-//                }
-
-                userService.updateUser(user);
+                userService.updateUser(user, avatar);
                 model.addAttribute("user", user);
                 return "auth/account_information";
             }
-        }
+
         return "redirect:/login";
     }
 }

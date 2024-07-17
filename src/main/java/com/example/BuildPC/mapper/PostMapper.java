@@ -22,7 +22,6 @@ public class PostMapper {
                                 .collect(Collectors.toSet()))
                 .createdBy(mapToUserDto(post.getCreatedBy()))
                 .thumbnailData(post.getThumbnailData())
-//                .thumbnail(post.getThumbnail())
                 .build();
     }
 
@@ -39,7 +38,6 @@ public class PostMapper {
                         .map(CommentMapper::mapToComment)
                         .collect(Collectors.toSet()))
                 .thumbnailData(postDto.getThumbnailData())
-//                .thumbnail(postDto.getThumbnail())
                 .build();
     }
 }

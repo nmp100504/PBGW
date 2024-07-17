@@ -1,4 +1,4 @@
-package com.example.BuildPC.controller.Admin;
+package com.example.BuildPC.controller;
 
 import com.example.BuildPC.service.*;
 import com.example.BuildPC.dto.RegistrationRequest;
