@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.NaturalId;
 
+import java.util.Base64;
 import java.util.Set;
 
 @Data
@@ -48,8 +49,7 @@ public class User  {
     @OneToMany(mappedBy = "user")
     private Set<Order> orders;
 
-    @Column(name = "profile_image")
-    private String profileImage;
+
 
     public User(String email, String firstName, String lastName, String password, String phone, Role role) {
         this.email = email;
@@ -60,6 +60,12 @@ public class User  {
         this.role = role;
     }
 
+    @Lob
+    @Column(nullable = true, columnDefinition = "LONGBLOB")
+    private byte[] avatar;
 
+    public String getAvatarDataBase64() {
+        return Base64.getEncoder().encodeToString(this.avatar);
+    }
 
 }

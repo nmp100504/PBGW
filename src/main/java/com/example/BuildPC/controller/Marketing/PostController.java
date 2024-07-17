@@ -3,17 +3,13 @@ package com.example.BuildPC.controller.Marketing;
 
 import com.example.BuildPC.dto.CommentDto;
 import com.example.BuildPC.dto.PostDto;
-import com.example.BuildPC.model.Post;
 import com.example.BuildPC.service.CommentService;
 import com.example.BuildPC.service.PostService;
-import com.example.BuildPC.utils.FileUploadUtil;
 import jakarta.validation.Valid;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 

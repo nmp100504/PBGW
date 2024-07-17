@@ -6,6 +6,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Base64;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -35,4 +37,10 @@ public class UserDto {
 
     @NotEmpty(message = "The role is required")
     private String role;
+
+    private byte[] avatar;
+
+    public String getAvatarDataBase64() {
+        return Base64.getEncoder().encodeToString(this.avatar);
+    }
 }
