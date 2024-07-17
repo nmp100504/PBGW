@@ -3,17 +3,13 @@ package com.example.BuildPC.controller.Marketing;
 
 import com.example.BuildPC.dto.CommentDto;
 import com.example.BuildPC.dto.PostDto;
-import com.example.BuildPC.model.Post;
 import com.example.BuildPC.service.CommentService;
 import com.example.BuildPC.service.PostService;
-import com.example.BuildPC.utils.FileUploadUtil;
 import jakarta.validation.Valid;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -49,48 +45,38 @@ public class PostController {
 
     @PostMapping("/createPost")
     public String createPost(@Valid @ModelAttribute("post") PostDto postDto,
+                             @RequestParam("thumbnail") MultipartFile thumbnail,
                              BindingResult result,
                              Model model) throws IOException {
-        if(postDto.getThumbnailImage().isEmpty()){
-            result.addError(new FieldError("postDto", "thumbnailImage", "Please select a file"));
-        }
-        if(postService.findPostByUrl(postDto.getUrl()) != null){
-            result.addError(new FieldError("postDto", "postTitle", "Post title already exists"));
-        }
-        if(result.hasErrors()){
+        if (result.hasErrors()) {
             model.addAttribute("post", postDto);
             return "marketing/create";
         }
         postDto.setUrl(getUrl(postDto.getTitle()));
-        postService.createPost(postDto);
+        postService.createPost(postDto, thumbnail);
         return "redirect:/posts/dashboard";
     }
 
 
     @GetMapping("/{postId}/edit")
-    public String editPostForm(@PathVariable Long postId, Model model){
+    public String editPostForm(@PathVariable Long postId, Model model) {
         PostDto postDto = postService.findPostById(postId);
         model.addAttribute("post", postDto);
         return "marketing/edit";
     }
 
     @PostMapping("/{postId}")
-    public String updatePost(@Valid @ModelAttribute("post") PostDto post,
+    public String updatePost(@Valid @ModelAttribute("post") PostDto postDTO,
+                             @RequestParam("thumbnail") MultipartFile thumbnail,
                              @PathVariable("postId") Long postId,
                              BindingResult result,
-                             Model model){
-        if(post.getThumbnailImage().isEmpty()){
-            result.addError(new FieldError("post", "thumbnailImage", "Please select a file"));
-        }
-        if(postService.findPostByUrl(post.getUrl()) != null){
-            result.addError(new FieldError("post", "postTitle", "Post title already exists"));
-        }
-        if(result.hasErrors()){
-            model.addAttribute("post", post);
+                             Model model) {
+        if (result.hasErrors()) {
+            model.addAttribute("post", postDTO);
             return "marketing/edit";
         }
-        post.setId(postId);
-        postService.updatePost(post);
+        postDTO.setId(postId);
+        postService.updatePost(postDTO, thumbnail);
         return "redirect:/posts/dashboard";
     }
 

@@ -18,9 +18,10 @@ public class PostMapper {
                 .createdOn(post.getCreatedOn())
                 .updatedOn(post.getUpdatedOn())
                 .comments(post.getComments().stream()
-                        .map((comment) -> CommentMapper.mapToCommentDto(comment))
+                        .map(CommentMapper::mapToCommentDto)
                                 .collect(Collectors.toSet()))
                 .createdBy(mapToUserDto(post.getCreatedBy()))
+                .thumbnailData(post.getThumbnailData())
 //                .thumbnail(post.getThumbnail())
                 .build();
     }
@@ -35,8 +36,9 @@ public class PostMapper {
                 .createdOn(postDto.getCreatedOn())
                 .updatedOn(postDto.getUpdatedOn())
                 .comments(postDto.getComments().stream()
-                        .map((comment) -> CommentMapper.mapToComment(comment))
+                        .map(CommentMapper::mapToComment)
                         .collect(Collectors.toSet()))
+                .thumbnailData(postDto.getThumbnailData())
 //                .thumbnail(postDto.getThumbnail())
                 .build();
     }
