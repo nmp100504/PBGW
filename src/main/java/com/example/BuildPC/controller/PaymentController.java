@@ -164,29 +164,22 @@ public class PaymentController {
         Optional<User> currentUser = userService.findByEmail(userDetails.getEmail());
         if (currentUser.isPresent()) {
             User user = currentUser.get();
-            List<CartItem> itemsList = shoppingCartService.listCartItems(user);
-
             LocalDate currentDate = LocalDate.now();
             Date date = Date.from(currentDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
 
             Order order = orderService.getOrderById(Integer.parseInt(txnRef));
 
             if ("00".equals(responseCode)) {
-                order.setStatus(Status.IN_PROGRESS); // Payment successful
-                redirectView.setUrl("/payment/PaymentSuccess");
+                order.setStatus(Status.IN_PROGRESS);
+                shoppingCartService.removeAll(user);
+                redirectView.setUrl("/payment/PaymentSuccess");// Payment successful
             } else {
-                order.setStatus(Status.WAIT); // Payment failed
+                order.setStatus(Status.CANCEL); // Payment failed
                 redirectView.setUrl("/payment/PaymentFail");
             }
 
             orderService.saveOrder(order);
 
-            for (CartItem item : itemsList) {
-                OrderDetail od = new OrderDetail(item.getQuantity(), 0f, order, item.getProduct());
-                // Save each OrderDetail
-                // Assuming you have an OrderDetailService to save order details
-                // orderDetailService.saveOrderDetail(od); // Uncomment and implement this if needed
-            }
         } else {
             redirectView.setUrl("/login");
         }

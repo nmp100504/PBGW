@@ -301,13 +301,13 @@
                   <div class="col col-md-6 col-sm-6">
                     <div class="form_item">
                       <h4 class="input_title">First Name</h4>
-                      <input type="text" name="firstname" th:placeholder="${currentUser != null ? currentUser.get().firstName : ''}" placeholder="First Name *">
+                      <input type="text" name="firstname" th:placeholder="${currentUser != null ? currentUser.get().firstName : ''}" placeholder="First Name *" required>
                     </div>
                   </div>
                   <div class="col col-md-6 col-sm-6">
                     <div class="form_item">
                       <h4 class="input_title">Last Name</h4>
-                      <input type="text" name="lastname" th:placeholder="${currentUser != null ? currentUser.get().lastName : ''}" placeholder="Last Name *">
+                      <input type="text" name="lastname" th:placeholder="${currentUser != null ? currentUser.get().lastName : ''}" placeholder="Last Name *" required>
                     </div>
                   </div>
                 </div>
@@ -315,26 +315,26 @@
                 <!-- Address Fields -->
                 <div class="form_item">
                   <h4 class="input_title">Address *</h4>
-                  <input type="text" name="streetaddress" placeholder="Street Address">
+                  <input type="text" name="streetaddress" placeholder="Street Address" required>
                   <input type="text" name="apartmentaddress" placeholder="Apartment, suite, unit etc. (optional)">
                 </div>
 
                 <div class="form_item">
                   <h4 class="input_title">Town / City *</h4>
-                  <input type="text" name="town" placeholder="Town / City">
+                  <input type="text" name="town" placeholder="Town / City" required>
                 </div>
 
                 <div class="row">
                   <div class="col col-md-6 col-sm-6">
                     <div class="form_item">
                       <h4 class="input_title">Country *</h4>
-                      <input type="text" name="country" placeholder="Country">
+                      <input type="text" name="country" placeholder="Country" required>
                     </div>
                   </div>
                   <div class="col col-md-6 col-sm-6">
                     <div class="form_item">
                       <h4 class="input_title">Postcode / Zip *</h4>
-                      <input type="text" name="postcode" placeholder="Postcode / Zip">
+                      <input type="text" name="postcode" placeholder="Postcode / Zip" required>
                     </div>
                   </div>
                 </div>
@@ -342,8 +342,8 @@
                 <!-- Contact Info -->
                 <div class="form_item mb-5">
                   <h4 class="input_title">Contact Info *</h4>
-                  <input type="email" name="email" th:placeholder="${currentUser != null ? currentUser.get().email : ''}" placeholder="Email Address">
-                  <input type="tel" name="telephone" th:placeholder="${currentUser != null ? currentUser.get().phone : ''}" placeholder="Phone Number">
+                  <input type="email" name="email" th:placeholder="${currentUser != null ? currentUser.get().email : ''}" placeholder="Email Address" required>
+                  <input type="tel" name="telephone" th:placeholder="${currentUser != null ? currentUser.get().phone : ''}" placeholder="Phone Number" required>
                 </div>
 
                 <!-- Ship to a different address checkbox and note textarea -->
@@ -357,7 +357,6 @@
               </div>
 
               <!-- Your Order Section -->
-              <!-- Cart Subtotal and Order Total in Your Order Section -->
               <div class="checkout_widget">
                 <h3 class="checkout_widget_title">Your Order</h3>
                 <div class="cart_table checkout_table">
@@ -400,6 +399,7 @@
               </div>
 
             </form>
+
 
 
 
