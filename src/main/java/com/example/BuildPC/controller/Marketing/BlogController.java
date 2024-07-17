@@ -2,8 +2,12 @@ package com.example.BuildPC.controller.Marketing;
 
 import com.example.BuildPC.dto.CommentDto;
 import com.example.BuildPC.dto.PostDto;
+import com.example.BuildPC.dto.UserDto;
 import com.example.BuildPC.model.Post;
 import com.example.BuildPC.service.PostService;
+import com.example.BuildPC.service.UserService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,10 +21,13 @@ import java.util.List;
 @RequestMapping("/blog")
 @Controller
 public class BlogController {
+    private static final Logger logger = LoggerFactory.getLogger(PostController.class);
 
     private PostService postService;
+    private UserService userService;
 
-    public BlogController(PostService postService) {
+    public BlogController(PostService postService, UserService userService) {
+        this.userService = userService;
         this.postService = postService;
     }
 
@@ -35,10 +42,17 @@ public class BlogController {
     @GetMapping("/{postUrl}")
     private String showBlogPost(@PathVariable("postUrl") String postUrl, Model model){
         PostDto postDto = postService.findPostByUrl(postUrl);
-
+        UserDto userDto = postDto.getCreatedBy();
         CommentDto commentDto = new CommentDto();
+        // Fetch most recent posts
+        List<PostDto> recentPosts = postService.getTop3RecentPosts();
+        logger.debug("Recent posts passed to model: {}", recentPosts);
+
+        model.addAttribute("user", userDto);
         model.addAttribute("post", postDto);
         model.addAttribute("comment", commentDto);
+        model.addAttribute("recentPosts", recentPosts);
+
         return "marketing/view";
     }
 

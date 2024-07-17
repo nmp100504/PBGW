@@ -4,6 +4,7 @@ import com.example.BuildPC.dto.PostDto;
 import com.example.BuildPC.model.Post;
 import com.example.BuildPC.model.User;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -24,7 +25,11 @@ public interface PostService {
 
     PostDto findPostByUrl(String postUrl);
 
-//    List<PostDto> searchPosts(String query);
-
     Page<PostDto> findPaginatedPost(int pageNo, int pageSize);
+
+    List<PostDto> getTop3RecentPosts();
+//    List<PostDto> getMostRecentPosts(int limit);
+//
+//    List<PostDto> getMostRecentPostsByAuthor(Long authorId, int limit);
+
 }

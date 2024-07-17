@@ -10,9 +10,12 @@ import com.example.BuildPC.repository.UserRepository;
 import com.example.BuildPC.service.PostService;
 import com.example.BuildPC.utils.SecurityUtils;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -22,9 +25,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -124,12 +125,35 @@ public class PostServiceImpl implements PostService {
         Pageable pageable = PageRequest.of(pageNo -1, pageSize);
         return this.postRepository.findAll(pageable).map(PostMapper::mapToPostDTO);
     }
+    private static final Logger logger = LoggerFactory.getLogger(PostServiceImpl.class);
 
-//    private String saveThumbnail(MultipartFile file) throws IOException {
-//        Files.createDirectories(storageLocation);
-//        String fileName = file.getOriginalFilename();
-//        Path targetLocation = storageLocation.resolve(fileName);
-//        Files.copy(file.getInputStream(), targetLocation);
-//        return fileName;
+    @Override
+    public List<PostDto> getTop3RecentPosts() {
+        List<Post> recentPosts = postRepository.findTop3ByOrderByCreatedOnDesc();
+        List<PostDto> postDtos = recentPosts.stream()
+                .map(PostMapper::mapToPostDTO)
+                .collect(Collectors.toList());
+        logger.debug("Top 3 recent posts: {}", postDtos);
+        return postDtos;
+    }
+
+//    @Override
+//    public List<PostDto> getMostRecentPosts(int limit) {
+//        Pageable pageable = PageRequest.of(0, limit, Sort.by(Sort.Direction.DESC, "createdOn"));
+//        Page<Post> posts = postRepository.findAll(pageable);
+//        if (posts.isEmpty()) {
+//            return null;
+//        }
+//        return posts.stream().map(PostMapper::mapToPostDTO).collect(Collectors.toList());
+//    }
+//
+//    @Override
+//    public List<PostDto> getMostRecentPostsByAuthor(Long authorId, int limit) {
+//        Pageable pageable = PageRequest.of(0, limit, Sort.by(Sort.Direction.DESC, "createdOn"));
+//        Page<Post> posts = postRepository.findByCreatedById(authorId, pageable);
+//        if (posts.isEmpty()) {
+//            return null;
+//        }
+//        return posts.stream().map(PostMapper::mapToPostDTO).collect(Collectors.toList());
 //    }
 }

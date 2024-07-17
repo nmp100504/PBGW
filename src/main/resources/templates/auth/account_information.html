@@ -407,11 +407,9 @@
                     </div>
                     <div class="form-group">
                       <label for="avatar">Profile Image</label>
-                      <div  th:if="${user.getAvatarDataBase64() != null}" class="d-flex justify-content-center">
-                        <img th:src="@{'data:image/jpeg;base64,' + ${user.getAvatarDataBase64}}" alt="Profile Image" style="width: 200px !important; height: 200px !important;">
-                      </div>
-                      <div  th:unless="${user.getAvatarDataBase64() != null}" class="d-flex justify-content-center">
-                        <img th:src="@{/images/pfp.jpg}" alt="Default Profile Image" style="width: 200px !important; height: 200px !important;">
+                      <div class="d-flex justify-content-center">
+                        <img th:if="${user.avatar != null}" th:src="@{'data:image/jpeg;base64,' + ${user.getAvatarDataBase64()}}" alt="Profile Image" style="width: 200px !important; height: 200px !important;">
+                        <img th:unless="${user.avatar != null}" th:src="@{/images/pfp.jpg}" alt="Default Profile Image" style="width: 200px !important; height: 200px !important;">
                       </div>
                       <input type="file" id="avatar" name="avatar" class="form-control" accept="image/*">
                     </div>
