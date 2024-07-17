@@ -15,7 +15,10 @@
   <th:block th:replace="fragment/framework :: framework"></th:block>
 
 </head>
-
+<style>ul {
+  list-style-type: none;
+}
+</style>
 
 <body>
 
@@ -287,28 +290,41 @@
 <!--                  </div>-->
 
                   <div class="quantity_wrap">
-                    <form action="#">
+                    <form id="quantity-form">
                       <div class="quantity_input">
-                        <button type="button" class="input_number_decrement" th:data-pid="${product.id}">
+                        <button type="button" class="input_number_decrement">
                           <i class="fal fa-minus"></i>
                         </button>
-                        <input class="input_number" type="number" th:value="1" onkeydown="return false;" th:id="'quantity' + ${product.id}" th:data-pid="${product.id}">
-                        <button type="button" class="input_number_increment" th:data-pid="${product.id}">
+                        <input id="quantity" class="input_number" type="number" value="1" min="1" onkeydown="return false" onwheel="return false">
+                        <button type="button" class="input_number_increment">
                           <i class="fal fa-plus"></i>
                         </button>
                       </div>
                     </form>
-
-                    <div class="total_price">
-                      Total: $620,99
-                    </div>
                   </div>
 
                   <ul class="default_btns_group ul_li">
-<!--                    <li><a class="addtocart_btn" href="shop_details.html">Add To Cart</a></li>-->
-                    <li><button class="addtocart_btn" id="buttonAdd2Cart" >Add To Cart</button></li>
-<!--                    <li><a href="#!"><i class="fa-solid fa-arrows-rotate"></i></a></li>-->
-<!--                    <li><a href="#!"><i class="fas fa-heart"></i></a></li>-->
+                    <form  id="add-to-cart-form" th:action="@{/add-to-cart}" method="post">
+                      <input type="hidden" name="id" th:value="${product.id}">
+                      <input type="hidden" name="quantity" id="cart-quantity">
+                      <li>
+                        <a class="addtocart_btn" href="#" onclick="submitAddToCartForm()">Add To Cart</a>
+                      </li>
+                    </form>
+<!--                    <form class="m-1" th:action="@{/product/{id}(id = ${product.id})}">-->
+<!--                      <li><a href="#"><i class="fa-solid fa-arrows-rotate"></i></a></li>-->
+<!--                    </form>-->
+                    <form  th:action="@{/product/{id}(id=${product.id})}">
+                      <li>
+                        <button type="submit"><a href=""><i class="fa-solid fa-arrows-rotate"></i></a></button>
+                      </li>
+                    </form>
+                    <form th:action="@{/add-to-wishlist}" method="post">
+                      <input type="hidden" name="id" th:value="${product.id}">
+                      <li>
+                        <button type="submit"><a href=""><i class="fas fa-heart"></i></a></button>
+                      </li>
+                    </form>
                   </ul>
 
 <!--                  <ul class="default_share_links ul_li">-->
@@ -408,84 +424,84 @@
                 </div>
 
                 <div class="tab-pane fade" id="reviews_tab" role="tabpanel">
-                  <div class="average_area">
-                    <h4 class="reviews_tab_title">Average Ratings</h4>
-                    <div class="row align-items-center">
-                      <div class="col-md-5 order-last">
-                        <div class="average_rating_text">
-                          <ul class="rating_star ul_li_center">
-                            <li><i class="fas fa-star"></i></li>
-                            <li><i class="fas fa-star"></i></li>
-                            <li><i class="fas fa-star"></i></li>
-                            <li><i class="fas fa-star"></i></li>
-                            <li><i class="fas fa-star-half-alt"></i></li>
-                          </ul>
-                          <p class="mb-0">
-                            Average Star Rating: <span>4.5 out of 5</span> (2 vote)
-                          </p>
-                        </div>
-                      </div>
-                      <div class="col-md-7">
-                        <div class="product_ratings_progressbar">
-                          <ul class="five_star ul_li">
-                            <li><span>5 Star</span></li>
-                            <li><div class="progress_bar"></div></li>
-                            <li>
-                              <i class="fas fa-star"></i>
-                              <i class="fas fa-star"></i>
-                              <i class="fas fa-star"></i>
-                              <i class="fas fa-star"></i>
-                              <i class="fas fa-star"></i>
-                            </li>
-                          </ul>
-                          <ul class="four_star ul_li">
-                            <li><span>4 Star</span></li>
-                            <li><div class="progress_bar"></div></li>
-                            <li>
-                              <i class="fas fa-star"></i>
-                              <i class="fas fa-star"></i>
-                              <i class="fas fa-star"></i>
-                              <i class="fas fa-star"></i>
-                              <i class="fa-solid fa-star"></i>
-                            </li>
-                          </ul>
-                          <ul class="three_star ul_li">
-                            <li><span>3 Star</span></li>
-                            <li><div class="progress_bar"></div></li>
-                            <li>
-                              <i class="fas fa-star"></i>
-                              <i class="fas fa-star"></i>
-                              <i class="fas fa-star"></i>
-                              <i class="fa-solid fa-star"></i>
-                              <i class="fa-solid fa-star"></i>
-                            </li>
-                          </ul>
-                          <ul class="two_star ul_li">
-                            <li><span>2 Star</span></li>
-                            <li><div class="progress_bar"></div></li>
-                            <li>
-                              <i class="fas fa-star"></i>
-                              <i class="fas fa-star"></i>
-                              <i class="fa-solid fa-star"></i>
-                              <i class="fa-solid fa-star"></i>
-                              <i class="fa-solid fa-star"></i>
-                            </li>
-                          </ul>
-                          <ul class="one_star ul_li">
-                            <li><span>1 Star</span></li>
-                            <li><div class="progress_bar"></div></li>
-                            <li>
-                              <i class="fas fa-star"></i>
-                              <i class="fa-solid fa-star"></i>
-                              <i class="fa-solid fa-star"></i>
-                              <i class="fa-solid fa-star"></i>
-                              <i class="fa-solid fa-star"></i>
-                            </li>
-                          </ul>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
+<!--                  <div class="average_area">-->
+<!--                    <h4 class="reviews_tab_title">Average Ratings</h4>-->
+<!--                    <div class="row align-items-center">-->
+<!--                      <div class="col-md-5 order-last">-->
+<!--                        <div class="average_rating_text">-->
+<!--                          <ul class="rating_star ul_li_center">-->
+<!--                            <li><i class="fas fa-star"></i></li>-->
+<!--                            <li><i class="fas fa-star"></i></li>-->
+<!--                            <li><i class="fas fa-star"></i></li>-->
+<!--                            <li><i class="fas fa-star"></i></li>-->
+<!--                            <li><i class="fas fa-star-half-alt"></i></li>-->
+<!--                          </ul>-->
+<!--                          <p class="mb-0">-->
+<!--                            Average Star Rating: <span>4.5 out of 5</span> (2 vote)-->
+<!--                          </p>-->
+<!--                        </div>-->
+<!--                      </div>-->
+<!--                      <div class="col-md-7">-->
+<!--                        <div class="product_ratings_progressbar">-->
+<!--                          <ul class="five_star ul_li">-->
+<!--                            <li><span>5 Star</span></li>-->
+<!--                            <li><div class="progress_bar"></div></li>-->
+<!--                            <li>-->
+<!--                              <i class="fas fa-star"></i>-->
+<!--                              <i class="fas fa-star"></i>-->
+<!--                              <i class="fas fa-star"></i>-->
+<!--                              <i class="fas fa-star"></i>-->
+<!--                              <i class="fas fa-star"></i>-->
+<!--                            </li>-->
+<!--                          </ul>-->
+<!--                          <ul class="four_star ul_li">-->
+<!--                            <li><span>4 Star</span></li>-->
+<!--                            <li><div class="progress_bar"></div></li>-->
+<!--                            <li>-->
+<!--                              <i class="fas fa-star"></i>-->
+<!--                              <i class="fas fa-star"></i>-->
+<!--                              <i class="fas fa-star"></i>-->
+<!--                              <i class="fas fa-star"></i>-->
+<!--                              <i class="fa-solid fa-star"></i>-->
+<!--                            </li>-->
+<!--                          </ul>-->
+<!--                          <ul class="three_star ul_li">-->
+<!--                            <li><span>3 Star</span></li>-->
+<!--                            <li><div class="progress_bar"></div></li>-->
+<!--                            <li>-->
+<!--                              <i class="fas fa-star"></i>-->
+<!--                              <i class="fas fa-star"></i>-->
+<!--                              <i class="fas fa-star"></i>-->
+<!--                              <i class="fa-solid fa-star"></i>-->
+<!--                              <i class="fa-solid fa-star"></i>-->
+<!--                            </li>-->
+<!--                          </ul>-->
+<!--                          <ul class="two_star ul_li">-->
+<!--                            <li><span>2 Star</span></li>-->
+<!--                            <li><div class="progress_bar"></div></li>-->
+<!--                            <li>-->
+<!--                              <i class="fas fa-star"></i>-->
+<!--                              <i class="fas fa-star"></i>-->
+<!--                              <i class="fa-solid fa-star"></i>-->
+<!--                              <i class="fa-solid fa-star"></i>-->
+<!--                              <i class="fa-solid fa-star"></i>-->
+<!--                            </li>-->
+<!--                          </ul>-->
+<!--                          <ul class="one_star ul_li">-->
+<!--                            <li><span>1 Star</span></li>-->
+<!--                            <li><div class="progress_bar"></div></li>-->
+<!--                            <li>-->
+<!--                              <i class="fas fa-star"></i>-->
+<!--                              <i class="fa-solid fa-star"></i>-->
+<!--                              <i class="fa-solid fa-star"></i>-->
+<!--                              <i class="fa-solid fa-star"></i>-->
+<!--                              <i class="fa-solid fa-star"></i>-->
+<!--                            </li>-->
+<!--                          </ul>-->
+<!--                        </div>-->
+<!--                      </div>-->
+<!--                    </div>-->
+<!--                  </div>-->
 
                   <div class="customer_reviews">
                     <h4 class="reviews_tab_title">2 reviews for this product</h4>
@@ -593,13 +609,13 @@
                   <h3 class="item_title">
                     <a href="shop_details.html">Samsung Galaxy Note IV</a>
                   </h3>
-                  <ul class="rating_star ul_li">
-                    <li><i class="fa-solid fa-star"></i></li>
-                    <li><i class="fa-solid fa-star"></i></li>
-                    <li><i class="fa-solid fa-star"></i></li>
-                    <li><i class="fa-solid fa-star"></i></li>
-                    <li><i class="fa-solid fa-star"></i></li>
-                  </ul>
+<!--                  <ul class="rating_star ul_li">-->
+<!--                    <li><i class="fa-solid fa-star"></i></li>-->
+<!--                    <li><i class="fa-solid fa-star"></i></li>-->
+<!--                    <li><i class="fa-solid fa-star"></i></li>-->
+<!--                    <li><i class="fa-solid fa-star"></i></li>-->
+<!--                    <li><i class="fa-solid fa-star"></i></li>-->
+<!--                  </ul>-->
                   <div class="item_price">
                     <span>$620.00</span>
                     <del>$720.00</del>
@@ -622,13 +638,13 @@
                   <h3 class="item_title">
                     <a href="shop_details.html">40 '' Vikan HD ULTRA</a>
                   </h3>
-                  <ul class="rating_star ul_li">
-                    <li><i class="fa-solid fa-star"></i></li>
-                    <li><i class="fa-solid fa-star"></i></li>
-                    <li><i class="fa-solid fa-star"></i></li>
-                    <li><i class="fa-solid fa-star"></i></li>
-                    <li><i class="fa-solid fa-star"></i></li>
-                  </ul>
+<!--                  <ul class="rating_star ul_li">-->
+<!--                    <li><i class="fa-solid fa-star"></i></li>-->
+<!--                    <li><i class="fa-solid fa-star"></i></li>-->
+<!--                    <li><i class="fa-solid fa-star"></i></li>-->
+<!--                    <li><i class="fa-solid fa-star"></i></li>-->
+<!--                    <li><i class="fa-solid fa-star"></i></li>-->
+<!--                  </ul>-->
                   <div class="item_price">
                     <span>$620.00</span>
                     <del>$720.00</del>
@@ -654,13 +670,13 @@
                   <h3 class="item_title">
                     <a href="shop_details.html">Samsung Galaxy Note IV</a>
                   </h3>
-                  <ul class="rating_star ul_li">
-                    <li><i class="fa-solid fa-star"></i></li>
-                    <li><i class="fa-solid fa-star"></i></li>
-                    <li><i class="fa-solid fa-star"></i></li>
-                    <li><i class="fa-solid fa-star"></i></li>
-                    <li><i class="fa-solid fa-star"></i></li>
-                  </ul>
+<!--                  <ul class="rating_star ul_li">-->
+<!--                    <li><i class="fa-solid fa-star"></i></li>-->
+<!--                    <li><i class="fa-solid fa-star"></i></li>-->
+<!--                    <li><i class="fa-solid fa-star"></i></li>-->
+<!--                    <li><i class="fa-solid fa-star"></i></li>-->
+<!--                    <li><i class="fa-solid fa-star"></i></li>-->
+<!--                  </ul>-->
                   <div class="item_price">
                     <span>$620.00</span>
                     <del>$720.00</del>
@@ -683,13 +699,13 @@
                   <h3 class="item_title">
                     <a href="shop_details.html">Samsung Galaxy Note IV</a>
                   </h3>
-                  <ul class="rating_star ul_li">
-                    <li><i class="fa-solid fa-star"></i></li>
-                    <li><i class="fa-solid fa-star"></i></li>
-                    <li><i class="fa-solid fa-star"></i></li>
-                    <li><i class="fa-solid fa-star"></i></li>
-                    <li><i class="fa-solid fa-star"></i></li>
-                  </ul>
+<!--                  <ul class="rating_star ul_li">-->
+<!--                    <li><i class="fa-solid fa-star"></i></li>-->
+<!--                    <li><i class="fa-solid fa-star"></i></li>-->
+<!--                    <li><i class="fa-solid fa-star"></i></li>-->
+<!--                    <li><i class="fa-solid fa-star"></i></li>-->
+<!--                    <li><i class="fa-solid fa-star"></i></li>-->
+<!--                  </ul>-->
                   <div class="item_price">
                     <span>$620.00</span>
                     <del>$720.00</del>
@@ -715,13 +731,13 @@
                   <h3 class="item_title">
                     <a href="shop_details.html">Samsung Galaxy Note IV</a>
                   </h3>
-                  <ul class="rating_star ul_li">
-                    <li><i class="fa-solid fa-star"></i></li>
-                    <li><i class="fa-solid fa-star"></i></li>
-                    <li><i class="fa-solid fa-star"></i></li>
-                    <li><i class="fa-solid fa-star"></i></li>
-                    <li><i class="fa-solid fa-star"></i></li>
-                  </ul>
+<!--                  <ul class="rating_star ul_li">-->
+<!--                    <li><i class="fa-solid fa-star"></i></li>-->
+<!--                    <li><i class="fa-solid fa-star"></i></li>-->
+<!--                    <li><i class="fa-solid fa-star"></i></li>-->
+<!--                    <li><i class="fa-solid fa-star"></i></li>-->
+<!--                    <li><i class="fa-solid fa-star"></i></li>-->
+<!--                  </ul>-->
                   <div class="item_price">
                     <span>$620.00</span>
                     <del>$720.00</del>
@@ -779,6 +795,24 @@
    <th:block th:replace="fragment/script :: script"></th:block>
 
   </body>
+<script>
+  document.querySelector('.input_number_decrement').addEventListener('click', function() {
+    var quantityInput = document.getElementById('quantity');
+    if (quantityInput.value > 1) {
+      quantityInput.value = parseInt(quantityInput.value) - 1;
+    }
+  });
 
+  document.querySelector('.input_number_increment').addEventListener('click', function() {
+    var quantityInput = document.getElementById('quantity');
+    quantityInput.value = parseInt(quantityInput.value) + 1;
+  });
+
+  function submitAddToCartForm() {
+    var quantity = document.getElementById('quantity').value;
+    document.getElementById('cart-quantity').value = quantity;
+    document.getElementById('add-to-cart-form').submit();
+  }
+</script>
 <!-- Mirrored from webthunder.net/html/getyootech/shop_details.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 19 May 2024 08:48:29 GMT -->
 </html>

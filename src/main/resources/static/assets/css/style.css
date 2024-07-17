@@ -2198,6 +2198,14 @@ hr {
   height: 200px !important;
 }
 
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  margin: 0;
+}
+
 .ab_author .author_name {
   line-height: 1;
   font-size: 18px;
