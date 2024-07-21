@@ -19,8 +19,7 @@
 
     <!-- Custom styles for this template-->
     <link th:href="@{/assetsDashboard/css/sb-admin.css}" rel="stylesheet">
-    <link th:href="@{/assetsDashboard/css/style.css}" rel="stylesheet">
-    <link th:rel="stylesheet" href="../css/colReorder-bootstrap4.css}">
+
 </head>
 
 <body id="page-top">
@@ -56,12 +55,11 @@
 
     <!-- Sidebar -->
 
-
     <ul th:fragment="sidebar" class="sidebar navbar-nav">
         <li class="nav-item active">
             <a class="nav-link" href="/ManagerDashBoard">
                 <i class="fas fa-fw fa-tachometer-alt"></i>
-                <span>Dashboard</span>
+                <span> Dashboard</span>
             </a>
         </li>
 
@@ -87,6 +85,7 @@
         </li>
     </ul>
 
+
     <div id="content-wrapper">
 
         <div class="container-fluid">
@@ -96,7 +95,7 @@
                 <li class="breadcrumb-item">
                     <a href="/ManagerDashBoard">Dashboard</a>
                 </li>
-                <li class="breadcrumb-item active">Category Tables</li>
+                <li class="breadcrumb-item active">Product Tables</li>
             </ol>
             <div class="row">
                 <div class="col-xl-4 col-sm-6 mb-3">
@@ -105,9 +104,9 @@
                             <div class="card-body-icon">
                                 <i class="fas fa-fw fa-comments"></i>
                             </div>
-                            <div class="mr-5" th:text="${totalCategories + ' Total Categories'}"></div>
+                            <div class="mr-5" th:text="${totalProducts + ' Total Products'}"></div>
                         </div>
-                        <a class="card-footer text-white clearfix small z-1" href="/ManagerDashBoard/categoryList">
+                        <a class="card-footer text-white clearfix small z-1" href="/ManagerDashBoard/productList">
                             <span class="float-left">View Details</span>
                             <span class="float-right">
                   <i class="fas fa-angle-right"></i>
@@ -121,9 +120,9 @@
                             <div class="card-body-icon">
                                 <i class="fas fa-fw fa-list"></i>
                             </div>
-                            <div class="mr-5" th:text="${activeCategories + ' Active Categories'}"></div>
+                            <div class="mr-5" th:text="${activeProducts + ' Active Products'}"></div>
                         </div>
-                        <a class="card-footer text-white clearfix small z-1" href="/ManagerDashBoard/categoryList/activeCategory">
+                        <a class="card-footer text-white clearfix small z-1" href="/ManagerDashBoard/productList/activeProduct">
                             <span class="float-left">View Details</span>
                             <span class="float-right">
                   <i class="fas fa-angle-right"></i>
@@ -137,9 +136,9 @@
                             <div class="card-body-icon">
                                 <i class="fas fa-fw fa-shopping-cart"></i>
                             </div>
-                            <div class="mr-5" th:text="${inActiveCategories + ' Inactive Categories'}"></div>
+                            <div class="mr-5" th:text="${inActiveProducts + ' Inactive Products'}"></div>
                         </div>
-                        <a class="card-footer text-white clearfix small z-1" href="/ManagerDashBoard/categoryList/inActiveCategory">
+                        <a class="card-footer text-white clearfix small z-1" href="/ManagerDashBoard/productList/inActiveProduct">
                             <span class="float-left">View Details</span>
                             <span class="float-right">
                   <i class="fas fa-angle-right"></i>
@@ -152,74 +151,72 @@
             <div class="card mb-3">
                 <div class="card-header">
                     <i class="fas fa-table"></i>
-                     Category Data Table
+                    Product Data Table
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
-                        <a class="btn btn-primary" href="/ManagerDashBoard/categoryList/create"> Add Category</a>
-                        <form class="d-flex justify-content-end">
-                            <div class="input-group input-group-btn hidden-xs" style="width: 200px; margin-right: 10px;">
-                                <input type="text" name="categoryName" class="form-control pull-right" placeholder="Search by name" th:value="${categoryName}">
-                                <div class="input-group-btn">
-                                    <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
-                                </div>
-                            </div>
-                            <div class="input-group input-group-sm hidden-xs" style="width: 200px; margin-right: 10px;">
-                                <select name="status" class="form-control" style=" height: 38px; ">
-                                    <option value="" selected>Select Status</option>
-                                    <option value="active" th:if="${status == 'active'}" selected>Active</option>
-                                    <option value="inactive" th:if="${status == 'inactive'}" selected>Inactive</option>
-                                    <option value="active" th:unless="${status == 'active'}">Active</option>
-                                    <option value="inactive" th:unless="${status == 'inactive'}">Inactive</option>
-                                </select>
-                                <div class="input-group-btn">
-                                    <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
-                                </div>
-                            </div>
-                        </form>
+                        <a class="btn btn-primary" href="/ManagerDashBoard/productList/create"> Add Product</a>
 
-                        <table class="table table-bordered " id="dataTable" width="100%" cellspacing="0">
+                        <table class="table table-bordered"  id="dataTable" width="100%" cellspacing="0">
                             <thead>
                             <tr>
-                                <th>Category ID</th>
+                                <th>Product Name</th>
+                                <th>Product Original Price</th>
+                                <th>Product Sale Price</th>
+                                <th>Product Description</th>
+                                <th>Units In Stock</th>
+                                <th>Units In Order</th>
                                 <th>Category Name</th>
-                                <th>Category Description</th>
-                                <th>Category Image</th>
+                                <th>Brand Name</th>
+                                <th>Images</th>
                                 <th>Status</th>
                                 <th>Action</th>
                             </tr>
                             </thead>
                             <tfoot>
                             <tr>
-                                <th>Category ID</th>
+                                <th>Product Name</th>
+                                <th>Product Original Price</th>
+                                <th>Product Sale Price</th>
+                                <th>Product Description</th>
+                                <th>Units In Stock</th>
+                                <th>Units In Order</th>
                                 <th>Category Name</th>
-                                <th>Category Description</th>
-                                <th>Category Image</th>
+                                <th>Brand Name</th>
+                                <th>Images</th>
                                 <th>Status</th>
                                 <th>Action</th>
                             </tr>
                             </tfoot>
                             <tbody>
-                            <tr th:each="categories : ${categories}">
-                                <td th:text="${categories.id}"></td>
-                                <td th:text="${categories.categoryName}"></td>
-                                <td th:text="${categories.categoryDesc}"></td>
+                            <tr th:each="product : ${products}">
+                                <td th:text="${product.productName}"></td>
+                                <td th:text="${product.productOriginalPrice}"></td>
+                                <td th:text="${product.productSalePrice}"></td>
+                                <td th:text="${product.productDesc}"></td>
+                                <td th:text="${product.unitsInStock}"></td>
+                                <td th:text="${product.unitsInOrder}"></td>
+                                <td th:text="${product.category.categoryName}"></td>
+                                <td th:text="${product.brand.brandName}"></td>
+
                                 <td>
-                                    <img th:src="@{'/images/Category/' + ${categories.categoryImage}}" alt="..." width="100">
+                                    <div th:if="${not #lists.isEmpty(product.productImages)}">
+                                        <img th:src="@{'/images/Product/' + ${product.productImages[0].imageFileName}}" alt="Product Image" style="width: 50px; height: 50px;"/>
+                                    </div>
                                 </td>
-                                <td class="text-center" th:if="${categories.categoryStatus}">
+                                <td class="text-center" th:if="${product.productStatus}">
                                     <div class="badge badge-success">Active</div>
                                 </td>
-                                <td class="text-center" th:if="${!categories.categoryStatus}">
+                                <td class="text-center" th:if="${!product.productStatus}">
                                     <div class="badge badge-danger"> Inactive </div>
                                 </td>
                                 <td style="white-space:nowrap">
                                     <a class="btn btn-primary btn-sm"
-                                       th:href="@{/ManagerDashBoard/categoryList/edit(id=${categories.id})}">
+                                       th:href="@{/ManagerDashBoard/productList/edit(id=${product.id})}">
                                         Edit
                                     </a>
                                     <a class="btn btn-danger btn-sm"
-                                       th:href="@{/ManagerDashBoard/categoryList/delete(id=${categories.id})}"
+                                       th:href="@{/ManagerDashBoard/productList/delete(id=${product.id})}"
                                        onclick="return confirm('Are you sure?')" >
                                         Delete
                                     </a>
@@ -229,6 +226,7 @@
                         </table>
                     </div>
                 </div>
+
             </div>
 
             <p class="small text-center text-muted my-5">
@@ -285,21 +283,14 @@
 <script th:src="@{/assetsDashboard/vendor/jquery-easing/jquery.easing.min.js}"></script>
 
 <!-- Page level plugin JavaScript-->
-<script th:src="@{/assetsDashboard/vendor/chart.js/Chart.min.js}"></script>
 <script th:src="@{/assetsDashboard/vendor/datatables/jquery.dataTables.js}"></script>
 <script th:src="@{/assetsDashboard/vendor/datatables/dataTables.bootstrap4.js}"></script>
 
 <!-- Custom scripts for all pages-->
 <script th:src="@{/assetsDashboard/js/sb-admin.min.js}"></script>
-<script th:src="@{/assetsDashboard/js/colReorder-bootstrap4-min.js}"></script>
-<script th:src="@{/assetsDashboard/js/colReorder-dataTables-min.js}"></script>
 
 <!-- Demo scripts for this page-->
-<script th:src="@{/assetsDashboard/js/demo/script.js}"></script>
 <script th:src="@{/assetsDashboard/js/demo/datatables-demo.js}"></script>
-<script th:src="@{/assetsDashboard/js/demo/chart-area-demo.js}"></script>
-<script th:src="@{/assetsDashboard/js/colReorder-dataTables-min.js}"></script>
-<script th:src="@{/assetsDashboard/js/colReorder-bootstrap4-min.js}"></script>
 
 </body>
 

@@ -183,7 +183,7 @@ public class ProductController {
         model.addAttribute("activeProducts", activeProducts);
         long inActiveProducts = productService.countInActiveProducts();
         model.addAttribute("inActiveProducts", inActiveProducts);
-        return "/Manager/showProductList";
+        return "/Manager/showProductListStatistics";
     }
     @GetMapping("/ManagerDashBoard/productList/inActiveProduct")
     public String showProductListInActive(Model model) {
@@ -195,7 +195,7 @@ public class ProductController {
         model.addAttribute("activeProducts", activeProducts);
         long inActiveProducts = productService.countInActiveProducts();
         model.addAttribute("inActiveProducts", inActiveProducts);
-        return "/Manager/showProductList";
+        return "/Manager/showProductListStatistics";
     }
 
     @GetMapping("/ManagerDashBoard/productList/create")
