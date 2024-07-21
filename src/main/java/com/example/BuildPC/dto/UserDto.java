@@ -15,9 +15,9 @@ public class UserDto {
     private Long id;
     @NotEmpty(message = "The email is required")
     private String email;
-    @NotEmpty(message = "The fistName is required")
+    @NotEmpty(message = "The first name is required")
     private String firstName;
-    @NotEmpty(message = "The lastName is required")
+    @NotEmpty(message = "The last name is required")
     private String lastName;
 
     private String password;

@@ -67,6 +67,7 @@ public class RegistrationController {
                 return "redirect:/error";
         }
     }
+
     @GetMapping("/forgot-password-request")
     public String forgotPasswordForm(){
         return "auth/forgot-password";
