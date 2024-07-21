@@ -69,7 +69,7 @@ public class CategoryController {
         model.addAttribute("activeCategories", activeCategories);
         long inActiveCategories = categoryService.countInActiveCategories();
         model.addAttribute("inActiveCategories", inActiveCategories);
-        return "/Manager/showCategoryList";
+        return "/Manager/showCategoryListStatistics";
     }
     @GetMapping("/categoryList/inActiveCategory")
     public String showProductListInActive(Model model) {
@@ -81,7 +81,7 @@ public class CategoryController {
         model.addAttribute("activeCategories", activeCategories);
         long inActiveCategories = categoryService.countInActiveCategories();
         model.addAttribute("inActiveCategories", inActiveCategories);
-        return "/Manager/showCategoryList";
+        return "/Manager/showCategoryListStatistics";
     }
 
     @GetMapping("/categoryList/create")
