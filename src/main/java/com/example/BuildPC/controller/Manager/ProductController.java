@@ -41,6 +41,8 @@ public class ProductController {
 
     @Autowired
     private UserService userService;
+    @Autowired
+    private OrderService orderService;
 
     @GetMapping("/category/{id}")
     public String showCategory(@PathVariable("id") int id, Model model, @AuthenticationPrincipal CustomUserDetails userDetails) {
@@ -130,6 +132,7 @@ public class ProductController {
         model.addAttribute("activeCategories", activeCategories);
         long inActiveCategories = categoryService.countInActiveCategories();
         model.addAttribute("inActiveCategories", inActiveCategories);
+        model.addAttribute("OrderList", orderService.listAllOrder());
         return "Manager/managerDashBoard";
     }
 

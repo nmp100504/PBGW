@@ -7,7 +7,10 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.util.Date;
+import java.util.Locale;
 import java.util.Set;
 
 @Data
@@ -21,6 +24,7 @@ public class OrderDTO {
     private User user;
     private Set<OrderDetail> orderDetails;
     private float totalPrice;
+    private String formattedTotalPrice;
 
     public OrderDTO(Order order, float totalPrice) {
         this.id = order.getId();
@@ -30,5 +34,8 @@ public class OrderDTO {
         this.orderDetails = order.getOrderDetails();
         this.user = order.getUser();
         this.totalPrice = totalPrice;
+        DecimalFormat decimalFormat = new DecimalFormat("#,##0.00");
+        decimalFormat.setDecimalFormatSymbols(DecimalFormatSymbols.getInstance(Locale.GERMANY)); // Use German locale to get dots as separators
+        this.formattedTotalPrice = decimalFormat.format(totalPrice);
     }
 }
