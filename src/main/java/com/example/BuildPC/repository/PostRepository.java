@@ -17,18 +17,4 @@ public interface PostRepository extends JpaRepository<Post, Long> {
     @Query("SELECT p FROM Post p ORDER BY p.createdOn DESC")
     List<Post> findTop3ByOrderByCreatedOnDesc();
 
-//    @Query(value = "SELECT * FROM post p " +
-//            "WHERE (LOWER(p.post_content) LIKE LOWER(CONCAT('%', :searchTerm, '%')) " +
-//            "OR LOWER(p.post_title) LIKE LOWER(CONCAT('%', :searchTerm, '%')) "
-////            "OR LOWER(p.user_id.email) LIKE LOWER(CONCAT('%', :searchTerm, '%'))) "
-//            , nativeQuery = true)
-//    Page<Post> searchPostsAndFilter(@Param("searchTerm") String searchTerm, Pageable pageable);
-
-//    @Query(value = "SELECT * FROM post p " +
-//            "WHERE (LOWER(p.post_content) LIKE LOWER(CONCAT('%', :searchTerm, '%')) " +
-//            "OR LOWER(p.post_title) LIKE LOWER(CONCAT('%', :searchTerm, '%'))) " +
-//            "ORDER BY p.post_id LIMIT :limit OFFSET :offset",
-//            nativeQuery = true)
-//    List<Post> searchPostsAndFilter(@Param("searchTerm") String searchTerm, @Param("limit") int limit, @Param("offset") int offset);
-
 }

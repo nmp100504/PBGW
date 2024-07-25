@@ -302,6 +302,9 @@
             </ul>
             <div class="register_wrap tab-content">
               <div class="tab-pane fade show active" id="signin_tab" role="tabpanel">
+                <div th:if="${message}" class="alert alert-success" role="alert">
+                  <span th:text="${message}"></span>
+                </div>
                 <form th:action="@{/registration/register}" method="post" th:object="${user}">
                   <div class="form_item_wrap">
                     <h3 class="input_title">Email*</h3>
@@ -344,8 +347,8 @@
                     </div>
                   </div>
 
-                  <div class="text-start">
-                    <button type="submit" class="btn btn_secondary">Register Now</button>
+                  <div class="text-center">
+                    <button style="height: 54px;" type="submit" class="btn btn_secondary" id="regis">Register Now</button>
                   </div>
                 </form>
               </div>

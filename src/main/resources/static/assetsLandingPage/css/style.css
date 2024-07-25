@@ -439,6 +439,21 @@ hr {
   -webkit-box-shadow: none;
           box-shadow: none;
 }
+#regis{
+  background-color: #2742fd;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+  border: 1px solid #2742fd;
+}
+
+#regis:hover {
+  background-color: white !important;
+  color: #2742fd;
+  border: 1px solid #2742fd;
+}
 .btn:hover {
   color: #ffffff;
 }
