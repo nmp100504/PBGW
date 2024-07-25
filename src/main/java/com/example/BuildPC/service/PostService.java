@@ -27,9 +27,16 @@ public interface PostService {
 
     Page<PostDto> findPaginatedPost(int pageNo, int pageSize);
 
-    List<PostDto> getTop3RecentPosts();
-//    List<PostDto> getMostRecentPosts(int limit);
-//
-//    List<PostDto> getMostRecentPostsByAuthor(Long authorId, int limit);
+    List<PostDto> findSortedPost(String field);
+
+    Page<PostDto> findSortedPaginatedPost(String field, int pageSize);
+
+    Page<PostDto> findSortedPaginatedPostByAuthor(String field, Long authorId, int pageSize);
+
+    Page<PostDto> findThreeMostRecentPostsByAuthor(Long authorId);
+
+    void upvotePost(Long userId, Long postId);
+    void downvotePost(Long userId, Long postId);
+
 
 }

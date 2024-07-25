@@ -90,6 +90,13 @@ public class PostController {
     public String viewPost(@PathVariable String postUrl, Model model){
         PostDto postDto = postService.findPostByUrl(postUrl);
         CommentDto commentDto = new CommentDto();
+
+        List<PostDto> recentPosts = postService.findSortedPaginatedPost("createdOn", 3).getContent();
+        model.addAttribute("recentPosts", recentPosts);
+
+        List<PostDto> relatedPosts = postService.findThreeMostRecentPostsByAuthor(postDto.getCreatedBy().getId()).getContent();
+        model.addAttribute("relatedPosts", relatedPosts);
+
         model.addAttribute("post", postDto);
         model.addAttribute("comment", commentDto);
         return "marketing/view";
