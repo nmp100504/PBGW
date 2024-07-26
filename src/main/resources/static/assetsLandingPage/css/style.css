@@ -3268,6 +3268,11 @@ hr {
           transform: translate(-50%, -50%);
 }
 .product_layout1 .item_title {
+  display: block; /* Ensures block display for the title */
+  white-space: nowrap; /* Prevents text from wrapping */
+  overflow: hidden; /* Hides overflow text */
+  text-overflow: ellipsis; /* Adds ellipsis at the end */
+  width: 100%;
   margin-bottom: 4px;
 }
 .product_layout1 .item_title > a {

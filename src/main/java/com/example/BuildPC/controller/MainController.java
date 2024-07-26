@@ -20,6 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.naming.Binding;
 import java.io.IOException;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -49,8 +50,11 @@ public class MainController {
     public String showLandingPage(Model model) {
         List<Category> categoryList = categoryService.findAll();
         List<Product> productList = productService.listActiveProduct(true);
+        List<Product> reverseProductList = productService.listActiveProduct(true);
+        Collections.reverse(reverseProductList);
         model.addAttribute("categoryList", categoryList);
         model.addAttribute("productList", productList);
+        model.addAttribute("reverseProductList", reverseProductList);
         return "LandingPage/index_1";
     }
 
