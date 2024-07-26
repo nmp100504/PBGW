@@ -434,6 +434,19 @@ hr {
   color: #f3970d;
   background-color: transparent;
 }
+#regis{
+  background-color: #2742fd;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+#regis:hover {
+  background-color: white;
+  color: #2742fd;
+}
 .btn.btn_danger {
   border-color: #f03d3f;
   background-color: #f03d3f;

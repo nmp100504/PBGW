@@ -2,9 +2,11 @@ package com.example.BuildPC.repository;
 
 
 import com.example.BuildPC.model.Post;
+import jakarta.transaction.Transactional;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
@@ -14,21 +16,24 @@ import java.util.Optional;
 
 public interface PostRepository extends JpaRepository<Post, Long> {
     Optional<Post> findByUrl(String Url);
-    @Query("SELECT p FROM Post p ORDER BY p.createdOn DESC")
-    List<Post> findTop3ByOrderByCreatedOnDesc();
+    Page<Post> findAllByCreatedById(Long authorId, Pageable pageable);
+    @Transactional
+    @Modifying
+    @Query("UPDATE Post p SET p.upvotes = p.upvotes + 1 WHERE p.id = :postId")
+    void incrementUpvotes(Long postId);
 
-//    @Query(value = "SELECT * FROM post p " +
-//            "WHERE (LOWER(p.post_content) LIKE LOWER(CONCAT('%', :searchTerm, '%')) " +
-//            "OR LOWER(p.post_title) LIKE LOWER(CONCAT('%', :searchTerm, '%')) "
-////            "OR LOWER(p.user_id.email) LIKE LOWER(CONCAT('%', :searchTerm, '%'))) "
-//            , nativeQuery = true)
-//    Page<Post> searchPostsAndFilter(@Param("searchTerm") String searchTerm, Pageable pageable);
+    @Transactional
+    @Modifying
+    @Query("UPDATE Post p SET p.downvotes = p.downvotes + 1 WHERE p.id = :postId")
+    void incrementDownvotes(Long postId);
 
-//    @Query(value = "SELECT * FROM post p " +
-//            "WHERE (LOWER(p.post_content) LIKE LOWER(CONCAT('%', :searchTerm, '%')) " +
-//            "OR LOWER(p.post_title) LIKE LOWER(CONCAT('%', :searchTerm, '%'))) " +
-//            "ORDER BY p.post_id LIMIT :limit OFFSET :offset",
-//            nativeQuery = true)
-//    List<Post> searchPostsAndFilter(@Param("searchTerm") String searchTerm, @Param("limit") int limit, @Param("offset") int offset);
+    @Transactional
+    @Modifying
+    @Query("UPDATE Post p SET p.upvotes = p.upvotes - 1 WHERE p.id = :postId")
+    void decrementUpvotes(Long postId);
 
+    @Transactional
+    @Modifying
+    @Query("UPDATE Post p SET p.downvotes = p.downvotes - 1 WHERE p.id = :postId")
+    void decrementDownvotes(Long postId);
 }

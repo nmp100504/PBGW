@@ -151,25 +151,37 @@
 <!--                                </li>-->
 <!--                            </ul>-->
 <!--                        </div>-->
-<!--                                                    <div class="sb_widget2">-->
-<!--                                                        <h3 class="sb_widget_title2">Recent Posts</h3>-->
-<!--                                                        <ul th:each="recentPost : ${recentPosts}" class="recent_posts_list ul_li_block">-->
-<!--                                                            <div th:text="${recentPosts.size()}"></div>-->
-<!--                                                            <li>-->
-<!--                                                                <div class="recent_post_item">-->
-<!--                                                                    <a class="item_image" href="blog_details.html">-->
-<!--                                                                        <img src="assets/images/recent_post/recent_post_img_1.webp" alt="Getyootech - Gadgets Ecommerce Site Template">-->
-<!--                                                                    </a>-->
-<!--                                                                    <div class="item_content">-->
-<!--                                                                        <h3 class="item_title">-->
-<!--                                                                            <a th:text="${recentPost.title}" th:href="@{/posts/{recentPostUrl}/view(recentPostUrl=${recentPost.url})}">Aypi nonam</a>-->
-<!--                                                                        </h3>-->
-<!--                                                                        <span class="post_date" th:text="${#temporals.format(recentPost.createdOn, 'dd MMM yyyy')}">17 July 2023 </span>-->
-<!--                                                                    </div>-->
-<!--                                                                </div>-->
-<!--                                                            </li>-->
-<!--                                                        </ul>-->
-<!--                                                    </div>-->
+                        <div class="related_post_area">
+                            <h3 class="area_title">Related Posts</h3>
+                            <ul class="related_post_wrap ul_li">
+                                <li th:each="relatedPost : ${relatedPosts}">
+                                    <div class="recent_post_item">
+                                        <a class="item_image" th:href="@{/posts/{relatedPost}/view(relatedPost=${relatedPost.url})}">
+                                            <img src="assets/images/recent_post/recent_post_img_1.webp" alt="Thumbnail">
+                                        </a>
+                                        <div class="item_content">
+                                            <h3 class="item_title">
+                                                <a th:text="${relatedPost.title}" th:href="@{/posts/{relatedPost}/view(relatedPost=${relatedPost.url})}">Aypi nonam</a>
+                                            </h3>
+                                            <span class="post_date" th:text="${#temporals.format(relatedPost.createdOn, 'dd MMM yyyy')}">17 July 2023 </span>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <!-- Upvote and Downvote Section -->
+                        <div>
+                            <form th:action="@{/blog/{postUrl}/upvote(postUrl=${post.url})}" method="post" style="display: inline;">
+                                <button type="submit">Upvote</button>
+                                <span th:text="${post.upvotes}">0</span>
+                            </form>
+                            <form th:action="@{/blog/{postUrl}/downvote(postUrl=${post.url})}" method="post" style="display: inline;">
+                                <button type="submit">Downvote</button>
+                                <span th:text="${post.downvotes}">0</span>
+                            </form>
+                        </div>
+
                         <div class="comment_area">
                             <h3 class="area_title">Comments</h3>
                             <ul class="comment_list ul_li_block" th:each="comment : ${post.comments}">
@@ -249,25 +261,24 @@
                                 <span class="author_signature" th:text="${post.createdBy.email}">Author Signature</span>
                             </div>
 
-<!--                            <div class="sb_widget2">-->
-<!--                                <h3 class="sb_widget_title2">Recent Posts</h3>-->
-<!--                                <ul th:each="recentPost : ${recentPosts}" class="recent_posts_list ul_li_block">-->
-<!--                                    <div th:text="${recentPosts.size()}"></div>-->
-<!--                                    <li>-->
-<!--                                        <div class="recent_post_item">-->
-<!--                                            <a class="item_image" href="blog_details.html">-->
-<!--                                                <img src="assets/images/recent_post/recent_post_img_1.webp" alt="Getyootech - Gadgets Ecommerce Site Template">-->
-<!--                                            </a>-->
-<!--                                            <div class="item_content">-->
-<!--                                                <h3 class="item_title">-->
-<!--                                                    <a th:text="${recentPost.title}" th:href="@{/posts/{recentPostUrl}/view(recentPostUrl=${recentPost.url})}">Aypi nonam</a>-->
-<!--                                                </h3>-->
-<!--                                                <span class="post_date" th:text="${#temporals.format(recentPost.createdOn, 'dd MMM yyyy')}">17 July 2023 </span>-->
-<!--                                            </div>-->
-<!--                                        </div>-->
-<!--                                    </li>-->
-<!--                                </ul>-->
-<!--                            </div>-->
+                            <div class="sb_widget2">
+                                <h3 class="sb_widget_title2">Recent Posts</h3>
+                                <ul class="recent_posts_list ul_li_block">
+                                    <li th:each="post : ${recentPosts}">
+                                        <div class="recent_post_item">
+                                            <a class="item_image" href="blog_details.html">
+                                                <img src="assets/images/recent_post/recent_post_img_1.webp" alt="Thumbnail">
+                                            </a>
+                                            <div class="item_content">
+                                                <h3 class="item_title">
+                                                    <a th:text="${post.title}" th:href="@{/posts/{post}/view(post=${post.url})}">Aypi nonam</a>
+                                                </h3>
+                                                <span class="post_date" th:text="${#temporals.format(post.createdOn, 'dd MMM yyyy')}">17 July 2023 </span>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
 
                         </aside>
                     </div>

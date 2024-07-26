@@ -5,10 +5,13 @@ import com.example.BuildPC.mapper.CommentMapper;
 import com.example.BuildPC.mapper.PostMapper;
 import com.example.BuildPC.model.Post;
 import com.example.BuildPC.model.User;
+import com.example.BuildPC.model.Vote;
 import com.example.BuildPC.repository.PostRepository;
 import com.example.BuildPC.repository.UserRepository;
+import com.example.BuildPC.repository.VoteRepository;
 import com.example.BuildPC.service.PostService;
 import com.example.BuildPC.utils.SecurityUtils;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,11 +36,13 @@ public class PostServiceImpl implements PostService {
 
     private final PostRepository postRepository;
     private final UserRepository userRepository;
+    private final VoteRepository voteRepository;
 //    private final Path storageLocation = Paths.get("public/images/thumbnail/"); // Set your upload directory
 
-    public PostServiceImpl(PostRepository postRepository, UserRepository userRepository) {
+    public PostServiceImpl(PostRepository postRepository, UserRepository userRepository, VoteRepository voteRepository) {
         this.postRepository = postRepository;
         this.userRepository = userRepository;
+        this.voteRepository = voteRepository;
     }
 
     @Override
@@ -125,17 +130,76 @@ public class PostServiceImpl implements PostService {
         Pageable pageable = PageRequest.of(pageNo -1, pageSize);
         return this.postRepository.findAll(pageable).map(PostMapper::mapToPostDTO);
     }
-    private static final Logger logger = LoggerFactory.getLogger(PostServiceImpl.class);
 
     @Override
-    public List<PostDto> getTop3RecentPosts() {
-        List<Post> recentPosts = postRepository.findTop3ByOrderByCreatedOnDesc();
-        List<PostDto> postDtos = recentPosts.stream()
+    public List<PostDto> findSortedPost(String field) {
+        List<Post> sortedPosts = postRepository.findAll(Sort.by(Sort.Direction.ASC, field));
+        return sortedPosts.stream()
                 .map(PostMapper::mapToPostDTO)
                 .collect(Collectors.toList());
-        logger.debug("Top 3 recent posts: {}", postDtos);
-        return postDtos;
     }
+    @Override
+    public Page<PostDto> findSortedPaginatedPost(String field, int pageSize) {
+        Pageable pageable = PageRequest.of(0, pageSize, Sort.by(Sort.Direction.ASC, field));
+        return postRepository.findAll(pageable).map(PostMapper::mapToPostDTO);
+    }
+
+    @Override
+    public Page<PostDto> findSortedPaginatedPostByAuthor(String field, Long authorId, int pageSize) {
+        Pageable pageable = PageRequest.of(0, pageSize, Sort.by(Sort.Direction.ASC, field));
+        return postRepository.findAllByCreatedById(authorId, pageable).map(PostMapper::mapToPostDTO);
+    }
+
+    @Override
+    public Page<PostDto> findThreeMostRecentPostsByAuthor(Long authorId) {
+        return findSortedPaginatedPostByAuthor("createdOn", authorId, 3);
+    }
+
+
+    @Override
+    @Transactional
+    public void upvotePost(Long userId, Long postId) {
+        Vote existingVote = voteRepository.findByUserIdAndPostId(userId, postId);
+        if (existingVote == null) {
+            User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
+            Post post = postRepository.findById(postId).orElseThrow(() -> new RuntimeException("Post not found"));
+            Vote vote = new Vote(user, post, true);
+            voteRepository.save(vote);
+            postRepository.incrementUpvotes(postId);
+        } else if (!existingVote.isUpvote()) {
+            existingVote.setUpvote(true);
+            voteRepository.save(existingVote);
+            postRepository.incrementUpvotes(postId);
+            postRepository.decrementDownvotes(postId);
+        }
+    }
+
+    @Override
+    @Transactional
+    public void downvotePost(Long userId, Long postId) {
+        Vote existingVote = voteRepository.findByUserIdAndPostId(userId, postId);
+        if (existingVote == null) {
+            User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
+            Post post = postRepository.findById(postId).orElseThrow(() -> new RuntimeException("Post not found"));
+            Vote vote = new Vote(user, post, false);
+            voteRepository.save(vote);
+            postRepository.incrementDownvotes(postId);
+        } else if (existingVote.isUpvote()) {
+            existingVote.setUpvote(false);
+            voteRepository.save(existingVote);
+            postRepository.incrementDownvotes(postId);
+            postRepository.decrementUpvotes(postId);
+        }
+    }
+//    @Override
+//    public List<PostDto> getTop3RecentPosts() {
+//        List<Post> recentPosts = postRepository.findTop3ByOrderByCreatedOnDesc();
+//        List<PostDto> postDtos = recentPosts.stream()
+//                .map(PostMapper::mapToPostDTO)
+//                .collect(Collectors.toList());
+//        logger.debug("Top 3 recent posts: {}", postDtos);
+//        return postDtos;
+//    }
 
 //    @Override
 //    public List<PostDto> getMostRecentPosts(int limit) {

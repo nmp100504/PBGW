@@ -41,6 +41,8 @@ public class PostDto {
     private UserDto createdBy;
     private Set<CommentDto> comments = new HashSet<>();
 
+    private int upvotes = 0;
+    private int downvotes = 0;
     private byte[] thumbnailData;
 
     public String getThumbnailDataBase64() {

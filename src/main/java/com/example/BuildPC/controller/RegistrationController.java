@@ -44,7 +44,7 @@ public class RegistrationController {
     public String registerUser(@ModelAttribute("user") RegistrationRequest registration, HttpServletRequest request, RedirectAttributes redirectAttributes) {
         User user = userService.registerUser(registration);
         publisher.publishEvent(new RegistrationCompleteEvent(user, UrlUtil.getApplicationUrl(request)));
-        redirectAttributes.addFlashAttribute("message", "User registered successfully");
+        redirectAttributes.addFlashAttribute("message", "User registered successfully, please verify your email to active it.");
         return "redirect:/registration/registration-form";
     }
 
@@ -60,65 +60,74 @@ public class RegistrationController {
                 redirectAttributes.addFlashAttribute("message", "Token expired");
                 return "redirect:/error";
             case "valid":
-                redirectAttributes.addFlashAttribute("message", "Token valid");
+                redirectAttributes.addFlashAttribute("message", "Email verified successfully");
                 return "redirect:/login";
             default:
                 redirectAttributes.addFlashAttribute("message", "Invalid verification token");
                 return "redirect:/error";
         }
     }
+
     @GetMapping("/forgot-password-request")
     public String forgotPasswordForm(){
         return "auth/forgot-password";
     }
 
-@PostMapping("/forgot-password")
-public String resetPasswordRequest(HttpServletRequest request, Model model) {
-    String email = request.getParameter("email");
-    logger.info("Received forgot password request for email: {}", email);
+    @PostMapping("/forgot-password")
+    public String resetPasswordRequest(HttpServletRequest request, Model model) {
+        String email = request.getParameter("email");
+        logger.info("Received forgot password request for email: {}", email);
 
-    Optional<User> userOptional = userService.findByEmail(email);
-    if (userOptional.isEmpty()) {
-        logger.warn("User not found for email: {}", email);
-        return "redirect:/registration/forgot-password-request?not_found";
+        Optional<User> userOptional = userService.findByEmail(email);
+        if (userOptional.isEmpty()) {
+            logger.warn("User not found for email: {}", email);
+            return "redirect:/registration/forgot-password-request?not_found";
+        }
+
+        User user = userOptional.get();
+        String passwordResetToken = UUID.randomUUID().toString();
+        passwordResetTokenService.createPasswordResetTokenForUser(user, passwordResetToken);
+        logger.info("Password reset token created for user: {}", user.getEmail());
+
+        // Send password reset verification email to the user
+        String url = UrlUtil.getApplicationUrl(request) + "/registration/password-reset-form?token=" + passwordResetToken;
+        try {
+            eventListener.sendPasswordResetVerificationEmail(url, user);
+            logger.info("Password reset email sent to: {}", user.getEmail());
+            return "redirect:/registration/forgot-password-request?success";
+        } catch (MessagingException | UnsupportedEncodingException e) {
+            logger.error("Error sending password reset email to: {}", user.getEmail(), e);
+            model.addAttribute("error", e.getMessage());
+            return "redirect:/registration/forgot-password-request?error";
+        }
     }
-
-    User user = userOptional.get();
-    String passwordResetToken = UUID.randomUUID().toString();
-    passwordResetTokenService.createPasswordResetTokenForUser(user, passwordResetToken);
-    logger.info("Password reset token created for user: {}", user.getEmail());
-
-    // Send password reset verification email to the user
-    String url = UrlUtil.getApplicationUrl(request) + "/registration/password-reset-form?token=" + passwordResetToken;
-    try {
-        eventListener.sendPasswordResetVerificationEmail(url, user);
-        logger.info("Password reset email sent to: {}", user.getEmail());
-        return "redirect:/registration/forgot-password-request?success";
-    } catch (MessagingException | UnsupportedEncodingException e) {
-        logger.error("Error sending password reset email to: {}", user.getEmail(), e);
-        model.addAttribute("error", e.getMessage());
-        return "redirect:/registration/forgot-password-request?error";
-    }
-}
 
     @GetMapping("/password-reset-form")
     public String passwordResetForm(@RequestParam("token") String token, Model model){
         model.addAttribute("token", token);
         return "auth/password-reset-form";
     }
+
     @PostMapping("/reset-password")
-    public String resetPassword(HttpServletRequest request){
+    public String resetPassword(HttpServletRequest request, RedirectAttributes redirectAttributes) {
         String theToken = request.getParameter("token");
         String password = request.getParameter("password");
         String tokenVerificationResult = passwordResetTokenService.validatePasswordResetToken(theToken);
-        if (!tokenVerificationResult.equalsIgnoreCase("valid")){
-            return "redirect:/error?invalid_token";
+
+        if (!tokenVerificationResult.equalsIgnoreCase("valid")) {
+            redirectAttributes.addFlashAttribute("message", "Invalid password reset token.");
+            return "redirect:/error";
         }
+
         Optional<User> theUser = passwordResetTokenService.findUserByPasswordResetToken(theToken);
-        if (theUser.isPresent()){
+
+        if (theUser.isPresent()) {
             passwordResetTokenService.resetPassword(theUser.get(), password);
-            return "redirect:/login?reset_success";
+            redirectAttributes.addFlashAttribute("message", "Password reset successfully. Please log in.");
+            return "redirect:/login";
         }
-        return "redirect:/error?not_found";
+
+        redirectAttributes.addFlashAttribute("message", "User not found.");
+        return "redirect:/error";
     }
 }

@@ -67,11 +67,6 @@ public class UserServiceImpl implements UserService {
         return userRepository.findById(id);
     }
 
-//    @Transactional
-//    @Override
-//    public void updateUser(Long id, String firstName, String lastName, String email) {
-//        userRepository.update(firstName, lastName, email, id);
-//    }
 
     @Transactional
     @Override

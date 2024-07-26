@@ -4,19 +4,20 @@ import com.example.BuildPC.dto.CommentDto;
 import com.example.BuildPC.dto.PostDto;
 import com.example.BuildPC.dto.UserDto;
 import com.example.BuildPC.model.Post;
+import com.example.BuildPC.model.User;
 import com.example.BuildPC.service.PostService;
 import com.example.BuildPC.service.UserService;
+import com.example.BuildPC.utils.SecurityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 
 @RequestMapping("/blog")
 @Controller
@@ -45,16 +46,27 @@ public class BlogController {
         UserDto userDto = postDto.getCreatedBy();
         CommentDto commentDto = new CommentDto();
         // Fetch most recent posts
-        List<PostDto> recentPosts = postService.getTop3RecentPosts();
-        logger.debug("Recent posts passed to model: {}", recentPosts);
+        List<PostDto> recentPosts = postService.findSortedPaginatedPost("createdOn", 3).getContent();
+        model.addAttribute("recentPosts", recentPosts);
+
+        List<PostDto> relatedPosts = postService.findThreeMostRecentPostsByAuthor(postDto.getCreatedBy().getId()).getContent();
+        model.addAttribute("relatedPosts", relatedPosts);
 
         model.addAttribute("user", userDto);
         model.addAttribute("post", postDto);
         model.addAttribute("comment", commentDto);
-        model.addAttribute("recentPosts", recentPosts);
-
         return "marketing/view";
     }
+
+    @GetMapping("/demo")
+    private String demo(Model model){
+
+        List<PostDto> recentPosts = postService.findSortedPaginatedPost("createdOn", 3).getContent();
+        model.addAttribute("recentPosts", recentPosts);
+
+        return "marketing/demo";
+    }
+
 
 //    @GetMapping("/search")
 //    public String searchPost(@RequestParam(value = "query") String query, Model model){
@@ -77,8 +89,23 @@ public class BlogController {
         return "marketing/blog";
     }
 
-    @GetMapping("/display")
-    public String displayImage(){
-        return "marketing/imageDisplay";
+
+
+    @PostMapping("/{postUrl}/upvote")
+    public String upvotePost(@PathVariable String postUrl) {
+        String email = Objects.requireNonNull(SecurityUtils.getCurrentUser()).getEmail();
+        Optional<User> user = userService.findByEmail(email);
+        PostDto postDto = postService.findPostByUrl(postUrl);
+        postService.upvotePost(user.get().getId(), postDto.getId());
+        return "redirect:/blog/" + postDto.getUrl();
+    }
+
+    @PostMapping("/{postUrl}/downvote")
+    public String downvotePost(@PathVariable String postUrl) {
+        String email = Objects.requireNonNull(SecurityUtils.getCurrentUser()).getEmail();
+        Optional<User> user = userService.findByEmail(email);
+        PostDto postDto = postService.findPostByUrl(postUrl);
+        postService.downvotePost(user.get().getId(), postDto.getId());
+        return "redirect:/blog/" + postDto.getUrl();
     }
 }
