@@ -34,11 +34,11 @@ public class    OrderController {
     OrderDetailService orderDetailService;
     @Autowired
     ShoppingCartService shoppingCartService;
-//    @GetMapping("/ManagerDashBoard")
-//    public String showManagerDashBoard(Model model) {
-//        model.addAttribute("OrderList", orderService.listAllOrder());
-//        return "Manager/managerDashBoard";
-//    }
+    @GetMapping("/ManagerDashBoard/orderList")
+    public String showManagerDashBoard(Model model) {
+        model.addAttribute("OrderList", orderService.listAllOrder());
+        return "Manager/showOrderList";
+    }
 
     public String showOrders(Model model) {
         List<OrderDTO> orderList = orderService.listAllOrder();
