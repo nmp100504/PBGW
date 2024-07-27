@@ -210,47 +210,121 @@ public class PostServiceImpl implements PostService {
         return sortedPostsCountByDay;
     }
 
-//    @Override
-//    public Map<String, Long> getPostsCountByWeekInCurrentMonth() {
-//        LocalDate today = LocalDate.now();
-//        LocalDate startOfMonth = today.withDayOfMonth(1);
-//        LocalDate endOfMonth = today.withDayOfMonth(today.lengthOfMonth());
-//
-//        LocalDateTime startDateTime = startOfMonth.atStartOfDay();
-//        LocalDateTime endDateTime = endOfMonth.atTime(LocalTime.MAX);
-//
-//        List<Object[]> results = postRepository.countPostsByWeekInCurrentMonth(startDateTime, endDateTime);
-//
-//        WeekFields weekFields = WeekFields.of(Locale.getDefault());
-//        Map<String, Long> postsCountByWeek = new HashMap<>();
-//
-//        // Initialize the map with all weeks of the current month set to 0
-//        LocalDate current = startOfMonth;
-//        int weekNumber = 1;
-//        while (current.isBefore(endOfMonth) || current.isEqual(endOfMonth)) {
-//            String weekLabel = "Week " + weekNumber + " Month " + current.getMonthValue();
-//            postsCountByWeek.put(weekLabel, 0L);
-//            current = current.plusWeeks(1);
-//            weekNumber++;
-//        }
-//
-//        // Update the map with actual counts from the query results
-//        for (Object[] result : results) {
-//            int year = (int) result[0];
-//            int month = (int) result[1];
-//            int weekOfYear = (int) result[2];
-//            Long count = (Long) result[3];
-//
-//            if (year == today.getYear() && month == today.getMonthValue()) {
-//                LocalDate weekStart = LocalDate.ofYearDay(year, (weekOfYear - 1) * 7 + 1).with(weekFields.dayOfWeek(), 1);
-//                int weekOfMonth = weekStart.withDayOfMonth(1).plusDays(weekOfYear - 1).get(weekFields.weekOfMonth());
-//
-//                String weekLabel = "Week " + weekOfMonth + " Month " + month;
-//                postsCountByWeek.merge(weekLabel, count, Long::sum);
-//            }
-//        }
-//
-//        return postsCountByWeek;
-//    }
+    @Override
+    public Map<String, Long> getPostsCountByWeekInCurrentMonth() {
+        LocalDate today = LocalDate.now();
+        LocalDate startOfMonth = today.withDayOfMonth(1);
+        LocalDate endOfMonth = today.withDayOfMonth(today.lengthOfMonth());
 
+        LocalDateTime startDateTime = startOfMonth.atStartOfDay();
+        LocalDateTime endDateTime = endOfMonth.atTime(LocalTime.MAX);
+
+        List<Object[]> results = postRepository.countPostsByWeekInCurrentMonth(startDateTime, endDateTime);
+
+        WeekFields weekFields = WeekFields.of(Locale.getDefault());
+        Map<String, Long> postsCountByWeek = new HashMap<>();
+
+        // Initialize the map with all weeks of the current month set to 0
+        LocalDate current = startOfMonth;
+        int weekNumber = 1;
+        while (current.isBefore(endOfMonth) || current.isEqual(endOfMonth)) {
+            String weekLabel = "Week " + weekNumber + " Month " + current.getMonthValue();
+            postsCountByWeek.put(weekLabel, 0L);
+            current = current.plusWeeks(1);
+            weekNumber++;
+        }
+
+        // Update the map with actual counts from the query results
+        for (Object[] result : results) {
+            int year = (int) result[0];
+            int month = (int) result[1];
+            int weekOfYear = (int) result[2];
+            Long count = (Long) result[3];
+
+            if (year == today.getYear() && month == today.getMonthValue()) {
+                LocalDate weekStart = LocalDate.ofYearDay(year, (weekOfYear - 1) * 7 + 1).with(weekFields.dayOfWeek(), 1);
+                int weekOfMonth = weekStart.withDayOfMonth(1).plusDays(weekOfYear - 1).get(weekFields.weekOfMonth());
+
+                String weekLabel = "Week " + weekOfMonth + " Month " + month;
+                postsCountByWeek.merge(weekLabel, count, Long::sum);
+            }
+        }
+
+
+        // Sort entries by week number
+        return postsCountByWeek.entrySet()
+                .stream()
+                .sorted(Map.Entry.comparingByKey(Comparator.comparingInt(key -> Integer.parseInt(key.split(" ")[1]))))
+                .collect(Collectors.toMap(
+                        Map.Entry::getKey,
+                        Map.Entry::getValue,
+                        (e1, e2) -> e1,
+                        LinkedHashMap::new
+                ));    }
+
+
+    public Map<String, Long> getPostsCountByMonthInCurrentYear() {
+        LocalDate today = LocalDate.now();
+        LocalDate startOfYear = today.withDayOfYear(1);
+        LocalDate endOfYear = today.withDayOfYear(today.lengthOfYear());
+
+        LocalDateTime startDateTime = startOfYear.atStartOfDay();
+        LocalDateTime endDateTime = endOfYear.atTime(LocalTime.MAX);
+
+        List<Object[]> results = postRepository.countPostsByMonthInCurrentYear(startDateTime, endDateTime);
+
+        // Initialize the map with all months of the current year set to 0
+        Map<String, Long> postsCountByMonth = new LinkedHashMap<>();
+        for (int month = 1; month <= 12; month++) {
+            String monthLabel = LocalDate.of(today.getYear(), month, 1).getMonth().name() + " " + today.getYear();
+            postsCountByMonth.put(monthLabel, 0L);
+        }
+
+        // Update the map with actual counts from the query results
+        for (Object[] result : results) {
+            int year = (int) result[0];
+            int month = (int) result[1];
+            Long count = (Long) result[2];
+
+            if (year == today.getYear()) {
+                String monthLabel = LocalDate.of(year, month, 1).getMonth().name() + " " + year;
+                postsCountByMonth.put(monthLabel, count);
+            }
+        }
+
+        return postsCountByMonth;
+    }
+
+    public Map<String, Long> getTopUsersByPostCount() {
+        List<Object[]> results = postRepository.findTopUsersByPostCount();
+
+        // Initialize the map to hold user names and post counts
+        Map<String, Long> topUsersByPostCount = new LinkedHashMap<>();
+
+        // Process the results and populate the map
+        for (int i = 0; i < Math.min(10, results.size()); i++) {
+            Object[] result = results.get(i);
+            User user = (User) result[0];
+            Long postCount = (Long) result[1];
+            topUsersByPostCount.put(user.getEmail(), postCount); // Assuming User entity has getUsername() method
+        }
+
+        return topUsersByPostCount;
+    }
+
+    public Map<String, Long> getPostsCountByUser() {
+        List<Object[]> results = postRepository.countPostsByUser();
+
+        // Initialize the map to hold usernames and post counts
+        Map<String, Long> postsCountByUser = new LinkedHashMap<>();
+
+        // Process the results and populate the map
+        for (Object[] result : results) {
+            User user = (User) result[0];
+            Long postCount = (Long) result[1];
+            postsCountByUser.put(user.getEmail(), postCount); // Assuming User entity has getUsername() method
+        }
+
+        return postsCountByUser;
+    }
 }

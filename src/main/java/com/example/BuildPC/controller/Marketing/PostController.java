@@ -46,14 +46,18 @@ public class PostController {
         List<PostDto> posts = postService.findAllPost();
         List<CommentDto> comments = commentService.findAllComments();
         int totalVisitor = visitorCountService.getTotalVisitorCount();
-//        Map<String, List<PostDto>> postsByDayInWeek = postService.findPostsGroupedByDayInWeek();
-//        Map<Integer, List<PostDto>> postsByWeekInMonth = postService.findPostsGroupedByWeekInMonth();
-//        Map<String, List<PostDto>> postsByMonthInYear = postService.findPostsGroupedByMonthInYear();
-//
-//        model.addAttribute("postsByDayInWeek", postsByDayInWeek);
-//        model.addAttribute("postsByWeekInMonth", postsByWeekInMonth);
-//        model.addAttribute("postsByMonthInYear", postsByMonthInYear);
-        model.addAttribute("message", "I'm over here!");
+        Map<String, Long> postsCountByDay = postService.getPostsCountByDayInCurrentWeek();
+        model.addAttribute("postsCountByDay", postsCountByDay);
+        Map<String, Long> postsCountByWeek = postService.getPostsCountByWeekInCurrentMonth();
+        model.addAttribute("postsCountByWeek", postsCountByWeek);
+        Map<String, Long> postsCountByMonth = postService.getPostsCountByMonthInCurrentYear();
+        model.addAttribute("postsCountByMonth", postsCountByMonth);
+        Map<String, Long> topUsersByPostCount = postService.getTopUsersByPostCount();
+        Map<String, Integer> topPostUrlsByViewCount = visitorCountService.getTopPostUrlsByViewCount();
+        Map<String, Long> postsCountByUser = postService.getPostsCountByUser();
+        model.addAttribute("postsCountByUser", postsCountByUser);
+        model.addAttribute("topPostUrlsByViewCount", topPostUrlsByViewCount);
+        model.addAttribute("topUsersByPostCount", topUsersByPostCount);
         model.addAttribute("totalPost", posts.size());
         model.addAttribute("totalComments", comments.size());
         model.addAttribute("totalVisitor", totalVisitor);
@@ -65,8 +69,10 @@ public class PostController {
     public String chart(Model model) throws JsonProcessingException {
         Map<String, Long> postsCountByDay = postService.getPostsCountByDayInCurrentWeek();
         model.addAttribute("postsCountByDay", postsCountByDay);
-//        Map<String, Long> postsCountByWeek = postService.getPostsCountByWeekInCurrentMonth();
-//        model.addAttribute("postsCountByWeek", postsCountByWeek);
+        Map<String, Long> postsCountByWeek = postService.getPostsCountByWeekInCurrentMonth();
+        model.addAttribute("postsCountByWeek", postsCountByWeek);
+        Map<String, Long> postsCountByMonth = postService.getPostsCountByMonthInCurrentYear();
+        model.addAttribute("postsCountByMonth", postsCountByMonth);
         return "marketing/chart";
     }
 

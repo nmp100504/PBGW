@@ -24,6 +24,7 @@
 
     <!-- Notify.js CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/notify/0.4.2/notify.min.css">
+
 </head>
 
 <body>
@@ -95,7 +96,7 @@
 
 <ul th:fragment="sidebar" class="sidebar navbar-nav">
     <li class="nav-item active">
-        <a class="nav-link" href="/ManagerDashBoard">
+        <a class="nav-link" th:href="@{/posts/dashboard}">
             <i class="fas fa-fw fa-tachometer-alt"></i>
             <span>Dashboard</span>
         </a>
@@ -106,24 +107,14 @@
             <span>New Post</span></a>
     </li>
     <li class="nav-item">
-        <a class="nav-link" th:href="@{comments}">
+        <a class="nav-link" th:href="@{/blogger}">
             <i class="fas fa-fw fa-chart-area"></i>
-            <span>Comments</span></a>
+            <span>Blogger</span></a>
     </li>
     <li class="nav-item">
-        <a class="nav-link" href="/ManagerDashBoard">
+        <a class="nav-link" th:href="@{/visitorCount}">
             <i class="fas fa-fw fa-table"></i>
-            <span>Order List</span></a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link" href="/ManagerDashBoard/productList">
-            <i class="fas fa-fw fa-table"></i>
-            <span>Product List</span></a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link" href="/ManagerDashBoard/categoryList">
-            <i class="fas fa-fw fa-table"></i>
-            <span>Category List</span></a>
+            <span>Visitor Count</span></a>
     </li>
 </ul>
 </body>

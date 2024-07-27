@@ -6,6 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+
 @Service
 public class VisitorCountService {
 
@@ -32,5 +36,22 @@ public class VisitorCountService {
 
     public Integer getTotalVisitorCount() {
         return visitorCountRepository.getTotalVisitorCount();
+    }
+
+    public Map<String, Integer> getTopPostUrlsByViewCount() {
+        List<Object[]> results = visitorCountRepository.findTopPostUrlsByViewCount();
+
+        // Initialize the map to hold post URLs and view counts
+        Map<String, Integer> topPostUrlsByViewCount = new LinkedHashMap<>();
+
+        // Process the results and populate the map
+        for (int i = 0; i < Math.min(10, results.size()); i++) {
+            Object[] result = results.get(i);
+            String postUrl = (String) result[0];
+            Integer viewCount = (Integer) result[1];
+            topPostUrlsByViewCount.put(postUrl, viewCount);
+        }
+
+        return topPostUrlsByViewCount;
     }
 }

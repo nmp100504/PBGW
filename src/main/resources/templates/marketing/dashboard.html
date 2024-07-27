@@ -41,9 +41,9 @@
                             <div class="card-body-icon">
                                 <i class="fas fa-fw fa-list"></i>
                             </div>
-                            <div class="mr-5" th:text="${ totalComments + ' Total Comments'}"></div>
+                            <div class="mr-5" th:text="${postsCountByUser.size() + ' Blogger'}"></div>
                         </div>
-                        <a class="card-footer text-white clearfix small z-1" href="/ManagerDashBoard/productList/activeProduct">
+                        <a class="card-footer text-white clearfix small z-1" href="/posts/dashboard">
                             <span class="float-left">View Details</span>
                             <span class="float-right">
                   <i class="fas fa-angle-right"></i>
@@ -68,87 +68,264 @@
                     </div>
                 </div>
             </div>
+            <div class="d-flex justify-content-around mb-3">
+                <div style="width: 30%; text-align: center;">
+                    <b>
+                        Posts Count by Day in Current Week
+                    </b>
+                    <canvas id="myChart"></canvas>
+                </div>
+                <div style="width: 30%; text-align: center;">
+                    <b>
+                        Posts Count by Day in Current Month
+                    </b>
+                    <canvas id="barChart2"></canvas>
+                </div>
 
-            <canvas id="lineChart" width="600" height="400"></canvas>
+            </div>
+            <div class="d-flex justify-content-center mb-3">
+                <div  style="width: 50%; text-align: center;">
+                    <b>
+                        Posts Count by Day in Current Year
+                    </b>
+                    <canvas id="barChart3"></canvas>
+                </div>
+            </div>
+            <div class="d-flex justify-content-around mb-3">
+                <div style="width: 30%; margin: auto; text-align: center">
+                    <b>Top 10 Users by Post Count</b>
+                    <canvas id="pieChart"></canvas>
+                </div>
+                <div style="width: 30%; margin: auto; text-align: center">
+                    <b>Top 10 Posts by View Count</b>
+                    <canvas id="pieChart2"></canvas>
+                </div>
+            </div>
 
-            <script>
-                // Function to extract data from Thymeleaf
-                function getDataFromThymeleaf() {
-                    const postsByDayInWeek = /*[[${postsByDayInWeek}]]*/ {};
-                    const postsByWeekInMonth = /*[[${postsByWeekInMonth}]]*/ {};
-                    const postsByMonthInYear = /*[[${postsByMonthInYear}]]*/ {};
 
-                    return {
-                        postsByDayInWeek: JSON.parse(/*[[${postsByDayInWeek}]]*/ '{}'),
-                        postsByWeekInMonth: JSON.parse(/*[[${postsByWeekInMonth}]]*/ '{}'),
-                        postsByMonthInYear: JSON.parse(/*[[${postsByMonthInYear}]]*/ '{}')
-                    };
-                }
+            <script th:inline="javascript">
+                /*<![CDATA[*/
+                var topUsersByPostCount = /*[[${topUsersByPostCount}]]*/ {};
+                var labels = Object.keys(topUsersByPostCount);
+                var values = Object.values(topUsersByPostCount);
 
-                // Function to process the data for the chart
-                function processPostData(data) {
-                    const labels = Object.keys(data.postsByDayInWeek);
-                    const dayData = labels.map(day => data.postsByDayInWeek[day].length);
-
-                    return {
-                        labels,
-                        datasets: [{
-                            label: 'Posts by Day in Week',
-                            data: dayData,
-                            backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                            borderColor: 'rgba(75, 192, 192, 1)',
-                            borderWidth: 1
-                        }]
-                    };
-                }
-
-                // Function to initialize the chart
-                function initChart() {
-                    const postData = getDataFromThymeleaf();
-                    const processedData = processPostData(postData);
-
-                    var ctx = document.getElementById('lineChart').getContext('2d');
-                    var lineChart = new Chart(ctx, {
-                        type: 'line',
-                        data: processedData,
-                        options: {
-                            scales: {
-                                y: {
-                                    beginAtZero: true // Start the y-axis at zero
-                                }
-                            }
-                        }
-                    });
-                }
-
-                // Initialize the chart when the page loads
-                window.onload = initChart;
-            </script>
-
-            <script>
-                var ctx = document.getElementById('areaChart').getContext('2d');
-                var areaChart = new Chart(ctx, {
-                    type: 'line', // Use 'line' type to create an area chart
+                var ctxPieChart = document.getElementById('pieChart').getContext('2d');
+                new Chart(ctxPieChart, {
+                    type: 'pie',
                     data: {
-                        labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'], // X-axis labels
+                        labels: labels,
                         datasets: [{
-                            label: 'Cumulative Visitors', // Label for the dataset
-                            data: [10, 30, 60, 85, 120, 160, 210], // Cumulative data points
-                            backgroundColor: 'rgba(153, 102, 255, 0.2)', // Background color for area
-                            borderColor: 'rgba(153, 102, 255, 1)', // Line color
-                            borderWidth: 1, // Line width
-                            fill: true // Fill the area under the line
+                            label: 'Posts Count',
+                            data: values,
+                            backgroundColor: [
+                                'rgba(255, 99, 132, 0.2)',
+                                'rgba(54, 162, 235, 0.2)',
+                                'rgba(255, 206, 86, 0.2)',
+                                'rgba(75, 192, 192, 0.2)',
+                                'rgba(153, 102, 255, 0.2)',
+                                'rgba(255, 159, 64, 0.2)',
+                                'rgba(255, 99, 132, 0.2)',
+                                'rgba(54, 162, 235, 0.2)',
+                                'rgba(255, 206, 86, 0.2)',
+                                'rgba(75, 192, 192, 0.2)'
+                            ],
+                            borderColor: [
+                                'rgba(255, 99, 132, 1)',
+                                'rgba(54, 162, 235, 1)',
+                                'rgba(255, 206, 86, 1)',
+                                'rgba(75, 192, 192, 1)',
+                                'rgba(153, 102, 255, 1)',
+                                'rgba(255, 159, 64, 1)',
+                                'rgba(255, 99, 132, 1)',
+                                'rgba(54, 162, 235, 1)',
+                                'rgba(255, 206, 86, 1)',
+                                'rgba(75, 192, 192, 1)'
+                            ],
+                            borderWidth: 1
                         }]
                     },
                     options: {
-                        scales: {
-                            y: {
-                                beginAtZero: true // Start the y-axis at zero
+                        responsive: true,
+                        plugins: {
+                            legend: {
+                                position: 'top',
+                            },
+                            tooltip: {
+                                callbacks: {
+                                    label: function(tooltipItem) {
+                                        return tooltipItem.label + ': ' + tooltipItem.raw + ' posts';
+                                    }
+                                }
                             }
                         }
                     }
                 });
+                /*]]>*/
             </script>
+
+            <script th:inline="javascript">
+                /*<![CDATA[*/
+                var topPostUrlsByViewCount = /*[[${topPostUrlsByViewCount}]]*/ {};
+                var labels = Object.keys(topPostUrlsByViewCount);
+                var values = Object.values(topPostUrlsByViewCount);
+
+                var ctxPieChart = document.getElementById('pieChart2').getContext('2d');
+                new Chart(ctxPieChart, {
+                    type: 'pie',
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            label: 'View Count',
+                            data: values,
+                            backgroundColor: [
+                                'rgba(255, 99, 132, 0.2)',
+                                'rgba(54, 162, 235, 0.2)',
+                                'rgba(255, 206, 86, 0.2)',
+                                'rgba(75, 192, 192, 0.2)',
+                                'rgba(153, 102, 255, 0.2)',
+                                'rgba(255, 159, 64, 0.2)',
+                                'rgba(255, 99, 132, 0.2)',
+                                'rgba(54, 162, 235, 0.2)',
+                                'rgba(255, 206, 86, 0.2)',
+                                'rgba(75, 192, 192, 0.2)'
+                            ],
+                            borderColor: [
+                                'rgba(255, 99, 132, 1)',
+                                'rgba(54, 162, 235, 1)',
+                                'rgba(255, 206, 86, 1)',
+                                'rgba(75, 192, 192, 1)',
+                                'rgba(153, 102, 255, 1)',
+                                'rgba(255, 159, 64, 1)',
+                                'rgba(255, 99, 132, 1)',
+                                'rgba(54, 162, 235, 1)',
+                                'rgba(255, 206, 86, 1)',
+                                'rgba(75, 192, 192, 1)'
+                            ],
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            legend: {
+                                position: 'top',
+                            },
+                            tooltip: {
+                                callbacks: {
+                                    label: function(tooltipItem) {
+                                        return tooltipItem.label + ': ' + tooltipItem.raw + ' views';
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
+                /*]]>*/
+            </script>
+
+            <script th:inline="javascript">
+                /*<![CDATA[*/
+                document.addEventListener('DOMContentLoaded', function() {
+                    // Function to set canvas size
+                    function setCanvasSize(canvasId, width, height) {
+                        var canvas = document.getElementById(canvasId);
+                        canvas.width = width;  // Set width
+                        canvas.height = height; // Set height
+                    }
+
+                    // Set sizes for each canvas
+                    setCanvasSize('myChart', 600, 400);
+                    setCanvasSize('barChart2', 600, 400);
+                    setCanvasSize('barChart3', 600, 400);
+
+                    // Initialize charts after setting size
+                    var postsCountByDay = /*[[${postsCountByDay}]]*/ {};
+                    var labels = Object.keys(postsCountByDay);
+                    var values = Object.values(postsCountByDay);
+
+                    new Chart(document.getElementById('myChart').getContext('2d'), {
+                        type: 'line', // Changed to line chart
+                        data: {
+                            labels: labels,
+                            datasets: [{
+                                label: '# of Posts',
+                                data: values,
+                                borderColor: 'rgba(75, 192, 192, 1)',
+                                backgroundColor: 'rgba(75, 192, 192, 0.2)', // Light color for the area under the line
+                                borderWidth: 2,
+                                fill: true // Fill the area under the line
+                            }]
+                        },
+                        options: {
+                            scales: {
+                                y: {
+                                    beginAtZero: true
+                                }
+                            }
+                        }
+                    });
+
+                    var postsCountByWeek = /*[[${postsCountByWeek}]]*/ {};
+                    labels = Object.keys(postsCountByWeek);
+                    values = Object.values(postsCountByWeek);
+
+                    new Chart(document.getElementById('barChart2').getContext('2d'), {
+                        type: 'line', // Changed to line chart
+                        data: {
+                            labels: labels,
+                            datasets: [{
+                                label: 'Posts Count',
+                                data: values,
+                                borderColor: 'rgba(153, 102, 255, 1)',
+                                backgroundColor: 'rgba(153, 102, 255, 0.2)', // Light color for the area under the line
+                                borderWidth: 2,
+                                fill: true // Fill the area under the line
+                            }]
+                        },
+                        options: {
+                            scales: {
+                                x: {
+                                    beginAtZero: true
+                                },
+                                y: {
+                                    beginAtZero: true
+                                }
+                            }
+                        }
+                    });
+
+                    var postsCountByMonth = /*[[${postsCountByMonth}]]*/ {};
+                    labels = Object.keys(postsCountByMonth);
+                    values = Object.values(postsCountByMonth);
+
+                    new Chart(document.getElementById('barChart3').getContext('2d'), {
+                        type: 'line', // Changed to line chart
+                        data: {
+                            labels: labels,
+                            datasets: [{
+                                label: 'Posts Count',
+                                data: values,
+                                borderColor:                                 'rgba(255, 206, 86, 1)',
+                                backgroundColor:  'rgba(255, 206, 86, 0.2)',
+                                borderWidth: 2,
+                                fill: true // Fill the area under the line
+                            }]
+                        },
+                        options: {
+                            scales: {
+                                x: {
+                                    beginAtZero: true
+                                },
+                                y: {
+                                    beginAtZero: true
+                                }
+                            }
+                        }
+                    });
+                });
+                /*]]>*/
+            </script>
+
             <div class="card mb-3">
                 <div class="card-header h3">
                     <i class="fas fa-table"></i>

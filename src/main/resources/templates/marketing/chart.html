@@ -18,27 +18,6 @@
     var values = Object.values(postsCountByDay);
     var max = Math.max(...values);
 
-    // Chart for lineChart
-    var ctxLineChart = document.getElementById('lineChart').getContext('2d');
-    new Chart(ctxLineChart, {
-        type: 'line',
-        data: {
-            labels: labels,
-            datasets: [{
-                label: 'Posts',
-                data: values,
-                borderWidth: 1
-            }]
-        },
-        options: {
-            scales: {
-                y: {
-                    beginAtZero: true
-                }
-            }
-        }
-    });
-
     // Chart for myChart (example bar chart)
     var ctxMyChart = document.getElementById('myChart').getContext('2d');
     new Chart(ctxMyChart, {
@@ -62,53 +41,80 @@
     /*]]>*/
 </script>
 <h1>Posts Count by Week in Current Month</h1>
-<canvas id="weekChart" width="600" height="400"></canvas>
 <div>
-    <canvas id="myWeekChart"></canvas>
+    <canvas id="barChart2" width="600" height="400"></canvas>
 </div>
 
 <script th:inline="javascript">
     /*<![CDATA[*/
+    // Data for the line chart and bar chart
     var postsCountByWeek = /*[[${postsCountByWeek}]]*/ {};
-    var weekLabels = Object.keys(postsCountByWeek);
-    var weekValues = Object.values(postsCountByWeek);
-    var weekMax = Math.max(...weekValues);
+    var labels = Object.keys(postsCountByWeek);
+    var values = Object.values(postsCountByWeek);
+    var max = Math.max(...values);
 
-    // Chart for weekChart
-    var ctxWeekChart = document.getElementById('weekChart').getContext('2d');
-    new Chart(ctxWeekChart, {
-        type: 'line',
+
+    // Bar Chart
+    var ctxMyChart = document.getElementById('barChart2').getContext('2d');
+    new Chart(ctxMyChart, {
+        type: 'bar',
         data: {
-            labels: weekLabels,
+            labels: labels,
             datasets: [{
-                label: 'Posts',
-                data: weekValues,
+                label: 'Posts Count',
+                data: values,
+                backgroundColor: 'rgba(153, 102, 255, 0.2)',
+                borderColor: 'rgba(153, 102, 255, 1)',
                 borderWidth: 1
             }]
         },
         options: {
             scales: {
+                x: {
+                    beginAtZero: true
+                },
                 y: {
                     beginAtZero: true
                 }
             }
         }
     });
+    /*]]>*/
+</script>
 
-    // Chart for myWeekChart (example bar chart)
-    var ctxMyWeekChart = document.getElementById('myWeekChart').getContext('2d');
-    new Chart(ctxMyWeekChart, {
+<h1>Posts Count by Month in Current Year</h1>
+<div>
+    <canvas id="barChart3" width="600" height="400"></canvas>
+</div>
+
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    // Data for the line chart and bar chart
+    var postsCountByMonth = /*[[${postsCountByMonth}]]*/ {};
+    var labels = Object.keys(postsCountByMonth);
+    var values = Object.values(postsCountByMonth);
+    var max = Math.max(...values);
+
+
+    // Bar Chart
+    var ctxMyChart = document.getElementById('barChart3').getContext('2d');
+    new Chart(ctxMyChart, {
         type: 'bar',
         data: {
-            labels: weekLabels,
+            labels: labels,
             datasets: [{
-                label: '# of Posts',
-                data: weekValues,
+                label: 'Posts Count',
+                data: values,
+                backgroundColor: 'rgba(153, 102, 255, 0.2)',
+                borderColor: 'rgba(153, 102, 255, 1)',
                 borderWidth: 1
             }]
         },
         options: {
             scales: {
+                x: {
+                    beginAtZero: true
+                },
                 y: {
                     beginAtZero: true
                 }

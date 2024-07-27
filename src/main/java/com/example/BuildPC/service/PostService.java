@@ -41,6 +41,12 @@ public interface PostService {
 
     Map<String, Long> getPostsCountByDayInCurrentWeek();
 
-//    Map<String, Long> getPostsCountByWeekInCurrentMonth();
+    Map<String, Long> getPostsCountByWeekInCurrentMonth();
+
+    Map<String, Long> getPostsCountByMonthInCurrentYear();
+
+    Map<String, Long> getTopUsersByPostCount();
+
+    Map<String, Long> getPostsCountByUser();
 
 }
