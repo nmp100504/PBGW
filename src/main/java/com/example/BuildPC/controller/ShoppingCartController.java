@@ -104,7 +104,7 @@ public class ShoppingCartController {
         Optional<User> user = userService.findByEmail(email);
         if (user.isPresent()) {
                 shoppingCartService.deleteProduct(productId, user.get());
-            redirectAttributes.addFlashAttribute("successMessage", "Deleted!");
+            redirectAttributes.addFlashAttribute("errorMessage", "Deleted!");
             return "redirect:" + request.getHeader("referer");
             }
         return "redirect:/login";

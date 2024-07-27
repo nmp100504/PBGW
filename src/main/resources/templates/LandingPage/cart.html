@@ -56,7 +56,7 @@
               <h4 class="item_title" th:text="${items.product.productName}"></h4>
               <span th:text="${#numbers.formatDecimal(items.product.getProductSalePrice(), 0, 'COMMA', 2, 'POINT') + 'VND'}"></span>
             </div>
-            <button type="button" class="remove_btn"><i class="fal fa-trash-alt"></i></button>
+            <button type="button" class="remove_btn confirmDelete"><i class="fal fa-trash-alt"></i></button>
           </li>
         </ul>
 
@@ -144,8 +144,8 @@
                   <span class="price_text" th:text="${#numbers.formatDecimal(item.product.productSalePrice * item.quantity, 0, 'COMMA', 2, 'POINT') + ' VND'}"></span>
                 </td>
                 <td class="text-center">
-                  <button type="button" class="remove_btn" th:data-pid="${item.product.id}" onclick="deleteCartItem(this)">
-                    <i class="fal fa-trash-alt"></i>
+                  <button type="button" class="remove_btn confirmDelete" th:data-pid="${item.product.id}" onclick="deleteCartItem(this)">
+                    <i class="fal fa-trash-alt confirmDelete"></i>
                   </button>
                 </td>
               </tr>
@@ -192,7 +192,12 @@
               <div class="col col-lg-6">
                 <ul class="btns_group ul_li_right">
                   <li><button type="submit" class="btn border_black">Update Cart</button></li>
-                  <li><a class="btn btn_dark" th:href="@{/checkout}">Proceed To Checkout</a></li>
+                  <li>
+                    <a th:if="${totalPrice!=0}" class="btn btn_dark" th:href="@{/checkout}">Proceed To Checkout</a>
+                    <a th:if="${totalPrice==0}" class="btn btn_dark" th:href="@{/}">
+                      Empty cart, please add some product
+                    </a>
+                  </li>
                 </ul>
               </div>
             </div>
@@ -209,7 +214,7 @@
               <ul class="ul_li_block">
                 <li>
                   <span>Order Total</span>
-                  <span class="total_price" th:text="${#numbers.formatDecimal(totalPrice, 0, 'COMMA', 2, 'POINT') + ' VND'}"></span>
+                  <span class="total_price" th:text="${#numbers.formatDecimal(totalPrice, 0, 'COMMA', 2, 'POINT') + ' VND'}">0</span>
                 </li>
               </ul>
             </div>

@@ -50,4 +50,79 @@
         });
     </script>
 
+    <!-- Include Thymeleaf template engine -->
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        var errorMessage = /*[[${errorMessage}]]*/ 'null';
+        /*]]>*/
+    </script>
+
+    <!-- Inline script to show notification -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            if (errorMessage && errorMessage !== 'null') {
+                $.notify(errorMessage, {
+                    className: "error",
+                    globalPosition: "bottom right"
+                });
+            }
+        });
+    </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var links = document.getElementsByClassName('riskLink');
+
+            for (var i = 0; i < links.length; i++) {
+                links[i].addEventListener('click', function(event) {
+                    event.preventDefault();
+                    var linkToFollow = event.target.href;
+
+                    Swal.fire({
+                        title: 'Are you sure?',
+                        text: "You are about to leave this page.",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Yes, leave',
+                        cancelButtonText: 'Cancel'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            window.location.href = linkToFollow;
+                        }
+                    });
+                });
+            }
+        });
+    </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var cfDelete = document.getElementsByClassName('confirmDelete');
+
+            for (var i = 0; i < cfDelete.length; i++) {
+                links[i].addEventListener('click', function(event) {
+                    event.preventDefault();
+                    var linkToFollow = event.target.href;
+
+                    Swal.fire({
+                        title: 'Are you sure?',
+                        text: "You are about to remove this item from cart.",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Yes, remove it',
+                        cancelButtonText: 'Cancel'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            window.location.href = linkToFollow;
+                        }
+                    });
+                });
+            }
+        });
+    </script>
+
 </th:block>

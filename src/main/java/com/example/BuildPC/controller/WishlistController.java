@@ -15,6 +15,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 import java.util.Optional;
@@ -50,6 +51,7 @@ public class WishlistController {
             @RequestParam("id") int productId,
             @RequestParam(value = "quantity", required = false, defaultValue = "1") Integer quantity,
             @AuthenticationPrincipal CustomUserDetails userDetails,
+            RedirectAttributes redirectAttributes,
             HttpServletRequest request) {
 
         if (userDetails != null) {
@@ -66,8 +68,10 @@ public class WishlistController {
 
                         wishlistService.save(wishlistItem);
                     }
+                redirectAttributes.addFlashAttribute("successMessage", "Added to wishlist!");
 
                     return "redirect:" + request.getHeader("referer");
+
             }
         }
         return "redirect:/login";
@@ -78,6 +82,7 @@ public class WishlistController {
     public String deleteWishlistItem(
             @RequestParam("productId") int productId,
             @AuthenticationPrincipal CustomUserDetails userDetails,
+            RedirectAttributes redirectAttributes,
             HttpServletRequest request) {
 
         if (userDetails != null) {
@@ -96,6 +101,7 @@ public class WishlistController {
                 }
             }
         }
+        redirectAttributes.addFlashAttribute("errorMessage", "Deleted from wishlist!");
         return "redirect:" + request.getHeader("referer");
     }
 
