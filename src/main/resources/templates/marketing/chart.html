@@ -5,60 +5,117 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
+<h1>Posts Count by Day in Current Week</h1>
 <canvas id="lineChart" width="600" height="400"></canvas>
+<div>
+    <canvas id="myChart"></canvas>
+</div>
 
-<script>
-    // Extract data from Thymeleaf
-    const postsByDayInWeek = /*[[${postsByDayInWeek}]]*/ '[]';
-    const postsByWeekInMonth = /*[[${postsByWeekInMonth}]]*/ '[]';
-    const postsByMonthInYear = /*[[${postsByMonthInYear}]]*/ '[]';
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    var postsCountByDay = /*[[${postsCountByDay}]]*/ {};
+    var labels = Object.keys(postsCountByDay);
+    var values = Object.values(postsCountByDay);
+    var max = Math.max(...values);
 
-    // Parse the JSON data
-    const postsByDayInWeekData = JSON.parse(postsByDayInWeek);
-    const postsByWeekInMonthData = JSON.parse(postsByWeekInMonth);
-    const postsByMonthInYearData = JSON.parse(postsByMonthInYear);
-
-    console.log(postsByDayInWeekData);
-    console.log(postsByWeekInMonthData);
-    console.log(postsByMonthInYearData);
-
-    // Function to process the data for the chart
-    function processPostData(data) {
-        const labels = Object.keys(data);
-        const dayData = labels.map(day => data[day].length);
-
-        return {
-            labels,
+    // Chart for lineChart
+    var ctxLineChart = document.getElementById('lineChart').getContext('2d');
+    new Chart(ctxLineChart, {
+        type: 'line',
+        data: {
+            labels: labels,
             datasets: [{
-                label: 'Posts by Day in Week',
-                data: dayData,
-                backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                borderColor: 'rgba(75, 192, 192, 1)',
+                label: 'Posts',
+                data: values,
                 borderWidth: 1
             }]
-        };
-    }
-
-    // Function to initialize the chart
-    function initChart() {
-        const postData = processPostData(postsByDayInWeekData);
-
-        var ctx = document.getElementById('lineChart').getContext('2d');
-        var lineChart = new Chart(ctx, {
-            type: 'line',
-            data: postData,
-            options: {
-                scales: {
-                    y: {
-                        beginAtZero: true // Start the y-axis at zero
-                    }
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
                 }
             }
-        });
-    }
+        }
+    });
 
-    // Initialize the chart when the page loads
-    window.onload = initChart;
+    // Chart for myChart (example bar chart)
+    var ctxMyChart = document.getElementById('myChart').getContext('2d');
+    new Chart(ctxMyChart, {
+        type: 'bar',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: '# of Posts',
+                data: values,
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+    /*]]>*/
+</script>
+<h1>Posts Count by Week in Current Month</h1>
+<canvas id="weekChart" width="600" height="400"></canvas>
+<div>
+    <canvas id="myWeekChart"></canvas>
+</div>
+
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    var postsCountByWeek = /*[[${postsCountByWeek}]]*/ {};
+    var weekLabels = Object.keys(postsCountByWeek);
+    var weekValues = Object.values(postsCountByWeek);
+    var weekMax = Math.max(...weekValues);
+
+    // Chart for weekChart
+    var ctxWeekChart = document.getElementById('weekChart').getContext('2d');
+    new Chart(ctxWeekChart, {
+        type: 'line',
+        data: {
+            labels: weekLabels,
+            datasets: [{
+                label: 'Posts',
+                data: weekValues,
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+
+    // Chart for myWeekChart (example bar chart)
+    var ctxMyWeekChart = document.getElementById('myWeekChart').getContext('2d');
+    new Chart(ctxMyWeekChart, {
+        type: 'bar',
+        data: {
+            labels: weekLabels,
+            datasets: [{
+                label: '# of Posts',
+                data: weekValues,
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+    /*]]>*/
 </script>
 </body>
 </html>

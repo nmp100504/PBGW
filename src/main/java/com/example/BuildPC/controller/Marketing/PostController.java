@@ -46,13 +46,13 @@ public class PostController {
         List<PostDto> posts = postService.findAllPost();
         List<CommentDto> comments = commentService.findAllComments();
         int totalVisitor = visitorCountService.getTotalVisitorCount();
-        Map<String, List<PostDto>> postsByDayInWeek = postService.findPostsGroupedByDayInWeek();
-        Map<Integer, List<PostDto>> postsByWeekInMonth = postService.findPostsGroupedByWeekInMonth();
-        Map<String, List<PostDto>> postsByMonthInYear = postService.findPostsGroupedByMonthInYear();
-
-        model.addAttribute("postsByDayInWeek", postsByDayInWeek);
-        model.addAttribute("postsByWeekInMonth", postsByWeekInMonth);
-        model.addAttribute("postsByMonthInYear", postsByMonthInYear);
+//        Map<String, List<PostDto>> postsByDayInWeek = postService.findPostsGroupedByDayInWeek();
+//        Map<Integer, List<PostDto>> postsByWeekInMonth = postService.findPostsGroupedByWeekInMonth();
+//        Map<String, List<PostDto>> postsByMonthInYear = postService.findPostsGroupedByMonthInYear();
+//
+//        model.addAttribute("postsByDayInWeek", postsByDayInWeek);
+//        model.addAttribute("postsByWeekInMonth", postsByWeekInMonth);
+//        model.addAttribute("postsByMonthInYear", postsByMonthInYear);
         model.addAttribute("message", "I'm over here!");
         model.addAttribute("totalPost", posts.size());
         model.addAttribute("totalComments", comments.size());
@@ -63,13 +63,10 @@ public class PostController {
 
     @GetMapping("/chart")
     public String chart(Model model) throws JsonProcessingException {
-        Map<String, List<PostDto>> postsByDayInWeek = postService.findPostsGroupedByDayInWeek();
-        Map<Integer, List<PostDto>> postsByWeekInMonth = postService.findPostsGroupedByWeekInMonth();
-        Map<String, List<PostDto>> postsByMonthInYear = postService.findPostsGroupedByMonthInYear();
-
-        model.addAttribute("postsByDayInWeek", postsByDayInWeek);
-        model.addAttribute("postsByWeekInMonth", postsByWeekInMonth);
-        model.addAttribute("postsByMonthInYear", postsByMonthInYear);
+        Map<String, Long> postsCountByDay = postService.getPostsCountByDayInCurrentWeek();
+        model.addAttribute("postsCountByDay", postsCountByDay);
+//        Map<String, Long> postsCountByWeek = postService.getPostsCountByWeekInCurrentMonth();
+//        model.addAttribute("postsCountByWeek", postsCountByWeek);
         return "marketing/chart";
     }
 

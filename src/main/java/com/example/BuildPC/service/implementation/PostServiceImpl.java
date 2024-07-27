@@ -28,11 +28,15 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.temporal.TemporalAdjusters;
+import java.time.temporal.WeekFields;
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 @Service
 public class PostServiceImpl implements PostService {
@@ -164,48 +168,89 @@ public class PostServiceImpl implements PostService {
         return posts.stream().map(PostMapper::mapToPostDTO).collect(Collectors.toList());
     }
 
-    @Override
-    public List<PostDto> findPostsByDateRange(LocalDateTime startDateTime, LocalDateTime endDateTime) {
-        List<Post> posts = postRepository.findByCreatedOnBetween(startDateTime, endDateTime);
-        return posts.stream().map(PostMapper::mapToPostDTO).collect(Collectors.toList());
-    }
 
     @Override
-    public Map<String, List<PostDto>> findPostsGroupedByDayInWeek() {
-        LocalDateTime now = LocalDateTime.now();
-        Map<String, List<PostDto>> postsByDay = new HashMap<>();
-        for (int i = 0; i < 7; i++) {
-            LocalDateTime startOfDay = now.minusDays(i).toLocalDate().atStartOfDay();
-            LocalDateTime endOfDay = startOfDay.plusDays(1).minusNanos(1);
-            List<PostDto> posts = findPostsByDateRange(startOfDay, endOfDay);
-            postsByDay.put(startOfDay.getDayOfWeek().name(), posts);
+    public Map<String, Long> getPostsCountByDayInCurrentWeek() {
+        LocalDate today = LocalDate.now();
+        LocalDate startOfWeek = today.with(DayOfWeek.MONDAY);
+        LocalDate endOfWeek = today.with(DayOfWeek.SUNDAY).plusDays(1);
+
+        LocalDateTime startDateTime = startOfWeek.atStartOfDay();
+        LocalDateTime endDateTime = endOfWeek.atTime(LocalTime.MAX);
+
+        List<Object[]> results = postRepository.countPostsByDayInCurrentWeek(startDateTime, endDateTime);
+
+        // Initialize the map with all dates of the current week set to 0
+        Map<LocalDate, Long> postsCountByDay = IntStream.range(0, 7)
+                .mapToObj(startOfWeek::plusDays)
+                .collect(Collectors.toMap(
+                        date -> date,
+                        date -> 0L,
+                        (e1, e2) -> e1,
+                        LinkedHashMap::new
+                ));
+
+        // Update the map with actual counts from the query results
+        for (Object[] result : results) {
+            LocalDate date = ((java.sql.Date) result[0]).toLocalDate(); // Convert java.sql.Date to LocalDate
+            Long count = (Long) result[1];
+            postsCountByDay.put(date, count);
         }
-        return postsByDay;
+
+        // Convert the map to a LinkedHashMap to maintain order
+        Map<String, Long> sortedPostsCountByDay = postsCountByDay.entrySet().stream()
+                .sorted(Map.Entry.comparingByKey())
+                .collect(Collectors.toMap(
+                        entry -> entry.getKey().toString(),
+                        Map.Entry::getValue,
+                        (e1, e2) -> e1,
+                        LinkedHashMap::new
+                ));
+
+        return sortedPostsCountByDay;
     }
 
-    @Override
-    public Map<Integer, List<PostDto>> findPostsGroupedByWeekInMonth() {
-        LocalDateTime now = LocalDateTime.now();
-        Map<Integer, List<PostDto>> postsByWeek = new HashMap<>();
-        for (int i = 0; i < now.getDayOfMonth() / 7; i++) {
-            LocalDateTime startOfWeek = now.minusWeeks(i).with(TemporalAdjusters.previousOrSame(java.time.DayOfWeek.MONDAY)).toLocalDate().atStartOfDay();
-            LocalDateTime endOfWeek = startOfWeek.plusWeeks(1).minusNanos(1);
-            List<PostDto> posts = findPostsByDateRange(startOfWeek, endOfWeek);
-            postsByWeek.put(i + 1, posts);
-        }
-        return postsByWeek;
-    }
+//    @Override
+//    public Map<String, Long> getPostsCountByWeekInCurrentMonth() {
+//        LocalDate today = LocalDate.now();
+//        LocalDate startOfMonth = today.withDayOfMonth(1);
+//        LocalDate endOfMonth = today.withDayOfMonth(today.lengthOfMonth());
+//
+//        LocalDateTime startDateTime = startOfMonth.atStartOfDay();
+//        LocalDateTime endDateTime = endOfMonth.atTime(LocalTime.MAX);
+//
+//        List<Object[]> results = postRepository.countPostsByWeekInCurrentMonth(startDateTime, endDateTime);
+//
+//        WeekFields weekFields = WeekFields.of(Locale.getDefault());
+//        Map<String, Long> postsCountByWeek = new HashMap<>();
+//
+//        // Initialize the map with all weeks of the current month set to 0
+//        LocalDate current = startOfMonth;
+//        int weekNumber = 1;
+//        while (current.isBefore(endOfMonth) || current.isEqual(endOfMonth)) {
+//            String weekLabel = "Week " + weekNumber + " Month " + current.getMonthValue();
+//            postsCountByWeek.put(weekLabel, 0L);
+//            current = current.plusWeeks(1);
+//            weekNumber++;
+//        }
+//
+//        // Update the map with actual counts from the query results
+//        for (Object[] result : results) {
+//            int year = (int) result[0];
+//            int month = (int) result[1];
+//            int weekOfYear = (int) result[2];
+//            Long count = (Long) result[3];
+//
+//            if (year == today.getYear() && month == today.getMonthValue()) {
+//                LocalDate weekStart = LocalDate.ofYearDay(year, (weekOfYear - 1) * 7 + 1).with(weekFields.dayOfWeek(), 1);
+//                int weekOfMonth = weekStart.withDayOfMonth(1).plusDays(weekOfYear - 1).get(weekFields.weekOfMonth());
+//
+//                String weekLabel = "Week " + weekOfMonth + " Month " + month;
+//                postsCountByWeek.merge(weekLabel, count, Long::sum);
+//            }
+//        }
+//
+//        return postsCountByWeek;
+//    }
 
-    @Override
-    public Map<String, List<PostDto>> findPostsGroupedByMonthInYear() {
-        LocalDateTime now = LocalDateTime.now();
-        Map<String, List<PostDto>> postsByMonth = new HashMap<>();
-        for (int i = 0; i < 12; i++) {
-            LocalDateTime startOfMonth = now.minusMonths(i).with(TemporalAdjusters.firstDayOfMonth()).toLocalDate().atStartOfDay();
-            LocalDateTime endOfMonth = startOfMonth.plusMonths(1).minusNanos(1);
-            List<PostDto> posts = findPostsByDateRange(startOfMonth, endOfMonth);
-            postsByMonth.put(startOfMonth.getMonth().name(), posts);
-        }
-        return postsByMonth;
-    }
 }

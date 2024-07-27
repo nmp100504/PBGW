@@ -21,5 +21,8 @@ public interface PostRepository extends JpaRepository<Post, Long> {
             " p.title LIKE CONCAT('%', :query, '%') OR" +
             " p.shortDescription LIKE CONCAT('%', :query, '%')")
     List<Post> searchPosts(String query);
-    List<Post> findByCreatedOnBetween(LocalDateTime startDateTime, LocalDateTime endDateTime);
+    @Query("SELECT DATE(p.createdOn), COUNT(p) FROM Post p WHERE p.createdOn >= :startOfWeek AND p.createdOn < :endOfWeek GROUP BY DATE(p.createdOn)")
+    List<Object[]> countPostsByDayInCurrentWeek(LocalDateTime startOfWeek, LocalDateTime endOfWeek);
+//    @Query("SELECT YEAR(p.createdOn), MONTH(p.createdOn), WEEK(p.createdOn), COUNT(p) FROM Post p WHERE p.createdOn >= :startOfMonth AND p.createdOn < :endOfMonth GROUP BY YEAR(p.createdOn), MONTH(p.createdOn), WEEK(p.createdOn)")
+//    List<Object[]> countPostsByWeekInCurrentMonth(LocalDateTime startOfMonth, LocalDateTime endOfMonth);
 }

@@ -39,11 +39,8 @@ public interface PostService {
 
     List<PostDto> searchPosts(String query);
 
-    List<PostDto> findPostsByDateRange(LocalDateTime startDateTime, LocalDateTime endDateTime);
+    Map<String, Long> getPostsCountByDayInCurrentWeek();
 
-    Map<String, List<PostDto>> findPostsGroupedByMonthInYear();
+//    Map<String, Long> getPostsCountByWeekInCurrentMonth();
 
-    Map<Integer, List<PostDto>> findPostsGroupedByWeekInMonth();
-
-    Map<String, List<PostDto>> findPostsGroupedByDayInWeek();
 }
