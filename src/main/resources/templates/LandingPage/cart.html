@@ -285,7 +285,7 @@
               <img th:src="@{'/images/Product/' + ${product.getImageFileName()}}" alt="Product Image">
             </div>
             <div class="item_content">
-              <h4 class="item_title" th:text="${items.product.getProductName()}"></h4>
+              <h4 class="item_title" th:text="${items.product.productName}"></h4>
               <span th:text="${#numbers.formatDecimal(items.product.getProductSalePrice(), 0, 'COMMA', 2, 'POINT') + 'VND'}"></span>
             </div>
             <button type="button" class="remove_btn"><i class="fal fa-trash-alt"></i></button>

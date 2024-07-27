@@ -14,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.swing.text.html.Option;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -35,7 +36,16 @@ public class OrderController {
     @Autowired
     ShoppingCartService shoppingCartService;
 
-
+    @GetMapping("/myOrder")
+    public String showOrderByCustomer(@AuthenticationPrincipal CustomUserDetails customUserDetails, Model model) {
+        Optional<User> currentUser = userService.findByEmail(customUserDetails.getEmail());
+        List<OrderDTO> myOrderList = orderService.listByUserId(Math.toIntExact(currentUser.get().getId()));
+        for (OrderDTO orderDTO : myOrderList) {
+            System.out.println(orderDTO.getOrderDate());
+        }
+        model.addAttribute("myOrderList", myOrderList);
+        return "auth/account_orders";
+    }
 
     @GetMapping("/ManagerDashBoard/orderList")
     public String showManagerDashBoard(@RequestParam(value = "date", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date date, Model model) {
@@ -121,11 +131,6 @@ public class OrderController {
 
     }
 
-    public String showOrders(Model model) {
-        List<OrderDTO> orderList = orderService.listAllOrder();
-        model.addAttribute("orderList", orderList);
-        return "ManagerDashBoard";
-    }
 
     @GetMapping("/checkout")
     public String showCheckout(Model model, @AuthenticationPrincipal CustomUserDetails userDetails) {

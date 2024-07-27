@@ -15,6 +15,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+import java.util.HashSet;
 
 @Service
 public class OrderService {
@@ -26,7 +27,10 @@ public class OrderService {
 
         for (Order order : orderList) {
             float total = calculateTotal(order);
-            orderDTOS.add(new OrderDTO(order,total));
+            List<OrderDetail> orderDetails = orderDetailRepository.findByOrder(order);
+            OrderDTO orderDTO = new OrderDTO(order, total);
+            orderDTO.setOrderDetails(new HashSet<>(orderDetails));
+            orderDTOS.add(orderDTO);
         }
         return orderDTOS;
     }
@@ -101,6 +105,19 @@ public class OrderService {
         for (Order order : orderList) {
             float total = calculateTotal(order);
             orderDTOS.add(new OrderDTO(order,total));
+        }
+        return orderDTOS;
+    }
+    public List<OrderDTO> listByUserId(Integer id){
+        List<Order> orderList = orderRepository.findByUserId(id);
+        List<OrderDTO> orderDTOS = new ArrayList<>();
+
+        for (Order order : orderList) {
+            float total = calculateTotal(order);
+            List<OrderDetail> orderDetails = orderDetailRepository.findByOrder(order);
+            OrderDTO orderDTO = new OrderDTO(order, total);
+            orderDTO.setOrderDetails(new HashSet<>(orderDetails));
+            orderDTOS.add(orderDTO);
         }
         return orderDTOS;
     }

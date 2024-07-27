@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<!-- Mirrored from webthunder.net/html/getyootech/error.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 19 May 2024 08:48:42 GMT -->
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+
+    <title>My Order</title>
+    <link rel="shortcut icon" th:href="@{/assetsLandingPage/images/logo/favourite_icon.svg}">
+
+    <!-- fraimwork - css include -->
+    <link rel="stylesheet" type="text/css" th:href="@{/assetsLandingPage/css/bootstrap.min.css}">
+
+    <!-- icon font - css include -->
+    <link rel="stylesheet" type="text/css" th:href="@{/assetsLandingPage/css/fontawesome.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/assetsLandingPage/css/stroke-gap-icons.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/assetsLandingPage/css/icofont.css}">
+
+    <!-- animation - css include -->
+    <link rel="stylesheet" type="text/css" th:href="@{/assetsLandingPage/css/animate.css}">
+
+    <!-- carousel - css include -->
+    <link rel="stylesheet" type="text/css" th:href="@{/assetsLandingPage/css/slick.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/assetsLandingPage/css/slick-theme.css}">
+
+    <!-- popup - css include -->
+    <link rel="stylesheet" type="text/css" th:href="@{/assetsLandingPage/css/magnific-popup.css}">
+
+    <!-- jquery-ui - css include -->
+    <link rel="stylesheet" type="text/css" th:href="@{/assetsLandingPage/css/jquery-ui.css}">
+
+    <!-- select option - css include -->
+    <link rel="stylesheet" type="text/css" th:href="@{/assetsLandingPage/css/nice-select.css}">
+
+    <!-- custom - css include -->
+    <link rel="stylesheet" type="text/css" th:href="@{/assetsLandingPage/css/style.css}">
+
+</head>
+
+
+<body>
+
+<!-- body_wrap - start -->
+<div class="body_wrap">
+
+    <!-- backtotop - start -->
+    <div class="backtotop">
+        <a href="#" class="scroll">
+            <i class="far fa-arrow-up"></i>
+        </a>
+    </div>
+    <!-- backtotop - end -->
+
+    <!-- preloader - start -->
+    <div id="preloader"></div>
+    <!-- preloader - end -->
+
+    <!-- header_section - start
+    ================================================== -->
+    <th:block th:replace="~{fragment/header :: header}"></th:block>
+    <!-- header_section - end
+  ================================================== -->
+
+    <!-- main body - start
+    ================================================== -->
+    <main>
+
+        <!-- sidebar cart - start
+        ================================================== -->
+
+        <!-- sidebar cart - end
+        ================================================== -->
+
+        <!-- breadcrumb_section - start
+        ================================================== -->
+        <div class="breadcrumb_section">
+            <div class="container">
+                <ul class="breadcrumb_nav ul_li">
+                    <li><a th:href="@{/}">Home</a></li>
+                    <li>My Account</li>
+                </ul>
+            </div>
+        </div>
+        <!-- breadcrumb_section - end
+        ================================================== -->
+
+        <!-- account_section - start
+        ================================================== -->
+        <section class="account_section section_space">
+            <div class="container">
+                <div class="row">
+                    <div class="col col-lg-3">
+                        <div class="account_menu">
+                            <h2 class="title_text">My Account</h2>
+                            <ul class="account_menu_list ul_li_block">
+                                <li><a href="#!">Account Dashboard</a></li>
+                                <li><a href="#!">Account Information</a></li>
+                           
+                                <li class="active"><a th:href="@{/myOrder}">My Orders</a></li>
+
+                            </ul>
+                        </div>
+                    </div>
+<!--        accordion-->
+                    <style>
+                        .accordion {
+                            max-width: 100%; /* Set your desired width */
+                            margin: auto; /* Center the accordion */
+                        }
+                        .accordion-item {
+                            margin-bottom: 10px; /* Optional: Space between items */
+                        }
+                    </style>
+                    <div class="col col-lg-9">
+                        <div class="account_content_area">
+                            <h3>My Dashboard</h3>
+                            <ul class="content_layout ul_li_block">
+                                <div class="accordion" id="accordionExample">
+                                    <th:block th:each="order, iter : ${myOrderList}">
+                                        <div class="accordion-item">
+                                            <h2 class="accordion-header" th:attr="id='heading-' + ${iter.index}">
+                                                <button class="accordion-button" type="button"
+                                                        th:attr="data-bs-toggle='collapse',
+                                             data-bs-target='#collapse-' + ${iter.index},
+                                             aria-expanded='false',
+                                             aria-controls='collapse-' + ${iter.index}">
+                                                    <div class="container">
+                                                        <div class="row">
+                                                            <div class="col-4">
+                                                                <strong>Order number:</strong> [[${order.id}]]
+                                                            </div>
+                                                            <div class="col-4">
+                                                                <strong>Order Date:</strong> [[${order.orderDate}]]
+                                                            </div>
+                                                            <div class="col-4">
+                                                                <strong>Status:</strong> [[${order.status}]]
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </button>
+                                            </h2>
+                                            <div th:attr="id='collapse-' + ${iter.index},
+                                     class='accordion-collapse collapse',
+                                     aria-labelledby='heading-' + ${iter.index},
+                                     data-bs-parent='#accordionExample'">
+                                                <div class="accordion-body">
+                                                    <strong>Order Details:</strong>
+                                                    <ul>
+                                                        <div class="cart_table checkout_table">
+                                                            <table class="table">
+                                                                <thead></thead>
+                                                                <tbody>
+                                                                <tr th:each="detail : ${order.orderDetails}">
+                                                                    <td>
+                                                                        <div th:each="product, iterStat : ${detail.getProduct().getProductImages()}"
+                                                                             th:if="${iterStat.index == 0}"
+                                                                             class="cart_product">
+                                                                            <img th:src="@{'/images/Product/' + ${product.getImageFileName()}}"
+                                                                                 alt="Product Image">
+                                                                        </div>
+                                                                    </td>
+                                                                    <td>Product: [[${detail.product.productName}]]</td>
+                                                                    <td>Quantity: [[${detail.quantity}]]</td>
+                                                                </tr>
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                    </ul>
+                                                    <p>Shipping Address: [[${order.shipAddress}]]</p>
+                                                    <p>Total Price: [[${order.formattedTotalPrice}]]</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </th:block>
+                                </div>
+                            </ul>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+        <!-- account_section - end
+        ================================================== -->
+
+        <!-- newsletter_section - start
+        ================================================== -->
+        <section class="newsletter_section">
+            <div class="container">
+            </div>
+        </section>
+        <!-- newsletter_section - end
+        ================================================== -->
+
+    </main>
+    <!-- main body - end
+    ================================================== -->
+
+    <!-- footer_section - start
+    ================================================== -->
+    <th:block th:replace="~{fragment/footer :: footer}"></th:block>
+    <!-- footer_section - end
+    ================================================== -->
+
+</div>
+<!-- body_wrap - end -->
+
+<!-- fraimwork - jquery include -->
+<script th:src="@{/assets/js/jquery.min.js}"></script>
+<script th:src="@{/assets/js/popper.min.js}"></script>
+<script th:src="@{/assets/js/bootstrap.min.js}"></script>
+<script th:src="@{/assets/js/bootstrap5-dropdown-ml-hack.js}"></script>
+
+<!-- carousel - jquery include -->
+<script th:src="@{/assets/js/slick.min.js}"></script>
+
+<!-- popup - jquery include -->
+<script th:src="@{/assets/js/magnific-popup.min.js}"></script>
+
+<!-- jquery-ui - jquery include -->
+<script th:src="@{/assets/js/jquery-ui.js}"></script>
+
+<!-- off canvas sidebar - jquery include -->
+<script th:src="@{/assets/js/mCustomScrollbar.js}"></script>
+
+<!-- select option - jquery include -->
+<script th:src="@{/assets/js/nice-select.min.js}"></script>
+
+<!-- countdown timer - jquery include -->
+<script th:src="@{/assets/js/countdown.js}"></script>
+
+<!-- counter up - jquery include -->
+<script th:src="@{/assets/js/counterup.min.js}"></script>
+<script th:src="@{/assets/js/waypoints.min.js}"></script>
+
+<!-- custom - jquery include -->
+<script th:src="@{/assets/js/main.js}"></script>
+
+</body>
+
+</html>
+
+
+

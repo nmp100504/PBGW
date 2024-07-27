@@ -57,7 +57,7 @@ public class SecurityConfig {
         return http
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/","login", "/error", "/registration/**","/homepage"
-                                ,"/product/**","/category/**","/search/**","/sort/**","/checkout","/api/payment/**","/payment").permitAll()
+                                ,"/product/**","/category/**","/search/**","/sort/**","/checkout","/api/payment/**","/payment","/myOrder").permitAll()
                         .requestMatchers("/dashBoard/**").hasRole("ADMIN")
                         .requestMatchers("/ManagerDashBoard/**","/detail/**","/order/save").hasRole("MANAGER")
                         .requestMatchers("/posts").hasRole("MARKETING")
