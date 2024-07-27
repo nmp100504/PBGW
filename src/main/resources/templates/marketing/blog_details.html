@@ -1,51 +1,45 @@
-<!doctype html>
-<html lang="en"
-      xmlns:th="http://www.thymeleaf.org"
->
-
-  
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
 
-  	<meta charset="utf-8">
-  	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  	<meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
 
-  	<title>Blog Details - Getyootech - Gadgets Ecommerce Site Template</title>
-  	<link rel="shortcut icon" href="assets/images/logo/favourite_icon.svg">
+  <title>PBGW-STORE</title>
+  <link rel="shortcut icon" th:href="@{/assetsLandingPage/images/logo/favourite_icon.svg}">
 
-  	<!-- framework - css include -->
-  <th:block th:replace="fragment/framework :: framework"> </th:block>
-
-
-  </head>
+  <th:block th:replace="~{fragment/framework :: framework}"></th:block>
+</head>
 
 
-  <body>
+<body>
 
-    <!-- body_wrap - start -->
-    <div class="body_wrap">
+<!-- body_wrap - start -->
+<div class="body_wrap">
 
-      <!-- backtotop - start -->
-      <div class="backtotop">
-        <a href="#" class="scroll">
-          <i class="far fa-arrow-up"></i>
-        </a>
-      </div>
-      <!-- backtotop - end -->
+  <!-- backtotop - start -->
+  <div class="backtotop">
+    <a href="#" class="scroll">
+      <i class="far fa-arrow-up"></i>
+    </a>
+  </div>
+  <!-- backtotop - end -->
 
-      <!-- preloader - start -->
-      <div id="preloader"></div>
-      <!-- preloader - end -->
+  <!-- preloader - start -->
+  <div id="preloader"></div>
+  <!-- preloader - end -->
 
-      <!-- header_section - start
-      ================================================== -->
-      <th:block th:replace="fragment/header :: header"> </th:block>
-      <!-- header_section - end
-      ================================================== -->
+  <!-- header_section - start
+  ================================================== -->
+  <th:block th:replace="~{fragment/header :: header}"></th:block>
+  <!-- header_section - end
+  ================================================== -->
 
-      <!-- main body - start
-      ================================================== -->
-      <main>
+  <!-- main body - start
+  ================================================== -->
+  <main>
 
         <!-- sidebar cart - start
         ================================================== -->
