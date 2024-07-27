@@ -147,13 +147,13 @@ public class PostServiceImpl implements PostService {
     }
     @Override
     public Page<PostDto> findSortedPaginatedPost(String field, int pageSize) {
-        Pageable pageable = PageRequest.of(0, pageSize, Sort.by(Sort.Direction.ASC, field));
+        Pageable pageable = PageRequest.of(0, pageSize, Sort.by(Sort.Direction.DESC, field));
         return postRepository.findAll(pageable).map(PostMapper::mapToPostDTO);
     }
 
     @Override
     public Page<PostDto> findSortedPaginatedPostByAuthor(String field, Long authorId, int pageSize) {
-        Pageable pageable = PageRequest.of(0, pageSize, Sort.by(Sort.Direction.ASC, field));
+        Pageable pageable = PageRequest.of(0, pageSize, Sort.by(Sort.Direction.DESC, field));
         return postRepository.findAllByCreatedById(authorId, pageable).map(PostMapper::mapToPostDTO);
     }
 

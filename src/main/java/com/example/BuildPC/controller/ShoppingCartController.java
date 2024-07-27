@@ -13,6 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 import java.util.Map;
@@ -58,11 +59,14 @@ public class ShoppingCartController {
     public String addItemToCart(
             @RequestParam("id") Integer productId,
             @RequestParam(value = "quantity", required = false, defaultValue = "1") Integer quantity,
+            RedirectAttributes redirectAttributes,
             HttpServletRequest request) {
         String email = Objects.requireNonNull(SecurityUtils.getCurrentUser()).getEmail();
         Optional<User> user = userService.findByEmail(email);
             if (user.isPresent()) {
                 shoppingCartService.addProduct(productId, quantity, user.get());
+                // Add flash attribute for success message
+                redirectAttributes.addFlashAttribute("successMessage", "Added to cart!");
                 return "redirect:" + request.getHeader("referer");
             }
         return "redirect:/login";
@@ -94,12 +98,14 @@ public class ShoppingCartController {
 
     @PostMapping("/delete-cart-item")
     public String deleteCartItem(@RequestParam("productId") Integer productId,
+                                 RedirectAttributes redirectAttributes,
                                  HttpServletRequest request) {
         String email = Objects.requireNonNull(SecurityUtils.getCurrentUser()).getEmail();
         Optional<User> user = userService.findByEmail(email);
         if (user.isPresent()) {
                 shoppingCartService.deleteProduct(productId, user.get());
-                return "redirect:" + request.getHeader("referer");
+            redirectAttributes.addFlashAttribute("successMessage", "Deleted!");
+            return "redirect:" + request.getHeader("referer");
             }
         return "redirect:/login";
     }

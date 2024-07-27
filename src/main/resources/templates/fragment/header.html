@@ -132,6 +132,11 @@
                 <i class="fa-solid fa-table-columns"></i>
               </a>
             </li>
+            <li sec:authorize="isAuthenticated()">
+              <a th:href="@{/wishlist}">
+                <i class="fa-solid fa-heart"></i>
+              </a>
+            </li>
             <li sec:authorize="hasRole('ADMIN')">
               <a th:href="@{/dashBoard}">
                 <i class="fa-solid fa-table-columns"></i>

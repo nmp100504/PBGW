@@ -66,9 +66,9 @@
           <div class="container">
             <div class="row justify-content-center">
 
-              <div class="col col-lg-8">
+              <div class="col col-lg-8 w-100">
                 <div th:each ="post: ${posts}">
-                  <div class="bolg_standard">
+                  <div class="bolg_standard w-100">
                     <a class="item_image" th:href="@{/blog/{postUrl}(postUrl=${post.url})}">
                       <img src="assets/images/blog/blog_2.webp" alt="Getyootech - Gadgets Ecommerce Site Template">
                     </a>
@@ -89,9 +89,7 @@
                 </div>
 
 
-
-
-                <div th:if="${totalPages > 1}" class="pagination_wrap p-0">
+                <div  th:if="${totalPages > 1}" class="pagination_wrap p-0 d-flex justify-content-center">
                   <ul class="pagination_nav ul_li">
                     <!-- Previous Button -->
                     <li th:if="${currentPage > 1}" class="prev_btn">
@@ -126,93 +124,7 @@
               </div>
 
               <div class="col col-lg-4">
-                <aside class="sidebar_section">
-                  <div class="sb_widget2 ab_author text-center">
-                    <div class="author_image">
-                      <img src="assets/images/author/author_1.webp" alt="Getyootech - Gadgets Ecommerce Site Template">
-                    </div>
-                    <h3 class="author_name">About Author</h3>
-                    <p>
-                      It is a long established fact that a reader will be distracted eget velit. Donec ac tempus ante. 
-                    </p>
-                    <span class="author_signature">Author Signature</span>
-                  </div>
 
-                  <div class="sb_widget2">
-                    <h3 class="sb_widget_title2">Recent Posts</h3>
-                    <ul class="recent_posts_list ul_li_block">
-                      <li>
-                        <div class="recent_post_item">
-                          <a class="item_image" href="blog_details.html">
-                            <img src="assets/images/recent_post/recent_post_img_1.webp" alt="Getyootech - Gadgets Ecommerce Site Template">
-                          </a>
-                          <div class="item_content">
-                            <h3 class="item_title">
-                              <a href="blog_details.html">Aypi nonam</a>
-                            </h3>
-                            <span class="post_date">17 July 2023 </span>
-                          </div>
-                        </div>
-                      </li>
-                      <li>
-                        <div class="recent_post_item">
-                          <a class="item_image" href="blog_details.html">
-                            <img src="assets/images/recent_post/recent_post_img_2.webp" alt="Getyootech - Gadgets Ecommerce Site Template">
-                          </a>
-                          <div class="item_content">
-                            <h3 class="item_title">
-                              <a href="blog_details.html">Aypi nonam</a>
-                            </h3>
-                            <span class="post_date">17 July 2023 </span>
-                          </div>
-                        </div>
-                      </li>
-                      <li>
-                        <div class="recent_post_item">
-                          <a class="item_image" href="blog_details.html">
-                            <img src="assets/images/recent_post/recent_post_img_3.webp" alt="Getyootech - Gadgets Ecommerce Site Template">
-                          </a>
-                          <div class="item_content">
-                            <h3 class="item_title">
-                              <a href="blog_details.html">Aypi nonam</a>
-                            </h3>
-                            <span class="post_date">17 July 2023 </span>
-                          </div>
-                        </div>
-                      </li>
-                    </ul>
-                  </div>
-                </aside>
-              </div>
-
-            </div>
-          </div>
-        </section>
-        <!-- blog_section - end
-        ================================================== -->
-
-        <!-- newsletter_section - start
-        ================================================== -->
-<!--        <section class="newsletter_section">-->
-<!--          <div class="container">-->
-<!--            <div class="row align-items-center">-->
-<!--              <div class="col col-lg-6">-->
-<!--                <h2 class="newsletter_title text-white">-->
-<!--                  <i class="icofont-paper-plane"></i>-->
-<!--                  Sign Up for Newsletter-->
-<!--                </h2>-->
-<!--              </div>-->
-<!--              <div class="col col-lg-6">-->
-<!--                <form action="#!">-->
-<!--                  <div class="newsletter_form">-->
-<!--                    <input type="email" name="email" placeholder="Enter your email address">-->
-<!--                    <button type="submit" class="btn btn_danger">Submit</button>-->
-<!--                  </div>-->
-<!--                </form>-->
-<!--              </div>-->
-<!--            </div>-->
-<!--          </div>-->
-<!--        </section>-->
         <!-- newsletter_section - end
         ================================================== -->
 

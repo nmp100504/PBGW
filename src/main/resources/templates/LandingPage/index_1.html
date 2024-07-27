@@ -362,8 +362,13 @@
                             <form id="addToCartForm" th:action="@{/add-to-cart}" method="post" style="display:none;">
                               <input type="hidden" name="id" th:value="${product.id}">
                             </form>
-<!--                            <li><a href="#!"><i class="fa-solid fa-arrows-rotate"></i></a></li>-->
-<!--                            <li><a href="#!"><i class="fas fa-heart"></i></a></li>-->
+                            <form  th:action="@{/}">
+                                <button type="submit"><a href=""><i class="fa-solid fa-arrows-rotate"></i></a></button>
+                            </form>
+                            <form th:action="@{/add-to-wishlist}" method="post">
+                              <input type="hidden" name="id" th:value="${product.id}">
+                                <button type="submit"><a href=""><i class="fas fa-heart"></i></a></button>
+                            </form>
                           </ul>
                         </div>
                       </div>
@@ -401,8 +406,13 @@
                             <form id="addToCartForm2" th:action="@{/add-to-cart}" method="post" style="display:none;">
                               <input type="hidden" name="id" th:value="${product.id}">
                             </form>
-<!--                            <li><a href="#!"><i class="fa-solid fa-arrows-rotate"></i></a></li>-->
-<!--                            <li><a href="#!"><i class="fas fa-heart"></i></a></li>-->
+                            <form  th:action="@{/}">
+                              <button type="submit"><a href=""><i class="fa-solid fa-arrows-rotate"></i></a></button>
+                            </form>
+                            <form th:action="@{/add-to-wishlist}" method="post">
+                              <input type="hidden" name="id" th:value="${product.id}">
+                              <button type="submit"><a href=""><i class="fas fa-heart"></i></a></button>
+                            </form>
                           </ul>
                         </div>
                       </div>
@@ -466,12 +476,19 @@
                             </div>
                           </div>
                           <ul class="item_btns_group ul_li">
-                            <form th:action="@{/add-to-cart}" method="post">
+                            <li><a href="#" class="addtocart_btn" onclick="document.getElementById('addToCartForm3').submit(); return false;">
+                              Add To Cart
+                            </a></li>
+                            <form id="addToCartForm3" th:action="@{/add-to-cart}" method="post" style="display:none;">
                               <input type="hidden" name="id" th:value="${product.id}">
-                              <button type="submit" class="addtocart_btn">Add To Cart</button>
                             </form>
-                            <!-- <li><a href="#!"><i class="fa-solid fa-arrows-rotate"></i></a></li>
-                            <li><a href="#!"><i class="fas fa-heart"></i></a></li> -->
+                            <form  th:action="@{/}">
+                              <button type="submit"><a href=""><i class="fa-solid fa-arrows-rotate"></i></a></button>
+                            </form>
+                            <form th:action="@{/add-to-wishlist}" method="post">
+                              <input type="hidden" name="id" th:value="${product.id}">
+                              <button type="submit"><a href=""><i class="fas fa-heart"></i></a></button>
+                            </form>
                           </ul>
                         </div>
                       </div>

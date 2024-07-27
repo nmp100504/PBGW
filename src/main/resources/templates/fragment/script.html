@@ -29,6 +29,25 @@
 
     <!-- custom - jquery include -->
     <script th:src="@{/assets/js/main.js}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/notify/0.4.2/notify.min.js"></script>
 
+    <!-- Include Thymeleaf template engine -->
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        var successMessage = /*[[${successMessage}]]*/ 'null';
+        /*]]>*/
+    </script>
+
+    <!-- Inline script to show notification -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            if (successMessage && successMessage !== 'null') {
+                $.notify(successMessage, {
+                    className: "success",
+                    globalPosition: "bottom right"
+                });
+            }
+        });
+    </script>
 
 </th:block>
