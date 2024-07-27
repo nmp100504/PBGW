@@ -168,8 +168,6 @@
             <div class="allcategories_collapse collapse" id="allcategories_collapse">
               <div class="card card-body">
                 <ul class="allcategories_list ul_li_block">
-                  <li><a href="shop_grid.html"><i class="fa-duotone fa-rocket-launch"></i> New Arrival Products</a></li>
-                  <li><a href="shop_list.html"><i class="fa-duotone fa-earth-americas"></i> Most Popular Products</a></li>
                   <th:block th:each="category : ${categoryList}">
                     <li><a th:href="@{'/category/' + ${category.id}}"><i class="fa-duotone fa-earth-americas"></i>[[${category.categoryName}]]</a></li>
                   </th:block>
