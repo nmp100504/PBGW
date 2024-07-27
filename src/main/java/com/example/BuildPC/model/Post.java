@@ -45,12 +45,6 @@ public class Post {
     @OneToMany(mappedBy = "post", cascade = CascadeType.REMOVE)
     private Set<Comment> comments = new HashSet<>();
 
-    @Column(nullable = false)
-    private int upvotes = 0;
-
-    @Column(nullable = false)
-    private int downvotes = 0;
-
     @Lob
     @Column(nullable = true, columnDefinition = "LONGBLOB")
     private byte[] thumbnailData;

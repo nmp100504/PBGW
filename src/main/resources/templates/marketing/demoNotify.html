@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Notify.js Example</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/notify/0.4.2/notify.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/notify/0.4.2/styles/bootstrap-notify.min.css">
+</head>
+<body>
+<h1>Notify.js Example</h1>
+
+<script th:inline="javascript">
+    $(document).ready(function() {
+        var message = /*[[${message}]]*/ 'default message';
+        $.notify(message, { position: "right bottom" });
+    });
+</script>
+</body>
+
+</html>

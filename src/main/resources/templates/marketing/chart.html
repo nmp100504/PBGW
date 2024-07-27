@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Post Chart</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+<canvas id="lineChart" width="600" height="400"></canvas>
+
+<script>
+    // Extract data from Thymeleaf
+    const postsByDayInWeek = /*[[${postsByDayInWeek}]]*/ '[]';
+    const postsByWeekInMonth = /*[[${postsByWeekInMonth}]]*/ '[]';
+    const postsByMonthInYear = /*[[${postsByMonthInYear}]]*/ '[]';
+
+    // Parse the JSON data
+    const postsByDayInWeekData = JSON.parse(postsByDayInWeek);
+    const postsByWeekInMonthData = JSON.parse(postsByWeekInMonth);
+    const postsByMonthInYearData = JSON.parse(postsByMonthInYear);
+
+    console.log(postsByDayInWeekData);
+    console.log(postsByWeekInMonthData);
+    console.log(postsByMonthInYearData);
+
+    // Function to process the data for the chart
+    function processPostData(data) {
+        const labels = Object.keys(data);
+        const dayData = labels.map(day => data[day].length);
+
+        return {
+            labels,
+            datasets: [{
+                label: 'Posts by Day in Week',
+                data: dayData,
+                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                borderColor: 'rgba(75, 192, 192, 1)',
+                borderWidth: 1
+            }]
+        };
+    }
+
+    // Function to initialize the chart
+    function initChart() {
+        const postData = processPostData(postsByDayInWeekData);
+
+        var ctx = document.getElementById('lineChart').getContext('2d');
+        var lineChart = new Chart(ctx, {
+            type: 'line',
+            data: postData,
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true // Start the y-axis at zero
+                    }
+                }
+            }
+        });
+    }
+
+    // Initialize the chart when the page loads
+    window.onload = initChart;
+</script>
+</body>
+</html>

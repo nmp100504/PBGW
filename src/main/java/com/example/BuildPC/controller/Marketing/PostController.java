@@ -5,16 +5,26 @@ import com.example.BuildPC.dto.CommentDto;
 import com.example.BuildPC.dto.PostDto;
 import com.example.BuildPC.service.CommentService;
 import com.example.BuildPC.service.PostService;
+import com.example.BuildPC.service.VisitorCountService;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.validation.Valid;
 
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.safety.Safelist;
+import org.jsoup.safety.Whitelist;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/posts")
@@ -22,18 +32,45 @@ public class PostController {
 
     private PostService postService;
     private CommentService commentService;
+    private VisitorCountService visitorCountService;
 
-    public PostController(PostService postService, CommentService commentService) {
+    public PostController(PostService postService, CommentService commentService, VisitorCountService visitorCountService) {
         this.postService = postService;
         this.commentService = commentService;
+        this.visitorCountService = visitorCountService;
     }
 
+
     @GetMapping("/dashboard")
-    public String dashboard(Model model)
-    {
+    public String dashboard(Model model) {
         List<PostDto> posts = postService.findAllPost();
+        List<CommentDto> comments = commentService.findAllComments();
+        int totalVisitor = visitorCountService.getTotalVisitorCount();
+        Map<String, List<PostDto>> postsByDayInWeek = postService.findPostsGroupedByDayInWeek();
+        Map<Integer, List<PostDto>> postsByWeekInMonth = postService.findPostsGroupedByWeekInMonth();
+        Map<String, List<PostDto>> postsByMonthInYear = postService.findPostsGroupedByMonthInYear();
+
+        model.addAttribute("postsByDayInWeek", postsByDayInWeek);
+        model.addAttribute("postsByWeekInMonth", postsByWeekInMonth);
+        model.addAttribute("postsByMonthInYear", postsByMonthInYear);
+        model.addAttribute("message", "I'm over here!");
+        model.addAttribute("totalPost", posts.size());
+        model.addAttribute("totalComments", comments.size());
+        model.addAttribute("totalVisitor", totalVisitor);
         model.addAttribute("posts", posts);
         return "marketing/dashboard";
+    }
+
+    @GetMapping("/chart")
+    public String chart(Model model) throws JsonProcessingException {
+        Map<String, List<PostDto>> postsByDayInWeek = postService.findPostsGroupedByDayInWeek();
+        Map<Integer, List<PostDto>> postsByWeekInMonth = postService.findPostsGroupedByWeekInMonth();
+        Map<String, List<PostDto>> postsByMonthInYear = postService.findPostsGroupedByMonthInYear();
+
+        model.addAttribute("postsByDayInWeek", postsByDayInWeek);
+        model.addAttribute("postsByWeekInMonth", postsByWeekInMonth);
+        model.addAttribute("postsByMonthInYear", postsByMonthInYear);
+        return "marketing/chart";
     }
 
     @GetMapping("/createPost")
@@ -47,13 +84,44 @@ public class PostController {
     public String createPost(@Valid @ModelAttribute("post") PostDto postDto,
                              @RequestParam("thumbnail") MultipartFile thumbnail,
                              BindingResult result,
+                             RedirectAttributes redirectAttributes,
                              Model model) throws IOException {
+        // Check for validation errors
         if (result.hasErrors()) {
             model.addAttribute("post", postDto);
             return "marketing/create";
         }
+
+        // Get raw content from the post DTO
+        String rawContent = postDto.getContent();
+
+        // Sanitize content to remove potentially unsafe elements but keep <a> tags
+        Safelist safelist = Safelist.basicWithImages().addTags("a"); // Keep <a> tags
+        String safeContent = Jsoup.clean(rawContent, safelist);
+
+        // Parse the sanitized content
+        Document doc = Jsoup.parseBodyFragment(safeContent);
+
+        // Add a class to all <a> tags
+        for (Element link : doc.select("a")) {
+            link.addClass("riskLink");
+        }
+
+        // Get the modified HTML with new class on <a> tags
+        String modifiedContent = doc.body().html();
+
+        // Update the post DTO with modified content
+        postDto.setContent(modifiedContent);
+
+        // Generate URL and save the post
         postDto.setUrl(getUrl(postDto.getTitle()));
         postService.createPost(postDto, thumbnail);
+
+        // Add flash attribute for success message
+        redirectAttributes.addFlashAttribute("successMessage", "Post created successfully!");
+
+
+        // Redirect to dashboard
         return "redirect:/posts/dashboard";
     }
 
@@ -66,17 +134,37 @@ public class PostController {
     }
 
     @PostMapping("/{postId}")
-    public String updatePost(@Valid @ModelAttribute("post") PostDto postDTO,
+    public String updatePost(@Valid @ModelAttribute("post") PostDto postDto,
                              @RequestParam("thumbnail") MultipartFile thumbnail,
                              @PathVariable("postId") Long postId,
                              BindingResult result,
                              Model model) {
         if (result.hasErrors()) {
-            model.addAttribute("post", postDTO);
+            model.addAttribute("post", postDto);
             return "marketing/edit";
         }
-        postDTO.setId(postId);
-        postService.updatePost(postDTO, thumbnail);
+        // Get raw content from the post DTO
+        String rawContent = postDto.getContent();
+
+        // Sanitize content to remove potentially unsafe elements but keep <a> tags
+        Safelist safelist = Safelist.basicWithImages().addTags("a"); // Keep <a> tags
+        String safeContent = Jsoup.clean(rawContent, safelist);
+
+        // Parse the sanitized content
+        Document doc = Jsoup.parseBodyFragment(safeContent);
+
+        // Add a class to all <a> tags
+        for (Element link : doc.select("a")) {
+            link.addClass("riskLink");
+        }
+
+        // Get the modified HTML with new class on <a> tags
+        String modifiedContent = doc.body().html();
+
+        // Update the post DTO with modified content
+        postDto.setContent(modifiedContent);
+        postDto.setId(postId);
+        postService.updatePost(postDto, thumbnail);
         return "redirect:/posts/dashboard";
     }
 
@@ -90,6 +178,9 @@ public class PostController {
     public String viewPost(@PathVariable String postUrl, Model model){
         PostDto postDto = postService.findPostByUrl(postUrl);
         CommentDto commentDto = new CommentDto();
+
+        int counter = visitorCountService.getVisitorCount(postUrl);
+        model.addAttribute("counter", counter);
 
         List<PostDto> recentPosts = postService.findSortedPaginatedPost("createdOn", 3).getContent();
         model.addAttribute("recentPosts", recentPosts);
@@ -118,12 +209,12 @@ public class PostController {
         return  "marketing/comments";
     }
 
-//    @GetMapping("/search")
-//    public String searchPosts(@RequestParam(value = "query") String query, Model model){
-//        List<PostDto> posts = postService.searchPosts(query);
-//        model.addAttribute("posts", posts);
-//        return  "marketing/dashboard";
-//    }
+    @GetMapping("/search")
+    public String searchPosts(@RequestParam(value = "query") String query, Model model){
+        List<PostDto> posts = postService.searchPosts(query);
+        model.addAttribute("posts", posts);
+        return  "marketing/dashboard";
+    }
 
     @GetMapping("/comments")
     public String postComments(Model model){
@@ -132,9 +223,18 @@ public class PostController {
         return  "marketing/comments";
     }
 
-    @GetMapping("/comments/{commentId}")
-    public String deleteComment(@PathVariable Long commentId, Model model){
-        commentService.deleteComment(commentId);
-        return "redirect:/posts/comments";
+    @GetMapping("/comments/hide/{commentId}")
+    public String hideComment(@PathVariable Long commentId){
+        commentService.hideComment(commentId);
+        Long postId = commentService.findPostIdByCommentId(commentId);
+        return "redirect:/posts/"+ postId +"/comments";
     }
+
+    @GetMapping("/comments/display/{commentId}")
+    public String displayComment(@PathVariable Long commentId){
+        commentService.displayComment(commentId);
+        Long postId = commentService.findPostIdByCommentId(commentId);
+        return "redirect:/posts/"+ postId +"/comments";
+    }
+
 }

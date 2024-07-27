@@ -7,6 +7,7 @@ import com.example.BuildPC.model.Post;
 import com.example.BuildPC.model.User;
 import com.example.BuildPC.service.PostService;
 import com.example.BuildPC.service.UserService;
+import com.example.BuildPC.service.VisitorCountService;
 import com.example.BuildPC.utils.SecurityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,10 +27,12 @@ public class BlogController {
 
     private PostService postService;
     private UserService userService;
+    private VisitorCountService visitorCountService;
 
-    public BlogController(PostService postService, UserService userService) {
+    public BlogController(PostService postService, UserService userService,  VisitorCountService visitorCountService) {
         this.userService = userService;
         this.postService = postService;
+        this.visitorCountService = visitorCountService;
     }
 
     @GetMapping("")
@@ -55,17 +58,27 @@ public class BlogController {
         model.addAttribute("user", userDto);
         model.addAttribute("post", postDto);
         model.addAttribute("comment", commentDto);
+
+        //hit counter
+        visitorCountService.incrementVisitorCount(postUrl);
+        int counter = visitorCountService.getVisitorCount(postUrl);
+        model.addAttribute("counter", counter);
+
         return "marketing/view";
     }
-
-    @GetMapping("/demo")
-    private String demo(Model model){
-
-        List<PostDto> recentPosts = postService.findSortedPaginatedPost("createdOn", 3).getContent();
-        model.addAttribute("recentPosts", recentPosts);
-
-        return "marketing/demo";
+    @GetMapping("/notifyPage")
+    public String getNotificationPage(Model model) {
+        model.addAttribute("message", "I'm over here!");
+        return "marketing/demoNotify";
     }
+//    @GetMapping("/demo")
+//    private String demo(Model model){
+//
+//        List<PostDto> recentPosts = postService.findSortedPaginatedPost("createdOn", 3).getContent();
+//        model.addAttribute("recentPosts", recentPosts);
+//
+//        return "marketing/demo";
+//    }
 
 
 //    @GetMapping("/search")
@@ -89,23 +102,4 @@ public class BlogController {
         return "marketing/blog";
     }
 
-
-
-    @PostMapping("/{postUrl}/upvote")
-    public String upvotePost(@PathVariable String postUrl) {
-        String email = Objects.requireNonNull(SecurityUtils.getCurrentUser()).getEmail();
-        Optional<User> user = userService.findByEmail(email);
-        PostDto postDto = postService.findPostByUrl(postUrl);
-        postService.upvotePost(user.get().getId(), postDto.getId());
-        return "redirect:/blog/" + postDto.getUrl();
-    }
-
-    @PostMapping("/{postUrl}/downvote")
-    public String downvotePost(@PathVariable String postUrl) {
-        String email = Objects.requireNonNull(SecurityUtils.getCurrentUser()).getEmail();
-        Optional<User> user = userService.findByEmail(email);
-        PostDto postDto = postService.findPostByUrl(postUrl);
-        postService.downvotePost(user.get().getId(), postDto.getId());
-        return "redirect:/blog/" + postDto.getUrl();
-    }
 }

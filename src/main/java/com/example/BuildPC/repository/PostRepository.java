@@ -17,23 +17,9 @@ import java.util.Optional;
 public interface PostRepository extends JpaRepository<Post, Long> {
     Optional<Post> findByUrl(String Url);
     Page<Post> findAllByCreatedById(Long authorId, Pageable pageable);
-    @Transactional
-    @Modifying
-    @Query("UPDATE Post p SET p.upvotes = p.upvotes + 1 WHERE p.id = :postId")
-    void incrementUpvotes(Long postId);
-
-    @Transactional
-    @Modifying
-    @Query("UPDATE Post p SET p.downvotes = p.downvotes + 1 WHERE p.id = :postId")
-    void incrementDownvotes(Long postId);
-
-    @Transactional
-    @Modifying
-    @Query("UPDATE Post p SET p.upvotes = p.upvotes - 1 WHERE p.id = :postId")
-    void decrementUpvotes(Long postId);
-
-    @Transactional
-    @Modifying
-    @Query("UPDATE Post p SET p.downvotes = p.downvotes - 1 WHERE p.id = :postId")
-    void decrementDownvotes(Long postId);
+    @Query("select p from Post p WHERE  " +
+            " p.title LIKE CONCAT('%', :query, '%') OR" +
+            " p.shortDescription LIKE CONCAT('%', :query, '%')")
+    List<Post> searchPosts(String query);
+    List<Post> findByCreatedOnBetween(LocalDateTime startDateTime, LocalDateTime endDateTime);
 }

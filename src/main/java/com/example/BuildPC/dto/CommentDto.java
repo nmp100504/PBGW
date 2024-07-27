@@ -28,4 +28,5 @@ public class CommentDto {
     private LocalDateTime updatedOn;
 
     private PostDto post;
+    private boolean hidden;
 }

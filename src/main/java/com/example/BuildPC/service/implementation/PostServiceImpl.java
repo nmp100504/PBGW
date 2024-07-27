@@ -28,6 +28,9 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.temporal.TemporalAdjusters;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -155,69 +158,54 @@ public class PostServiceImpl implements PostService {
         return findSortedPaginatedPostByAuthor("createdOn", authorId, 3);
     }
 
-
     @Override
-    @Transactional
-    public void upvotePost(Long userId, Long postId) {
-        Vote existingVote = voteRepository.findByUserIdAndPostId(userId, postId);
-        if (existingVote == null) {
-            User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
-            Post post = postRepository.findById(postId).orElseThrow(() -> new RuntimeException("Post not found"));
-            Vote vote = new Vote(user, post, true);
-            voteRepository.save(vote);
-            postRepository.incrementUpvotes(postId);
-        } else if (!existingVote.isUpvote()) {
-            existingVote.setUpvote(true);
-            voteRepository.save(existingVote);
-            postRepository.incrementUpvotes(postId);
-            postRepository.decrementDownvotes(postId);
-        }
+    public List<PostDto> searchPosts(String query) {
+        List<Post> posts = postRepository.searchPosts(query);
+        return posts.stream().map(PostMapper::mapToPostDTO).collect(Collectors.toList());
     }
 
     @Override
-    @Transactional
-    public void downvotePost(Long userId, Long postId) {
-        Vote existingVote = voteRepository.findByUserIdAndPostId(userId, postId);
-        if (existingVote == null) {
-            User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
-            Post post = postRepository.findById(postId).orElseThrow(() -> new RuntimeException("Post not found"));
-            Vote vote = new Vote(user, post, false);
-            voteRepository.save(vote);
-            postRepository.incrementDownvotes(postId);
-        } else if (existingVote.isUpvote()) {
-            existingVote.setUpvote(false);
-            voteRepository.save(existingVote);
-            postRepository.incrementDownvotes(postId);
-            postRepository.decrementUpvotes(postId);
-        }
+    public List<PostDto> findPostsByDateRange(LocalDateTime startDateTime, LocalDateTime endDateTime) {
+        List<Post> posts = postRepository.findByCreatedOnBetween(startDateTime, endDateTime);
+        return posts.stream().map(PostMapper::mapToPostDTO).collect(Collectors.toList());
     }
-//    @Override
-//    public List<PostDto> getTop3RecentPosts() {
-//        List<Post> recentPosts = postRepository.findTop3ByOrderByCreatedOnDesc();
-//        List<PostDto> postDtos = recentPosts.stream()
-//                .map(PostMapper::mapToPostDTO)
-//                .collect(Collectors.toList());
-//        logger.debug("Top 3 recent posts: {}", postDtos);
-//        return postDtos;
-//    }
 
-//    @Override
-//    public List<PostDto> getMostRecentPosts(int limit) {
-//        Pageable pageable = PageRequest.of(0, limit, Sort.by(Sort.Direction.DESC, "createdOn"));
-//        Page<Post> posts = postRepository.findAll(pageable);
-//        if (posts.isEmpty()) {
-//            return null;
-//        }
-//        return posts.stream().map(PostMapper::mapToPostDTO).collect(Collectors.toList());
-//    }
-//
-//    @Override
-//    public List<PostDto> getMostRecentPostsByAuthor(Long authorId, int limit) {
-//        Pageable pageable = PageRequest.of(0, limit, Sort.by(Sort.Direction.DESC, "createdOn"));
-//        Page<Post> posts = postRepository.findByCreatedById(authorId, pageable);
-//        if (posts.isEmpty()) {
-//            return null;
-//        }
-//        return posts.stream().map(PostMapper::mapToPostDTO).collect(Collectors.toList());
-//    }
+    @Override
+    public Map<String, List<PostDto>> findPostsGroupedByDayInWeek() {
+        LocalDateTime now = LocalDateTime.now();
+        Map<String, List<PostDto>> postsByDay = new HashMap<>();
+        for (int i = 0; i < 7; i++) {
+            LocalDateTime startOfDay = now.minusDays(i).toLocalDate().atStartOfDay();
+            LocalDateTime endOfDay = startOfDay.plusDays(1).minusNanos(1);
+            List<PostDto> posts = findPostsByDateRange(startOfDay, endOfDay);
+            postsByDay.put(startOfDay.getDayOfWeek().name(), posts);
+        }
+        return postsByDay;
+    }
+
+    @Override
+    public Map<Integer, List<PostDto>> findPostsGroupedByWeekInMonth() {
+        LocalDateTime now = LocalDateTime.now();
+        Map<Integer, List<PostDto>> postsByWeek = new HashMap<>();
+        for (int i = 0; i < now.getDayOfMonth() / 7; i++) {
+            LocalDateTime startOfWeek = now.minusWeeks(i).with(TemporalAdjusters.previousOrSame(java.time.DayOfWeek.MONDAY)).toLocalDate().atStartOfDay();
+            LocalDateTime endOfWeek = startOfWeek.plusWeeks(1).minusNanos(1);
+            List<PostDto> posts = findPostsByDateRange(startOfWeek, endOfWeek);
+            postsByWeek.put(i + 1, posts);
+        }
+        return postsByWeek;
+    }
+
+    @Override
+    public Map<String, List<PostDto>> findPostsGroupedByMonthInYear() {
+        LocalDateTime now = LocalDateTime.now();
+        Map<String, List<PostDto>> postsByMonth = new HashMap<>();
+        for (int i = 0; i < 12; i++) {
+            LocalDateTime startOfMonth = now.minusMonths(i).with(TemporalAdjusters.firstDayOfMonth()).toLocalDate().atStartOfDay();
+            LocalDateTime endOfMonth = startOfMonth.plusMonths(1).minusNanos(1);
+            List<PostDto> posts = findPostsByDateRange(startOfMonth, endOfMonth);
+            postsByMonth.put(startOfMonth.getMonth().name(), posts);
+        }
+        return postsByMonth;
+    }
 }

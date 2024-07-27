@@ -7,6 +7,7 @@ import com.example.BuildPC.model.Post;
 import com.example.BuildPC.repository.CommentRepository;
 import com.example.BuildPC.repository.PostRepository;
 import com.example.BuildPC.service.CommentService;
+import org.springframework.expression.ExpressionException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -39,8 +40,17 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public void deleteComment(Long commentId) {
-        commentRepository.deleteById(commentId);
+    public void hideComment(Long commentId) {
+        Comment comment = commentRepository.findById(commentId).orElseThrow(() -> new ExpressionException("Comment not found"));
+        comment.setHidden(true);
+        commentRepository.save(comment);
+    }
+
+    @Override
+    public void displayComment(Long commentId) {
+        Comment comment = commentRepository.findById(commentId).orElseThrow(() -> new ExpressionException("Comment not found"));
+        comment.setHidden(false);
+        commentRepository.save(comment);
     }
 
     @Override
@@ -48,5 +58,11 @@ public class CommentServiceImpl implements CommentService {
         List<Comment> comments = commentRepository.findByPostId(postId);
         return comments.stream()
                 .map(CommentMapper::mapToCommentDto).collect(Collectors.toList());
+    }
+
+    @Override
+    public Long findPostIdByCommentId(Long commentId) {
+        Comment comment = commentRepository.findById(commentId).orElseThrow(() -> new ExpressionException("Comment not found"));
+        return comment.getPost().getId();
     }
 }

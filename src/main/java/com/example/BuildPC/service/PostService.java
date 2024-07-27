@@ -8,7 +8,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -35,8 +37,13 @@ public interface PostService {
 
     Page<PostDto> findThreeMostRecentPostsByAuthor(Long authorId);
 
-    void upvotePost(Long userId, Long postId);
-    void downvotePost(Long userId, Long postId);
+    List<PostDto> searchPosts(String query);
 
+    List<PostDto> findPostsByDateRange(LocalDateTime startDateTime, LocalDateTime endDateTime);
 
+    Map<String, List<PostDto>> findPostsGroupedByMonthInYear();
+
+    Map<Integer, List<PostDto>> findPostsGroupedByWeekInMonth();
+
+    Map<String, List<PostDto>> findPostsGroupedByDayInWeek();
 }

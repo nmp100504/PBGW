@@ -15,7 +15,9 @@
     <link rel="shortcut icon" href="assets/images/logo/favourite_icon.svg">
 
     <!-- framework - css include -->
+    <script src="https://use.fontawesome.com/releases/v6.4.0/all.js" crossorigin="anonymous"></script>
     <th:block th:replace="fragment/framework :: framework"> </th:block>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 </head>
 
@@ -72,8 +74,9 @@
             <div class="container">
                 <div class="row justify-content-center">
                     <div class="col col-lg-8">
-                        <div class="details_image">
-                            <img  th:src="@{'data:image/jpeg;base64,'+${post.getThumbnailDataBase64()}}" alt="images from database" width="100%" height="100%"/>
+                        <div>Counter: <span th:text="${counter}"></span></div>
+                        <div class="details_image" th:if="${post.thumbnailData != null}">
+                            <img th:src="@{'data:image/jpeg;base64,' + ${post.getThumbnailDataBase64()}}" alt="image from database" width="100%" height="100%"/>
                         </div>
                         <ul class="post_meta ul_li">
                             <li th:text="${#temporals.format(post.createdOn, 'dd MMM yyyy')}">8 July 2024</li>
@@ -82,10 +85,9 @@
                         <h2 class="details_item_title" th:text="${post.title}">
                             Post title
                         </h2>
-                        <p th:utext="${post.content}">
+                        <p  id='risk' th:utext="${post.content}">
                             Post content
                         </p>
-
 <!--                        <div class="tag_social_wrap">-->
 <!--                            <div class="row align-items-center">-->
 <!--                                <div class="col col-md-7">-->
@@ -170,35 +172,23 @@
                             </ul>
                         </div>
 
-                        <!-- Upvote and Downvote Section -->
-                        <div>
-                            <form th:action="@{/blog/{postUrl}/upvote(postUrl=${post.url})}" method="post" style="display: inline;">
-                                <button type="submit">Upvote</button>
-                                <span th:text="${post.upvotes}">0</span>
-                            </form>
-                            <form th:action="@{/blog/{postUrl}/downvote(postUrl=${post.url})}" method="post" style="display: inline;">
-                                <button type="submit">Downvote</button>
-                                <span th:text="${post.downvotes}">0</span>
-                            </form>
-                        </div>
+
 
                         <div class="comment_area">
                             <h3 class="area_title">Comments</h3>
-                            <ul class="comment_list ul_li_block" th:each="comment : ${post.comments}">
-                                    <li>
-                                        <div class="comment_item clearfix">
-                                             <img class="thumbnail_wrap" th:src="@{/images/pfp.jpg}" alt="Default Profile Image" style="width: 80px !important; height: 80px !important;">
-                                            <div class="content_wrap">
-                                                <h4 class="hero_name">
-                                                    <span th:text="${comment.email}">User Email</span>
-                                                    <span class="comment_date" th:text="${#temporals.format(comment.createdOn,'dd MMMM yy')}">10 July 2024</span>
-                                                </h4>
-                                                <p th:text="${comment.content}">
-                                                    Message
-                                                </p>
-                                            </div>
+                            <ul class="comment_list ul_li_block">
+                                <li th:each="comment : ${post.comments}" th:if="${!comment.hidden}">
+                                    <div class="comment_item clearfix">
+                                        <img class="thumbnail_wrap" th:src="@{/images/pfp.jpg}" alt="Default Profile Image" style="width: 80px !important; height: 80px !important;">
+                                        <div class="content_wrap">
+                                            <h4 class="hero_name">
+                                                <span th:text="${comment.email}">User Email</span>
+                                                <span class="comment_date" th:text="${#temporals.format(comment.createdOn,'dd MMMM yy')}">10 July 2024</span>
+                                            </h4>
+                                            <p th:text="${comment.content}">Message</p>
                                         </div>
-                                    </li>
+                                    </div>
+                                </li>
                             </ul>
                         </div>
 
@@ -325,7 +315,33 @@
 
 </div>
 <!-- body_wrap - end -->
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var links = document.getElementsByClassName('riskLink');
 
+        for (var i = 0; i < links.length; i++) {
+            links[i].addEventListener('click', function(event) {
+                event.preventDefault();
+                var linkToFollow = event.target.href;
+
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: "You are about to leave this page.",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, leave',
+                    cancelButtonText: 'Cancel'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.location.href = linkToFollow;
+                    }
+                });
+            });
+        }
+    });
+</script>
 <th:block th:replace="fragment/script :: script"></th:block>
 
 </body>
