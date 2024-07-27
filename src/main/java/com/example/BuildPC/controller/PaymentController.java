@@ -20,6 +20,7 @@ import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.*;
 
@@ -65,8 +66,10 @@ public class PaymentController {
         User user = currentUser.get();
         List<CartItem> itemsList = shoppingCartService.listCartItems(user);
 
-        LocalDate currentDate = LocalDate.now();
-        Date date = Date.from(currentDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
+        LocalDateTime currentDateTime = LocalDateTime.now(); // Get the current date and time
+        Date date = Date.from(currentDateTime.atZone(ZoneId.systemDefault()).toInstant()); // Convert to Date
+
+
 
         String address = streetAddress + ", " + apartmentAddress + ", " + town + ", " + postcode + ", " + country;
 

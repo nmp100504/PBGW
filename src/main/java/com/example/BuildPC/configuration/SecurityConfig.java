@@ -59,7 +59,7 @@ public class SecurityConfig {
                         .requestMatchers("/","login", "/error", "/registration/**","/homepage"
                                 ,"/product/**","/category/**","/search/**","/sort/**","/checkout","/api/payment/**","/payment").permitAll()
                         .requestMatchers("/dashBoard/**").hasRole("ADMIN")
-                        .requestMatchers("/ManagerDashBoard/**").hasRole("MANAGER")
+                        .requestMatchers("/ManagerDashBoard/**","/detail/**","/order/save").hasRole("MANAGER")
                         .requestMatchers("/posts").hasRole("MARKETING")
                         .requestMatchers(staticResources()).permitAll()
                         .anyRequest().authenticated())

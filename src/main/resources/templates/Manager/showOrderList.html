@@ -96,10 +96,135 @@
 
         <div class="container-fluid">
 
-            <!-- Breadcrumbs and other content omitted for brevity -->
-
             <!-- Row for Pie Charts -->
+            <div class="row">
+                <!-- First Pie Chart -->
+                <div class="col-lg-6 mb-3">
+                    <div class="card">
+                        <div class="card-header">
+                            <i class="fas fa-chart-pie"></i>
+                            Monthly revenue Chart
+                        </div>
+                        <div class="card-body">
+                            <canvas id="myAreaChart" width="100%" height="50"></canvas>
+                        </div>
+                    </div>
+                </div>
+                <script th:inline="javascript">
+                    var monthlyTotal  = [[${monthlyTotal }]]
+                    var monthlyOrderCount = [[${monthlyOrderCount}]]
+                </script>
+                <div class="col-lg-6 mb-3">
+                    <div class="card">
+                        <div class="card-header">
+                            <i class="fas fa-chart-pie"></i>
+                            Product Activity Pie Chart
+                        </div>
+                        <div class="card-body">
+                            <canvas id="myBarChart" width="100%" height="50"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <form id="dateForm" method="GET" th:action="@{/ManagerDashBoard/orderList}">
+                <label for="day">Choose Day:</label>
+                <input type="date" id="day" name="date" th:value="${#dates.format(selectedDate, 'yyyy-MM-dd')}">
+                <input type="submit" value="Filter Orders">
+            </form>
 
+            <script>
+                document.addEventListener('DOMContentLoaded', (event) => {
+                    // Check if the form has been submitted already
+                    if (!localStorage.getItem('formSubmitted')) {
+                        // Get the current date
+                        var today = new Date();
+
+                        // Format the date as YYYY-MM-DD
+                        var day = String(today.getDate()).padStart(2, '0');
+                        var month = String(today.getMonth() + 1).padStart(2, '0'); // January is 0!
+                        var year = today.getFullYear();
+
+                        var formattedDate = year + '-' + month + '-' + day;
+
+                        // Set the value of the date input field to the formatted date
+                        document.getElementById('day').value = formattedDate;
+
+                        // Submit the form to load orders for today
+                        document.getElementById('dateForm').submit();
+
+                        // Set the local storage item to indicate that the form has been submitted
+                        localStorage.setItem('formSubmitted', 'true');
+                    }
+                });
+            </script>
+
+            <!-- Breadcrumbs and other content omitted for brevity -->
+            <div class="row">
+                <div class="col-xl-3 col-sm-6 mb-3">
+                    <div class="card text-white bg-primary o-hidden h-100">
+                        <div class="card-body">
+                            <div class="card-body-icon">
+                                <i class="fas fa-fw fa-list"></i>
+                            </div>
+                            <div class="mr-5">[[${countINPROGRESS}]] In progress</div>
+                        </div>
+                        <a class="card-footer text-white clearfix small z-1" th:href="@{'/orderList/INP'}">
+                            <span class="float-left">View Details</span>
+                            <span class="float-right">
+                  <i class="fas fa-angle-right"></i>
+                </span>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-sm-6 mb-3">
+                    <div class="card text-white bg-warning o-hidden h-100">
+                        <div class="card-body">
+                            <div class="card-body-icon">
+                                <i class="fas fa-fw fa-list"></i>
+                            </div>
+                            <div class="mr-5">[[${countWAIT}]] Wait Orders</div>
+                        </div>
+                        <a class="card-footer text-white clearfix small z-1" th:href="@{'/orderList/WAIT'}">
+                            <span class="float-left">View Details</span>
+                            <span class="float-right">
+                  <i class="fas fa-angle-right"></i>
+                </span>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-sm-6 mb-3">
+                    <div class="card text-white bg-success o-hidden h-100">
+                        <div class="card-body">
+                            <div class="card-body-icon">
+                                <i class="fas fa-fw fa-shopping-cart"></i>
+                            </div>
+                            <div class="mr-5">[[${countDONE}]] Done Orders!</div>
+                        </div>
+                        <a class="card-footer text-white clearfix small z-1" th:href="@{'/orderList/DONE'}">
+                            <span class="float-left">View Details</span>
+                            <span class="float-right">
+                  <i class="fas fa-angle-right"></i>
+                </span>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-sm-6 mb-3">
+                    <div class="card text-white bg-danger o-hidden h-100">
+                        <div class="card-body">
+                            <div class="card-body-icon">
+                                <i class="fas fa-fw fa-life-ring"></i>
+                            </div>
+                            <div class="mr-5">[[${countCANCEL}]] Canceled</div>
+                        </div>
+                        <a class="card-footer text-white clearfix small z-1" th:href="@{'/orderList/CAN'}">
+                            <span class="float-left">View Details</span>
+                            <span class="float-right">
+                  <i class="fas fa-angle-right"></i>
+                </span>
+                        </a>
+                    </div>
+                </div>
+            </div>
             <!-- DataTables Example and other content omitted for brevity -->
 
         </div>
@@ -218,90 +343,13 @@
 <script th:src="@{/assetsDashboard/js/colReorder-dataTables-min.js}"></script>
 
 <!-- Demo scripts for this page-->
-<script th:src="@{/assetsDashboard/js/demo/script.js}"></script>
+
 <script th:src="@{/assetsDashboard/js/demo/datatables-demo.js}"></script>
 <script th:src="@{/assetsDashboard/js/demo/chart-area-demo.js}"></script>
+<script th:src="@{/assetsDashboard/js/demo/chart-bar-demo.js}"></script>
 <script th:src="@{/assetsDashboard/js/colReorder-dataTables-min.js}"></script>
 <script th:src="@{/assetsDashboard/js/colReorder-bootstrap4-min.js}"></script>
 
-<script th:inline="javascript">
-    /*<![CDATA[*/
-    Highcharts.chart('pieChartContainer', {
-        chart: {
-            type: 'pie',
-            options3d: {
-                enabled: true,
-                alpha: 50,
-                beta: 0
-            }
-        },
-        title: {
-            text: 'Product Status'
-        },
-        tooltip: {
-            pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
-        },
-        plotOptions: {
-            pie: {
-                allowPointSelect: true,
-                cursor: 'pointer',
-                depth: 35,
-                dataLabels: {
-                    enabled: true,
-                    format: '{point.name}: {point.y}'
-                }
-            }
-        },
-        series: [{
-            type: 'pie',
-            name: 'Products',
-            data: [
-                ['Active', /*[[${activeCategories}]]*/ 0],
-                ['Inactive', /*[[${inActiveProducts}]]*/ 0]
-            ]
-        }]
-    });
-    /*]]>*/
-</script>
-<script th:inline="javascript">
-    /*<![CDATA[*/
-    Highcharts.chart('pieChartContainer1', {
-        chart: {
-            type: 'pie',
-            options3d: {
-                enabled: true,
-                alpha: 50,
-                beta: 0
-            }
-        },
-        title: {
-            text: 'Category Status'
-        },
-        tooltip: {
-            pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
-        },
-        plotOptions: {
-            pie: {
-                allowPointSelect: true,
-                cursor: 'pointer',
-                depth: 35,
-                dataLabels: {
-                    enabled: true,
-                    format: '{point.name}: {point.y}'
-                }
-            }
-        },
-        series: [{
-            type: 'pie',
-            name: 'Categories',
-            data: [
-                ['Active', /*[[${activeCategories}]]*/ 0],
-                ['Inactive', /*[[${inActiveCategories}]]*/ 0]
-            ]
-        }]
-    });
-    /*]]>*/
-</script>
 </body>
 
 </html>
