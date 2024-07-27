@@ -190,4 +190,8 @@ public class ProductServiceImpl implements ProductService {
         return productRepository.searchByProductNameOrCategoryNameAndStatus(searchByProductNameOrCategoryNameAndStatus, status);
     }
 
+    public List<Product> findTop10(){
+        return productRepository.findTop10ByUnitsInOrderDesc();
+    }
+
 }

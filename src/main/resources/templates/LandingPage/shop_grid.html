@@ -209,9 +209,14 @@
                             </div>
                           </div>
                           <ul class="item_btns_group ul_li">
-                            <li><a class="addtocart_btn" href="shop_details.html">Add To Cart</a></li>
-<!--                            <li><a href="#!"><i class="fa-solid fa-arrows-rotate"></i></a></li>-->
-<!--                            <li><a href="#!"><i class="fas fa-heart"></i></a></li>-->
+                            <li><a href="#" class="addtocart_btn" onclick="document.getElementById('addToCartForm').submit(); return false;">
+                              Add To Cart
+                            </a></li>
+                            <form id="addToCartForm" th:action="@{/add-to-cart}" method="post" style="display:none;">
+                              <input type="hidden" name="id" th:value="${product.id}">
+                            </form>
+                            <!--                            <li><a href="#!"><i class="fa-solid fa-arrows-rotate"></i></a></li>-->
+                            <!--                            <li><a href="#!"><i class="fas fa-heart"></i></a></li>-->
                           </ul>
                         </div>
                       </div>
@@ -255,9 +260,14 @@
                             <del th:text="${#numbers.formatDecimal(product.getProductOriginalPrice(), 0, 'COMMA', 2, 'POINT') + 'VND'}"></del>
                           </div>
                           <ul class="item_btns_group ul_li">
-                            <li><a class="addtocart_btn" href="shop_details.html">Add To Cart</a></li>
-<!--                            <li><a href="#!"><i class="fa-solid fa-arrows-rotate"></i></a></li>-->
-<!--                            <li><a href="#!"><i class="fas fa-heart"></i></a></li>-->
+                            <li><a href="#" class="addtocart_btn" onclick="document.getElementById('addToCartForm1').submit(); return false;">
+                              Add To Cart
+                            </a></li>
+                            <form id="addToCartForm1" th:action="@{/add-to-cart}" method="post" style="display:none;">
+                              <input type="hidden" name="id" th:value="${product.id}">
+                            </form>
+                            <!--                            <li><a href="#!"><i class="fa-solid fa-arrows-rotate"></i></a></li>-->
+                            <!--                            <li><a href="#!"><i class="fas fa-heart"></i></a></li>-->
                           </ul>
                         </div>
                       </div>

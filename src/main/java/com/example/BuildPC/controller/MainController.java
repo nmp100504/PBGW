@@ -3,11 +3,14 @@ package com.example.BuildPC.controller;
 import com.example.BuildPC.configuration.CustomUserDetails;
 import com.example.BuildPC.model.Category;
 import com.example.BuildPC.model.Product;
+import com.example.BuildPC.model.Status;
 import com.example.BuildPC.model.User;
 import com.example.BuildPC.service.*;
+import com.example.BuildPC.service.implementation.ProductServiceImpl;
 import com.example.BuildPC.utils.SecurityUtils;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -20,10 +23,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.naming.Binding;
 import java.io.IOException;
-import java.util.Collections;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 
 @Controller
 public class MainController {
@@ -38,7 +38,75 @@ public class MainController {
     private ProductService productService;
 
     @Autowired
+    private OrderService orderService;
+
+    @Autowired
     private PasswordEncoder passwordEncoder;
+    @Autowired
+    private ProductServiceImpl productServiceImpl;
+
+    @GetMapping("/ManagerDashBoard")
+    public String showManagerDashBoard(@RequestParam(value = "date", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date date,Model model) {
+        long totalProducts = productService.countTotalProducts();
+        model.addAttribute("totalProducts", totalProducts);
+        long activeProducts = productService.countActiveProducts();
+        model.addAttribute("activeProducts", activeProducts);
+        long inActiveProducts = productService.countInActiveProducts();
+        model.addAttribute("inActiveProducts", inActiveProducts);
+        long totalCategories = categoryService.countTotalCategories();
+        model.addAttribute("totalCategories", totalCategories);
+        long activeCategories = categoryService.countActiveCategories();
+        model.addAttribute("activeCategories", activeCategories);
+        long inActiveCategories = categoryService.countInActiveCategories();
+        model.addAttribute("inActiveCategories", inActiveCategories);
+        model.addAttribute("OrderList", orderService.listAllOrder());
+
+
+
+        if (date == null) {
+            date = new Date();
+            model.addAttribute("countWAIT", orderService.countOrderByStatus(Status.WAIT));
+            System.out.println("----------------------------------------------------------");
+            System.out.println(orderService.countOrderByStatus(Status.WAIT));
+            System.out.println("----------------------------------------------------------");
+            model.addAttribute("countINPROGRESS", orderService.countOrderByStatus(Status.IN_PROGRESS));
+            System.out.println("----------------------------------------------------------");
+            System.out.println(orderService.countOrderByStatus(Status.IN_PROGRESS));
+            System.out.println("----------------------------------------------------------");
+            model.addAttribute("countDONE", orderService.countOrderByStatus(Status.DONE));
+            model.addAttribute("countCANCEL", orderService.countOrderByStatus(Status.CANCEL));
+        } else {
+            model.addAttribute("countWAIT", orderService.countOrdersByStatusAndDate(Status.WAIT, date));
+            model.addAttribute("countINPROGRESS", orderService.countOrdersByStatusAndDate(Status.IN_PROGRESS, date));
+            model.addAttribute("countDONE", orderService.countOrdersByStatusAndDate(Status.DONE, date));
+            model.addAttribute("countCANCEL", orderService.countOrdersByStatusAndDate(Status.CANCEL, date));
+            model.addAttribute("selectedDate", date);
+        }
+        model.addAttribute("monthlyTotal", orderService.getTotalOrderValueByMonth());
+        model.addAttribute("monthlyOrderCount", orderService.getOrderCountByMonth());
+        return "Manager/managerDashBoard";
+    }
+
+    @GetMapping("/ManagerDashBoard/chartsManager")
+    public String showChart(Model model){
+        long activeProducts = productService.countActiveProducts();
+        long inActiveProducts  = productService.countInActiveProducts();
+        model.addAttribute("activeProducts", activeProducts);
+        model.addAttribute("inActiveProducts", inActiveProducts);
+        long activeCategories = categoryService.countActiveCategories();
+        model.addAttribute("activeCategories", activeCategories);
+        long inActiveCategories = categoryService.countInActiveCategories();
+        model.addAttribute("inActiveCategories", inActiveCategories);
+        long totalProducts = productService.countTotalProducts();
+        model.addAttribute("totalProducts", totalProducts);
+        long totalCategories = categoryService.countTotalCategories();
+        model.addAttribute("totalCategories", totalCategories);
+
+        model.addAttribute("monthlyTotal", orderService.getTotalOrderValueByMonth());
+        model.addAttribute("monthlyOrderCount", orderService.getOrderCountByMonth());
+
+        return "Manager/chartsManager";
+    }
 
 
     @GetMapping("/login")
@@ -55,6 +123,7 @@ public class MainController {
         model.addAttribute("categoryList", categoryList);
         model.addAttribute("productList", productList);
         model.addAttribute("reverseProductList", reverseProductList);
+        model.addAttribute("bestSeller",productServiceImpl.findTop10());
         return "LandingPage/index_1";
     }
 

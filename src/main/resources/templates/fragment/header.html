@@ -45,16 +45,16 @@
       <div class="row align-items-center">
         <div class="col col-lg-3 col-5">
           <div class="brand_logo">
-                              <a class="brand_link" href="index.html">
-                                <img src="assetsLandingPage/images/logo/site_logo.svg" alt="Getyootech - Gadgets Ecommerce Site Template">
-                              </a>
+<!--                              <a class="brand_link" href="index.html">-->
+<!--                                <img src="assetsLandingPage/images/logo/site_logo.svg" alt="Getyootech - Gadgets Ecommerce Site Template">-->
+<!--                              </a>-->
           </div>
         </div>
         <div class="col col-lg-6 col-2">
           <nav class="main_menu navbar navbar-expand-lg">
             <div class="main_menu_inner collapse navbar-collapse justify-content-center" id="main_menu_dropdown">
               <ul class="main_menu_list ul_li">
-                <li class="active dropdown">
+                <li class="active">
                   <a class="nav-link" th:href="@{/}" id="home_submenu" role="button" >Home</a>
                   <!--                        <ul class="dropdown-menu" aria-labelledby="home_submenu">-->
                   <!--                          <li class="active"><a href="index_1.html">Home V.1</a></li>-->
@@ -83,7 +83,7 @@
                 <!--                          </li>-->
                 <!--                        </ul>-->
                 <!--                      </li>-->
-                <li class="dropdown">
+                <li class="">
                   <a class="nav-link" href="#" id="blog_submenu" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                     Blog
                   </a>
@@ -95,14 +95,13 @@
                     <!--                          <li><a href="blog_details.html">Blog Details</a></li>-->
                   </ul>
                 </li>
-                <li class="dropdown">
-                  <a class="nav-link" href="#" id="pages_submenu" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <li class="">
+                  <a class="nav-link" href="#" id="pages_submenu" role="button" data-bs-toggle="dropdown" aria-expanded="true">
                     Pages
                   </a>
                   <ul class="dropdown-menu" aria-labelledby="pages_submenu">
-                    <li><a href="about.html">About Us</a></li>
-                    <li><a href="team.html">Team</a></li>
-                    <li><a href="account.html">My Account</a></li>
+
+                    <li><a th:href="@{/account}">My Account</a></li>
                     <li class="nav-item" sec:authorize="!isAuthenticated()">
                       <a class="nav-link" href="#" th:href="@{/registration/registration-form}">Register</a>
                     </li>
@@ -114,7 +113,7 @@
                     </li>
                   </ul>
                 </li>
-                <li><a href="contact.html">Contact</a></li>
+<!--                <li><a href="contact.html">Contact</a></li>-->
               </ul>
             </div>
           </nav>

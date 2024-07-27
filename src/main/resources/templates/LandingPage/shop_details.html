@@ -582,161 +582,81 @@
         <section class="related_products_section section_space">
           <div class="container">
             <div class="section_title mb-0">
-              <h2 class="title_text">Latest Products</h2>
+              <h2 class="title_text">Best Seller</h2>
             </div>
-            <div class="product_wrap related_products_wrap">
-              <div class="product_layout1">
-                <div class="item_badge sale_badge">
-                  <span>SALE</span>
-                </div>
-                <div class="item_image">
-                  <img src="assets/images/shop/product_img_6.webp" alt="Getyootech - Gadgets Ecommerce Site Template">
-                  <img src="assets/images/shop/product_img_10.webp" alt="Getyootech - Gadgets Ecommerce Site Template">
-                  <a class="quickview_btn" data-bs-toggle="modal" href="#quickview_popup" role="button">Quick View</a>
-                </div>
-                <div class="item_content">
-                  <h3 class="item_title">
-                    <a href="shop_details.html">Samsung Galaxy Note IV</a>
-                  </h3>
-<!--                  <ul class="rating_star ul_li">-->
-<!--                    <li><i class="fa-solid fa-star"></i></li>-->
-<!--                    <li><i class="fa-solid fa-star"></i></li>-->
-<!--                    <li><i class="fa-solid fa-star"></i></li>-->
-<!--                    <li><i class="fa-solid fa-star"></i></li>-->
-<!--                    <li><i class="fa-solid fa-star"></i></li>-->
-<!--                  </ul>-->
-                  <div class="item_price">
-                    <span>$620.00</span>
-                    <del>$720.00</del>
+            <div class="best_seller_carousel" data-slick='{"dots": false}'>
+              <th:block th:each="product : ${bestSeller}">
+                <div class="product_layout1">
+                  <!-- <div class="item_badge" th:if="${product.isNew}">
+                    <span>NEW</span>
                   </div>
-                  <ul class="item_btns_group ul_li">
-                    <li><a class="addtocart_btn" href="shop_details.html">Add To Cart</a></li>
-                    <li><a href="#!"><i class="fa-solid fa-arrows-rotate"></i></a></li>
-                    <li><a href="#!"><i class="fas fa-heart"></i></a></li>
-                  </ul>
+                  <div class="item_badge sale_badge" th:if="${product.isOnSale}">
+                    <span>SALE</span>
+                  </div> -->
+                  <div class="item_image">
+                    <div th:each="image, iterStat : ${product.getProductImages()}" th:if="${iterStat.index == 0}">
+                      <img th:src="@{'/images/Product/' + ${image.getImageFileName()}}" alt="Product Image">
+                    </div>
+
+                    <!-- Associate "Quick View" button with corresponding modal ID -->
+                  </div>
+                  <div class="item_content">
+                    <h3 class="item_title">
+                      <a th:href="@{'/product/' + ${product.getId()}}" th:text="${product.getProductName()}"></a>
+                    </h3>
+                    <div class="item_price layout1">
+                      <div class="original_price" th:if="${product.getProductOriginalPrice() > product.getProductSalePrice()}">
+                        <del th:text="${#numbers.formatDecimal(product.productOriginalPrice, 0, 'COMMA', 2, 'POINT') + 'VND'}"></del>
+                      </div>
+                      <div class="sale_price">
+                        <span th:text="${#numbers.formatDecimal(product.productSalePrice, 0, 'COMMA', 2, 'POINT') + 'VND'}"></span>
+                      </div>
+                    </div>
+                    <ul class="item_btns_group ul_li">
+                      <form th:action="@{/add-to-cart}" method="post">
+                        <input type="hidden" name="id" th:value="${product.id}">
+                        <button type="submit" class="addtocart_btn">Add To Cart</button>
+                      </form>
+                      <!-- <li><a href="#!"><i class="fa-solid fa-arrows-rotate"></i></a></li>
+                      <li><a href="#!"><i class="fas fa-heart"></i></a></li> -->
+                    </ul>
+                  </div>
                 </div>
-              </div>
+              </th:block>
 
               <div class="product_layout1">
                 <div class="item_image">
                   <img src="assets/images/shop/product_img_7.webp" alt="Getyootech - Gadgets Ecommerce Site Template">
-                  <img src="assets/images/shop/product_img_8.webp" alt="Getyootech - Gadgets Ecommerce Site Template">
+                  <img src="assets/images/shop/product_img_6.webp" alt="Getyootech - Gadgets Ecommerce Site Template">
                   <a class="quickview_btn" data-bs-toggle="modal" href="#quickview_popup" role="button">Quick View</a>
                 </div>
                 <div class="item_content">
                   <h3 class="item_title">
                     <a href="shop_details.html">40 '' Vikan HD ULTRA</a>
                   </h3>
-<!--                  <ul class="rating_star ul_li">-->
-<!--                    <li><i class="fa-solid fa-star"></i></li>-->
-<!--                    <li><i class="fa-solid fa-star"></i></li>-->
-<!--                    <li><i class="fa-solid fa-star"></i></li>-->
-<!--                    <li><i class="fa-solid fa-star"></i></li>-->
-<!--                    <li><i class="fa-solid fa-star"></i></li>-->
-<!--                  </ul>-->
+                  <ul class="rating_star ul_li">
+                    <li><i class="fa-solid fa-star"></i></li>
+                    <li><i class="fa-solid fa-star"></i></li>
+                    <li><i class="fa-solid fa-star"></i></li>
+                    <li><i class="fa-solid fa-star"></i></li>
+                    <li><i class="fa-solid fa-star"></i></li>
+                  </ul>
                   <div class="item_price">
                     <span>$620.00</span>
                     <del>$720.00</del>
                   </div>
                   <ul class="item_btns_group ul_li">
-                    <li><a class="addtocart_btn" href="shop_details.html">Add To Cart</a></li>
-                    <li><a href="#!"><i class="fa-solid fa-arrows-rotate"></i></a></li>
-                    <li><a href="#!"><i class="fas fa-heart"></i></a></li>
+                    <!--                          <li><a class="addtocart_btn" th:href="@{'/add-to-cart/' + ${product.id}}">Add To Cart</a></li>-->
+                    <!--                          <li><a href="#!"><i class="fa-solid fa-arrows-rotate"></i></a></li>-->
+                    <!--                          <li><a href="#!"><i class="fas fa-heart"></i></a></li>-->
                   </ul>
                 </div>
               </div>
 
-              <div class="product_layout1">
-                <div class="item_badge new_badge">
-                  <span>NEW</span>
-                </div>
-                <div class="item_image">
-                  <img src="assets/images/shop/product_img_8.webp" alt="Getyootech - Gadgets Ecommerce Site Template">
-                  <img src="assets/images/shop/product_img_7.webp" alt="Getyootech - Gadgets Ecommerce Site Template">
-                  <a class="quickview_btn" data-bs-toggle="modal" href="#quickview_popup" role="button">Quick View</a>
-                </div>
-                <div class="item_content">
-                  <h3 class="item_title">
-                    <a href="shop_details.html">Samsung Galaxy Note IV</a>
-                  </h3>
-<!--                  <ul class="rating_star ul_li">-->
-<!--                    <li><i class="fa-solid fa-star"></i></li>-->
-<!--                    <li><i class="fa-solid fa-star"></i></li>-->
-<!--                    <li><i class="fa-solid fa-star"></i></li>-->
-<!--                    <li><i class="fa-solid fa-star"></i></li>-->
-<!--                    <li><i class="fa-solid fa-star"></i></li>-->
-<!--                  </ul>-->
-                  <div class="item_price">
-                    <span>$620.00</span>
-                    <del>$720.00</del>
-                  </div>
-                  <ul class="item_btns_group ul_li">
-                    <li><a class="addtocart_btn" href="shop_details.html">Add To Cart</a></li>
-                    <li><a href="#!"><i class="fa-solid fa-arrows-rotate"></i></a></li>
-                    <li><a href="#!"><i class="fas fa-heart"></i></a></li>
-                  </ul>
-                </div>
-              </div>
 
-              <div class="product_layout1">
-                <div class="item_image">
-                  <img src="assets/images/shop/product_img_9.webp" alt="Getyootech - Gadgets Ecommerce Site Template">
-                  <img src="assets/images/shop/product_img_10.webp" alt="Getyootech - Gadgets Ecommerce Site Template">
-                  <a class="quickview_btn" data-bs-toggle="modal" href="#quickview_popup" role="button">Quick View</a>
-                </div>
-                <div class="item_content">
-                  <h3 class="item_title">
-                    <a href="shop_details.html">Samsung Galaxy Note IV</a>
-                  </h3>
-<!--                  <ul class="rating_star ul_li">-->
-<!--                    <li><i class="fa-solid fa-star"></i></li>-->
-<!--                    <li><i class="fa-solid fa-star"></i></li>-->
-<!--                    <li><i class="fa-solid fa-star"></i></li>-->
-<!--                    <li><i class="fa-solid fa-star"></i></li>-->
-<!--                    <li><i class="fa-solid fa-star"></i></li>-->
-<!--                  </ul>-->
-                  <div class="item_price">
-                    <span>$620.00</span>
-                    <del>$720.00</del>
-                  </div>
-                  <ul class="item_btns_group ul_li">
-                    <li><a class="addtocart_btn" href="shop_details.html">Add To Cart</a></li>
-                    <li><a href="#!"><i class="fa-solid fa-arrows-rotate"></i></a></li>
-                    <li><a href="#!"><i class="fas fa-heart"></i></a></li>
-                  </ul>
-                </div>
-              </div>
-
-              <div class="product_layout1">
-                <div class="item_badge hot_badge">
-                  <span>HOT</span>
-                </div>
-                <div class="item_image">
-                  <img src="assets/images/shop/product_img_10.webp" alt="Getyootech - Gadgets Ecommerce Site Template">
-                  <img src="assets/images/shop/product_img_9.webp" alt="Getyootech - Gadgets Ecommerce Site Template">
-                  <a class="quickview_btn" data-bs-toggle="modal" href="#quickview_popup" role="button">Quick View</a>
-                </div>
-                <div class="item_content">
-                  <h3 class="item_title">
-                    <a href="shop_details.html">Samsung Galaxy Note IV</a>
-                  </h3>
-<!--                  <ul class="rating_star ul_li">-->
-<!--                    <li><i class="fa-solid fa-star"></i></li>-->
-<!--                    <li><i class="fa-solid fa-star"></i></li>-->
-<!--                    <li><i class="fa-solid fa-star"></i></li>-->
-<!--                    <li><i class="fa-solid fa-star"></i></li>-->
-<!--                    <li><i class="fa-solid fa-star"></i></li>-->
-<!--                  </ul>-->
-                  <div class="item_price">
-                    <span>$620.00</span>
-                    <del>$720.00</del>
-                  </div>
-                  <ul class="item_btns_group ul_li">
-                    <li><a class="addtocart_btn" href="shop_details.html">Add To Cart</a></li>
-                    <li><a href="#!"><i class="fa-solid fa-arrows-rotate"></i></a></li>
-                    <li><a href="#!"><i class="fas fa-heart"></i></a></li>
-                  </ul>
-                </div>
+              <div class="carousel_nav">
+                <button type="button" class="bsc_left_arrow"><i class="fa-regular fa-angle-left"></i></button>
+                <button type="button" class="bsc_right_arrow"><i class="fa-regular fa-angle-right"></i></button>
               </div>
             </div>
           </div>

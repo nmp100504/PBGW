@@ -26,4 +26,7 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
 
     @Query("SELECT p FROM Product p WHERE (p.productName LIKE %?1% OR p.category.categoryName LIKE %?1%) AND p.productStatus = ?2")
     List<Product> searchByProductNameOrCategoryNameAndStatus(String productNameOrCategoryName, boolean status);
+
+    @Query("SELECT p FROM Product p ORDER BY p.unitsInOrder DESC")
+    List<Product> findTop10ByUnitsInOrderDesc();
 }

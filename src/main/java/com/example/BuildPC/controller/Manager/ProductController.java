@@ -8,6 +8,7 @@ import com.example.BuildPC.dto.ProductDto;
 import com.example.BuildPC.repository.CategoryRepository;
 import com.example.BuildPC.repository.ProductImageRepository;
 import com.example.BuildPC.repository.ProductRepository;
+import com.example.BuildPC.service.implementation.ProductServiceImpl;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotEmpty;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,7 +39,8 @@ public class ProductController {
     private ProductImageService productImageService;
     @Autowired
     private SpecificationService specificationService;
-
+    @Autowired
+    ProductServiceImpl productServiceImpl;
     @Autowired
     private UserService userService;
     @Autowired
@@ -77,6 +79,7 @@ public class ProductController {
         }
         model.addAttribute("product", byId);
         model.addAttribute("categoryList", categoryList);
+        model.addAttribute("bestSeller",productServiceImpl.findTop10());
         return "LandingPage/shop_details";
     }
 
@@ -118,40 +121,7 @@ public class ProductController {
         return "LandingPage/shop_grid"; // Return the HTML fragment with updated products
     }
 
-    @GetMapping("/ManagerDashBoard")
-    public String showManagerDashBoard(Model model) {
-        long totalProducts = productService.countTotalProducts();
-        model.addAttribute("totalProducts", totalProducts);
-        long activeProducts = productService.countActiveProducts();
-        model.addAttribute("activeProducts", activeProducts);
-        long inActiveProducts = productService.countInActiveProducts();
-        model.addAttribute("inActiveProducts", inActiveProducts);
-        long totalCategories = categoryService.countTotalCategories();
-        model.addAttribute("totalCategories", totalCategories);
-        long activeCategories = categoryService.countActiveCategories();
-        model.addAttribute("activeCategories", activeCategories);
-        long inActiveCategories = categoryService.countInActiveCategories();
-        model.addAttribute("inActiveCategories", inActiveCategories);
-        model.addAttribute("OrderList", orderService.listAllOrder());
-        return "Manager/managerDashBoard";
-    }
 
-    @GetMapping("/ManagerDashBoard/chartsManager")
-    public String showChart(Model model){
-        long activeProducts = productService.countActiveProducts();
-        long inActiveProducts  = productService.countInActiveProducts();
-        model.addAttribute("activeProducts", activeProducts);
-        model.addAttribute("inActiveProducts", inActiveProducts);
-        long activeCategories = categoryService.countActiveCategories();
-        model.addAttribute("activeCategories", activeCategories);
-        long inActiveCategories = categoryService.countInActiveCategories();
-        model.addAttribute("inActiveCategories", inActiveCategories);
-        long totalProducts = productService.countTotalProducts();
-        model.addAttribute("totalProducts", totalProducts);
-        long totalCategories = categoryService.countTotalCategories();
-        model.addAttribute("totalCategories", totalCategories);
-        return "Manager/chartsManager";
-    }
     @GetMapping("/ManagerDashBoard/productList")
     public String showProductList(Model model, @Param("productNameOrCategoryName") String productNameOrCategoryName, @RequestParam(required = false) String status) {
         List<Product> productList = productService.findAll();

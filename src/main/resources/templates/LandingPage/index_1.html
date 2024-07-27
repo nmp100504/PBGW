@@ -161,7 +161,7 @@
                         <del>$520.00</del>
                         <span class="sale_price">$460.00</span>
                       </div>
-                      <a class="btn btn_primary" href="shop_details.html" data-animation="fadeInUp2" data-delay=".8s">Start Buying</a>
+                      <a class="btn btn_primary" href="/category/2" data-animation="fadeInUp2" data-delay=".8s">Start Buying</a>
                     </div>
                   </div>
                 </div>
@@ -185,7 +185,7 @@
                         <del>$520.00</del>
                         <span class="sale_price">$460.00</span>
                       </div>
-                      <a class="btn btn_primary" href="shop_details.html" data-animation="fadeInUp2" data-delay=".8s">Start Buying</a>
+                      <a class="btn btn_primary" href="/category/3" data-animation="fadeInUp2" data-delay=".8s">Start Buying</a>
                     </div>
                   </div>
                 </div>
@@ -450,7 +450,7 @@
               <div class="tab-pane fade show active" id="bestseller_tab" role="tabpanel">
                 <div class="product_carousel_wrap arrows_topright">
                   <div class="best_seller_carousel" data-slick='{"dots": false}'>
-                    <th:block th:each="product : ${productList}">
+                    <th:block th:each="product : ${bestSeller}">
                       <div class="product_layout1">
                         <!-- <div class="item_badge" th:if="${product.isNew}">
                           <span>NEW</span>
@@ -458,12 +458,16 @@
                         <div class="item_badge sale_badge" th:if="${product.isOnSale}">
                           <span>SALE</span>
                         </div> -->
-                        <div class="item_image" th:each="image : ${product.productImages}">
-                          <img th:src="@{'/images/ProductCover/' + ${image.getImageFileName()}}" alt="Product Image">
+                        <div class="item_image">
+                          <div th:each="image, iterStat : ${product.getProductImages()}" th:if="${iterStat.index == 0}">
+                            <img th:src="@{'/images/Product/' + ${image.getImageFileName()}}" alt="Product Image">
+                          </div>
+
+                          <!-- Associate "Quick View" button with corresponding modal ID -->
                         </div>
                         <div class="item_content">
                           <h3 class="item_title">
-                            <a href="#" th:text="${product.getProductName()}"></a>
+                            <a th:href="@{'/product/' + ${product.getId()}}" th:text="${product.getProductName()}"></a>
                           </h3>
                           <div class="item_price layout1">
                             <div class="original_price" th:if="${product.getProductOriginalPrice() > product.getProductSalePrice()}">
@@ -1169,12 +1173,16 @@
                         <div class="item_badge sale_badge" th:if="${product.isOnSale}">
                             <span>SALE</span>
                         </div> -->
-                        <div class="item_image" th:each="image, iterStat : ${product.productImages}" th:if="${iterStat.index == 0}">
-                          <img th:src="@{'/images/Product/' + ${image.getImageFileName()}}" alt="Product Image">
+                        <div class="item_image">
+                          <div th:each="image, iterStat : ${product.getProductImages()}" th:if="${iterStat.index == 0}">
+                            <img th:src="@{'/images/Product/' + ${image.getImageFileName()}}" alt="Product Image">
+                          </div>
+
+                          <!-- Associate "Quick View" button with corresponding modal ID -->
                         </div>
                         <div class="item_content">
                           <h3 class="item_title">
-                            <a href="#" th:text="${product.getProductName()}"></a>
+                            <a th:href="@{'/product/' + ${product.getId()}}" th:text="${product.getProductName()}"></a>
                           </h3>
                           <div class="item_price layout1">
                             <div class="original_price" th:if="${product.getProductOriginalPrice() > product.getProductSalePrice()}">

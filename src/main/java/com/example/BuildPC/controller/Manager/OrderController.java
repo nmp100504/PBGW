@@ -35,11 +35,10 @@ public class OrderController {
     @Autowired
     ShoppingCartService shoppingCartService;
 
+
+
     @GetMapping("/ManagerDashBoard/orderList")
     public String showManagerDashBoard(@RequestParam(value = "date", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date date, Model model) {
-        System.out.println("----------------------------------------------------------");
-        System.out.println("ngày" + date);
-        System.out.println("----------------------------------------------------------");
         if (date == null) {
             date = new Date();
             model.addAttribute("OrderList", orderService.listAllOrder());
