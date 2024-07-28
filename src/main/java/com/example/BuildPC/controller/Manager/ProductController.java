@@ -46,6 +46,23 @@ public class ProductController {
     @Autowired
     private OrderService orderService;
 
+//    @GetMapping("/category/{id}")
+//    public String showCategory(@PathVariable("id") int id, Model model, @AuthenticationPrincipal CustomUserDetails userDetails) {
+//        if (userDetails != null) {
+//            Optional<User> user = userService.findByEmail(userDetails.getEmail());
+//            if (user.isPresent()) {
+//                model.addAttribute("user", user.get());
+//                List<Product> listByCategory = productService.listByCategory(id);
+//                List<Category> categoryList = categoryService.findAll();
+//                model.addAttribute("listByCategory", listByCategory);
+//                model.addAttribute("categoryList", categoryList);
+//                String catename = categoryService.findCategoryById(id).getCategoryName();
+//                model.addAttribute("title", catename);
+//                return "LandingPage/shop_grid";
+//            }
+//        }
+//        return "auth/login_page";
+//    }
     @GetMapping("/category/{id}")
     public String showCategory(@PathVariable("id") int id, Model model, @AuthenticationPrincipal CustomUserDetails userDetails) {
         if (userDetails != null) {
@@ -60,9 +77,19 @@ public class ProductController {
                 model.addAttribute("title", catename);
                 return "LandingPage/shop_grid";
             }
+
+        }else {
+            List<Product> listByCategory = productService.listByCategory(id);
+            List<Category> categoryList = categoryService.findAll();
+            model.addAttribute("listByCategory", listByCategory);
+            model.addAttribute("categoryList", categoryList);
+            String catename = categoryService.findCategoryById(id).getCategoryName();
+            model.addAttribute("title", catename);
+            return "LandingPage/shop_grid";
         }
         return "auth/login_page";
     }
+
 
     @GetMapping("/product/{id}")
     public String showProductDetails(@PathVariable("id") int id, Model model) {
@@ -86,11 +113,17 @@ public class ProductController {
 
     @GetMapping("/search")
     public String searchProducts(@RequestParam("search") String query, Model model) {
-        model.addAttribute("listByCategory", productService.findByProductNameContaining(query));
+        List<Product> byProductNameContaining = productService.findByProductNameContaining(query);
+
         List<Category> categoryList = categoryService.findAll();
         model.addAttribute("title", query);
-        model.addAttribute("searchString", query); 
+        model.addAttribute("searchString", query);
         model.addAttribute("categoryList", categoryList);
+        if(byProductNameContaining.isEmpty()){
+
+            return "LandingPage/shop_grid_empty";
+        }
+        model.addAttribute("listByCategory", byProductNameContaining);
         return "LandingPage/shop_grid";
     }
 

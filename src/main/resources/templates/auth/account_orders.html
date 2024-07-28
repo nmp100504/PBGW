@@ -97,9 +97,8 @@
                         <div class="account_menu">
                             <h2 class="title_text">My Account</h2>
                             <ul class="account_menu_list ul_li_block">
-                                <li><a href="#!">Account Dashboard</a></li>
-                                <li><a href="#!">Account Information</a></li>
-                           
+                                <li><a th:href="@{/account}">Account Dashboard</a></li>
+                                <li><a th:href="@{/change-password}">Change Password</a></li>
                                 <li class="active"><a th:href="@{/myOrder}">My Orders</a></li>
 
                             </ul>
@@ -108,16 +107,17 @@
 <!--        accordion-->
                     <style>
                         .accordion {
-                            max-width: 100%; /* Set your desired width */
-                            margin: auto; /* Center the accordion */
+                            max-width: 100%;
+                            margin: auto;
                         }
                         .accordion-item {
-                            margin-bottom: 10px; /* Optional: Space between items */
+                            margin-bottom: 10px;
                         }
                     </style>
                     <div class="col col-lg-9">
                         <div class="account_content_area">
                             <h3>My Dashboard</h3>
+                            <th:block th:if="${!myOrderList.isEmpty()}">
                             <ul class="content_layout ul_li_block">
                                 <div class="accordion" id="accordionExample">
                                     <th:block th:each="order, iter : ${myOrderList}">
@@ -178,6 +178,10 @@
                                     </th:block>
                                 </div>
                             </ul>
+                            </th:block>
+                            <th:block th:if="${myOrderList.isEmpty()}">
+                                You have no order yet!
+                            </th:block>
                         </div>
                     </div>
 

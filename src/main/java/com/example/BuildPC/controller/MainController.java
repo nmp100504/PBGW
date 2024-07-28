@@ -60,19 +60,10 @@ public class MainController {
         long inActiveCategories = categoryService.countInActiveCategories();
         model.addAttribute("inActiveCategories", inActiveCategories);
         model.addAttribute("OrderList", orderService.listAllOrder());
-
-
-
         if (date == null) {
             date = new Date();
             model.addAttribute("countWAIT", orderService.countOrderByStatus(Status.WAIT));
-            System.out.println("----------------------------------------------------------");
-            System.out.println(orderService.countOrderByStatus(Status.WAIT));
-            System.out.println("----------------------------------------------------------");
             model.addAttribute("countINPROGRESS", orderService.countOrderByStatus(Status.IN_PROGRESS));
-            System.out.println("----------------------------------------------------------");
-            System.out.println(orderService.countOrderByStatus(Status.IN_PROGRESS));
-            System.out.println("----------------------------------------------------------");
             model.addAttribute("countDONE", orderService.countOrderByStatus(Status.DONE));
             model.addAttribute("countCANCEL", orderService.countOrderByStatus(Status.CANCEL));
         } else {
@@ -82,6 +73,7 @@ public class MainController {
             model.addAttribute("countCANCEL", orderService.countOrdersByStatusAndDate(Status.CANCEL, date));
             model.addAttribute("selectedDate", date);
         }
+
         model.addAttribute("monthlyTotal", orderService.getTotalOrderValueByMonth());
         model.addAttribute("monthlyOrderCount", orderService.getOrderCountByMonth());
         return "Manager/managerDashBoard";
@@ -118,13 +110,25 @@ public class MainController {
     public String showLandingPage(Model model) {
         List<Category> categoryList = categoryService.findAll();
         List<Product> productList = productService.listActiveProduct(true);
-        List<Product> reverseProductList = productService.listActiveProduct(true);
+        List<Product> reverseProductList = new ArrayList<>(productService.listActiveProduct(true)); // Create a new list to avoid modifying the original
         Collections.reverse(reverseProductList);
+
+        List<List<Product>> partitionedProductList = partitionList(productList, 2);
+
         model.addAttribute("categoryList", categoryList);
+        model.addAttribute("partitionedProductList", partitionedProductList);
         model.addAttribute("productList", productList);
-        model.addAttribute("reverseProductList", reverseProductList);
-        model.addAttribute("bestSeller",productServiceImpl.findTop10());
+        model.addAttribute("bestSeller", productServiceImpl.findTop10());
+
         return "LandingPage/index_1";
+    }
+
+    private <T> List<List<T>> partitionList(List<T> list, int partitionSize) {
+        List<List<T>> partitions = new ArrayList<>();
+        for (int i = 0; i < list.size(); i += partitionSize) {
+            partitions.add(list.subList(i, Math.min(i + partitionSize, list.size())));
+        }
+        return partitions;
     }
 
     @GetMapping("/account")

@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -78,7 +80,8 @@ public class OrderService {
         orderRepository.save(order);
     }
     public List<OrderDTO> listOrdersByStatusAndDate(Status status,Date date ){
-        List<Order> orderList = orderRepository.findByStatusAndOrderDate(status,date);
+        LocalDate localDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        List<Order> orderList = orderRepository.findByStatusAndOrderDate(status,localDate);
         List<OrderDTO> orderDTOS = new ArrayList<>();
 
         for (Order order : orderList) {
@@ -89,12 +92,15 @@ public class OrderService {
 
     }
     public List<OrderDTO> listByOrdersDate(Date date){
-        List<Order> orderList = orderRepository.findByOrderDate(date);
+        LocalDate localDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        List<Order> orderList = orderRepository.findByOrderDate(localDate);
         List<OrderDTO> orderDTOS = new ArrayList<>();
 
         for (Order order : orderList) {
             float total = calculateTotal(order);
             orderDTOS.add(new OrderDTO(order,total));
+            System.out.println("------------------------------------------------------------------");
+            System.out.println(order.getId());
         }
         return orderDTOS;
     }
@@ -122,7 +128,9 @@ public class OrderService {
         return orderDTOS;
     }
     public int countOrdersByStatusAndDate(Status status, Date date) {
-        return orderRepository.countByStatusAndOrderDate(status, date);
+
+        LocalDate localDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        return orderRepository.countByStatusAndOrderDate(status, localDate);
     }
     public int countOrderByStatus(Status status) {
         return orderRepository.countOrderByStatus(status);

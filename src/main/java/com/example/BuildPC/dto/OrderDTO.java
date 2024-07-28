@@ -34,7 +34,7 @@ public class OrderDTO {
         this.orderDetails = order.getOrderDetails();
         this.user = order.getUser();
         this.totalPrice = totalPrice;
-        DecimalFormat decimalFormat = new DecimalFormat("#,##0.00");
+        DecimalFormat decimalFormat = new DecimalFormat("#,##0");
         decimalFormat.setDecimalFormatSymbols(DecimalFormatSymbols.getInstance(Locale.GERMANY)); // Use German locale to get dots as separators
         this.formattedTotalPrice = decimalFormat.format(totalPrice);
     }
