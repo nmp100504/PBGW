@@ -53,18 +53,11 @@ public class OrderController {
             date = new Date();
             model.addAttribute("OrderList", orderService.listAllOrder());
             model.addAttribute("countWAIT", orderService.countOrderByStatus(Status.WAIT));
-            System.out.println("----------------------------------------------------------");
-            System.out.println(orderService.countOrderByStatus(Status.WAIT));
-            System.out.println("----------------------------------------------------------");
             model.addAttribute("countINPROGRESS", orderService.countOrderByStatus(Status.IN_PROGRESS));
-            System.out.println("----------------------------------------------------------");
-            System.out.println(orderService.countOrderByStatus(Status.IN_PROGRESS));
-            System.out.println("----------------------------------------------------------");
             model.addAttribute("countDONE", orderService.countOrderByStatus(Status.DONE));
             model.addAttribute("countCANCEL", orderService.countOrderByStatus(Status.CANCEL));
         } else {
             model.addAttribute("OrderList", orderService.listByOrdersDate(date));
-
             model.addAttribute("countWAIT", orderService.countOrdersByStatusAndDate(Status.WAIT, date));
             model.addAttribute("countINPROGRESS", orderService.countOrdersByStatusAndDate(Status.IN_PROGRESS, date));
             model.addAttribute("countDONE", orderService.countOrdersByStatusAndDate(Status.DONE, date));
@@ -78,10 +71,6 @@ public class OrderController {
 
     @GetMapping("/orderList/{code}")
     public String showOrderListByStatus(@PathVariable String code, @RequestParam(value = "date", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date date, Model model) {
-        System.out.println("----------------------------------------------------");
-        System.out.println("Ngay" + date);
-        System.out.println(code);
-        System.out.println("----------------------------------------------------");
         if (date == null) {
             date = new Date();
             model.addAttribute("countWAIT", orderService.countOrderByStatus(Status.WAIT));
@@ -95,15 +84,9 @@ public class OrderController {
                 model.addAttribute("OrderList", orderService.listByOrderStatus(Status.DONE));
             }
             if (code.equals("CAN")) {
-                System.out.println("----------------------------------------------------");
-                System.out.println("in ra CAN");
-                System.out.println("----------------------------------------------------");
                 model.addAttribute("OrderList", orderService.listByOrderStatus(Status.CANCEL));
             }
             if (code.equals("WAIT")) {
-                System.out.println("----------------------------------------------------");
-                System.out.println("in ra WAIT");
-                System.out.println("----------------------------------------------------");
                 model.addAttribute("OrderList", orderService.listByOrderStatus(Status.WAIT));
             }
         } else {

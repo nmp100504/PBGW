@@ -71,21 +71,30 @@ public class ProductController {
                 model.addAttribute("user", user.get());
                 List<Product> listByCategory = productService.listByCategory(id);
                 List<Category> categoryList = categoryService.findAll();
+                if(listByCategory.isEmpty()){
+                    return "LandingPage/shop_grid_empty";
+                } else {
+                    model.addAttribute("listByCategory", listByCategory);
+                    model.addAttribute("categoryList", categoryList);
+                    String catename = categoryService.findCategoryById(id).getCategoryName();
+                    model.addAttribute("title", catename);
+                    return "LandingPage/shop_grid";
+                }
+
+            }
+
+        }else {
+            List<Product> listByCategory = productService.listByCategory(id);
+            List<Category> categoryList = categoryService.findAll();
+            if(listByCategory.isEmpty()){
+                return "LandingPage/shop_grid_empty";
+            } else {
                 model.addAttribute("listByCategory", listByCategory);
                 model.addAttribute("categoryList", categoryList);
                 String catename = categoryService.findCategoryById(id).getCategoryName();
                 model.addAttribute("title", catename);
                 return "LandingPage/shop_grid";
             }
-
-        }else {
-            List<Product> listByCategory = productService.listByCategory(id);
-            List<Category> categoryList = categoryService.findAll();
-            model.addAttribute("listByCategory", listByCategory);
-            model.addAttribute("categoryList", categoryList);
-            String catename = categoryService.findCategoryById(id).getCategoryName();
-            model.addAttribute("title", catename);
-            return "LandingPage/shop_grid";
         }
         return "auth/login_page";
     }
