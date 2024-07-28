@@ -98,13 +98,13 @@
                   <div class="col col-md-6 col-sm-6">
                     <div class="form_item">
                       <h4 class="input_title">First Name</h4>
-                      <input type="text" name="firstname" placeholder="First Name *" required>
+                      <input type="text" name="firstname" th:value="${currentUser.get().firstName}" th:placeholder="${currentUser.get().firstName}" readonly>
                     </div>
                   </div>
                   <div class="col col-md-6 col-sm-6">
                     <div class="form_item">
                       <h4 class="input_title">Last Name</h4>
-                      <input type="text" name="lastname" placeholder="Last Name *" required>
+                      <input type="text" name="lastname" th:value="${currentUser.get().lastName}" th:placeholder="${currentUser.get().lastName}" readonly>
                     </div>
                   </div>
                 </div>

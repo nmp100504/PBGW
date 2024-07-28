@@ -81,8 +81,6 @@ public class PaymentController {
         for(CartItem item : itemsList){
             OrderDetail od = new OrderDetail(item.getQuantity(), (float) 0,order,item.getProduct());
             Product temp = item.getProduct();
-            temp.setUnitsInOrder(temp.getUnitsInOrder()+1);
-            temp.setUnitsInStock(temp.getUnitsInStock()-1);
             orderDetailRepository.save(od);
         }
 
@@ -177,6 +175,12 @@ public class PaymentController {
 
             if ("00".equals(responseCode)) {
                 order.setStatus(Status.IN_PROGRESS);
+                List<CartItem> itemsList = shoppingCartService.listCartItems(user);
+                for(CartItem item : itemsList){
+                    Product temp = item.getProduct();
+                    temp.setUnitsInOrder(temp.getUnitsInOrder()+1);
+                    temp.setUnitsInStock(temp.getUnitsInStock()-1);
+                }
                 shoppingCartService.removeAll(user);
                 redirectView.setUrl("/payment/PaymentSuccess");// Payment successful
             } else {
