@@ -98,18 +98,22 @@
                                             </div>
 
                                             <ul class="item_btns_group ul_li">
-                                                <th:block th:if="${product.getUnitsInStock()>0}">
-                                                    <li><a href="#" class="addtocart_btn"
-                                                           onclick="document.getElementById('addToCartForm3').submit(); return false;">
-                                                        Add To Cart
-                                                    </a></li>
-                                                    <form id="addToCartForm3" th:action="@{/add-to-cart}" method="post"
-                                                          style="display:none;">
+                                                <th:block th:if="${product.unitsInStock > 0}">
+                                                    <li>
+                                                        <a href="#" class="addtocart_btn"
+                                                           th:data-product-id="${product.id}"
+                                                           onclick="submitForm1(this); return false;">
+                                                            Add To Cart
+                                                        </a>
+                                                    </li>
+                                                    <form th:id="'addToCartForm1-' + ${product.id}" th:action="@{/add-to-cart}" method="post" style="display:none;">
                                                         <input type="hidden" name="id" th:value="${product.id}">
                                                     </form>
                                                 </th:block>
-                                                <th:block th:if="${product.getUnitsInStock()==0}">
-                                                    <li><a class="addtocart_btn" href="#">Out of Stock</a></li>
+                                                <th:block th:if="${product.unitsInStock == 0}">
+                                                    <li>
+                                                        <a class="addtocart_btn" href="#">Out of Stock</a>
+                                                    </li>
                                                 </th:block>
                                             </ul>
 
@@ -383,18 +387,22 @@
 
                                                 </div>
                                                 <ul class="item_btns_group ul_li">
-                                                    <th:block th:if="${product.getUnitsInStock()>0}">
-                                                        <li><a href="#" class="addtocart_btn"
-                                                               onclick="document.getElementById('addToCartForm').submit(); return false;">
-                                                            Add To Cart
-                                                        </a></li>
-                                                        <form id="addToCartForm" th:action="@{/add-to-cart}" method="post"
-                                                              style="display:none;">
+                                                    <th:block th:if="${product.unitsInStock > 0}">
+                                                        <li>
+                                                            <a href="#" class="addtocart_btn"
+                                                               th:data-product-id="${product.id}"
+                                                               onclick="submitForm2(this); return false;">
+                                                                Add To Cart
+                                                            </a>
+                                                        </li>
+                                                        <form th:id="'addToCartForm2-' + ${product.id}" th:action="@{/add-to-cart}" method="post" style="display:none;">
                                                             <input type="hidden" name="id" th:value="${product.id}">
                                                         </form>
                                                     </th:block>
-                                                    <th:block th:if="${product.getUnitsInStock()==0}">
-                                                        <li><a class="addtocart_btn" href="#">Out of Stock</a></li>
+                                                    <th:block th:if="${product.unitsInStock == 0}">
+                                                        <li>
+                                                            <a class="addtocart_btn" href="#">Out of Stock</a>
+                                                        </li>
                                                     </th:block>
                                                 </ul>
                                             </div>
@@ -470,18 +478,22 @@
                                                 </div>
                                             </div>
                                             <ul class="item_btns_group ul_li">
-                                                <th:block th:if="${product.getUnitsInStock()>0}">
-                                                    <li><a href="#" class="addtocart_btn"
-                                                           onclick="document.getElementById('addToCartForm1').submit(); return false;">
-                                                        Add To Cart
-                                                    </a></li>
-                                                    <form id="addToCartForm1" th:action="@{/add-to-cart}" method="post"
-                                                          style="display:none;">
+                                                <th:block th:if="${product.unitsInStock > 0}">
+                                                    <li>
+                                                        <a href="#" class="addtocart_btn"
+                                                           th:data-product-id="${product.id}"
+                                                           onclick="submitForm(this); return false;">
+                                                            Add To Cart
+                                                        </a>
+                                                    </li>
+                                                    <form th:id="'addToCartForm3-' + ${product.id}" th:action="@{/add-to-cart}" method="post" style="display:none;">
                                                         <input type="hidden" name="id" th:value="${product.id}">
                                                     </form>
                                                 </th:block>
-                                                <th:block th:if="${product.getUnitsInStock()==0}">
-                                                    <li><a class="addtocart_btn" href="#">Out of Stock</a></li>
+                                                <th:block th:if="${product.unitsInStock == 0}">
+                                                    <li>
+                                                        <a class="addtocart_btn" href="#">Out of Stock</a>
+                                                    </li>
                                                 </th:block>
                                             </ul>
                                         </div>
@@ -498,7 +510,43 @@
 
                     </div>
                 </div>
+            </div>
         </section>
+        <script>
+            function submitForm(element) {
+                var productId = element.getAttribute('data-product-id');
+                var formId = 'addToCartForm3-' + productId;
+                var form = document.getElementById(formId);
+
+                if (form) {
+                    form.submit();
+                } else {
+                    console.error('Form not found: ' + formId);
+                }
+            }
+            function submitForm1(element) {
+                var productId = element.getAttribute('data-product-id');
+                var formId = 'addToCartForm1-' + productId;
+                var form = document.getElementById(formId);
+
+                if (form) {
+                    form.submit();
+                } else {
+                    console.error('Form not found: ' + formId);
+                }
+            }
+            function submitForm2(element) {
+                var productId = element.getAttribute('data-product-id');
+                var formId = 'addToCartForm2-' + productId;
+                var form = document.getElementById(formId);
+
+                if (form) {
+                    form.submit();
+                } else {
+                    console.error('Form not found: ' + formId);
+                }
+            }
+        </script>
         <!-- product_section - end
         ================================================== -->
 
