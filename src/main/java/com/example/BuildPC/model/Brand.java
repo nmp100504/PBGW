@@ -24,7 +24,7 @@ public class Brand {
     private String brandName;
 
 
-    @Column(name = "brand_desription")
+    @Column(name = "brand_description")
     private String brandDesc;
 
     @OneToMany(mappedBy = "brand")

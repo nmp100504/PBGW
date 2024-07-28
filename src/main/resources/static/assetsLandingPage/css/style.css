@@ -3156,7 +3156,7 @@ hr {
 }
 .product_layout1 {
   /* Set a fixed height for the layout */
-  height: 400px; /* Adjust height as needed */
+  height: 380px; /* Adjust height as needed */
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -3178,6 +3178,7 @@ hr {
 
 .item_content {
   height: 40%; /* Adjust height as needed */
+  max-width: 200px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
