@@ -7,6 +7,17 @@ function numberWithCommas(x) {
 // Area Chart Example
 var labels = Object.keys(monthlyTotal);
 var values = Object.values(monthlyTotal)
+var combined = labels.map((label, index) => {
+  return { label: label, value: values[index] };
+});
+
+// Sort the combined array by labels (months)
+combined.sort((a, b) => a.label.localeCompare(b.label));
+
+// Separate the sorted labels and values
+labels = combined.map(item => item.label);
+values = combined.map(item => item.value);
+
 var max = Math.max(...values);
 
 var ctx = document.getElementById("myAreaChart").getContext("2d");
@@ -47,7 +58,7 @@ var myLineChart = new Chart(ctx, {
         ticks: {
           min: 0,
           max: max,
-          maxTicksLimit: 5,
+          maxTicksLimit: 4,
           callback: function(value, index, values) {
             return numberWithCommas(value);
           }

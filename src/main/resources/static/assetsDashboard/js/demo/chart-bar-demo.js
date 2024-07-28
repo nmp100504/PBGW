@@ -5,6 +5,17 @@ Chart.defaults.global.defaultFontColor = '#292b2c';
 // Bar Chart Example
 var labels = Object.keys(monthlyOrderCount);
 var values = Object.values(monthlyOrderCount);
+var combined = labels.map((label, index) => {
+  return { label: label, value: values[index] };
+});
+
+// Sort the combined array by labels (months)
+combined.sort((a, b) => a.label.localeCompare(b.label));
+
+// Separate the sorted labels and values
+labels = combined.map(item => item.label);
+values = combined.map(item => item.value);
+
 var max = Math.max(...values);
 
 var ctx = document.getElementById("myBarChart");

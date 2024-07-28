@@ -3231,12 +3231,21 @@ input[type=number]::-webkit-outer-spin-button {
           transform: translate(-50%, -50%);
 }
 .product_layout1 .item_title {
+  display: block; /* Ensures block display for the title */
+  white-space: nowrap; /* Prevents text from wrapping */
+  overflow: hidden; /* Hides overflow text */
+  text-overflow: ellipsis; /* Adds ellipsis at the end */
+  width: 100%;
   margin-bottom: 4px;
 }
 .product_layout1 .item_title > a {
   font-size: 15px;
   font-weight: 500;
   color: #252525;
+  white-space: normal; /* Allows text to wrap */
+  overflow: hidden; /* Prevents overflow of the content */
+  text-overflow: ellipsis; /* Optional: adds "..." at the end if the text is too long */
+  line-height: 1.5;
 }
 .product_layout1 .rating_star {
   margin-bottom: 13.5px;

@@ -49,8 +49,7 @@
                 <i class="fas fa-user-circle fa-fw"></i>
             </a>
             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
-                <a class="dropdown-item" href="#">Settings</a>
-                <a class="dropdown-item" href="#">Activity Log</a>
+                <a class="dropdown-item" th:href="@{/}">Return LandingPage</a>
                 <div class="dropdown-divider"></div>
                 <a class="dropdown-item" href="/logout" >Logout</a>
             </div>
@@ -236,36 +235,46 @@
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
-                        <table class="table table-top" id="dataTable">
+                        <table class="table table-bordered" id="dataTable">
                             <thead>
                             <tr>
-                                <th><input type="checkbox"></th>
+<!--                                <th><input type="checkbox"></th>-->
                                 <th>Order</th>
                                 <th>Date</th>
                                 <th>Status</th>
                                 <th>Billing</th>
                                 <th>Total</th>
-<!--                                <th>Action</th>-->
                             </tr>
                             </thead>
                             <tfoot>
                             <tr>
-                                <th><input type="checkbox"></th>
+<!--                                <th><input type="checkbox"></th>-->
                                 <th>Order</th>
                                 <th>Date</th>
                                 <th>Status</th>
                                 <th>Billing</th>
                                 <th>Total</th>
-<!--                                <th>Action</th>-->
                             </tr>
                             </tfoot>
-                            <tbody th:each="order : ${OrderList}">
-                            <tr>
-                                <td><input type="checkbox"></td>
-                                <td><a th:href="@{'/detail/' + ${order.id}}">[[${order.user.firstName} + ' ' + ${order.user.lastName}]]</a></td>
+                            <tbody >
+                            <tr th:each="order : ${OrderList}">
+<!--                                <td><input type="checkbox"></td>-->
+                                <td><a th:href="@{'/detail/' + ${order.id}}">[['ID-' + ${order.id} + ' - ' + ${order.user.firstName} + ' ' + ${order.user.lastName}]]</a></td>
 
                                 <td th:text="${order.orderDate}"></td>
-                                <td th:text="${order.status}"></td>
+                                <td class="text-center" th:if="${order.status.equalsIgnoreCase('wait')}">
+                                    <div class="badge bg-warning w-100 h-80">WAIT</div>
+                                </td>
+                                <td class="text-center" th:if="${order.status.equalsIgnoreCase('in_progress')}">
+                                    <div class="badge bg-primary w-100 h-80">Processing</div>
+                                </td>
+                                <td class="text-center" th:if="${order.status.equalsIgnoreCase('cancel')}">
+                                    <div class="badge bg-danger w-100 h-80">Canceled</div>
+                                </td>
+                                <td class="text-center" th:if="${order.status.equalsIgnoreCase('done')}">
+                                    <div class="badge bg-success w-100 h-80">Done</div>
+                                </td>
+
                                 <td th:text="${order.shipAddress}"></td>
                                 <td th:text="${order.formattedTotalPrice}"></td>
 <!--                                <td style="white-space:nowrap">-->
@@ -285,13 +294,13 @@
         <!-- /.container-fluid -->
 
         <!-- Sticky Footer -->
-        <footer class="sticky-footer">
-            <div class="container my-auto">
-                <div class="copyright text-center my-auto">
-                    <span>Copyright © Your Website 2019</span>
-                </div>
+    <footer class="sticky-footer">
+        <div class="container my-auto">
+            <div class="copyright text-center my-auto">
+                <span>PBWG</span>
             </div>
-        </footer>
+        </div>
+    </footer>
 
     </div>
     <!-- /.content-wrapper -->
@@ -305,8 +314,7 @@
 </a>
 
 <!-- Logout Modal-->
-<div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-     aria-hidden="true">
+<div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -318,7 +326,7 @@
             <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
             <div class="modal-footer">
                 <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                <a class="btn btn-primary" href="login.html">Logout</a>
+                <a class="btn btn-primary" th:href="@{/logout}">Logout</a>
             </div>
         </div>
     </div>

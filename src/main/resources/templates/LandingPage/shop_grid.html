@@ -1,48 +1,48 @@
 <!doctype html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
-  
+
 <!-- Mirrored from webthunder.net/html/getyootech/shop_grid.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 19 May 2024 08:48:25 GMT -->
 <head>
 
-  	<meta charset="utf-8">
-  	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  	<meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
 
-  	<title th:text="${title}"></title>
-  	<link rel="shortcut icon" th:href="@{/assetsLandingPage/images/logo/favourite_icon.svg}">
+    <title th:text="${title}"></title>
+    <link rel="shortcut icon" th:href="@{/assetsLandingPage/images/logo/favourite_icon.svg}">
 
- <th:block th:replace="fragment/framework :: framework"></th:block>
+    <th:block th:replace="fragment/framework :: framework"></th:block>
 
-  </head>
+</head>
 
 
-  <body>
+<body>
 
-    <!-- body_wrap - start -->
-    <div class="body_wrap">
+<!-- body_wrap - start -->
+<div class="body_wrap">
 
-      <!-- backtotop - start -->
-      <div class="backtotop">
+    <!-- backtotop - start -->
+    <div class="backtotop">
         <a href="#" class="scroll">
-          <i class="far fa-arrow-up"></i>
+            <i class="far fa-arrow-up"></i>
         </a>
-      </div>
-      <!-- backtotop - end -->
+    </div>
+    <!-- backtotop - end -->
 
-      <!-- preloader - start -->
-      <div id="preloader"></div>
-      <!-- preloader - end -->
+    <!-- preloader - start -->
+    <div id="preloader"></div>
+    <!-- preloader - end -->
 
-      <!-- header_section - start
-      ================================================== -->
-     <th:block th:replace="fragment/header :: header"></th:block>
-      <!-- header_section - end
-      ================================================== -->
+    <!-- header_section - start
+    ================================================== -->
+    <th:block th:replace="fragment/header :: header"></th:block>
+    <!-- header_section - end
+    ================================================== -->
 
-      <!-- main body - start
-      ================================================== -->
-      <main>
+    <!-- main body - start
+    ================================================== -->
+    <main>
 
         <!-- sidebar cart - start
         ================================================== -->
@@ -52,82 +52,90 @@
 
         <!-- product quick view modal - start
         ================================================== -->
-        <div th:each="product, status : ${listByCategory}" class="modal fade" th:id="'quickview_popup_' + ${status.index}" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
-          <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalToggleLabel2" th:text="${product.getProductName()}"></h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-              </div>
-              <div class="modal-body">
-                <div class="product_details">
-                  <div class="container">
-                    <div class="row">
-                      <div class="col col-lg-6">
-                        <div class="product_details_image p-0">
-                          <div th:each="image, iterStat : ${product.getProductImages()}" th:if="${iterStat.index == 0}">
-                            <img th:src="@{'/images/Product/' + ${image.getImageFileName()}}" alt="Product Image">
-                          </div>
+        <th:block th:i="${listByCategory!=null}">
+            <div th:each="product, status : ${listByCategory}" class="modal fade"
+                 th:id="'quickview_popup_' + ${status.index}" aria-hidden="true"
+                 aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalToggleLabel2"
+                                th:text="${product.getProductName()}"></h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
-                      </div>
+                        <div class="modal-body">
+                            <div class="product_details">
+                                <div class="container">
+                                    <div class="row">
+                                        <div class="col col-lg-6">
+                                            <div class="product_details_image p-0">
+                                                <div th:each="image, iterStat : ${product.getProductImages()}"
+                                                     th:if="${iterStat.index == 0}">
+                                                    <img th:src="@{'/images/Product/' + ${image.getImageFileName()}}"
+                                                         alt="Product Image">
+                                                </div>
+                                            </div>
+                                        </div>
 
-                      <div class="col-lg-6">
-                        <div class="product_details_content">
-                          <h2 class="item_title" th:text="${product.getProductName()}"></h2>
-                          <p th:text="${product.getProductDesc()}">
-                          </p>
-                          <div class="item_price">
-                            <span th:text="${product.getProductSalePrice()} + 'VND'"></span>
-                            <del th:text="${product.getProductOriginalPrice()} + 'VND'"></del>
-                          </div>
+                                        <div class="col-lg-6">
+                                            <div class="product_details_content">
+                                                <h2 class="item_title" th:text="${product.getProductName()}"></h2>
+                                                <p th:text="${product.getProductDesc()}">
+                                                </p>
+                                                <div class="item_price">
+                                                    <span th:text="${product.getProductSalePrice()} + 'VND'"></span>
+                                                    <del th:text="${product.getProductOriginalPrice()} + 'VND'"></del>
+                                                </div>
 
-                          <hr>
+                                                <hr>
 
-                          <div class="quantity_wrap">
-                            <form action="#">
-                              <div class="quantity_input">
-                                <button type="button" class="input_number_decrement">
-                                  <i class="fal fa-minus"></i>
-                                </button>
-                                <input class="input_number" type="text" value="1">
-                                <button type="button" class="input_number_increment">
-                                  <i class="fal fa-plus"></i>
-                                </button>
-                              </div>
-                            </form>
+                                                <div class="quantity_wrap">
+                                                    <form action="#">
+                                                        <div class="quantity_input">
+                                                            <button type="button" class="input_number_decrement">
+                                                                <i class="fal fa-minus"></i>
+                                                            </button>
+                                                            <input class="input_number" type="text" value="1">
+                                                            <button type="button" class="input_number_increment">
+                                                                <i class="fal fa-plus"></i>
+                                                            </button>
+                                                        </div>
+                                                    </form>
 
-                            <div class="total_price">
-                              Total: $620,99
+                                                    <div class="total_price">
+                                                        Total: $620,99
+                                                    </div>
+                                                </div>
+
+                                                <ul class="default_btns_group ul_li">
+                                                    <li><a class="addtocart_btn" href="shop_details.html">Add To
+                                                        Cart</a></li>
+                                                    <li><a href="#!"><i class="fa-solid fa-arrows-rotate"></i></a></li>
+                                                    <li><a href="#!"><i class="fas fa-heart"></i></a></li>
+                                                </ul>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                          </div>
-
-                          <ul class="default_btns_group ul_li">
-                            <li><a class="addtocart_btn" href="shop_details.html">Add To Cart</a></li>
-                            <li><a href="#!"><i class="fa-solid fa-arrows-rotate"></i></a></li>
-                            <li><a href="#!"><i class="fas fa-heart"></i></a></li>
-                          </ul>
-
                         </div>
-                      </div>
                     </div>
-                  </div>
                 </div>
-              </div>
             </div>
-          </div>
-        </div>
+        </th:block>
         <!-- product quick view modal - end
         ================================================== -->
 
         <!-- breadcrumb_section - start
         ================================================== -->
         <div class="breadcrumb_section">
-          <div class="container">
-            <ul class="breadcrumb_nav ul_li">
-              <li><a th:href="@{/}">Home</a></li>
-              <li th:text="${title}"></li>
-            </ul>
-          </div>
+            <div class="container">
+                <ul class="breadcrumb_nav ul_li">
+                    <li><a th:href="@{/}">Home</a></li>
+                    <li th:text="${title}"></li>
+                </ul>
+            </div>
         </div>
         <!-- breadcrumb_section - end
         ================================================== -->
@@ -135,237 +143,230 @@
         <!-- product_section - start
         ================================================== -->
         <section class="product_section section_space">
-          <div class="container">
-            <div class="row">
-              <div class="col-lg-9">
-                <div class="filter_topbar">
-                  <div class="row align-items-center">
-                    <div class="col col-md-4 col-sm-4">
-                      <ul class="layout_btns nav" role="tablist">
-                        <li role="presentation">
-                          <button class="active" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true">
-                            <i class="fal fa-bars"></i>
-                          </button>
-                        </li>
-                        <li role="presentation">
-                          <button data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false">
-                            <i class="fal fa-th-large"></i>
-                          </button>
-                        </li>
-                      </ul>
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-9">
+                        <div class="filter_topbar">
+                            <div class="row align-items-center">
+                                <div class="col col-md-4 col-sm-4">
+                                    <ul class="layout_btns nav" role="tablist">
+                                        <li role="presentation">
+                                            <button class="active" data-bs-toggle="tab" data-bs-target="#home"
+                                                    type="button" role="tab" aria-controls="home" aria-selected="true">
+                                                <i class="fal fa-bars"></i>
+                                            </button>
+                                        </li>
+                                        <li role="presentation">
+                                            <button data-bs-toggle="tab" data-bs-target="#profile" type="button"
+                                                    role="tab" aria-controls="profile" aria-selected="false">
+                                                <i class="fal fa-th-large"></i>
+                                            </button>
+                                        </li>
+                                    </ul>
+                                </div>
+
+                                <div class="col col-md-4 col-sm-4">
+                                    <th:block th:if="${listByCategory != null}">
+                                    <form id="sortForm" th:action="@{'/sort/' + ${listByCategory.get(0).category.id}}">
+                                        <div class="select_option clearfix">
+                                            <select id="sortingOption" name="sortingOption" onchange="submitForm()">
+                                                <option data-display="Defaul Sorting">Select Your Option</option>
+                                                <option value="1">Sorting By Ascending</option>
+                                                <option value="2">Sorting By Decending</option>
+                                            </select>
+                                        </div>
+                                    </form>
+                                    </th:block>
+                                </div>
+                                <script>
+                                    function submitForm() {
+                                        document.getElementById("sortForm").submit();
+                                    }
+                                </script>
+                                <div class="col col-md-4 col-sm-4">
+                                    <div class="result_text">Showing 1-12 of 30 relults</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <hr>
+
+                        <div class="tab-content">
+                            <div class="tab-pane fade show active" id="home" role="tabpanel">
+                                <div class="product_wrap">
+                                    <th:block th:if="${listByCategory!=null}">
+                                        <div th:each="product, status : ${listByCategory}" class="product_layout1">
+                                            <!-- Generate unique modal IDs -->
+                                            <!--                        <div class="modal fade" th:id="'quickview_popup_' + ${status.index}" aria-hidden="true" aria-labelledby="'exampleModalToggleLabel2_' + ${status.index}" tabindex="-1">-->
+                                            <!--                          &lt;!&ndash; Modal content &ndash;&gt;-->
+                                            <!--                        </div>-->
+
+                                            <div class="item_image">
+                                                <div th:each="image, iterStat : ${product.getProductImages()}"
+                                                     th:if="${iterStat.index == 0}">
+                                                    <img th:src="@{'/images/Product/' + ${image.getImageFileName()}}"
+                                                         alt="Product Image">
+                                                </div>
+                                                <!-- Associate "Quick View" button with corresponding modal ID -->
+                                                <a class="quickview_btn" data-bs-toggle="modal"
+                                                   th:href="'#quickview_popup_' + ${status.index}" role="button">Quick
+                                                    View</a>
+                                            </div>
+
+                                            <div class="item_content">
+                                                <h3 class="item_title">
+                                                    <a th:href="@{'/product/' + ${product.getId()}}"
+                                                       th:text="${product.getProductName()}"></a>
+                                                </h3>
+                                                <div class="item_price layout1">
+                                                    <div class="original_price">
+                                                        <del th:text="${#numbers.formatDecimal(product.getProductOriginalPrice(), 0, 'COMMA', 0, 'POINT') + 'VND'}"></del>
+                                                    </div>
+                                                    <div class="sale_price">
+                                                        <span th:text="${#numbers.formatDecimal(product.getProductSalePrice(), 0, 'COMMA', 0, 'POINT') + 'VND'}"></span>
+                                                    </div>
+                                                </div>
+                                                <ul class="item_btns_group ul_li">
+                                                    <li><a href="#" class="addtocart_btn"
+                                                           onclick="document.getElementById('addToCartForm').submit(); return false;">
+                                                        Add To Cart
+                                                    </a></li>
+                                                    <form id="addToCartForm" th:action="@{/add-to-cart}" method="post"
+                                                          style="display:none;">
+                                                        <input type="hidden" name="id" th:value="${product.id}">
+                                                    </form>
+                                                    <!--                            <li><a href="#!"><i class="fa-solid fa-arrows-rotate"></i></a></li>-->
+                                                    <!--                            <li><a href="#!"><i class="fas fa-heart"></i></a></li>-->
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </th:block>
+                                    <th:block th:if="${listByCategory==null}">
+                                        Sorry we don't have that item that you are looking for!
+                                    </th:block>
+                                </div>
+
+
+                                <div class="pagination_wrap">
+                                    <ul class="pagination_nav ul_li_right">
+                                        <li class="active"><a href="#!">1</a></li>
+                                        <li><a href="#!">2</a></li>
+                                        <li><a href="#!">3</a></li>
+                                        <li class="prev_btn"><a href="#!"><i class="fa-regular fa-angle-left"></i></a>
+                                        </li>
+                                        <li class="next_btn"><a href="#!"><i class="fa-regular fa-angle-right"></i></a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="tab-pane fade" id="profile" role="tabpanel">
+                                <div class="product_layout2_wrap">
+                                    <th:block th:if="${listByCategory!=null}">
+                                        <div th:each="product : ${listByCategory}" class="product_layout2">
+                                            <div class="item_image">
+                                                <!--                          <div class="item_badge hot_badge">-->
+                                                <!--                            <span>SALE</span>-->
+                                                <!--                          </div>-->
+                                                <a class="image_wrap" href="shop_details.html">
+                                                    <div th:each="image, iterStat : ${product.getProductImages()}"
+                                                         th:if="${iterStat.index == 0}">
+                                                        <img th:src="@{'/images/Product/' + ${image.getImageFileName()}}"
+                                                             alt="Product Image">
+                                                    </div>
+                                                </a>
+                                            </div>
+                                            <div class="item_content">
+                                                <h3 class="item_title">
+                                                    <a th:href="@{'/product/' + ${product.getId()}}"
+                                                       th:text="${product.getProductName()}"></a>
+                                                </h3>
+                                                <p th:text="${product.getProductDesc()}">
+
+                                                </p>
+                                                <div class="item_price">
+                                                    <span th:text="${#numbers.formatDecimal(product.getProductSalePrice(), 0, 'COMMA', 0, 'POINT') + 'VND'}"></span>
+                                                    <del th:text="${#numbers.formatDecimal(product.getProductOriginalPrice(), 0, 'COMMA', 0, 'POINT') + 'VND'}"></del>
+                                                </div>
+                                                <ul class="item_btns_group ul_li">
+                                                    <li><a href="#" class="addtocart_btn"
+                                                           onclick="document.getElementById('addToCartForm1').submit(); return false;">
+                                                        Add To Cart
+                                                    </a></li>
+                                                    <form id="addToCartForm1" th:action="@{/add-to-cart}" method="post"
+                                                          style="display:none;">
+                                                        <input type="hidden" name="id" th:value="${product.id}">
+                                                    </form>
+                                                    <!--                            <li><a href="#!"><i class="fa-solid fa-arrows-rotate"></i></a></li>-->
+                                                    <!--                            <li><a href="#!"><i class="fas fa-heart"></i></a></li>-->
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </th:block>
+                                </div>
+
+                                <div class="pagination_wrap">
+                                    <ul class="pagination_nav ul_li_right">
+                                        <li class="active"><a href="#!">1</a></li>
+                                        <li><a href="#!">2</a></li>
+                                        <li><a href="#!">3</a></li>
+                                        <li class="prev_btn"><a href="#!"><i class="fa-regular fa-angle-left"></i></a>
+                                        </li>
+                                        <li class="next_btn"><a href="#!"><i class="fa-regular fa-angle-right"></i></a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
-                    <div class="col col-md-4 col-sm-4">
-                      <form  id="sortForm" th:action="@{'/sort/' + ${listByCategory.get(0).category.id}}">
-                        <div class="select_option clearfix">
-                          <select id="sortingOption" name="sortingOption" onchange="submitForm()">
-                            <option data-display="Defaul Sorting">Select Your Option</option>
-                            <option value="1">Sorting By Ascending</option>
-                            <option value="2">Sorting By Decending</option>
-                          </select>
-                        </div>
-                      </form>
+                    <div class="col-lg-3 order-lg-first">
+                        <aside class="sidebar_section ps-0 mt-lg-0">
+                            <div class="sb_widget sb_category">
+                                <h3 class="sb_widget_title">Categories</h3>
+                                <ul th:each="category : ${categoryList}" class="sb_category_list ul_li_block">
+                                    <li><a th:href="@{'/category/' + ${category.id}}"
+                                           th:text="${category.getCategoryName()}"> <span></span></a></li>
+                                </ul>
+                            </div>
                     </div>
-                    <script>
-                      function submitForm() {
-                        document.getElementById("sortForm").submit();
-                      }
-                    </script>
-                    <div class="col col-md-4 col-sm-4">
-                      <div class="result_text">Showing 1-12 of 30 relults</div>
-                    </div>
-                  </div>
+
+
+                    </aside>
                 </div>
-
-                <hr>
-
-                <div class="tab-content">
-                  <div class="tab-pane fade show active" id="home" role="tabpanel">
-                    <div class="product_wrap">
-                      <div th:each="product, status : ${listByCategory}" class="product_layout1">
-                        <!-- Generate unique modal IDs -->
-<!--                        <div class="modal fade" th:id="'quickview_popup_' + ${status.index}" aria-hidden="true" aria-labelledby="'exampleModalToggleLabel2_' + ${status.index}" tabindex="-1">-->
-<!--                          &lt;!&ndash; Modal content &ndash;&gt;-->
-<!--                        </div>-->
-
-                        <div class="item_image">
-                          <div th:each="image, iterStat : ${product.getProductImages()}" th:if="${iterStat.index == 0}">
-                            <img th:src="@{'/images/Product/' + ${image.getImageFileName()}}" alt="Product Image">
-                          </div>
-                          <!-- Associate "Quick View" button with corresponding modal ID -->
-                          <a class="quickview_btn" data-bs-toggle="modal" th:href="'#quickview_popup_' + ${status.index}" role="button">Quick View</a>
-                        </div>
-
-                        <div class="item_content">
-                          <h3 class="item_title">
-                            <a th:href="@{'/product/' + ${product.getId()}}" th:text="${product.getProductName()}"></a>
-                          </h3>
-                          <div class="item_price layout1">
-                            <div class="original_price">
-                              <del th:text="${#numbers.formatDecimal(product.getProductOriginalPrice(), 0, 'COMMA', 2, 'POINT') + 'VND'}"></del>
-                            </div>
-                            <div class="sale_price">
-                              <span th:text="${#numbers.formatDecimal(product.getProductSalePrice(), 0, 'COMMA', 2, 'POINT') + 'VND'}"></span>
-                            </div>
-                          </div>
-                          <ul class="item_btns_group ul_li">
-                            <li><a href="#" class="addtocart_btn" onclick="document.getElementById('addToCartForm').submit(); return false;">
-                              Add To Cart
-                            </a></li>
-                            <form id="addToCartForm" th:action="@{/add-to-cart}" method="post" style="display:none;">
-                              <input type="hidden" name="id" th:value="${product.id}">
-                            </form>
-                            <!--                            <li><a href="#!"><i class="fa-solid fa-arrows-rotate"></i></a></li>-->
-                            <!--                            <li><a href="#!"><i class="fas fa-heart"></i></a></li>-->
-                          </ul>
-                        </div>
-                      </div>
-                    </div>
-
-
-                    <div class="pagination_wrap">
-                      <ul class="pagination_nav ul_li_right">
-                        <li class="active"><a href="#!">1</a></li>
-                        <li><a href="#!">2</a></li>
-                        <li><a href="#!">3</a></li>
-                        <li class="prev_btn"><a href="#!"><i class="fa-regular fa-angle-left"></i></a></li>
-                        <li class="next_btn"><a href="#!"><i class="fa-regular fa-angle-right"></i></a></li>
-                      </ul>
-                    </div>
-                  </div>
-
-                  <div class="tab-pane fade" id="profile" role="tabpanel">
-                    <div class="product_layout2_wrap">
-
-                      <div th:each="product : ${listByCategory}" class="product_layout2">
-                        <div class="item_image">
-<!--                          <div class="item_badge hot_badge">-->
-<!--                            <span>SALE</span>-->
-<!--                          </div>-->
-                          <a class="image_wrap" href="shop_details.html">
-                            <div th:each="image, iterStat : ${product.getProductImages()}" th:if="${iterStat.index == 0}">
-                              <img th:src="@{'/images/Product/' + ${image.getImageFileName()}}" alt="Product Image">
-                            </div>
-                          </a>
-                        </div>
-                        <div class="item_content">
-                          <h3 class="item_title">
-                            <a th:href="@{'/product/' + ${product.getId()}}" th:text="${product.getProductName()}"></a>
-                          </h3>
-                          <p th:text="${product.getProductDesc()}">
-
-                          </p>
-                          <div class="item_price">
-                            <span th:text="${#numbers.formatDecimal(product.getProductSalePrice(), 0, 'COMMA', 2, 'POINT') + 'VND'}"></span>
-                            <del th:text="${#numbers.formatDecimal(product.getProductOriginalPrice(), 0, 'COMMA', 2, 'POINT') + 'VND'}"></del>
-                          </div>
-                          <ul class="item_btns_group ul_li">
-                            <li><a href="#" class="addtocart_btn" onclick="document.getElementById('addToCartForm1').submit(); return false;">
-                              Add To Cart
-                            </a></li>
-                            <form id="addToCartForm1" th:action="@{/add-to-cart}" method="post" style="display:none;">
-                              <input type="hidden" name="id" th:value="${product.id}">
-                            </form>
-                            <!--                            <li><a href="#!"><i class="fa-solid fa-arrows-rotate"></i></a></li>-->
-                            <!--                            <li><a href="#!"><i class="fas fa-heart"></i></a></li>-->
-                          </ul>
-                        </div>
-                      </div>
-
-                    </div>
-
-                    <div class="pagination_wrap">
-                      <ul class="pagination_nav ul_li_right">
-                        <li class="active"><a href="#!">1</a></li>
-                        <li><a href="#!">2</a></li>
-                        <li><a href="#!">3</a></li>
-                        <li class="prev_btn"><a href="#!"><i class="fa-regular fa-angle-left"></i></a></li>
-                        <li class="next_btn"><a href="#!"><i class="fa-regular fa-angle-right"></i></a></li>
-                      </ul>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div class="col-lg-3 order-lg-first">
-                <aside class="sidebar_section ps-0 mt-lg-0">
-                  <div class="sb_widget sb_category">
-                    <h3 class="sb_widget_title">Categories</h3>
-                    <ul th:each="category : ${categoryList}" class="sb_category_list ul_li_block">
-                      <li><a th:href="@{'/category/' + ${category.id}}" th:text="${category.getCategoryName()}"> <span></span></a></li>
-                    </ul>
-                  </div>
-
-
-
-
-
-                  <div class="fs_widget">
-                    <h3 class="fs_widget_title">Price</h3>
-                    <form action="#">
-                      <div class="price-range-area clearfix">
-                        <div class="price-text d-flex align-items-center">
-                          <span>Range:</span>
-                          <input type="text" id="amount" readonly style="border:0; color:#f6931f; font-weight:bold;">
-                        </div>
-                        <div id="slider-range" class="slider-range"></div>
-                      </div>
-                    </form>
-                  </div>
-
-              </div>
-
-
-                </aside>
-              </div>
             </div>
-          </div>
-        </section>
-        <!-- product_section - end
-        ================================================== -->
+</div>
+</section>
+<!-- product_section - end
+================================================== -->
 
-        <!-- newsletter_section - start
-        ================================================== -->
-        <section class="newsletter_section">
-          <div class="container">
-            <div class="row align-items-center">
-              <div class="col col-lg-6">
-                <h2 class="newsletter_title text-white">
-                  <i class="icofont-paper-plane"></i>
-                  Sign Up for Newsletter
-                </h2>
-              </div>
-              <div class="col col-lg-6">
-                <form action="#!">
-                  <div class="newsletter_form">
-                    <input type="email" name="email" placeholder="Enter your email address">
-                    <button type="submit" class="btn btn_danger">Submit</button>
-                  </div>
-                </form>
-              </div>
-            </div>
-          </div>
-        </section>
-        <!-- newsletter_section - end
-        ================================================== -->
-
-      </main>
-      <!-- main body - end
-      ================================================== -->
-
-      <!-- footer_section - start
-      ================================================== -->
-     <th:block th:replace="fragment/footer :: footer"></th:block>
-      <!-- footer_section - end
-      ================================================== -->
+<!-- newsletter_section - start
+================================================== -->
+<section class="newsletter_section">
+    <div class="container">
 
     </div>
-    <!-- body_wrap - end -->
+</section>
+<!-- newsletter_section - end
+================================================== -->
 
-  <th:block th:replace="fragment/script :: script"></th:block>
+</main>
+<!-- main body - end
+================================================== -->
+
+<!-- footer_section - start
+================================================== -->
+<th:block th:replace="fragment/footer :: footer"></th:block>
+<!-- footer_section - end
+================================================== -->
+
+</div>
+<!-- body_wrap - end -->
+
+<th:block th:replace="fragment/script :: script"></th:block>
 
 
-  </body>
+</body>
 
 <!-- Mirrored from webthunder.net/html/getyootech/shop_grid.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 19 May 2024 08:48:28 GMT -->
 </html>

@@ -98,13 +98,13 @@
                   <div class="col col-md-6 col-sm-6">
                     <div class="form_item">
                       <h4 class="input_title">First Name</h4>
-                      <input type="text" name="firstname" th:placeholder="${currentUser != null ? currentUser.get().firstName : ''}" placeholder="First Name *" >
+                      <input type="text" name="firstname" placeholder="First Name *" required>
                     </div>
                   </div>
                   <div class="col col-md-6 col-sm-6">
                     <div class="form_item">
                       <h4 class="input_title">Last Name</h4>
-                      <input type="text" name="lastname" th:placeholder="${currentUser != null ? currentUser.get().lastName : ''}" placeholder="Last Name *" >
+                      <input type="text" name="lastname" placeholder="Last Name *" required>
                     </div>
                   </div>
                 </div>
@@ -131,7 +131,7 @@
                   <div class="col col-md-6 col-sm-6">
                     <div class="form_item">
                       <h4 class="input_title">Postcode / Zip *</h4>
-                      <input type="text" name="postcode" placeholder="Postcode / Zip" required>
+                      <input type="text" name="postcode" placeholder="Postcode / Zip" >
                     </div>
                   </div>
                 </div>
@@ -139,8 +139,14 @@
                 <!-- Contact Info -->
                 <div class="form_item mb-5">
                   <h4 class="input_title">Contact Info *</h4>
-                  <input type="email" name="email" th:placeholder="${currentUser != null ? currentUser.get().email : ''}" placeholder="Email Address" >
-                  <input type="tel" name="telephone" th:placeholder="${currentUser != null ? currentUser.get().phone : ''}" placeholder="Phone Number" required>
+                  <input type="email" name="email" th:placeholder="${currentUser.get().email}" placeholder="Email Address" readonly>
+                  <th:block th:if="${currentUser.get().phone == null}">
+                    <input type="tel" name="telephone" placeholder="Phone Number"  required>
+                  </th:block>
+                  <th:block th:if="${currentUser.get().phone != null}">
+                    <input type="tel" name="telephone" th:placeholder="${currentUser.get().phone}" >
+                  </th:block>
+
                 </div>
 
                 <!-- Ship to a different address checkbox and note textarea -->
@@ -174,7 +180,7 @@
                           <h3 th:text="${items.product.getProductName()}"></h3>
                         </div>
                       </td>
-                      <td><span class="price_text" th:text="${#numbers.formatDecimal(items.product.getProductSalePrice(), 0, 'COMMA', 2, 'POINT') + ' VND'}"></span></td>
+                      <td><span class="price_text" th:text="${#numbers.formatDecimal(items.product.getProductSalePrice(), 0, 'COMMA', 0, 'POINT') + ' VND'}"></span></td>
                       <td><strong class="quantity_count" th:text="${items.getQuantity()}"></strong></td>
                       <td><span class="price_text" th:text="${#numbers.formatDecimal(items.product.getProductSalePrice() * items.getQuantity(), 0, 'COMMA', 2, 'POINT') + ' VND'}"></span></td>
                     </tr>
@@ -182,7 +188,7 @@
                       <td></td>
                       <td></td>
                       <td><strong>Order Total</strong></td>
-                      <td><strong th:text="${#numbers.formatDecimal(orderTotal, 0, 'COMMA', 2, 'POINT') + ' VND'}"></strong></td>
+                      <td><strong th:text="${#numbers.formatDecimal(orderTotal, 0, 'COMMA', 0, 'POINT') + ' VND'}"></strong></td>
                     </tr>
                     </tbody>
                   </table>
