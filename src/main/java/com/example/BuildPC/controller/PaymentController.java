@@ -80,6 +80,9 @@ public class PaymentController {
 
         for(CartItem item : itemsList){
             OrderDetail od = new OrderDetail(item.getQuantity(), (float) 0,order,item.getProduct());
+            Product temp = item.getProduct();
+            temp.setUnitsInOrder(temp.getUnitsInOrder()+1);
+            temp.setUnitsInStock(temp.getUnitsInStock()-1);
             orderDetailRepository.save(od);
         }
 
