@@ -104,6 +104,7 @@ public class ProductController {
                 System.out.println(spec.getSpecValue());
             }
         }
+        model.addAttribute("specList",specList);
         model.addAttribute("product", byId);
         model.addAttribute("categoryList", categoryList);
         model.addAttribute("bestSeller",productServiceImpl.findTop10());

@@ -231,12 +231,12 @@
 
                         <th:block th:each="productSpec,iter : ${product.getProductSpecifications()}">
                         <tr>
+                          <td th:text="${specList.get(iter.index).getSpecName()}">
+                        </td>
                           <td style="background-color: #f7f7f7 " th:text="${productSpec.getSpecValue()}">
 
                           </td>
-                          <td th:text="${specList.get(iter.index).getSpecName()}">
 
-                          </td>
                         </tr>
                         </th:block>
 
@@ -474,7 +474,7 @@
       <!-- footer_section - end
       ================================================== -->
 
-    </div>
+    <d/div>
     <!-- body_wrap - end -->
    <th:block th:replace="fragment/script :: script"></th:block>
 
